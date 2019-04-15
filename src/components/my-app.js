@@ -15,15 +15,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css, property, customElement } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { installOfflineWatcher } from 'pwa-helpers/network.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
-// This element is connected to the Redux store.
-import { store } from '../store.js';
-// These are the actions needed by this element.
-import { navigate, updateOffline, updateDrawerState } from '../actions/app.js';
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
@@ -31,7 +26,7 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
-let MyApp = class MyApp extends connect(store)(LitElement) {
+let MyApp = class MyApp extends LitElement {
     constructor() {
         super();
         this.appTitle = '';
@@ -39,6 +34,8 @@ let MyApp = class MyApp extends connect(store)(LitElement) {
         this._drawerOpened = false;
         this._snackbarOpened = false;
         this._offline = false;
+        this.__snackbarTimer = setTimeout;
+        this._drawerOpened = false;
         // To force all event listeners for gestures to be passive.
         // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
         setPassiveTouchGestures(true);
@@ -235,9 +232,9 @@ let MyApp = class MyApp extends connect(store)(LitElement) {
     `;
     }
     firstUpdated() {
-        installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
-        installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-        installMediaQueryWatcher(`(min-width: 460px)`, () => store.dispatch(updateDrawerState(false)));
+        installRouter((location) => this._locationChanged(location));
+        installOfflineWatcher((offline) => this._offlineChanged(offline));
+        installMediaQueryWatcher(`(min-width: 460px)`, (matches) => this._layoutChanged(matches));
     }
     updated(changedProps) {
         if (changedProps.has('_page')) {
@@ -249,17 +246,60 @@ let MyApp = class MyApp extends connect(store)(LitElement) {
             });
         }
     }
+    _layoutChanged(isWideLayout) {
+        // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
+        this._updateDrawerState(false);
+    }
+    _offlineChanged(offline) {
+        const previousOffline = this._offline;
+        this._offline = offline;
+        // Don't show the snackbar on the first load of the page.
+        if (previousOffline === undefined) {
+            return;
+        }
+        clearTimeout(this.__snackbarTimer);
+        this._snackbarOpened = true;
+        this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false; }, 3000);
+    }
+    _locationChanged(location) {
+        const path = window.decodeURIComponent(location.pathname);
+        const page = path === '/' ? 'view1' : path.slice(1);
+        this._loadPage(page);
+        // Any other info you might want to extract from the path (like page type),
+        // you can do here.
+        // Close the drawer - in case the *path* change came from a link in the drawer.
+        this._updateDrawerState(false);
+    }
+    _updateDrawerState(opened) {
+        if (opened !== this._drawerOpened) {
+            this._drawerOpened = opened;
+        }
+    }
+    _loadPage(page) {
+        switch (page) {
+            case 'view1':
+                import('../components/my-view1.js').then((module) => {
+                    // Put code in here that you want to run every time when
+                    // navigating to view1 after my-view1.js is loaded.
+                });
+                break;
+            case 'view2':
+                import('../components/my-view2.js');
+                break;
+            case 'view3':
+                import('../components/my-view3.js');
+                break;
+            default:
+                page = 'view404';
+                import('../components/my-view404.js');
+        }
+        this._page = page;
+    }
     _menuButtonClicked() {
-        store.dispatch(updateDrawerState(true));
+        this._updateDrawerState(true);
     }
     _drawerOpenedChanged(e) {
-        store.dispatch(updateDrawerState(e.target.opened));
-    }
-    stateChanged(state) {
-        this._page = state.app.page;
-        this._offline = state.app.offline;
-        this._snackbarOpened = state.app.snackbarOpened;
-        this._drawerOpened = state.app.drawerOpened;
+        this._updateDrawerState(e.target.opened);
     }
 };
 __decorate([
@@ -277,6 +317,9 @@ __decorate([
 __decorate([
     property({ type: Boolean })
 ], MyApp.prototype, "_offline", void 0);
+__decorate([
+    property({ type: Object })
+], MyApp.prototype, "__snackbarTimer", void 0);
 MyApp = __decorate([
     customElement('my-app')
 ], MyApp);

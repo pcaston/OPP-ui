@@ -15,16 +15,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-// This element is connected to the Redux store.
-import { store } from '../store.js';
-// These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
-// We are lazy loading its reducer.
-import shop, { cartQuantitySelector } from '../reducers/shop.js';
-store.addReducers({
-    shop
-});
 // These are the elements needed by this element.
 import './shop-products.js';
 import './shop-cart.js';
@@ -32,11 +22,15 @@ import './shop-cart.js';
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
-let MyView3 = class MyView3 extends connect(store)(PageViewElement) {
+let MyView3 = class MyView3 extends PageViewElement {
     constructor() {
-        super(...arguments);
-        this._quantity = 0;
+        super();
         this._error = '';
+        this._cart = { addedIds: [], quantityById: {} };
+        this._error = '';
+        this._products = this._getAllProducts();
+        this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
+        this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
     }
     static get styles() {
         return [
@@ -75,45 +69,108 @@ let MyView3 = class MyView3 extends connect(store)(PageViewElement) {
     render() {
         return html `
       <section>
-        <h2>Redux example: shopping cart</h2>
-        <div class="cart">${addToCartIcon}<div class="circle small">${this._quantity}</div></div>
-        <p>This is a slightly more advanced Redux example, that simulates a
+        <h2>State container example: shopping cart</h2>
+        <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
+
+        <p>This is a slightly more advanced example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
           simulate where you would add failure handling). </p>
-        <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
-        <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
+        <p>This view, passes properties down to its two children, <code>&lt;shop-products&gt;</code> and
+        <code>&lt;shop-cart&gt;</code>, which fire events back up whenever
+        they need to communicate changes.</p>
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products></shop-products>
+        <shop-products .products="${this._products}"></shop-products>
 
         <br>
         <h3>Your Cart</h3>
-        <shop-cart></shop-cart>
+        <shop-cart .products="${this._products}" .cart="${this._cart}"></shop-cart>
 
         <div>${this._error}</div>
         <br>
         <p>
-          <button ?hidden="${this._quantity == 0}" @click="${this._checkoutButtonClicked}">
+          <button ?hidden="${this._cart.addedIds.length == 0}"
+              @click="${this.checkout}">
             Checkout
           </button>
         </p>
       </section>
     `;
     }
-    _checkoutButtonClicked() {
-        store.dispatch(checkout());
+    checkout() {
+        // Here you could do things like credit card validation, etc.
+        // We're simulating that by flipping a coin :)
+        const flip = Math.floor(Math.random() * 2);
+        if (flip === 0) {
+            this._error = 'Checkout failed. Please try again';
+        }
+        else {
+            this._error = '';
+            this._cart = { addedIds: [], quantityById: {} };
+        }
     }
-    // This is called every time something is updated in the store.
-    stateChanged(state) {
-        this._quantity = cartQuantitySelector(state);
-        this._error = state.shop.error;
+    _addToCart(productId) {
+        this._error = '';
+        if (this._products[productId].inventory > 0) {
+            this._products[productId].inventory--;
+            if (this._cart.addedIds.indexOf(productId) !== -1) {
+                this._cart.quantityById[productId]++;
+            }
+            else {
+                this._cart.addedIds.push(productId);
+                this._cart.quantityById[productId] = 1;
+            }
+        }
+        // TODO: this should be this.invalidate
+        this._products = JSON.parse(JSON.stringify(this._products));
+        this._cart = JSON.parse(JSON.stringify(this._cart));
     }
+    _removeFromCart(productId) {
+        this._error = '';
+        this._products[productId].inventory++;
+        const quantity = this._cart.quantityById[productId];
+        if (quantity === 1) {
+            this._cart.quantityById[productId] = 0;
+            // This removes all items in this array equal to productId.
+            this._cart.addedIds = this._cart.addedIds.filter(e => e !== productId);
+        }
+        else {
+            this._cart.quantityById[productId]--;
+        }
+        // TODO: this should be this.invalidate
+        this._products = JSON.parse(JSON.stringify(this._products));
+        this._cart = JSON.parse(JSON.stringify(this._cart));
+    }
+    _numItemsInCart(cart) {
+        let num = 0;
+        for (let id of cart.addedIds) {
+            num += cart.quantityById[id];
+        }
+        return num;
+    }
+    _getAllProducts() {
+        // Here you would normally get the data from the server.
+        const PRODUCT_LIST = [
+            { "id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2 },
+            { "id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10 },
+            { "id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5 },
+            { "id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7 },
+            { "id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3 }
+        ];
+        // You could reformat the data in the right format as well:
+        const products = PRODUCT_LIST.reduce((obj, product) => {
+            obj[product.id] = product;
+            return obj;
+        }, {});
+        return products;
+    }
+    ;
 };
 __decorate([
-    property({ type: Number })
-], MyView3.prototype, "_quantity", void 0);
+    property({ type: Object })
+], MyView3.prototype, "_cart", void 0);
 __decorate([
     property({ type: String })
 ], MyView3.prototype, "_error", void 0);
