@@ -14,9 +14,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, property, customElement } from 'lit-element';
-// This element is *not* connected to the Redux store.
 let ShopItem = class ShopItem extends LitElement {
-    // This element is *not* connected to the Redux store.
     constructor() {
         super(...arguments);
         this.name = '';

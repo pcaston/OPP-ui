@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { css } from 'lit-element';
 export const ButtonSharedStyles = css `
+
   button {
     font-size: inherit;
     vertical-align: middle;

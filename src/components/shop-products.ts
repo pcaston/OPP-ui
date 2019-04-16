@@ -9,28 +9,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css, property, customElement } from 'lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-
-// This element is connected to the Redux store.
-import { store, RootState } from '../store.js';
 
 // These are the elements needed by this element.
 import './shop-item.js';
-
-// These are the actions needed by this element.
-import { getAllProducts, addToCart } from '../actions/shop.js';
 
 // These are the elements needed by this element.
 import { addToCartIcon } from './my-icons.js';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
-import { ProductsState } from '../reducers/shop.js';
 
 @customElement('shop-products')
-export class ShopProducts extends connect(store)(LitElement) {
+export class ShopProducts extends LitElement {
   @property({type: Object})
-  private _products: ProductsState = {};
+  private products = {};
 
   static get styles() {
     return [
@@ -45,14 +37,14 @@ export class ShopProducts extends connect(store)(LitElement) {
 
   protected render() {
     return html`
-      ${Object.keys(this._products).map((key) => {
-        const item = this._products[key];
+      ${Object.keys(this.products).map((key) => {
+        const item = this.products[key];
         return html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 .disabled="${item.inventory === 0}"
-                @click="${this._addButtonClicked}"
+                @click="${this._addToCart}"
                 data-index="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -62,17 +54,12 @@ export class ShopProducts extends connect(store)(LitElement) {
       })}
     `;
   }
+  static get properties() { return {
+    products: { type: Object }
+  }}
 
-  protected firstUpdated() {
-    store.dispatch(getAllProducts());
-  }
-
-  private _addButtonClicked(e: Event) {
-    store.dispatch(addToCart((e.currentTarget as HTMLButtonElement).dataset['index']));
-  }
-
-  // This is called every time something is updated in the store.
-  stateChanged(state: RootState) {
-    this._products = state.shop!.products;
+  _addToCart(event) {
+    this.dispatchEvent(new CustomEvent("addToCart",
+        {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }
 }

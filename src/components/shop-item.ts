@@ -10,7 +10,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, property, customElement } from 'lit-element';
 
-// This element is *not* connected to the Redux store.
 @customElement('shop-item')
 export class ShopItem extends LitElement {
   @property({type: String})

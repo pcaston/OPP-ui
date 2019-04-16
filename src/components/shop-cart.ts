@@ -9,32 +9,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css, property, customElement } from 'lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-
-// This element is connected to the Redux store.
-import { store, RootState } from '../store.js';
 
 // These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons.js';
 import './shop-item.js';
 
-// These are the actions needed by this element.
-import { removeFromCart } from '../actions/shop.js';
-
-// These are the reducers needed by this element.
-import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
-
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
-import { CartItem } from '../reducers/shop.js';
 
 @customElement('shop-cart')
-export class ShopCart extends connect(store)(LitElement) {
-  @property({type: Array})
-  private _items: Array<CartItem> = [];
+export class ShopCart extends LitElement {
+  @property({type: Object})
+  private cart = [];
 
-  @property({type: Number})
-  private _total = 0;
+  @property({type: Object})
+  private products = 0;
 
   static get styles() {
     return [
@@ -49,32 +38,42 @@ export class ShopCart extends connect(store)(LitElement) {
 
   protected render() {
     return html`
-      <p ?hidden="${this._items.length !== 0}">Please add some products to cart.</p>
-      ${this._items.map((item) =>
+      <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      ${this._displayCart(this.cart).map((item) =>
         html`
           <div>
             <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                @click="${this._removeButtonClicked}"
-                data-index="${item.id}"
-                title="Remove from cart">
+              @click="${this._removeFromCart}"
+              data-index="${item.id}"
+              title="Remove from cart">
               ${removeFromCartIcon}
             </button>
           </div>
         `
       )}
-      <p ?hidden="${!this._items.length}"><b>Total:</b> ${this._total}</p>
     `;
   }
-
-
-  private _removeButtonClicked(e: Event) {
-    store.dispatch(removeFromCart((e.currentTarget as HTMLButtonElement).dataset['index']));
+  private _displayCart(cart) {
+    const items = [];
+    for (let id of cart.addedIds) {
+      const item = this.products[id];
+      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
+    }
+    return items;
   }
-
-  // This is called every time something is updated in the store.
-  stateChanged(state: RootState) {
-    this._items = cartItemsSelector(state);
-    this._total = cartTotalSelector(state);
+  
+  private _calculateTotal(cart: { addedIds: any; quantityById: { [x: string]: number; }; }) {
+    let total = 0;
+    for (let id of cart.addedIds) {
+      const item = this.products[id];
+      total += item.price * cart.quantityById[id];
+    }
+    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
   }
+  
+  private _removeFromCart(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
+    this.dispatchEvent(new CustomEvent('removeFromCart',
+        {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
+    }
 }
