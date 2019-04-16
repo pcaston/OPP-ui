@@ -23,7 +23,7 @@ let ShopCart = class ShopCart extends LitElement {
     constructor() {
         super(...arguments);
         this.cart = [];
-        this.products = 0;
+        this.products = [];
     }
     static get styles() {
         return [
@@ -65,7 +65,7 @@ let ShopCart = class ShopCart extends LitElement {
             const item = this.products[id];
             total += item.price * cart.quantityById[id];
         }
-        return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+        return parseFloat((Math.round(total * 100) / 100).toFixed(2));
     }
     _removeFromCart(event) {
         this.dispatchEvent(new CustomEvent('removeFromCart', { bubbles: true, composed: true, detail: { item: event.currentTarget.dataset['index'] } }));

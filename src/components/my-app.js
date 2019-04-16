@@ -35,7 +35,6 @@ let MyApp = class MyApp extends LitElement {
         this._snackbarOpened = false;
         this._offline = false;
         this.__snackbarTimer = setTimeout;
-        this._drawerOpened = false;
         // To force all event listeners for gestures to be passive.
         // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
         setPassiveTouchGestures(true);

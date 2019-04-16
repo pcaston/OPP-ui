@@ -23,7 +23,7 @@ export class ShopCart extends LitElement {
   private cart = [];
 
   @property({type: Object})
-  private products = 0;
+  private products = [];
 
   static get styles() {
     return [
@@ -69,7 +69,7 @@ export class ShopCart extends LitElement {
       const item = this.products[id];
       total += item.price * cart.quantityById[id];
     }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+    return parseFloat((Math.round(total * 100) / 100).toFixed(2));
   }
   
   private _removeFromCart(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
