@@ -54,11 +54,8 @@ export class ShopProducts extends LitElement {
       })}
     `;
   }
-  static get properties() { return {
-    products: { type: Object }
-  }}
-
-  _addToCart(event) {
+  
+  private _addToCart(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
     this.dispatchEvent(new CustomEvent("addToCart",
         {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }

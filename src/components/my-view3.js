@@ -25,7 +25,6 @@ import { addToCartIcon } from './my-icons.js';
 let MyView3 = class MyView3 extends PageViewElement {
     constructor() {
         super();
-        this._error = '';
         this._cart = { addedIds: [], quantityById: {} };
         this._error = '';
         this._products = this._getAllProducts();
@@ -174,6 +173,9 @@ __decorate([
 __decorate([
     property({ type: String })
 ], MyView3.prototype, "_error", void 0);
+__decorate([
+    property({ type: [] })
+], MyView3.prototype, "_products", void 0);
 MyView3 = __decorate([
     customElement('my-view3')
 ], MyView3);

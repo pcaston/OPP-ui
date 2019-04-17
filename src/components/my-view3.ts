@@ -24,10 +24,13 @@ import { addToCartIcon } from './my-icons.js';
 export class MyView3 extends PageViewElement {
 
   @property({type: Object})
-  private _cart: unknown;
+  private _cart = {addedIds: [], quantityById: {}};
 
   @property({type: String})
   private _error = '';
+
+  @property({type: []})
+  private _products = this._getAllProducts();
 
   static get styles() {
     return [
@@ -100,9 +103,6 @@ export class MyView3 extends PageViewElement {
 
   constructor() {
     super();
-    this._cart = {addedIds: [], quantityById: {}};
-    this._error = '';
-    this._products = this._getAllProducts();
     this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
     this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
   }
@@ -119,7 +119,7 @@ export class MyView3 extends PageViewElement {
     }
   }
 
-  _addToCart(productId: string | number) {
+  private _addToCart(productId: string | number) {
     this._error = '';
     if (this._products[productId].inventory > 0) {
       this._products[productId].inventory--;
@@ -137,7 +137,7 @@ export class MyView3 extends PageViewElement {
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  _removeFromCart(productId) {
+  private _removeFromCart(productId: string | number) {
     this._error = '';
     this._products[productId].inventory++;
 
@@ -155,7 +155,7 @@ export class MyView3 extends PageViewElement {
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  _numItemsInCart(cart: unknown) {
+  private _numItemsInCart(cart: Object) {
     let num = 0;
     for (let id of cart.addedIds) {
       num += cart.quantityById[id];
@@ -163,7 +163,7 @@ export class MyView3 extends PageViewElement {
     return num;
   }
 
-  _getAllProducts() {
+  private _getAllProducts() {
     // Here you would normally get the data from the server.
     const PRODUCT_LIST = [
       {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},

@@ -54,11 +54,6 @@ let ShopProducts = class ShopProducts extends LitElement {
         })}
     `;
     }
-    static get properties() {
-        return {
-            products: { type: Object }
-        };
-    }
     _addToCart(event) {
         this.dispatchEvent(new CustomEvent("addToCart", { bubbles: true, composed: true, detail: { item: event.currentTarget.dataset['index'] } }));
     }
