@@ -70,5 +70,4 @@ export class MyView2 extends PageViewElement {
     this._clicks++;
     this._value--;
   }
-
 }

@@ -103,8 +103,10 @@ export class MyView3 extends PageViewElement {
 
   constructor() {
     super();
-    this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
-    this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
+    this.addEventListener('addToCart', ((e: CustomEvent) => 
+      {this._addToCart(e.detail.item)}) as  EventListener);
+    this.addEventListener('removeFromCart', ((e: CustomEvent) =>
+      {this._removeFromCart(e.detail.item)}) as EventListener);
   }
 
   checkout() {

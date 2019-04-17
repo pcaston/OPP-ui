@@ -28,8 +28,8 @@ let MyView3 = class MyView3 extends PageViewElement {
         this._cart = { addedIds: [], quantityById: {} };
         this._error = '';
         this._products = this._getAllProducts();
-        this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
-        this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
+        this.addEventListener('addToCart', ((e) => { this._addToCart(e.detail.item); }));
+        this.addEventListener('removeFromCart', ((e) => { this._removeFromCart(e.detail.item); }));
     }
     static get styles() {
         return [

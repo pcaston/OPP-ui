@@ -27,25 +27,19 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
-@customElement('my-app')
-export class MyApp extends LitElement {
-  @property({type: String})
-  private appTitle = '';
+@customElement('opp-ui')
+export class OPPui extends LitElement {
+  @property({type: String}) private appTitle = '';
 
-  @property({type: String})
-  private _page = '';
+  @property({type: String}) private _page = '';
 
-  @property({type: Boolean})
-  private _drawerOpened = false;
+  @property({type: Boolean}) private _drawerOpened = false;
 
-  @property({type: Boolean})
-  private _snackbarOpened = false;
+  @property({type: Boolean}) private _snackbarOpened = false;
 
-  @property({type: Boolean})
-  private _offline = false;
+  @property({type: Boolean}) private _offline = false;
 
-  @property({type: Object})
-  private __snackbarTimer = setTimeout;
+  @property({type: Object}) private __snackbarTimer = setTimeout;
 
   static get styles() {
     return [
