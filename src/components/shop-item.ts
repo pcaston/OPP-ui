@@ -12,14 +12,11 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('shop-item')
 export class ShopItem extends LitElement {
-  @property({type: String})
-  name = '';
+  @property({type: String}) name = '';
 
-  @property({type: Number})
-  amount = 0;
+  @property({type: String}) amount = '';
 
-  @property({type: Number})
-  price = 0;
+  @property({type: String}) price = '';
 
   protected render() {
     return html`

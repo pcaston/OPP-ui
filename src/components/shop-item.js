@@ -18,8 +18,8 @@ let ShopItem = class ShopItem extends LitElement {
     constructor() {
         super(...arguments);
         this.name = '';
-        this.amount = 0;
-        this.price = 0;
+        this.amount = '';
+        this.price = '';
     }
     render() {
         return html `
@@ -34,10 +34,10 @@ __decorate([
     property({ type: String })
 ], ShopItem.prototype, "name", void 0);
 __decorate([
-    property({ type: Number })
+    property({ type: String })
 ], ShopItem.prototype, "amount", void 0);
 __decorate([
-    property({ type: Number })
+    property({ type: String })
 ], ShopItem.prototype, "price", void 0);
 ShopItem = __decorate([
     customElement('shop-item')

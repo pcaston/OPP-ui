@@ -21,11 +21,8 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 // got from someone else.
 @customElement('counter-element')
 export class CounterElement extends LitElement {
-  @property({type: Number})
-  clicks = 0;
-
-  @property({type: Number})
-  value = 0;
+  @property( { type : Number } ) clicks = 0;
+  @property( { type : Number } ) value = 0;
 
   static get styles() {
     return [
