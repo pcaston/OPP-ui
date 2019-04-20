@@ -9,16 +9,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html, css, property, customElement } from 'lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
-import './shop-products.js';
-import './shop-cart.js';
+import './shop-products';
+import './shop-cart';
 
 // These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
-import { addToCartIcon } from './my-icons.js';
+import { SharedStyles } from './shared-styles';
+import { ButtonSharedStyles } from './button-shared-styles';
+import { addToCartIcon } from './my-icons';
 
 @customElement('my-view3')
 export class MyView3 extends PageViewElement {

@@ -9,24 +9,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css, property, PropertyValues, customElement } from 'lit-element';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
-
-// The following line imports the type only - it will be removed by tsc so
-// another import for app-drawer.js is required below.
-import { AppDrawerElement } from '@polymer/app-layout/app-drawer/app-drawer.js';
+import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
+import { installOfflineWatcher } from 'pwa-helpers/network';
+import { installRouter } from 'pwa-helpers/router';
+import { updateMetadata } from 'pwa-helpers/metadata';
 
 // These are the elements needed by this element.
-import '@polymer/app-layout/app-drawer/app-drawer.js';
-import '@polymer/app-layout/app-header/app-header.js';
-import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { menuIcon } from './my-icons.js';
-import './snack-bar.js';
-
+import '@polymer/app-layout/app-drawer/app-drawer';
+import '@polymer/app-layout/app-header/app-header';
+import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
+import '@polymer/app-layout/app-toolbar/app-toolbar';
+import { menuIcon } from './my-icons';
+import './snack-bar';
+declare global {
+    interface Window {
+    decodeURIComponent(pathname: string): any;
+  }
+}
 @customElement('opp-ui')
 export class OPPui extends LitElement {
   @property({type: String}) private appTitle = '';
@@ -39,7 +39,7 @@ export class OPPui extends LitElement {
 
   @property({type: Boolean}) private _offline = false;
 
-  @property({type: Object}) private __snackbarTimer = setTimeout;
+  @property({type: Number}) private __snackbarTimer = setTimeout;
 
   static get styles() {
     return [
@@ -202,6 +202,7 @@ export class OPPui extends LitElement {
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
+          <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-header>
 
@@ -213,6 +214,7 @@ export class OPPui extends LitElement {
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
+          <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-drawer>
 
@@ -221,6 +223,7 @@ export class OPPui extends LitElement {
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
+        <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 
@@ -245,7 +248,7 @@ export class OPPui extends LitElement {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => this._layoutChanged(matches));
+        () => this._layoutChanged());
   }
 
   protected updated(changedProps: PropertyValues) {
@@ -259,7 +262,7 @@ export class OPPui extends LitElement {
     }
   }
 
-  protected _layoutChanged(isWideLayout: boolean) {
+  protected _layoutChanged() {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
     this._updateDrawerState(false);
   }
@@ -298,20 +301,23 @@ export class OPPui extends LitElement {
   protected _loadPage(page: string) {
     switch(page) {
       case 'view1':
-        import('../components/my-view1.js').then((module) => {
+        import('../components/my-view1').then(() => {
           // Put code in here that you want to run every time when
-          // navigating to view1 after my-view1.js is loaded.
+          // navigating to view1 after my-view1 is loaded.
         });
         break;
       case 'view2':
-        import('../components/my-view2.js');
+        import('../components/my-view2');
         break;
       case 'view3':
-        import('../components/my-view3.js');
+        import('../components/my-view3');
+        break;
+      case 'about':
+        import('../components/about-page');
         break;
       default:
         page = 'view404';
-        import('../components/my-view404.js');
+        import('../components/my-view404');
     }
 
     this._page = page;

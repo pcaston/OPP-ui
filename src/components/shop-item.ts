@@ -14,7 +14,7 @@ import { LitElement, html, property, customElement } from 'lit-element';
 export class ShopItem extends LitElement {
   @property({type: String}) name = '';
 
-  @property({type: String}) amount = '';
+  @property({type: Number}) amount = 0;
 
   @property({type: String}) price = '';
 

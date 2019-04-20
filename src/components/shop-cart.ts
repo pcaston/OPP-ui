@@ -11,19 +11,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css, property, customElement } from 'lit-element';
 
 // These are the elements needed by this element.
-import { removeFromCartIcon } from './my-icons.js';
-import './shop-item.js';
+import { removeFromCartIcon } from './my-icons';
+import './shop-item';
 
 // These are the shared styles needed by this element.
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles';
+interface Item {
+  id: string;
+  title: string;
+  amount: number;
+  price: number;
+}
+interface Cart {
+  addedIds: any; 
+  quantityById: { [x: string]: number; };
+}
 
 @customElement('shop-cart')
 export class ShopCart extends LitElement {
   @property({type: Object})
-  private cart = [];
+  private cart = {};
 
   @property({type: Object})
-  private products = [];
+  private products = {};
 
   static get styles() {
     return [
@@ -39,7 +49,7 @@ export class ShopCart extends LitElement {
   protected render() {
     return html`
       <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(this.cart).map((item) =>
+      ${this._displayCart(this.cart).map((item: Item) =>
         html`
           <div>
             <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
@@ -54,24 +64,16 @@ export class ShopCart extends LitElement {
       )}
     `;
   }
-  private _displayCart(cart) {
+
+  private _displayCart(cart: Cart) {
     const items = [];
     for (let id of cart.addedIds) {
-      const item = this.products[id];
+      const item: Item = this.products[id];
       items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
     }
     return items;
   }
-  
-  private _calculateTotal(cart: { addedIds: any; quantityById: { [x: string]: number; }; }) {
-    let total = 0;
-    for (let id of cart.addedIds) {
-      const item = this.products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat((Math.round(total * 100) / 100).toFixed(2));
-  }
-  
+   
   private _removeFromCart(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
     this.dispatchEvent(new CustomEvent('removeFromCart',
         {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));

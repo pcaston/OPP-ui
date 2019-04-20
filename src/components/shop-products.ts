@@ -11,13 +11,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css, property, customElement } from 'lit-element';
 
 // These are the elements needed by this element.
-import './shop-item.js';
+import './shop-item';
 
 // These are the elements needed by this element.
-import { addToCartIcon } from './my-icons.js';
+import { addToCartIcon } from './my-icons';
 
 // These are the shared styles needed by this element.
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles';
 
 @customElement('shop-products')
 export class ShopProducts extends LitElement {
