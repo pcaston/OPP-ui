@@ -19,10 +19,21 @@ import { addToCartIcon } from './my-icons';
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
 
+export interface Products {
+  [index:string]: Product;
+}
+export interface Product {
+  id: number;
+  title: string;
+  price: number;
+  inventory: number;
+}
+
 @customElement('shop-products')
 export class ShopProducts extends LitElement {
+
   @property({type: Object})
-  private products = {};
+  private products: Products = {};
 
   static get styles() {
     return [

@@ -19,19 +19,21 @@ import './shop-cart';
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
+import { Products, Product } from './shop-products';
+import { Cart } from './shop-cart';
 
 @customElement('my-view3')
 export class MyView3 extends PageViewElement {
 
   @property({type: Object})
-  private _cart = {addedIds: [], quantityById: {}};
+  private _cart: Cart = { addedIds: [], quantityById: [] }
 
   @property({type: String})
   private _error = '';
 
-  @property({type: []})
-  private _products = this._getAllProducts();
-
+  @property({type: Object})
+  private _products: Products = this._getAllProducts();
+  
   static get styles() {
     return [
       SharedStyles,
@@ -110,18 +112,11 @@ export class MyView3 extends PageViewElement {
   }
 
   checkout() {
-    // Here you could do things like credit card validation, etc.
-    // We're simulating that by flipping a coin :)
-    const flip = Math.floor(Math.random() * 2);
-    if (flip === 0) {
-      this._error = 'Checkout failed. Please try again';
-    } else {
-      this._error = '';
-      this._cart = {addedIds: [], quantityById: {}};
-    }
+    this._error = '';
+    this._cart = {addedIds: [], quantityById: []};
   }
 
-  private _addToCart(productId: string | number) {
+  private _addToCart(productId: number) {
     this._error = '';
     if (this._products[productId].inventory > 0) {
       this._products[productId].inventory--;
@@ -139,7 +134,7 @@ export class MyView3 extends PageViewElement {
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  private _removeFromCart(productId: string | number) {
+  private _removeFromCart(productId: number) {
     this._error = '';
     this._products[productId].inventory++;
 
@@ -157,7 +152,7 @@ export class MyView3 extends PageViewElement {
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  private _numItemsInCart(cart: Object) {
+  private _numItemsInCart(cart: Cart) {
     let num = 0;
     for (let id of cart.addedIds) {
       num += cart.quantityById[id];
@@ -176,7 +171,7 @@ export class MyView3 extends PageViewElement {
     ];
 
     // You could reformat the data in the right format as well:
-    const products = PRODUCT_LIST.reduce((obj, product) => {
+    const products: Products = PRODUCT_LIST.reduce((obj, product: Product) => {
       obj[product.id] = product
       return obj
     }, {});
