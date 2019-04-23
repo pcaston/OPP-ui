@@ -171,7 +171,7 @@ export class MyView3 extends PageViewElement {
     ];
 
     // You could reformat the data in the right format as well:
-    const products: Products = PRODUCT_LIST.reduce((obj, product: Product) => {
+    const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
       obj[product.id] = product
       return obj
     }, {});
