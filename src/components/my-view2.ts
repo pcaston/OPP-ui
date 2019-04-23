@@ -9,13 +9,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html, property, customElement } from 'lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
-import './counter-element.js';
+import './counter-element';
 
 // These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles.js';
+import { SharedStyles } from './shared-styles';
 
 @customElement('my-view2')
 export class MyView2 extends PageViewElement {
@@ -55,18 +55,12 @@ export class MyView2 extends PageViewElement {
     `;
   }
 
-  constructor() {
-    super();
-    this._clicks = 0;
-    this._value = 0;
-  }
-
-  _increment() {
+  private _increment() {
     this._clicks++;
     this._value++;
   }
 
-  _decrement() {
+  private _decrement() {
     this._clicks++;
     this._value--;
   }
