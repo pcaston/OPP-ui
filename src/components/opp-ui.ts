@@ -22,6 +22,7 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
 import './snack-bar';
+import { timer } from 'rxjs';
 declare global {
     interface Window {
     decodeURIComponent(pathname: string): any;
@@ -39,7 +40,7 @@ export class OPPui extends LitElement {
 
   @property({type: Boolean}) private _offline = false;
 
-  @property({type: Number}) private __snackbarTimer = setTimeout;
+  @property({type: timer}) private __snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
 
   static get styles() {
     return [
