@@ -162,19 +162,24 @@ export class MyView3 extends PageViewElement {
 
   private _getAllProducts() {
     // Here you would normally get the data from the server.
-    const PRODUCT_LIST = [
-      {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
-      {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
-      {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
-      {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
-      {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
-    ];
+    //const PRODUCT_LIST = [
+    //  {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
+    //  {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
+    //  {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
+    //  {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
+    //  {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
+    //];
 
+    var websocket = new WebSocket("ws://127.0.0.1:6789/");
+    websocket.onmessage = function (event) {
+      const PRODUCT_LIST = JSON.parse(event.data);
+      const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
+        obj[product.id] = product
+        return obj
+      }, {});
+      //console.log(products);
+      return products;
+    }
     // You could reformat the data in the right format as well:
-    const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
-      obj[product.id] = product
-      return obj
-    }, {});
-    return products;
   };
 }
