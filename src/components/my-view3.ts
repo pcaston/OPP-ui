@@ -33,6 +33,9 @@ export class MyView3 extends PageViewElement {
 
   @property({type: Object})
   private _products: Products = this._getAllProducts();
+
+  @property({type: Object})
+  private _prods: Products = {};
   
   static get styles() {
     return [
@@ -172,14 +175,14 @@ export class MyView3 extends PageViewElement {
 
     var websocket = new WebSocket("ws://127.0.0.1:6789/");
     websocket.onmessage = function (event) {
-      const PRODUCT_LIST = JSON.parse(event.data);
-      const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
-        obj[product.id] = product
-        return obj
-      }, {});
-      //console.log(products);
-      return products;
+      this._prods = JSON.parse(event.data);
     }
     // You could reformat the data in the right format as well:
+    const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
+      obj[product.id] = product
+      return obj
+    }, {});
+    //console.log(products);
+    return products;
   };
 }
