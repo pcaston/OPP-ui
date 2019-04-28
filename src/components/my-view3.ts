@@ -34,6 +34,8 @@ export class MyView3 extends PageViewElement {
   @property({type: Object})
   private products: Products = this._getAllProducts();
 
+  @property({type: Object})
+  private ws: WebSocket = this._getws();
   
   static get styles() {
     return [
@@ -111,9 +113,9 @@ export class MyView3 extends PageViewElement {
     this.addEventListener('removeFromCart', ((e: CustomEvent) =>
       {this._removeFromCart(e.detail.item)}) as EventListener);
           //var wsOPPui = document.getElementsByTagName("opp-ui");
-      var websocket = new WebSocket("ws://127.0.0.1:6789/");
-      var self = this;
-      websocket.onmessage = function (message) {
+      //let ws = new WebSocket("ws://127.0.0.1:6789/");
+      let self = this;
+      this.ws.onmessage = function (message) {
       self.products = Object.assign({}, ...(JSON.parse(message.data).map(item => ({ [item.id]: item }) )));
     }
   }
@@ -127,7 +129,7 @@ export class MyView3 extends PageViewElement {
     this._error = '';
     if (this.products[productId].inventory > 0) {
       this.products[productId].inventory--;
-
+      this.ws.send(JSON.stringify(this.products));
       if (this._cart.addedIds.indexOf(productId) !== -1) {
         this._cart.quantityById[productId]++;
       } else {
@@ -182,5 +184,8 @@ export class MyView3 extends PageViewElement {
       return obj
     }, {});
     return products;
+  }
+  private _getws() {
+    return new WebSocket ("ws://127.0.0.1:6789/")
   }
 }
