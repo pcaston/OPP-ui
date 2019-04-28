@@ -227,7 +227,6 @@ export class OPPui extends LitElement {
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
-
       <footer>
         <p>Made with &hearts; by the Polymer team.</p>
       </footer>
