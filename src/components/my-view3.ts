@@ -113,10 +113,9 @@ export class MyView3 extends PageViewElement {
     this.addEventListener('removeFromCart', ((e: CustomEvent) =>
       {this._removeFromCart(e.detail.item)}) as EventListener);
           //var wsOPPui = document.getElementsByTagName("opp-ui");
-      //let ws = new WebSocket("ws://127.0.0.1:6789/");
-      let self = this;
-      this.ws.onmessage = function (message) {
-      self.products = Object.assign({}, ...(JSON.parse(message.data).map(item => ({ [item.id]: item }) )));
+    let self = this;
+    this.ws.onmessage = function (message) {
+      self.products = JSON.parse(message.data);
     }
   }
 
