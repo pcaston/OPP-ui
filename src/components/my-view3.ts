@@ -19,7 +19,7 @@ import './shop-cart';
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
-import { Products, Product } from './shop-products';
+import { Products } from './shop-products';
 import { Cart } from './shop-cart';
 
 @customElement('my-view3')
@@ -32,7 +32,7 @@ export class MyView3 extends PageViewElement {
   private _error = '';
 
   @property({type: Object})
-  private products: Products = this._getAllProducts();
+  private products: Products = {};
 
   @property({type: Object})
   private ws: WebSocket = this._getws();
@@ -75,23 +75,23 @@ export class MyView3 extends PageViewElement {
   protected render() {
     return html`
       <section>
-        <h2>State container example: shopping cart</h2>
+        <h2>State container example: Devices</h2>
         <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
 
-        <p>This is a slightly more advanced example, that simulates a
-          shopping cart: getting the products, adding/removing items to the
-          cart, and a checkout action, that can sometimes randomly fail (to
-          simulate where you would add failure handling). </p>
-        <p>This view, passes properties down to its two children, <code>&lt;shop-products&gt;</code> and
-        <code>&lt;shop-cart&gt;</code>, which fire events back up whenever
+        <p>This is a simulation of a list of devices.  
+          The list of devices is sourced from the server via a websocket.
+          As changes are are made to the devices, the changes are sent back to the server via the websocket.
+          The server then notifies all client via their respective websockets. </p>
+        <p>This view, passes properties down to its two children, <code>&lt;devices&gt;</code> and
+        <code>&lt;appliances&gt;</code>, which fire events back up whenever
         they need to communicate changes.</p>
       </section>
       <section>
-        <h3>Products</h3>
+        <h3>Devices</h3>
         <shop-products .products="${this.products}"></shop-products>
 
         <br>
-        <h3>Your Cart</h3>
+        <h3>Appliances</h3>
         <shop-cart .products="${this.products}" .cart="${this._cart}"></shop-cart>
 
         <div>${this._error}</div>
@@ -168,22 +168,6 @@ export class MyView3 extends PageViewElement {
     return num;
   }
 
-  private _getAllProducts() {
-    // Here you would normally get the data from the server.
-    const PRODUCT_LIST = [
-      {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
-      {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
-      {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
-      {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
-      {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
-    ];
-    // You could reformat the data in the right format as well:
-    const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
-      obj[product.id] = product
-      return obj
-    }, {});
-    return products;
-  }
   private _getws() {
     return new WebSocket ("ws://127.0.0.1:6789/")
   }
