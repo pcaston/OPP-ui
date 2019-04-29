@@ -32,10 +32,10 @@ export class MyView3 extends PageViewElement {
   private _error = '';
 
   @property({type: Object})
-  private _products: Products = this._getAllProducts();
+  private products: Products = this._getAllProducts();
 
   @property({type: Object})
-  private _prods: Products = {};
+  private ws: WebSocket = this._getws();
   
   static get styles() {
     return [
@@ -88,11 +88,11 @@ export class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products .products="${this._products}"></shop-products>
+        <shop-products .products="${this.products}"></shop-products>
 
         <br>
         <h3>Your Cart</h3>
-        <shop-cart .products="${this._products}" .cart="${this._cart}"></shop-cart>
+        <shop-cart .products="${this.products}" .cart="${this._cart}"></shop-cart>
 
         <div>${this._error}</div>
         <br>
@@ -112,6 +112,12 @@ export class MyView3 extends PageViewElement {
       {this._addToCart(e.detail.item)}) as  EventListener);
     this.addEventListener('removeFromCart', ((e: CustomEvent) =>
       {this._removeFromCart(e.detail.item)}) as EventListener);
+          //var wsOPPui = document.getElementsByTagName("opp-ui");
+      //let ws = new WebSocket("ws://127.0.0.1:6789/");
+      let self = this;
+      this.ws.onmessage = function (message) {
+      self.products = Object.assign({}, ...(JSON.parse(message.data).map(item => ({ [item.id]: item }) )));
+    }
   }
 
   checkout() {
@@ -121,9 +127,9 @@ export class MyView3 extends PageViewElement {
 
   private _addToCart(productId: number) {
     this._error = '';
-    if (this._products[productId].inventory > 0) {
-      this._products[productId].inventory--;
-
+    if (this.products[productId].inventory > 0) {
+      this.products[productId].inventory--;
+      this.ws.send(JSON.stringify(this.products));
       if (this._cart.addedIds.indexOf(productId) !== -1) {
         this._cart.quantityById[productId]++;
       } else {
@@ -133,13 +139,13 @@ export class MyView3 extends PageViewElement {
     }
 
     // TODO: this should be this.invalidate
-    this._products = JSON.parse(JSON.stringify(this._products));
+    this.products = JSON.parse(JSON.stringify(this.products));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
   private _removeFromCart(productId: number) {
     this._error = '';
-    this._products[productId].inventory++;
+    this.products[productId].inventory++;
 
     const quantity = this._cart.quantityById[productId];
     if (quantity === 1) {
@@ -151,7 +157,7 @@ export class MyView3 extends PageViewElement {
     }
 
     // TODO: this should be this.invalidate
-    this._products = JSON.parse(JSON.stringify(this._products));
+    this.products = JSON.parse(JSON.stringify(this.products));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
@@ -165,24 +171,21 @@ export class MyView3 extends PageViewElement {
 
   private _getAllProducts() {
     // Here you would normally get the data from the server.
-    //const PRODUCT_LIST = [
-    //  {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
-    //  {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
-    //  {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
-    //  {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
-    //  {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
-    //];
-
-    var websocket = new WebSocket("ws://127.0.0.1:6789/");
-    websocket.onmessage = function (event) {
-      this._prods = JSON.parse(event.data);
-    }
+    const PRODUCT_LIST = [
+      {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
+      {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
+      {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
+      {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
+      {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
+    ];
     // You could reformat the data in the right format as well:
     const products: Products = PRODUCT_LIST.reduce((obj: Products, product: Product) => {
       obj[product.id] = product
       return obj
     }, {});
-    //console.log(products);
     return products;
-  };
+  }
+  private _getws() {
+    return new WebSocket ("ws://127.0.0.1:6789/")
+  }
 }
