@@ -75,12 +75,12 @@ export class MyView3 extends PageViewElement {
   protected render() {
     return html`
       <section>
-        <h2>State container example: Devices</h2>
+        <h2>Discovered Devices</h2>
         <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
 
         <p>This is a simulation of a list of devices.  
           The list of devices is sourced from the server via a websocket.
-          As changes are are made to the devices, the changes are sent back to the server via the websocket.
+          As changes are made to the devices, the changes are sent back to the server via the websocket.
           The server then notifies all client via their respective websockets. </p>
         <p>This view, passes properties down to its two children, <code>&lt;devices&gt;</code> and
         <code>&lt;appliances&gt;</code>, which fire events back up whenever
@@ -127,8 +127,10 @@ export class MyView3 extends PageViewElement {
   private _addToCart(productId: number) {
     this._error = '';
     if (this.products[productId].inventory > 0) {
-      this.products[productId].inventory--;
-      this.ws.send(JSON.stringify(this.products));
+      let prods: Products = this.products;
+      //this.products[productId].inventory--;
+      prods[productId].inventory--;
+      this.ws.send(JSON.stringify(prods));
       if (this._cart.addedIds.indexOf(productId) !== -1) {
         this._cart.quantityById[productId]++;
       } else {

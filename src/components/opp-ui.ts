@@ -201,7 +201,6 @@ export class OPPui extends LitElement {
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
@@ -213,7 +212,6 @@ export class OPPui extends LitElement {
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
@@ -222,7 +220,6 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
@@ -305,9 +302,6 @@ export class OPPui extends LitElement {
           // Put code in here that you want to run every time when
           // navigating to view1 after my-view1 is loaded.
         });
-        break;
-      case 'view2':
-        import('../components/my-view2');
         break;
       case 'view3':
         import('../components/my-view3');
