@@ -200,8 +200,8 @@ export class OPPui extends LitElement {
 
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
+          <a ?selected="${this._page === 'view3'}" href="/view3">View Devices</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-header>
@@ -211,8 +211,8 @@ export class OPPui extends LitElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
+          <a ?selected="${this._page === 'view3'}" href="/view3">View Devices</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-drawer>
@@ -220,7 +220,7 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
+        <opp-devices-view class="page" ?active="${this._page === 'view3'}"></opp-devices-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
@@ -304,7 +304,7 @@ export class OPPui extends LitElement {
         });
         break;
       case 'view3':
-        import('../components/my-view3');
+        import('../components/opp-devices-view');
         break;
       case 'about':
         import('../components/about-page');

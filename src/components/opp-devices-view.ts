@@ -12,17 +12,17 @@ import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
-import './shop-products';
+import './device-list';
 import './shop-cart';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
-import { Products } from './shop-products';
+import { Products } from './device-list';
 import { Cart } from './shop-cart';
 
-@customElement('my-view3')
+@customElement('opp-devices-view')
 export class MyView3 extends PageViewElement {
 
   @property({type: Object})
@@ -88,7 +88,7 @@ export class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Devices</h3>
-        <shop-products .products="${this.products}"></shop-products>
+        <device-list .products="${this.products}"></device-list>
 
         <br>
         <h3>Appliances</h3>

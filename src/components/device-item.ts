@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, property, customElement } from 'lit-element';
 
-@customElement('shop-item')
+@customElement('device-item')
 export class ShopItem extends LitElement {
   @property({type: String}) name = '';
 
