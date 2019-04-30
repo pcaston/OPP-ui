@@ -12,11 +12,11 @@ import { LitElement, html, css, property, customElement } from 'lit-element';
 
 // These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons';
-import './shop-item';
+import './device-item';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
-import { Products} from './shop-products';
+import { Products} from './devices';
 
 export interface Cart {
   [index:number]: CartItem;
@@ -56,7 +56,7 @@ export class ShopCart extends LitElement {
       ${this._displayCart(this.cart).map((item: CartItem) =>
         html`
           <div>
-            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
+            <device-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></device-item>
             <button
               @click="${this._removeFromCart}"
               data-index="${item.id}"

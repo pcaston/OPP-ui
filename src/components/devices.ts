@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css, property, customElement } from 'lit-element';
 
 // These are the elements needed by this element.
-import './shop-item';
+import './device-item';
 
 // These are the elements needed by this element.
 import { addToCartIcon } from './my-icons';
@@ -52,7 +52,7 @@ export class ShopProducts extends LitElement {
         const item = this.products[key];
         return html`
           <div>
-            <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
+            <device-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></device-item>
             <button
                 .disabled="${item.inventory === 0}"
                 @click="${this._addToCart}"
