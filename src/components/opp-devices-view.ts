@@ -23,7 +23,7 @@ import { Products } from './device-list';
 import { Cart } from './shop-cart';
 
 @customElement('opp-devices-view')
-export class MyView3 extends PageViewElement {
+export class DevicesView extends PageViewElement {
 
   @property({type: Object})
   private _cart: Cart = { addedIds: [], quantityById: [] }

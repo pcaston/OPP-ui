@@ -31,29 +31,18 @@
       "weight": 1
     }
   },
-  "/view2": {
-    "src/components/OPP-ui.js": {
-      "crossorigin": "anonymous",
-      "type": "script",
-      "weight": 1
-    },
-    "src/components/my-view2.js": {
-      "crossorigin": "anonymous",
-      "type": "script",
-      "weight": 1
-    },
     "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
       "type": "script",
       "weight": 1
     }
   },
-  "/view3": {
+  "/DevicesView": {
     "src/components/OPP-ui.js": {
       "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
-    "src/components/my-view3.js": {
+    "src/components/devices-view.js": {
       "crossorigin": "anonymous",
       "type": "script",
       "weight": 1

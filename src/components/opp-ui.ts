@@ -200,7 +200,7 @@ export class OPPui extends LitElement {
 
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Devices</a>
+          <a ?selected="${this._page === 'view_devices'}" href="/view_devices">View Devices</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
@@ -211,7 +211,7 @@ export class OPPui extends LitElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Devices</a>
+          <a ?selected="${this._page === 'view_devices'}" href="/view_devices">View Devices</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
@@ -220,7 +220,7 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <opp-devices-view class="page" ?active="${this._page === 'view3'}"></opp-devices-view>
+        <opp-devices-view class="page" ?active="${this._page === 'view_devices'}"></opp-devices-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
@@ -280,7 +280,7 @@ export class OPPui extends LitElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'view3' : path.slice(1);
+    const page = path === '/' ? 'view_devices' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.
@@ -303,7 +303,7 @@ export class OPPui extends LitElement {
           // navigating to view1 after my-view1 is loaded.
         });
         break;
-      case 'view3':
+      case 'view_devices':
         import('../components/opp-devices-view');
         break;
       case 'about':
