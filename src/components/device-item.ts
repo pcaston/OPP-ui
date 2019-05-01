@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('device-item')
-export class DeviceItem extends LitElement {
+export class ShopItem extends LitElement {
   @property({type: String}) name = '';
 
   @property({type: Number}) amount = 0;

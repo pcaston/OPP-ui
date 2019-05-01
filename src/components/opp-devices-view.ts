@@ -12,18 +12,26 @@ import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
+<<<<<<< HEAD:src/components/my-view3.ts
 import './devices';
+=======
+import './device-list';
+>>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
 import './shop-cart';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
+<<<<<<< HEAD:src/components/my-view3.ts
 import { Products } from './devices';
+=======
+import { Products } from './device-list';
+>>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
 import { Cart } from './shop-cart';
 
-@customElement('my-view3')
-export class MyView3 extends PageViewElement {
+@customElement('opp-devices-view')
+export class DevicesView extends PageViewElement {
 
   @property({type: Object})
   private _cart: Cart = { addedIds: [], quantityById: [] }
@@ -88,7 +96,11 @@ export class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Devices</h3>
+<<<<<<< HEAD:src/components/my-view3.ts
         <devices .products="${this.products}"></devices>
+=======
+        <device-list .products="${this.products}"></device-list>
+>>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
 
         <br>
         <h3>Appliances</h3>

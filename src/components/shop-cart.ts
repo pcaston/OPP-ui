@@ -16,7 +16,11 @@ import './device-item';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
+<<<<<<< HEAD
 import { Products} from './devices';
+=======
+import { Products} from './device-list';
+>>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993
 
 export interface Cart {
   [index:number]: CartItem;
