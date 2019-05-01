@@ -19,21 +19,21 @@ import { addToCartIcon } from './my-icons';
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
 
-export interface Products {
-  [index:string]: Product;
+export interface Devices {
+  [index:string]: Device;
 }
-export interface Product {
+export interface Device {
   id: number;
   title: string;
-  price: number;
-  inventory: number;
+  cost: number;
+  power: number;
 }
 
 @customElement('device-list')
-export class ShopProducts extends LitElement {
+export class ShopDevices extends LitElement {
 
   @property({type: Object})
-  private products: Products = {};
+  private devices: Devices = {};
 
   static get styles() {
     return [
@@ -48,17 +48,17 @@ export class ShopProducts extends LitElement {
 
   protected render() {
     return html`
-      ${Object.keys(this.products).map((key) => {
-        const item = this.products[key];
+      ${Object.keys(this.devices).map((key) => {
+        const item = this.devices[key];
         return html`
           <div>
-            <device-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></device-item>
+            <device-item name="${item.title}" power="${item.power}" cost="${item.cost}"></device-item>
             <button
-                .disabled="${item.inventory === 0}"
+                .disabled="${item.power === 0}"
                 @click="${this._addToCart}"
                 data-index="${item.id}"
-                title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
-              ${item.inventory === 0 ? 'Sold out': addToCartIcon }
+                title="${item.power === 0 ? 'Sold out' : 'Add to cart' }">
+              ${item.power === 0 ? 'Sold out': addToCartIcon }
             </button>
           </div>
         `;

@@ -14,15 +14,15 @@ import { LitElement, html, property, customElement } from 'lit-element';
 export class ShopItem extends LitElement {
   @property({type: String}) name = '';
 
-  @property({type: Number}) amount = 0;
+  @property({type: Number}) power = 0;
 
-  @property({type: String}) price = '';
+  @property({type: String}) cost = '';
 
   protected render() {
     return html`
       ${this.name}:
-      <span ?hidden="${this.amount === 0}">${this.amount} * </span>
-      $${this.price}
+      <span ?hidden="${this.power === 0}">${this.power} * </span>
+      $${this.cost}
       </span>
     `;
   }

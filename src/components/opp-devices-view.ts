@@ -12,22 +12,14 @@ import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
-<<<<<<< HEAD:src/components/my-view3.ts
-import './devices';
-=======
 import './device-list';
->>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
 import './shop-cart';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
-<<<<<<< HEAD:src/components/my-view3.ts
-import { Products } from './devices';
-=======
-import { Products } from './device-list';
->>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
+import { Devices } from './device-list';
 import { Cart } from './shop-cart';
 
 @customElement('opp-devices-view')
@@ -40,7 +32,7 @@ export class DevicesView extends PageViewElement {
   private _error = '';
 
   @property({type: Object})
-  private products: Products = {};
+  private devices: Devices = {};
 
   @property({type: Object})
   private ws: WebSocket = this._getws();
@@ -96,15 +88,11 @@ export class DevicesView extends PageViewElement {
       </section>
       <section>
         <h3>Devices</h3>
-<<<<<<< HEAD:src/components/my-view3.ts
-        <devices .products="${this.products}"></devices>
-=======
-        <device-list .products="${this.products}"></device-list>
->>>>>>> 667a2f92e26300a4e2ada93a50c00bd864a45993:src/components/opp-devices-view.ts
+        <device-list .devices="${this.devices}"></device-list>
 
         <br>
         <h3>Appliances</h3>
-        <shop-cart .products="${this.products}" .cart="${this._cart}"></shop-cart>
+        <shop-cart .devices="${this.devices}" .cart="${this._cart}"></shop-cart>
 
         <div>${this._error}</div>
         <br>
@@ -127,7 +115,7 @@ export class DevicesView extends PageViewElement {
           //var wsOPPui = document.getElementsByTagName("opp-ui");
     let self = this;
     this.ws.onmessage = function (message) {
-      self.products = JSON.parse(message.data);
+      self.devices = JSON.parse(message.data);
     }
   }
 
@@ -136,41 +124,41 @@ export class DevicesView extends PageViewElement {
     this._cart = {addedIds: [], quantityById: []};
   }
 
-  private _addToCart(productId: number) {
+  private _addToCart(deviceId: number) {
     this._error = '';
-    if (this.products[productId].inventory > 0) {
-      let prods: Products = this.products;
-      //this.products[productId].inventory--;
-      prods[productId].inventory--;
+    if (this.devices[deviceId].power > 0) {
+      let prods: Devices = this.devices;
+      //this.devices[deviceId].power--;
+      prods[deviceId].power--;
       this.ws.send(JSON.stringify(prods));
-      if (this._cart.addedIds.indexOf(productId) !== -1) {
-        this._cart.quantityById[productId]++;
+      if (this._cart.addedIds.indexOf(deviceId) !== -1) {
+        this._cart.quantityById[deviceId]++;
       } else {
-        this._cart.addedIds.push(productId);
-        this._cart.quantityById[productId] = 1;
+        this._cart.addedIds.push(deviceId);
+        this._cart.quantityById[deviceId] = 1;
       }
     }
 
     // TODO: this should be this.invalidate
-    this.products = JSON.parse(JSON.stringify(this.products));
+    this.devices = JSON.parse(JSON.stringify(this.devices));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  private _removeFromCart(productId: number) {
+  private _removeFromCart(deviceId: number) {
     this._error = '';
-    this.products[productId].inventory++;
+    this.devices[deviceId].power++;
 
-    const quantity = this._cart.quantityById[productId];
+    const quantity = this._cart.quantityById[deviceId];
     if (quantity === 1) {
-      this._cart.quantityById[productId] = 0;
-      // This removes all items in this array equal to productId.
-      this._cart.addedIds = this._cart.addedIds.filter(e => e !== productId);
+      this._cart.quantityById[deviceId] = 0;
+      // This removes all items in this array equal to deviceId.
+      this._cart.addedIds = this._cart.addedIds.filter(e => e !== deviceId);
     } else{
-      this._cart.quantityById[productId]--;
+      this._cart.quantityById[deviceId]--;
     }
 
     // TODO: this should be this.invalidate
-    this.products = JSON.parse(JSON.stringify(this.products));
+    this.devices = JSON.parse(JSON.stringify(this.devices));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
