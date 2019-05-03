@@ -36,13 +36,13 @@
       "weight": 1
     }
   },
-  "/DevicesView": {
+  "/AppliancesView": {
     "src/components/OPP-ui.js": {
       "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
-    "src/components/devices-view.js": {
+    "src/components/opp-home-view.js": {
       "crossorigin": "anonymous",
       "type": "script",
       "weight": 1

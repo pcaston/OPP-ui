@@ -12,11 +12,11 @@ import { LitElement, html, css, property, customElement } from 'lit-element';
 
 // These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons';
-import './device-item';
+import './appliance-item';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
-import { Devices} from './device-list';
+import { Appliances} from './appliance-list';
 
 export interface Cart {
   [index:number]: CartItem;
@@ -37,7 +37,7 @@ export class ShopCart extends LitElement {
   private cart: Cart = { addedIds: [], quantityById: [] }
 
   @property({type: Object})
-  private devices: Devices = {};
+  private appliances: Appliances = {};
 
   static get styles() {
     return [
@@ -52,11 +52,11 @@ export class ShopCart extends LitElement {
 
   protected render() {
     return html`
-      <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some devices to cart.</p>
+      <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some appliances to cart.</p>
       ${this._displayCart(this.cart).map((item: CartItem) =>
         html`
           <div>
-            <device-item .name="${item.title}" .amount="${item.amount}" .cost="${item.cost}"></device-item>
+            <appliance-item .name="${item.title}" .amount="${item.amount}" .cost="${item.cost}"></appliance-item>
             <button
               @click="${this._removeFromCart}"
               data-index="${item.id}"
@@ -72,7 +72,7 @@ export class ShopCart extends LitElement {
   private _displayCart(cart: Cart) {
     const items = [];
     for (let id of cart.addedIds) {
-      const item = this.devices[id];
+      const item = this.appliances[id];
       items.push({id: item.id, title: item.title, amount: cart.quantityById[id], cost: item.cost});
     }
     return items;

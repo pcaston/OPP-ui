@@ -12,18 +12,18 @@ import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
-import './device-list';
+import './appliance-list';
 import './shop-cart';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { addToCartIcon } from './my-icons';
-import { Devices } from './device-list';
+import { Appliances } from './appliance-list';
 import { Cart } from './shop-cart';
 
-@customElement('opp-devices-view')
-export class DevicesView extends PageViewElement {
+@customElement('opp-home-view')
+export class AppliancesView extends PageViewElement {
 
   @property({type: Object})
   private _cart: Cart = { addedIds: [], quantityById: [] }
@@ -32,7 +32,7 @@ export class DevicesView extends PageViewElement {
   private _error = '';
 
   @property({type: Object})
-  private devices: Devices = {};
+  private appliances: Appliances = {};
 
   @property({type: Object})
   private ws: WebSocket = this._getws();
@@ -75,24 +75,24 @@ export class DevicesView extends PageViewElement {
   protected render() {
     return html`
       <section>
-        <h2>Discovered Devices</h2>
+        <h2>Discovered Appliances</h2>
         <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
 
-        <p>This is a simulation of a list of devices.  
-          The list of devices is sourced from the server via a websocket.
-          As changes are made to the devices, the changes are sent back to the server via the websocket.
+        <p>This is a simulation of a list of appliances.  
+          The list of appliances is sourced from the server via a websocket.
+          As changes are made to the appliances, the changes are sent back to the server via the websocket.
           The server then notifies all client via their respective websockets. </p>
-        <p>This view, passes properties down to its two children, <code>&lt;devices&gt;</code> and
+        <p>This view, passes properties down to its two children, <code>&lt;appliances&gt;</code> and
         <code>&lt;appliances&gt;</code>, which fire events back up whenever
         they need to communicate changes.</p>
       </section>
       <section>
-        <h3>Devices</h3>
-        <device-list .devices="${this.devices}"></device-list>
+        <h3>Appliances</h3>
+        <appliance-list .appliances="${this.appliances}"></appliance-list>
 
         <br>
         <h3>Appliances</h3>
-        <shop-cart .devices="${this.devices}" .cart="${this._cart}"></shop-cart>
+        <shop-cart .appliances="${this.appliances}" .cart="${this._cart}"></shop-cart>
 
         <div>${this._error}</div>
         <br>
@@ -115,7 +115,7 @@ export class DevicesView extends PageViewElement {
           //var wsOPPui = document.getElementsByTagName("opp-ui");
     let self = this;
     this.ws.onmessage = function (message) {
-      self.devices = JSON.parse(message.data);
+      self.appliances = JSON.parse(message.data);
     }
   }
 
@@ -124,41 +124,41 @@ export class DevicesView extends PageViewElement {
     this._cart = {addedIds: [], quantityById: []};
   }
 
-  private _addToCart(deviceId: number) {
+  private _addToCart(applianceId: number) {
     this._error = '';
-    if (this.devices[deviceId].power > 0) {
-      let prods: Devices = this.devices;
-      //this.devices[deviceId].power--;
-      prods[deviceId].power--;
+    if (this.appliances[applianceId].power > 0) {
+      let prods: Appliances = this.appliances;
+      //this.appliances[applianceId].power--;
+      prods[applianceId].power--;
       this.ws.send(JSON.stringify(prods));
-      if (this._cart.addedIds.indexOf(deviceId) !== -1) {
-        this._cart.quantityById[deviceId]++;
+      if (this._cart.addedIds.indexOf(applianceId) !== -1) {
+        this._cart.quantityById[applianceId]++;
       } else {
-        this._cart.addedIds.push(deviceId);
-        this._cart.quantityById[deviceId] = 1;
+        this._cart.addedIds.push(applianceId);
+        this._cart.quantityById[applianceId] = 1;
       }
     }
 
     // TODO: this should be this.invalidate
-    this.devices = JSON.parse(JSON.stringify(this.devices));
+    this.appliances = JSON.parse(JSON.stringify(this.appliances));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
-  private _removeFromCart(deviceId: number) {
+  private _removeFromCart(applianceId: number) {
     this._error = '';
-    this.devices[deviceId].power++;
+    this.appliances[applianceId].power++;
 
-    const quantity = this._cart.quantityById[deviceId];
+    const quantity = this._cart.quantityById[applianceId];
     if (quantity === 1) {
-      this._cart.quantityById[deviceId] = 0;
-      // This removes all items in this array equal to deviceId.
-      this._cart.addedIds = this._cart.addedIds.filter(e => e !== deviceId);
+      this._cart.quantityById[applianceId] = 0;
+      // This removes all items in this array equal to applianceId.
+      this._cart.addedIds = this._cart.addedIds.filter(e => e !== applianceId);
     } else{
-      this._cart.quantityById[deviceId]--;
+      this._cart.quantityById[applianceId]--;
     }
 
     // TODO: this should be this.invalidate
-    this.devices = JSON.parse(JSON.stringify(this.devices));
+    this.appliances = JSON.parse(JSON.stringify(this.appliances));
     this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
