@@ -12,6 +12,8 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('appliance-item')
 export class ShopItem extends LitElement {
+  @property({type: String}) id = '';
+
   @property({type: String}) name = '';
 
   @property({type: String}) type = '';
@@ -22,6 +24,8 @@ export class ShopItem extends LitElement {
 
   protected render() {
     return html`
+      id:
+      ${this.id}
       name:
       ${this.name}
       type:

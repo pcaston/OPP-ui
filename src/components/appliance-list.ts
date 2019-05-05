@@ -23,11 +23,11 @@ export interface Appliances {
   [index:string]: Appliance;
 }
 export interface Appliance {
-  id: number;
+  id: string;
   name: string;
   type: string;
-  cost: number;
   usage: number;
+  cost: number;
 }
 
 @customElement('appliance-list')
@@ -53,7 +53,7 @@ export class ShopAppliances extends LitElement {
         const item = this.appliances[key];
         return html`
           <div>
-            <appliance-item name="${item.name}" type="${item.type}" usage="${item.usage}" cost="${item.cost}"></appliance-item>
+            <appliance-item id="${item.id}" name="${item.name}" type="${item.type}" usage="${item.usage}" cost="${item.cost}"></appliance-item>
             <button
                 .disabled="${item.usage === 0}"
                 @click="${this._reduceUsage}"
