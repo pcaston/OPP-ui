@@ -26,7 +26,7 @@ export interface Cart {
 
 export interface CartItem {
   id: number;
-  title: string;
+  name: string;
   amount: number;
   cost: number;
 }
@@ -56,11 +56,11 @@ export class ShopCart extends LitElement {
       ${this._displayCart(this.cart).map((item: CartItem) =>
         html`
           <div>
-            <appliance-item .name="${item.title}" .amount="${item.amount}" .cost="${item.cost}"></appliance-item>
+            <appliance-item .name="${item.name}" .amount="${item.amount}" .cost="${item.cost}"></appliance-item>
             <button
               @click="${this._removeFromCart}"
               data-index="${item.id}"
-              title="Remove from cart">
+              name="Remove from cart">
               ${removeFromCartIcon}
             </button>
           </div>
@@ -73,7 +73,7 @@ export class ShopCart extends LitElement {
     const items = [];
     for (let id of cart.addedIds) {
       const item = this.appliances[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], cost: item.cost});
+      items.push({id: item.id, name: item.name, amount: cart.quantityById[id], cost: item.cost});
     }
     return items;
   }
