@@ -93,10 +93,10 @@ export class AppliancesView extends PageViewElement {
   }
 
   private _reduceUsage(applianceId: string) {
-    if (this.appliances[applianceId].usage > 0) {
+    if (this.appliances[applianceId].usage.value > 0) {
       let appls: Appliances = this.appliances;
       //this.appliances[applianceId].usage--;
-      appls[applianceId].usage--;
+      appls[applianceId].usage.value--;
       this.ws.send(JSON.stringify(appls));
     }
 
