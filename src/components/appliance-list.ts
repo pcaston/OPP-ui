@@ -25,8 +25,9 @@ export interface Appliances {
 export interface Appliance {
   id: number;
   name: string;
+  type: string;
   cost: number;
-  power: number;
+  usage: number;
 }
 
 @customElement('appliance-list')
@@ -52,13 +53,13 @@ export class ShopAppliances extends LitElement {
         const item = this.appliances[key];
         return html`
           <div>
-            <appliance-item name="${item.name}" power="${item.power}" cost="${item.cost}"></appliance-item>
+            <appliance-item name="${item.name}" type="${item.type}" usage="${item.usage}" cost="${item.cost}"></appliance-item>
             <button
-                .disabled="${item.power === 0}"
-                @click="${this._addToCart}"
+                .disabled="${item.usage === 0}"
+                @click="${this._reduceUsage}"
                 data-index="${item.id}"
-                name="${item.power === 0 ? 'Sold out' : 'Add to cart' }">
-              ${item.power === 0 ? 'Sold out': addToCartIcon }
+                name="${item.usage === 0 ? 'Not used' : 'Reduce Usage' }">
+              ${item.usage === 0 ? 'Not used': addToCartIcon }
             </button>
           </div>
         `;
@@ -66,8 +67,8 @@ export class ShopAppliances extends LitElement {
     `;
   }
   
-  private _addToCart(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
-    this.dispatchEvent(new CustomEvent("addToCart",
+  private _reduceUsage(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
+    this.dispatchEvent(new CustomEvent("reduceUsage",
         {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }
 }
