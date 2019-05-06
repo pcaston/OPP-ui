@@ -13,23 +13,14 @@ import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
 import './appliance-list';
-import './shop-cart';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
-import { addToCartIcon } from './my-icons';
 import { Appliances } from './appliance-list';
-import { Cart } from './shop-cart';
 
 @customElement('opp-home-view')
 export class AppliancesView extends PageViewElement {
-
-  @property({type: Object})
-  private _cart: Cart = { addedIds: [], quantityById: [] }
-
-  @property({type: String})
-  private _error = '';
 
   @property({type: Object})
   private appliances: Appliances = {};
@@ -76,98 +67,40 @@ export class AppliancesView extends PageViewElement {
     return html`
       <section>
         <h2>Discovered Appliances</h2>
-        <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
 
         <p>This is a simulation of a list of appliances.  
           The list of appliances is sourced from the server via a websocket.
           As changes are made to the appliances, the changes are sent back to the server via the websocket.
           The server then notifies all client via their respective websockets. </p>
-        <p>This view, passes properties down to its two children, <code>&lt;appliances&gt;</code> and
-        <code>&lt;appliances&gt;</code>, which fire events back up whenever
-        they need to communicate changes.</p>
+        <p>This view, passes properties down to its child, <code>&lt;appliances&gt;</code>, which fires events back up whenever
+        it needs to communicate changes.</p>
       </section>
       <section>
         <h3>Appliances</h3>
         <appliance-list .appliances="${this.appliances}"></appliance-list>
-
-        <br>
-        <h3>Appliances</h3>
-        <shop-cart .appliances="${this.appliances}" .cart="${this._cart}"></shop-cart>
-
-        <div>${this._error}</div>
-        <br>
-        <p>
-          <button ?hidden="${this._cart.addedIds.length == 0}"
-              @click="${this.checkout}">
-            Checkout
-          </button>
-        </p>
       </section>
     `;
   }
 
   constructor() {
     super();
-    this.addEventListener('addToCart', ((e: CustomEvent) => 
-      {this._addToCart(e.detail.item)}) as  EventListener);
-    this.addEventListener('removeFromCart', ((e: CustomEvent) =>
-      {this._removeFromCart(e.detail.item)}) as EventListener);
-          //var wsOPPui = document.getElementsByTagName("opp-ui");
+    this.addEventListener('reduceUsage', ((e: CustomEvent) => 
+      {this._reduceUsage(e.detail.item)}) as  EventListener);
     let self = this;
     this.ws.onmessage = function (message) {
       self.appliances = JSON.parse(message.data);
     }
   }
 
-  checkout() {
-    this._error = '';
-    this._cart = {addedIds: [], quantityById: []};
-  }
-
-  private _addToCart(applianceId: number) {
-    this._error = '';
-    if (this.appliances[applianceId].power > 0) {
-      let prods: Appliances = this.appliances;
-      //this.appliances[applianceId].power--;
-      prods[applianceId].power--;
-      this.ws.send(JSON.stringify(prods));
-      if (this._cart.addedIds.indexOf(applianceId) !== -1) {
-        this._cart.quantityById[applianceId]++;
-      } else {
-        this._cart.addedIds.push(applianceId);
-        this._cart.quantityById[applianceId] = 1;
-      }
+  private _reduceUsage(applianceId: string) {
+    if (this.appliances[applianceId].usage.value > 0) {
+      let appls: Appliances = this.appliances;
+      //this.appliances[applianceId].usage--;
+      appls[applianceId].usage.value--;
+      this.ws.send(JSON.stringify(appls));
     }
 
-    // TODO: this should be this.invalidate
     this.appliances = JSON.parse(JSON.stringify(this.appliances));
-    this._cart = JSON.parse(JSON.stringify(this._cart));
-  }
-
-  private _removeFromCart(applianceId: number) {
-    this._error = '';
-    this.appliances[applianceId].power++;
-
-    const quantity = this._cart.quantityById[applianceId];
-    if (quantity === 1) {
-      this._cart.quantityById[applianceId] = 0;
-      // This removes all items in this array equal to applianceId.
-      this._cart.addedIds = this._cart.addedIds.filter(e => e !== applianceId);
-    } else{
-      this._cart.quantityById[applianceId]--;
-    }
-
-    // TODO: this should be this.invalidate
-    this.appliances = JSON.parse(JSON.stringify(this.appliances));
-    this._cart = JSON.parse(JSON.stringify(this._cart));
-  }
-
-  private _numItemsInCart(cart: Cart) {
-    let num = 0;
-    for (let id of cart.addedIds) {
-      num += cart.quantityById[id];
-    }
-    return num;
   }
 
   private _getws() {
