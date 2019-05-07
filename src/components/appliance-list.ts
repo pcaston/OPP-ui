@@ -23,7 +23,7 @@ export interface Appliances {
   [index:string]: Appliance;
 }
 export interface Appliance {
-  appl: {id: string; name: string; type: string};
+  appliance: {id: string; name: string; type: string};
   usage: {value: number; unit: string};
   cost: {currency: string; value: number};
 }
@@ -51,12 +51,12 @@ export class ShopAppliances extends LitElement {
         const item = this.appliances[key];
         return html`
           <div>
-            <appliance-item id="${item.appl.id}" name="${item.appl.name}" type="${item.appl.type}" 
+            <appliance-item id="${item.appliance.id}" name="${item.appliance.name}" type="${item.appliance.type}" 
                 usage="${item.usage.value}" cost="${item.cost.value}"></appliance-item>
             <button
                 .disabled="${item.usage.value === 0}"
                 @click="${this._reduceUsage}"
-                data-index="${item.appl.id}"
+                data-index="${item.appliance.id}"
                 name="${item.usage.value === 0 ? 'Not used' : 'Reduce Usage' }">
               ${item.usage.value === 0 ? 'Not used': addToCartIcon }
             </button>
