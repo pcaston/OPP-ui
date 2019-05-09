@@ -21,8 +21,7 @@ import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
-import './snack-bar';
-import { timer } from 'rxjs';
+
 declare global {
     interface Window {
     decodeURIComponent(pathname: string): any;
@@ -36,11 +35,7 @@ export class OPPui extends LitElement {
 
   @property({type: Boolean}) private _drawerOpened = false;
 
-  @property({type: Boolean}) private _snackbarOpened = false;
-
   @property({type: Boolean}) private _offline = false;
-
-  @property({type: timer}) private __snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
 
   static get styles() {
     return [
@@ -227,10 +222,6 @@ export class OPPui extends LitElement {
       <footer>
         <p>Made with &hearts; by the Polymer team.</p>
       </footer>
-
-      <snack-bar ?active="${this._snackbarOpened}">
-        You are now ${this._offline ? 'offline' : 'online'}.
-      </snack-bar>
     `;
   }
 
@@ -273,9 +264,6 @@ export class OPPui extends LitElement {
       return;
     }
 
-    clearTimeout(this.__snackbarTimer);
-    this._snackbarOpened = true;
-    this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
   }
 
   protected _locationChanged(location: Location) {

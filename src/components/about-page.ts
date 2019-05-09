@@ -28,7 +28,8 @@ export class AboutPage extends PageViewElement {
         <h2>Open Peer Power</h2>
         <p>This is an open source project to unite and empower prosumers.  Prosumers are traditional customers of the power utilities that can now
         produce and consume their own power.</p>
-        <p>If you are a prosumer, OPP can enable you to know you power needs and capacities so you can buy, sell, use or store power, to optimise the benefits from you power investments.
+        <p>If you are a prosumer, OPP can enable you to know you power needs and capacities so you can buy, sell, use or store power, 
+        to optimise the benefits from your power investments.
         </p> 
         <p>Return to the 
            <a href="/">home</a> page
