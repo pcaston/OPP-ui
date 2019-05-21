@@ -92,6 +92,7 @@ export class AppliancesView extends PageViewElement {
     let self = this;
     this.ws.onmessage = function (message) {
       self.appliances = JSON.parse(message.data);
+      console.log(message.data);
     }
   }
 
@@ -107,6 +108,6 @@ export class AppliancesView extends PageViewElement {
   }
 
   private _getws() {
-    return new WebSocket ("ws://127.0.0.1:6789/")
+    return new WebSocket ("ws://127.0.0.1:8123/api/websocket")
   }
 }
