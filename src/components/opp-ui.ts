@@ -1,13 +1,3 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 import { LitElement, html, css, property, PropertyValues, customElement } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
@@ -21,8 +11,7 @@ import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
-import './snack-bar';
-import { timer } from 'rxjs';
+
 declare global {
     interface Window {
     decodeURIComponent(pathname: string): any;
@@ -36,11 +25,7 @@ export class OPPui extends LitElement {
 
   @property({type: Boolean}) private _drawerOpened = false;
 
-  @property({type: Boolean}) private _snackbarOpened = false;
-
   @property({type: Boolean}) private _offline = false;
-
-  @property({type: timer}) private __snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
 
   static get styles() {
     return [
@@ -227,10 +212,6 @@ export class OPPui extends LitElement {
       <footer>
         <p>Made with &hearts; by the Polymer team.</p>
       </footer>
-
-      <snack-bar ?active="${this._snackbarOpened}">
-        You are now ${this._offline ? 'offline' : 'online'}.
-      </snack-bar>
     `;
   }
 
@@ -273,9 +254,6 @@ export class OPPui extends LitElement {
       return;
     }
 
-    clearTimeout(this.__snackbarTimer);
-    this._snackbarOpened = true;
-    this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
   }
 
   protected _locationChanged(location: Location) {
