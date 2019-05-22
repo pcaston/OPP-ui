@@ -2,18 +2,27 @@ import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
+import { OpenPeerPower } from "../types";
+import './badges-list';
 import './appliance-list';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 import { Appliances } from './appliance-list';
+import { Badges } from './badges-list';
 
 @customElement('opp-home-view')
 export class AppliancesView extends PageViewElement {
 
   @property({type: Object})
+  private opp: OpenPeerPower = {};
+
+  @property({type: Object})
   private appliances: Appliances = {};
+
+  @property({type: Object})
+  private badges: Badges = {};
 
   @property({type: Object})
   private ws: WebSocket = this._getws();
@@ -55,6 +64,10 @@ export class AppliancesView extends PageViewElement {
 
   protected render() {
     return html`
+      <section>
+        <h3>Badges</h3>
+        <badge-list .opp="${this.opp}"></badge-list>
+      </section>
       <section>
         <h2>Discovered Appliances</h2>
 

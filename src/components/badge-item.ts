@@ -1,7 +1,7 @@
 import { LitElement, html, property, customElement } from 'lit-element';
 
-@customElement('appliance-item')
-export class ApplianceItem extends LitElement {
+@customElement('badge-item')
+export class BadgeItem extends LitElement {
   @property({type: String}) id = '';
 
   @property({type: String}) name = '';
