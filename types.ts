@@ -7,7 +7,7 @@ import {
   HassEntityBase,
   HassEntityAttributeBase,
   HassServices,
-} from "home-assistant-js-websocket";
+} from "open-peer-power-js-websocket";
 import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
 
@@ -225,13 +225,13 @@ export interface Route {
 }
 
 export interface PanelElement extends HTMLElement {
-  hass?: HomeAssistant;
+  opp?: HomeAssistant;
   narrow?: boolean;
   route?: Route | null;
   panel?: PanelInfo;
 }
 
 export interface LocalizeMixin {
-  hass?: HomeAssistant;
+  opp?: HomeAssistant;
   localize: LocalizeFunc;
 }

@@ -9,7 +9,7 @@ import {
   property,
 } from "lit-element";
 
-import { HassEntity } from "home-assistant-js-websocket";
+import { HassEntity } from "open-peer-power-js-websocket";
 import { classMap } from "lit-html/directives/class-map";
 import { fireEvent } from "../../common/dom/fire_event";
 import { OpenPeerPower } from "../../types";
@@ -25,7 +25,7 @@ import "../ha-label-badge";
 
 @customElement("ha-state-label-badge")
 export class HaStateLabelBadge extends LitElement {
-  @property() public hass?: OpenPeerPower;
+  @property() public opp?: OpenPeerPower;
 
   @property() public state?: HassEntity;
 
@@ -54,9 +54,9 @@ export class HaStateLabelBadge extends LitElement {
       return html`
         <ha-label-badge
           class="warning"
-          label="${this.hass!.localize("state_badge.default.error")}"
-          icon="hass:alert"
-          description="${this.hass!.localize(
+          label="${this.opp!.localize("state_badge.default.error")}"
+          icon="opp:alert"
+          description="${this.opp!.localize(
             "state_badge.default.entity_not_found"
           )}"
         ></ha-label-badge>
@@ -85,7 +85,7 @@ export class HaStateLabelBadge extends LitElement {
     this.addEventListener("click", (ev) => {
       ev.stopPropagation();
       if (this.state) {
-        fireEvent(this, "hass-more-info", { entityId: this.state.entity_id });
+        fireEvent(this, "opp-more-info", { entityId: this.state.entity_id });
       }
     });
   }
@@ -111,7 +111,7 @@ export class HaStateLabelBadge extends LitElement {
       default:
         return state.state === "unknown"
           ? "-"
-          : this.hass!.localize(`component.${domain}.state.${state.state}`) ||
+          : this.opp!.localize(`component.${domain}.state.${state.state}`) ||
               state.state;
     }
   }
@@ -123,22 +123,22 @@ export class HaStateLabelBadge extends LitElement {
     switch (domain) {
       case "alarm_control_panel":
         if (state.state === "pending") {
-          return "hass:clock-fast";
+          return "opp:clock-fast";
         }
         if (state.state === "armed_away") {
-          return "hass:nature";
+          return "opp:nature";
         }
         if (state.state === "armed_home") {
-          return "hass:home-variant";
+          return "opp:home-variant";
         }
         if (state.state === "armed_night") {
-          return "hass:weather-night";
+          return "opp:weather-night";
         }
         if (state.state === "armed_custom_bypass") {
-          return "hass:shield-home";
+          return "opp:shield-home";
         }
         if (state.state === "triggered") {
-          return "hass:alert-circle";
+          return "opp:alert-circle";
         }
         // state == 'disarmed'
         return domainIcon(domain, state.state);
@@ -150,9 +150,9 @@ export class HaStateLabelBadge extends LitElement {
       case "sun":
         return state.state === "above_horizon"
           ? domainIcon(domain)
-          : "hass:brightness-3";
+          : "opp:brightness-3";
       case "timer":
-        return state.state === "active" ? "hass:timer" : "hass:timer-off";
+        return state.state === "active" ? "opp:timer" : "opp:timer-off";
       default:
         return null;
     }
@@ -167,8 +167,8 @@ export class HaStateLabelBadge extends LitElement {
       // the state translations that are truncated to fit within the badge label. Translations
       // are only added for device_tracker, alarm_control_panel and person.
       return (
-        this.hass!.localize(`state_badge.${domain}.${state.state}`) ||
-        this.hass!.localize(`state_badge.default.${state.state}`) ||
+        this.opp!.localize(`state_badge.${domain}.${state.state}`) ||
+        this.opp!.localize(`state_badge.default.${state.state}`) ||
         state.state
       );
     }
