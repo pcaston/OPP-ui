@@ -21,9 +21,9 @@ import stateIcon from "../../common/entity/state_icon";
 import timerTimeRemaining from "../../common/entity/timer_time_remaining";
 import secondsToDuration from "../../common/datetime/seconds_to_duration";
 
-import "../ha-label-badge";
+import "../op-label-badge";
 
-@customElement("ha-state-label-badge")
+@customElement("op-state-label-badge")
 export class HaStateLabelBadge extends LitElement {
   @property() public opp?: OpenPeerPower;
 
@@ -52,21 +52,21 @@ export class HaStateLabelBadge extends LitElement {
 
     if (!state) {
       return html`
-        <ha-label-badge
+        <op-label-badge
           class="warning"
           label="${this.opp!.localize("state_badge.default.error")}"
           icon="opp:alert"
           description="${this.opp!.localize(
             "state_badge.default.entity_not_found"
           )}"
-        ></ha-label-badge>
+        ></op-label-badge>
       `;
     }
 
     const domain = computeStateDomain(state);
 
     return html`
-      <ha-label-badge
+      <op-label-badge
         class="${classMap({
           [domain]: true,
           "has-unit_of_measurement": "unit_of_measurement" in state.attributes,
@@ -76,7 +76,7 @@ export class HaStateLabelBadge extends LitElement {
         .image="${state.attributes.entity_picture}"
         .label="${this._computeLabel(domain, state, this._timerTimeRemaining)}"
         .description="${computeStateName(state)}"
-      ></ha-label-badge>
+      ></op-label-badge>
     `;
   }
 
@@ -209,40 +209,40 @@ export class HaStateLabelBadge extends LitElement {
         cursor: pointer;
       }
 
-      ha-label-badge {
-        --ha-label-badge-color: var(--label-badge-red, #df4c1e);
+      op-label-badge {
+        --op-label-badge-color: var(--label-badge-red, #df4c1e);
       }
-      ha-label-badge.has-unit_of_measurement {
-        --ha-label-badge-label-text-transform: none;
+      op-label-badge.has-unit_of_measurement {
+        --op-label-badge-label-text-transform: none;
       }
 
-      ha-label-badge.binary_sensor,
-      ha-label-badge.updater {
-        --ha-label-badge-color: var(--label-badge-blue, #039be5);
+      op-label-badge.binary_sensor,
+      op-label-badge.updater {
+        --op-label-badge-color: var(--label-badge-blue, #039be5);
       }
 
       .red {
-        --ha-label-badge-color: var(--label-badge-red, #df4c1e);
+        --op-label-badge-color: var(--label-badge-red, #df4c1e);
       }
 
       .blue {
-        --ha-label-badge-color: var(--label-badge-blue, #039be5);
+        --op-label-badge-color: var(--label-badge-blue, #039be5);
       }
 
       .green {
-        --ha-label-badge-color: var(--label-badge-green, #0da035);
+        --op-label-badge-color: var(--label-badge-green, #0da035);
       }
 
       .yellow {
-        --ha-label-badge-color: var(--label-badge-yellow, #f4b400);
+        --op-label-badge-color: var(--label-badge-yellow, #f4b400);
       }
 
       .grey {
-        --ha-label-badge-color: var(--label-badge-grey, var(--paper-grey-500));
+        --op-label-badge-color: var(--label-badge-grey, var(--paper-grey-500));
       }
 
       .warning {
-        --ha-label-badge-color: var(--label-badge-yellow, #fce588);
+        --op-label-badge-color: var(--label-badge-yellow, #fce588);
       }
     `;
   }
@@ -250,6 +250,6 @@ export class HaStateLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-state-label-badge": HaStateLabelBadge;
+    "op-state-label-badge": HaStateLabelBadge;
   }
 }

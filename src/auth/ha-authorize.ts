@@ -7,11 +7,11 @@ import {
   CSSResult,
   css,
 } from "lit-element";
-import "./ha-auth-flow";
+import "./op-auth-flow";
 import { AuthProvider, fetchAuthProviders } from "../data/auth";
 import { registerServiceWorker } from "../util/register-service-worker";
 
-import(/* webpackChunkName: "pick-auth-provider" */ "../auth/ha-pick-auth-provider");
+import(/* webpackChunkName: "pick-auth-provider" */ "../auth/op-pick-auth-provider");
 
 interface QueryParams {
   client_id?: string;
@@ -93,23 +93,23 @@ class HaAuthorize extends litLocalizeLiteMixin(LitElement) {
       </p>
       ${loggingInWith}
 
-      <ha-auth-flow
+      <op-auth-flow
         .resources="${this.resources}"
         .clientId="${this.clientId}"
         .redirectUri="${this.redirectUri}"
         .oauth2State="${this.oauth2State}"
         .authProvider="${this._authProvider}"
         .step="{{step}}"
-      ></ha-auth-flow>
+      ></op-auth-flow>
 
       ${inactiveProviders.length > 0
         ? html`
-            <ha-pick-auth-provider
+            <op-pick-auth-provider
               .resources="${this.resources}"
               .clientId="${this.clientId}"
               .authProviders="${inactiveProviders}"
               @pick-auth-provider="${this._handleAuthProviderPick}"
-            ></ha-pick-auth-provider>
+            ></op-pick-auth-provider>
           `
         : ""}
     `;
@@ -168,11 +168,11 @@ class HaAuthorize extends litLocalizeLiteMixin(LitElement) {
 
   static get styles(): CSSResult {
     return css`
-      ha-pick-auth-provider {
+      op-pick-auth-provider {
         display: block;
         margin-top: 48px;
       }
     `;
   }
 }
-customElements.define("ha-authorize", HaAuthorize);
+customElements.define("op-authorize", HaAuthorize);

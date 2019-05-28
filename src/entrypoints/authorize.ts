@@ -1,11 +1,11 @@
 import "@polymer/polymer/lib/elements/dom-if";
 import "@polymer/polymer/lib/elements/dom-repeat";
 
-import "../components/ha-iconset-svg";
-import "../resources/ha-style";
+import "../components/op-iconset-svg";
+import "../resources/op-style";
 import "../resources/roboto";
 
-import "../auth/ha-authorize";
+import "../auth/op-authorize";
 
 /* polyfill for paper-dropdown */
 setTimeout(

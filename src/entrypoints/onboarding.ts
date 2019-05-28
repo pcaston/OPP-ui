@@ -1,7 +1,7 @@
-import "../components/ha-iconset-svg";
-import "../resources/ha-style";
+import "../components/op-iconset-svg";
+import "../resources/op-style";
 import "../resources/roboto";
-import "../onboarding/ha-onboarding";
+import "../onboarding/op-onboarding";
 
 declare global {
   interface Window {

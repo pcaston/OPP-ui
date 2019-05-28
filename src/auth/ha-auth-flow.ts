@@ -7,8 +7,8 @@ import {
   css,
 } from "lit-element";
 import "@material/mwc-button";
-import "../components/ha-form";
-import "../components/ha-markdown";
+import "../components/op-form";
+import "../components/op-markdown";
 import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import { AuthProvider } from "../data/auth";
 import { ConfigFlowStep, ConfigFlowStepForm } from "../data/config_entries";
@@ -92,31 +92,31 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
       case "abort":
         return html`
           ${this.localize("ui.panel.page-authorize.abort_intro")}:
-          <ha-markdown
+          <op-markdown
             .content=${this.localize(
               `ui.panel.page-authorize.form.providers.${
                 step.handler[0]
               }.abort.${step.reason}`
             )}
-          ></ha-markdown>
+          ></op-markdown>
         `;
       case "form":
         return html`
           ${this._computeStepDescription(step)
             ? html`
-                <ha-markdown
+                <op-markdown
                   .content=${this._computeStepDescription(step)}
                   allow-svg
-                ></ha-markdown>
+                ></op-markdown>
               `
             : html``}
-          <ha-form
+          <op-form
             .data=${this._stepData}
             .schema=${step.data_schema}
             .error=${step.errors}
             .computeLabel=${this._computeLabelCallback(step)}
             .computeError=${this._computeErrorCallback(step)}
-          ></ha-form>
+          ></op-form>
         `;
       default:
         return html``;
@@ -213,7 +213,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
     await this.updateComplete;
     // 100ms to give all the form elements time to initialize.
     setTimeout(() => {
-      const form = this.shadowRoot!.querySelector("ha-form");
+      const form = this.shadowRoot!.querySelector("op-form");
       if (form) {
         (form as any).focus();
       }
@@ -234,7 +234,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _computeLabelCallback(step: ConfigFlowStepForm) {
-    // Returns a callback for ha-form to calculate labels per schema object
+    // Returns a callback for op-form to calculate labels per schema object
     return (schema) =>
       this.localize(
         `ui.panel.page-authorize.form.providers.${step.handler[0]}.step.${
@@ -244,7 +244,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _computeErrorCallback(step: ConfigFlowStepForm) {
-    // Returns a callback for ha-form to calculate error messages
+    // Returns a callback for op-form to calculate error messages
     return (error) =>
       this.localize(
         `ui.panel.page-authorize.form.providers.${
@@ -312,4 +312,4 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
     `;
   }
 }
-customElements.define("ha-auth-flow", HaAuthFlow);
+customElements.define("op-auth-flow", HaAuthFlow);
