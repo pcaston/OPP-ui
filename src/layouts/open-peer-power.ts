@@ -56,7 +56,7 @@ export class HomeAssistantAppEl extends HassElement {
       this._updateHass({ panelUrl: this._panelUrl });
     }
     if (changedProps.has("opp")) {
-      this.hassChanged(this.opp!, changedProps.get("opp") as
+      this.oppChanged(this.opp!, changedProps.get("opp") as
         | HomeAssistant
         | undefined);
     }
@@ -64,7 +64,7 @@ export class HomeAssistantAppEl extends HassElement {
 
   protected async _initialize() {
     try {
-      const { auth, conn } = await window.hassConnection;
+      const { auth, conn } = await window.oppConnection;
       this.initializeHass(auth, conn);
     } catch (err) {
       this._error = true;

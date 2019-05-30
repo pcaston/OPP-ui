@@ -14,11 +14,11 @@ import { subscribePanels } from "../data/ws-panels";
 import { subscribeThemes } from "../data/ws-themes";
 import { subscribeUser } from "../data/ws-user";
 import { HomeAssistant } from "../types";
-import { hassUrl } from "../data/auth";
+import { oppUrl } from "../data/auth";
 
 declare global {
   interface Window {
-    hassConnection: Promise<{ auth: Auth; conn: Connection }>;
+    oppConnection: Promise<{ auth: Auth; conn: Connection }>;
   }
 }
 
@@ -27,11 +27,11 @@ const isExternal = location.search.includes("external_auth=1");
 const authProm = isExternal
   ? () =>
       import(/* webpackChunkName: "external_auth" */ "../external_app/external_auth").then(
-        ({ createExternalAuth }) => createExternalAuth(hassUrl)
+        ({ createExternalAuth }) => createExternalAuth(oppUrl)
       )
   : () =>
       getAuth({
-        hassUrl,
+        oppUrl,
         saveTokens,
         loadTokens: () => Promise.resolve(loadTokens()),
       });
@@ -61,10 +61,10 @@ const connProm = async (auth) => {
   }
 };
 
-window.hassConnection = authProm().then(connProm);
+window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
-window.hassConnection.then(({ conn }) => {
+window.oppConnection.then(({ conn }) => {
   const noop = () => {
     // do nothing
   };

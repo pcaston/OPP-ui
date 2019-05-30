@@ -19,18 +19,18 @@ class HassSubpage extends LitElement {
   public root = false;
 
   @property({ type: Boolean })
-  public hassio = false;
+  public oppio = false;
 
   protected render(): TemplateResult | void {
     return html`
       <div class="toolbar">
         ${this.root
           ? html`
-              <op-menu-button .hassio=${this.hassio}></op-menu-button>
+              <op-menu-button .oppio=${this.oppio}></op-menu-button>
             `
           : html`
               <op-paper-icon-button-arrow-prev
-                .hassio=${this.hassio}
+                .oppio=${this.oppio}
                 @click=${this._backTapped}
               ></op-paper-icon-button-arrow-prev>
             `}
