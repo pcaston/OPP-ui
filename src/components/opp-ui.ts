@@ -187,6 +187,7 @@ export class OPPui extends LitElement {
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
+          <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-header>
@@ -198,6 +199,7 @@ export class OPPui extends LitElement {
         <nav class="drawer-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
+          <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>          
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
         </nav>
       </app-drawer>
@@ -206,7 +208,9 @@ export class OPPui extends LitElement {
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
+        <open-peer-power class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
+        <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -283,6 +287,9 @@ export class OPPui extends LitElement {
         break;
       case 'view_appliances':
         import('../components/opp-home-view');
+        break;
+      case 'opp':
+        import('../layouts/open-peer-power');
         break;
       case 'about':
         import('../components/about-page');
