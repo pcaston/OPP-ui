@@ -1,12 +1,12 @@
 import {
-  HassEntities,
-  HassConfig,
+  OppEntities,
+  OppConfig,
   Auth,
   Connection,
   MessageBase,
-  HassEntityBase,
-  HassEntityAttributeBase,
-  HassServices,
+  OppEntityBase,
+  OppEntityAttributeBase,
+  OppServices,
 } from "open-peer-power-js-websocket";
 import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
@@ -32,7 +32,7 @@ declare global {
     };
   }
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "value-changed": {
       value: unknown;
     };
@@ -114,13 +114,13 @@ export interface Resources {
   [language: string]: { [key: string]: string };
 }
 
-export interface HomeAssistant {
+export interface OpenPeerPower {
   auth: Auth & { external?: ExternalMessaging };
   connection: Connection;
   connected: boolean;
-  states: HassEntities;
-  services: HassServices;
-  config: HassConfig;
+  states: OppEntities;
+  services: OppServices;
+  config: OppConfig;
   themes: Themes;
   selectedTheme?: string | null;
   panels: Panels;
@@ -160,8 +160,8 @@ export interface HomeAssistant {
   callWS: <T>(msg: MessageBase) => Promise<T>;
 }
 
-export type ClimateEntity = HassEntityBase & {
-  attributes: HassEntityAttributeBase & {
+export type ClimateEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
     current_temperature: number;
     min_temp: number;
     max_temp: number;
@@ -184,8 +184,8 @@ export type ClimateEntity = HassEntityBase & {
   };
 };
 
-export type LightEntity = HassEntityBase & {
-  attributes: HassEntityAttributeBase & {
+export type LightEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
     min_mireds: number;
     max_mireds: number;
     friendly_name: string;
@@ -194,8 +194,8 @@ export type LightEntity = HassEntityBase & {
   };
 };
 
-export type GroupEntity = HassEntityBase & {
-  attributes: HassEntityAttributeBase & {
+export type GroupEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
     entity_id: string[];
     order: number;
     auto?: boolean;
@@ -204,8 +204,8 @@ export type GroupEntity = HassEntityBase & {
   };
 };
 
-export type CameraEntity = HassEntityBase & {
-  attributes: HassEntityAttributeBase & {
+export type CameraEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
     model_name: string;
     access_token: string;
     brand: string;
@@ -213,8 +213,8 @@ export type CameraEntity = HassEntityBase & {
   };
 };
 
-export type InputSelectEntity = HassEntityBase & {
-  attributes: HassEntityAttributeBase & {
+export type InputSelectEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
     options: string[];
   };
 };
@@ -225,13 +225,13 @@ export interface Route {
 }
 
 export interface PanelElement extends HTMLElement {
-  opp?: HomeAssistant;
+  opp?: OpenPeerPower;
   narrow?: boolean;
   route?: Route | null;
   panel?: PanelInfo;
 }
 
 export interface LocalizeMixin {
-  opp?: HomeAssistant;
+  opp?: OpenPeerPower;
   localize: LocalizeFunc;
 }

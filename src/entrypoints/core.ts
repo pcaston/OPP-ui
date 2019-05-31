@@ -13,7 +13,7 @@ import { loadTokens, saveTokens } from "../common/auth/token_storage";
 import { subscribePanels } from "../data/ws-panels";
 import { subscribeThemes } from "../data/ws-themes";
 import { subscribeUser } from "../data/ws-user";
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 import { oppUrl } from "../data/auth";
 
 declare global {
@@ -81,7 +81,7 @@ window.addEventListener("error", (e) => {
   if (
     homeAssistant &&
     homeAssistant.opp &&
-    (homeAssistant.opp as HomeAssistant).callService
+    (homeAssistant.opp as OpenPeerPower).callService
   ) {
     homeAssistant.opp.callService("system_log", "write", {
       logger: `frontend.${

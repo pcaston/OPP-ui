@@ -15,7 +15,7 @@ import { AppDrawerElement } from "@polymer/app-layout/app-drawer/app-drawer";
 import "@polymer/iron-media-query/iron-media-query";
 
 import "./partial-panel-resolver";
-import { HomeAssistant, Route } from "../types";
+import { OpenPeerPower, Route } from "../types";
 import { fireEvent } from "../common/dom/fire_event";
 import { PolymerChangedEvent } from "../polymer-types";
 
@@ -23,13 +23,13 @@ const NON_SWIPABLE_PANELS = ["kiosk", "map"];
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "opp-toggle-menu": undefined;
   }
 }
 
-class HomeAssistantMain extends LitElement {
-  @property() public opp?: HomeAssistant;
+class OpenPeerPowerMain extends LitElement {
+  @property() public opp?: OpenPeerPower;
   @property() public route?: Route;
   @property() private _narrow?: boolean;
 
@@ -101,10 +101,10 @@ class HomeAssistantMain extends LitElement {
       this.drawer.close();
     }
 
-    const oldHass = changedProps.get("opp") as HomeAssistant | undefined;
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
     // Make app-drawer adjust to a potential LTR/RTL change
-    if (oldHass && oldHass.language !== this.opp!.language) {
+    if (oldOpp && oldOpp.language !== this.opp!.language) {
       this.drawer._resetPosition();
     }
   }
@@ -136,4 +136,4 @@ class HomeAssistantMain extends LitElement {
   }
 }
 
-customElements.define("open-peer-power-main", HomeAssistantMain);
+customElements.define("open-peer-power-main", OpenPeerPowerMain);

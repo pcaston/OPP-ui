@@ -1,9 +1,9 @@
 import { property, customElement, PropertyValues } from "lit-element";
 import { PolymerElement } from "@polymer/polymer";
 
-import { HomeAssistant, Panels } from "../types";
+import { OpenPeerPower, Panels } from "../types";
 import {
-  HassRouterPage,
+  OppRouterPage,
   RouterOptions,
   RouteOptions,
 } from "./opp-router-page";
@@ -69,8 +69,8 @@ const getRoutes = (panels: Panels): RouterOptions => {
 };
 
 @customElement("partial-panel-resolver")
-class PartialPanelResolver extends HassRouterPage {
-  @property() public opp?: HomeAssistant;
+class PartialPanelResolver extends OppRouterPage {
+  @property() public opp?: OpenPeerPower;
   @property() public narrow?: boolean;
 
   protected updated(changedProps: PropertyValues) {
@@ -80,11 +80,11 @@ class PartialPanelResolver extends HassRouterPage {
       return;
     }
 
-    const oldHass = changedProps.get("opp") as this["opp"];
+    const oldOpp = changedProps.get("opp") as this["opp"];
 
     if (
       this.opp!.panels &&
-      (!oldHass || oldHass.panels !== this.opp!.panels)
+      (!oldOpp || oldOpp.panels !== this.opp!.panels)
     ) {
       this._updateRoutes();
     }

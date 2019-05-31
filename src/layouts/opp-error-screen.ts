@@ -11,7 +11,7 @@ import "@material/mwc-button";
 import "./opp-subpage";
 
 @customElement("opp-error-screen")
-class HassErrorScreen extends LitElement {
+class OppErrorScreen extends LitElement {
   @property()
   public error?: string;
 
@@ -49,6 +49,6 @@ class HassErrorScreen extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-error-screen": HassErrorScreen;
+    "opp-error-screen": OppErrorScreen;
   }
 }

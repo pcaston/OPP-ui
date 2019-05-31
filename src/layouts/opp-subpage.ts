@@ -11,7 +11,7 @@ import "../components/op-menu-button";
 import "../components/op-paper-icon-button-arrow-prev";
 
 @customElement("opp-subpage")
-class HassSubpage extends LitElement {
+class OppSubpage extends LitElement {
   @property()
   public header?: string;
 
@@ -92,6 +92,6 @@ class HassSubpage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-subpage": HassSubpage;
+    "opp-subpage": OppSubpage;
   }
 }

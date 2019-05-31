@@ -43,7 +43,7 @@ export interface RouterOptions {
 // Time to wait for code to load before we show loading screen.
 const LOADING_SCREEN_THRESHOLD = 400; // ms
 
-export class HassRouterPage extends UpdatingElement {
+export class OppRouterPage extends UpdatingElement {
   @property() public route?: Route;
 
   protected routerOptions!: RouterOptions;

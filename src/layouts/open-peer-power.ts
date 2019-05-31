@@ -7,14 +7,14 @@ import "../resources/op-style";
 import { registerServiceWorker } from "../util/register-service-worker";
 import { DEFAULT_PANEL } from "../common/const";
 
-import { Route, HomeAssistant } from "../types";
+import { Route, OpenPeerPower } from "../types";
 import { navigate } from "../common/navigate";
-import { HassElement } from "../state/opp-element";
+import { OppELement } from "../state/opp-element";
 
 (LitElement.prototype as any).html = html;
 (LitElement.prototype as any).css = css;
 
-export class HomeAssistantAppEl extends HassElement {
+export class OpenPeerPowerAppEl extends OppELement {
   @property() private _route?: Route;
   @property() private _error?: boolean;
   @property() private _panelUrl?: string;
@@ -53,11 +53,11 @@ export class HomeAssistantAppEl extends HassElement {
   protected updated(changedProps: PropertyValues): void {
     if (changedProps.has("_panelUrl")) {
       this.panelUrlChanged(this._panelUrl!);
-      this._updateHass({ panelUrl: this._panelUrl });
+      this._updateOpp({ panelUrl: this._panelUrl });
     }
     if (changedProps.has("opp")) {
       this.oppChanged(this.opp!, changedProps.get("opp") as
-        | HomeAssistant
+        | OpenPeerPower
         | undefined);
     }
   }
@@ -65,7 +65,7 @@ export class HomeAssistantAppEl extends HassElement {
   protected async _initialize() {
     try {
       const { auth, conn } = await window.oppConnection;
-      this.initializeHass(auth, conn);
+      this.initializeOpp(auth, conn);
     } catch (err) {
       this._error = true;
       return;
@@ -94,4 +94,4 @@ export class HomeAssistantAppEl extends HassElement {
   }
 }
 
-customElements.define("open-peer-power", HomeAssistantAppEl);
+customElements.define("open-peer-power", OpenPeerPowerAppEl);

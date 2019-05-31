@@ -7,7 +7,7 @@ import "../components/op-icon-next";
 import { AuthProvider } from "../data/auth";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "pick-auth-provider": AuthProvider;
   }
 }

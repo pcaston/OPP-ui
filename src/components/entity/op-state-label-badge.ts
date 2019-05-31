@@ -9,7 +9,7 @@ import {
   property,
 } from "lit-element";
 
-import { HassEntity } from "open-peer-power-js-websocket";
+import { OppEntity } from "open-peer-power-js-websocket";
 import { classMap } from "lit-html/directives/class-map";
 import { fireEvent } from "../../common/dom/fire_event";
 import { OpenPeerPower } from "../../types";
@@ -27,7 +27,7 @@ import "../op-label-badge";
 export class HaStateLabelBadge extends LitElement {
   @property() public opp?: OpenPeerPower;
 
-  @property() public state?: HassEntity;
+  @property() public state?: OppEntity;
 
   @property() private _timerTimeRemaining?: number;
 
@@ -98,7 +98,7 @@ export class HaStateLabelBadge extends LitElement {
     }
   }
 
-  private _computeValue(domain: string, state: HassEntity) {
+  private _computeValue(domain: string, state: OppEntity) {
     switch (domain) {
       case "binary_sensor":
       case "device_tracker":
@@ -116,7 +116,7 @@ export class HaStateLabelBadge extends LitElement {
     }
   }
 
-  private _computeIcon(domain: string, state: HassEntity) {
+  private _computeIcon(domain: string, state: OppEntity) {
     if (state.state === "unavailable") {
       return null;
     }

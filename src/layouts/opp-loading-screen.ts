@@ -14,7 +14,7 @@ import "../components/op-paper-icon-button-arrow-prev";
 import { haStyle } from "../resources/styles";
 
 @customElement("opp-loading-screen")
-class HassLoadingScreen extends LitElement {
+class OppLoadingScreen extends LitElement {
   @property({ type: Boolean }) public rootnav? = false;
 
   protected render(): TemplateResult | void {
@@ -57,6 +57,6 @@ class HassLoadingScreen extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-loading-screen": HassLoadingScreen;
+    "opp-loading-screen": OppLoadingScreen;
   }
 }
