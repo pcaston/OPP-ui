@@ -1,6 +1,6 @@
-import { HomeAssistant } from "../../types";
+import { OpenPeerPower } from "../../types";
 
-export function computeRTL(opp: HomeAssistant) {
+export function computeRTL(opp: OpenPeerPower) {
   const lang = opp.language || "en";
   if (opp.translationMetadata.translations[lang]) {
     return opp.translationMetadata.translations[lang].isRTL || false;
@@ -8,6 +8,6 @@ export function computeRTL(opp: HomeAssistant) {
   return false;
 }
 
-export function computeRTLDirection(opp: HomeAssistant) {
+export function computeRTLDirection(opp: OpenPeerPower) {
   return computeRTL(opp) ? "rtl" : "ltr";
 }

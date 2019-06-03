@@ -1,6 +1,6 @@
 import { translationMetadata } from "../resources/translations-metadata";
 import { fetchFrontendUserData } from "../data/frontend";
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 
 const STORAGE = window.localStorage || {};
 
@@ -42,7 +42,7 @@ function findAvailableLanguage(language: string) {
 /**
  * Get user selected language from backend
  */
-export async function getUserLanguage(opp: HomeAssistant) {
+export async function getUserLanguage(opp: OpenPeerPower) {
   const result = await fetchFrontendUserData(opp, "language");
   const language = result ? result.language : null;
   if (language) {

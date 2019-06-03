@@ -1,0 +1,1 @@
+{"version":3,"file":"page-view-element.js","sourceRoot":"","sources":["page-view-element.ts"],"names":[],"mappings":";;;;;;AAAA,OAAO,EAAE,UAAU,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AAEnD,MAAM,OAAO,eAAgB,SAAQ,UAAU;IAA/C;;QAOE,WAAM,GAAG,KAAK,CAAC;IACjB,CAAC;IAPC,kDAAkD;IACxC,YAAY;QACpB,OAAO,IAAI,CAAC,MAAM,CAAC;IACrB,CAAC;CAIF;AADC;IADC,QAAQ,CAAC,EAAC,IAAI,EAAE,OAAO,EAAC,CAAC;+CACX"}

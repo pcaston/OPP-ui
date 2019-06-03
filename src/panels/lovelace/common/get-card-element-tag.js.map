@@ -1,0 +1,1 @@
+{"version":3,"file":"get-card-element-tag.js","sourceRoot":"","sources":["get-card-element-tag.ts"],"names":[],"mappings":"AAAA,MAAM,kBAAkB,GAAG,SAAS,CAAC;AAErC,MAAM,UAAU,iBAAiB,CAAC,IAAY;IAC5C,OAAO,IAAI,CAAC,UAAU,CAAC,kBAAkB,CAAC;QACxC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,kBAAkB,CAAC,MAAM,CAAC;QACxC,CAAC,CAAC,OAAO,IAAI,OAAO,CAAC;AACzB,CAAC"}

@@ -2,7 +2,7 @@ import {
   getUser,
   Connection,
   getCollection,
-} from "home-assistant-js-websocket";
+} from "../open-peer-power-js-websocket/lib";
 import { CurrentUser } from "../types";
 
 export const userCollection = (conn: Connection) =>

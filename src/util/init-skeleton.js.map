@@ -1,0 +1,1 @@
+{"version":3,"file":"init-skeleton.js","sourceRoot":"","sources":["init-skeleton.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,kBAAkB,GAAG,GAAG,EAAE;IACrC,MAAM,MAAM,GAAG,QAAQ,CAAC,cAAc,CAAC,kBAAkB,CAAC,CAAC;IAC3D,IAAI,MAAM,EAAE;QACV,MAAM,CAAC,aAAc,CAAC,WAAW,CAAC,MAAM,CAAC,CAAC;KAC3C;AACH,CAAC,CAAC"}

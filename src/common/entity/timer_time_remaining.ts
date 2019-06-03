@@ -1,4 +1,4 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import durationToSeconds from "../datetime/duration_to_seconds";
 
 export default function timerTimeRemaining(stateObj: OppEntity) {

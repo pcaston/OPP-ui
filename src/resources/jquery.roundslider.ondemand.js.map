@@ -1,0 +1,1 @@
+{"version":3,"file":"jquery.roundslider.ondemand.js","sourceRoot":"","sources":["jquery.roundslider.ondemand.ts"],"names":[],"mappings":"AAOA,IAAI,MAAyB,CAAC;AAE9B,MAAM,CAAC,MAAM,eAAe,GAAG,KAAK,IAAuB,EAAE;IAC3D,IAAI,CAAC,MAAM,EAAE;QACX,MAAM,GAAG,MAAM,CAAC,4CAA4C,CAAC,sBAAsB,CAAC,CAAC;KACtF;IACD,OAAO,MAAM,CAAC;AAChB,CAAC,CAAC"}

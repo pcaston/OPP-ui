@@ -8,7 +8,7 @@ import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { computeLocalize } from "../common/translations/localize";
 import { computeRTL } from "../common/util/compute_rtl";
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 import { saveFrontendUserData } from "../data/frontend";
 import { storeState } from "../util/op-pref-storage";
 import { getOppTranslations } from "../data/translation";
@@ -68,7 +68,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       this._applyTranslations(this.opp);
     }
 
-    private _applyTranslations(opp: HomeAssistant) {
+    private _applyTranslations(opp: OpenPeerPower) {
       this.style.direction = computeRTL(opp) ? "rtl" : "ltr";
       this._loadCoreTranslations(opp.language);
       this._loadOppTranslations(opp.language);
@@ -114,7 +114,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
           ...data,
         },
       };
-      const changes: Partial<HomeAssistant> = { resources };
+      const changes: Partial<OpenPeerPower> = { resources };
       if (this.opp && language === this.opp.language) {
         changes.localize = computeLocalize(this, language, resources);
       }

@@ -1,4 +1,4 @@
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 
 declare global {
   // tslint:disable-next-line
@@ -10,7 +10,7 @@ export type ValidUserDataKey = keyof FrontendUserData;
 export const fetchFrontendUserData = async <
   UserDataKey extends ValidUserDataKey
 >(
-  opp: HomeAssistant,
+  opp: OpenPeerPower,
   key: UserDataKey
 ): Promise<FrontendUserData[UserDataKey] | null> => {
   const result = await opp.callWS<{
@@ -25,7 +25,7 @@ export const fetchFrontendUserData = async <
 export const saveFrontendUserData = async <
   UserDataKey extends ValidUserDataKey
 >(
-  opp: HomeAssistant,
+  opp: OpenPeerPower,
   key: UserDataKey,
   value: FrontendUserData[UserDataKey]
 ): Promise<void> =>

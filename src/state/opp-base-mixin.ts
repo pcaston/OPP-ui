@@ -3,31 +3,31 @@ import {
   // @ts-ignore
   property,
 } from "lit-element";
-import { Auth, Connection } from "home-assistant-js-websocket";
-import { HomeAssistant } from "../types";
+import { Auth, Connection } from "../open-peer-power-js-websocket/lib";
+import { OpenPeerPower } from "../types";
 
 /* tslint:disable */
 
 export class OppBaseEl {
-  protected opp?: HomeAssistant;
-  protected _pendingOpp: Partial<HomeAssistant> = {};
+  protected opp?: OpenPeerPower;
+  protected _pendingOpp: Partial<OpenPeerPower> = {};
   protected initializeOpp(_auth: Auth, _conn: Connection) {}
   protected oppConnected() {}
   protected oppReconnected() {}
   protected oppDisconnected() {}
-  protected oppChanged(_opp: HomeAssistant, _oldOpp?: HomeAssistant) {}
+  protected oppChanged(_opp: OpenPeerPower, _oldOpp?: OpenPeerPower) {}
   protected panelUrlChanged(_newPanelUrl: string) {}
   public provideOpp(_el: HTMLElement) {}
-  protected _updateOpp(_obj: Partial<HomeAssistant>) {}
+  protected _updateOpp(_obj: Partial<OpenPeerPower>) {}
 }
 
 export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
   // @ts-ignore
   class extends superClass {
-    protected _pendingOpp: Partial<HomeAssistant> = {};
+    protected _pendingOpp: Partial<OpenPeerPower> = {};
     private __provideOpp: HTMLElement[] = [];
     // @ts-ignore
-    @property() protected opp: HomeAssistant;
+    @property() protected opp: OpenPeerPower;
 
     // Exists so all methods can safely call super method
     protected oppConnected() {
@@ -57,7 +57,7 @@ export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
       el.opp = this.opp;
     }
 
-    protected async _updateOpp(obj: Partial<HomeAssistant>) {
+    protected async _updateOpp(obj: Partial<OpenPeerPower>) {
       if (!this.opp) {
         this._pendingOpp = { ...this._pendingOpp, ...obj };
         return;

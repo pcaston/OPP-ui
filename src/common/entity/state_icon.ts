@@ -1,5 +1,5 @@
 /** Return an icon representing a state. */
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { DEFAULT_DOMAIN_ICON } from "../const";
 
 import computeDomain from "./compute_domain";

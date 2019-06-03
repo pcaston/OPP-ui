@@ -1,3 +1,4 @@
+
 import "@polymer/app-route/app-location";
 import { html, LitElement, PropertyValues, css, property } from "lit-element";
 
@@ -46,6 +47,7 @@ export class OpenPeerPowerAppEl extends OppELement {
     super.firstUpdated(changedProps);
     this._initialize();
     setTimeout(registerServiceWorker, 1000);
+    debugger;
     /* polyfill for paper-dropdown */
     import(/* webpackChunkName: "polyfill-web-animations-next" */ "web-animations-js/web-animations-next-lite.min");
   }
@@ -64,6 +66,7 @@ export class OpenPeerPowerAppEl extends OppELement {
 
   protected async _initialize() {
     try {
+      debugger;
       const { auth, conn } = await window.oppConnection;
       this.initializeOpp(auth, conn);
     } catch (err) {
@@ -76,6 +79,7 @@ export class OpenPeerPowerAppEl extends OppELement {
     const route = ev.detail.value as Route;
     // If it's the first route that we process,
     // check if we should navigate away from /
+    debugger;
     if (
       this._route === undefined &&
       (route.path === "" || route.path === "/")

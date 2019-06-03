@@ -1,4 +1,4 @@
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 import { fetchFrontendUserData, saveFrontendUserData } from "./frontend";
 
 export interface FrontendTranslationData {
@@ -11,16 +11,16 @@ declare global {
   }
 }
 
-export const fetchTranslationPreferences = (opp: HomeAssistant) =>
+export const fetchTranslationPreferences = (opp: OpenPeerPower) =>
   fetchFrontendUserData(opp, "language");
 
 export const saveTranslationPreferences = (
-  opp: HomeAssistant,
+  opp: OpenPeerPower,
   data: FrontendTranslationData
 ) => saveFrontendUserData(opp, "language", data);
 
 export const getOppTranslations = async (
-  opp: HomeAssistant,
+  opp: OpenPeerPower,
   language: string
 ): Promise<{}> => {
   const result = await opp.callWS<{ resources: {} }>({
