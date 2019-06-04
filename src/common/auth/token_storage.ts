@@ -1,4 +1,4 @@
-import { AuthData } from "home-assistant-js-websocket";
+import { AuthData } from "../../open-peer-power-js-websocket/lib";
 
 const storage = window.localStorage || {};
 

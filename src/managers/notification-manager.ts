@@ -1,7 +1,7 @@
 import { computeRTL } from "../common/util/compute_rtl";
 import "../components/op-toast";
 import { LitElement, query, property, TemplateResult, html } from "lit-element";
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 // Typing
 // tslint:disable-next-line: no-duplicate-imports
 import { HaToast } from "../components/op-toast";
@@ -11,7 +11,7 @@ export interface ShowToastParams {
 }
 
 class NotificationManager extends LitElement {
-  @property() public opp!: HomeAssistant;
+  @property() public opp!: OpenPeerPower;
   @query("op-toast") private _toast!: HaToast;
 
   public showDialog({ message }: ShowToastParams) {

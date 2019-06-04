@@ -7,7 +7,7 @@ import {
   ERR_INVALID_AUTH,
   Auth,
   Connection,
-} from "open-peer-power-js-websocket";
+} from "../open-peer-power-js-websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
 import { subscribePanels } from "../data/ws-panels";

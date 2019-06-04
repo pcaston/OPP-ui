@@ -6,7 +6,7 @@ import {
   callService,
   Auth,
   Connection,
-} from "home-assistant-js-websocket";
+} from "../open-peer-power-js-websocket/lib";
 
 import { translationMetadata } from "../resources/translations-metadata";
 

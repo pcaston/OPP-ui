@@ -1,4 +1,4 @@
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 
 export interface AuthProvider {
   name: string;
@@ -17,7 +17,7 @@ export interface SignedPath {
 export const oppUrl = `${location.protocol}//${location.host}`;
 
 export const getSignedPath = (
-  opp: HomeAssistant,
+  opp: OpenPeerPower,
   path: string
 ): Promise<SignedPath> => opp.callWS({ type: "auth/sign_path", path });
 

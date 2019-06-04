@@ -1,0 +1,1 @@
+{"version":3,"file":"is-entity-id.js","sourceRoot":"","sources":["is-entity-id.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,UAAU,CAAC,KAAU;IACnC,IAAI,OAAO,KAAK,KAAK,QAAQ,EAAE;QAC7B,OAAO,8BAA8B,CAAC;KACvC;IACD,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,GAAG,CAAC,EAAE;QACxB,OAAO,mDAAmD,CAAC;KAC5D;IACD,OAAO,IAAI,CAAC;AACd,CAAC"}

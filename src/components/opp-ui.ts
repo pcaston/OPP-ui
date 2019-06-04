@@ -210,7 +210,6 @@ export class OPPui extends LitElement {
         <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <open-peer-power class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -227,6 +226,7 @@ export class OPPui extends LitElement {
   }
 
   protected firstUpdated() {
+    debugger;
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
@@ -289,6 +289,7 @@ export class OPPui extends LitElement {
         import('../components/opp-home-view');
         break;
       case 'opp':
+        debugger;
         import('../layouts/open-peer-power');
         break;
       case 'about':

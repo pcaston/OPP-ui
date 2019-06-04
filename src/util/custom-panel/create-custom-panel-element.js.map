@@ -1,0 +1,1 @@
+{"version":3,"file":"create-custom-panel-element.js","sourceRoot":"","sources":["create-custom-panel-element.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,wBAAwB,GAAG,CAAC,WAAW,EAAE,EAAE;IACtD,+EAA+E;IAC/E,MAAM,OAAO,GACX,UAAU,IAAI,WAAW;QACvB,CAAC,CAAC,YAAY,WAAW,CAAC,IAAI,EAAE;QAChC,CAAC,CAAC,WAAW,CAAC,IAAI,CAAC;IACvB,OAAO,QAAQ,CAAC,aAAa,CAAC,OAAO,CAAC,CAAC;AACzC,CAAC,CAAC"}

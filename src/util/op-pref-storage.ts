@@ -1,9 +1,9 @@
-import { HomeAssistant } from "../types";
+import { OpenPeerPower } from "../types";
 
 const STORED_STATE = ["dockedSidebar", "selectedTheme", "selectedLanguage"];
 const STORAGE = window.localStorage || {};
 
-export function storeState(opp: HomeAssistant) {
+export function storeState(opp: OpenPeerPower) {
   try {
     for (const key of STORED_STATE) {
       const value = opp[key];

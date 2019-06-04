@@ -1,0 +1,1 @@
+{"version":3,"file":"process-editor-entities.js","sourceRoot":"","sources":["process-editor-entities.ts"],"names":[],"mappings":"AAEA,MAAM,UAAU,qBAAqB,CAAC,QAAQ;IAC5C,OAAO,QAAQ,CAAC,GAAG,CAAC,CAAC,UAAU,EAAE,EAAE;QACjC,IAAI,OAAO,UAAU,KAAK,QAAQ,EAAE;YAClC,OAAO,EAAE,MAAM,EAAE,UAAU,EAAE,CAAC;SAC/B;QACD,OAAO,UAAU,CAAC;IACpB,CAAC,CAAC,CAAC;AACL,CAAC"}

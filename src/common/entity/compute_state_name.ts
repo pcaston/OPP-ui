@@ -1,4 +1,4 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import computeObjectId from "./compute_object_id";
 
 export default (stateObj: OppEntity): string =>

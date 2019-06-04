@@ -7,7 +7,7 @@ import {
   OppEntityBase,
   OppEntityAttributeBase,
   OppServices,
-} from './open-peer-power-js-websocket/lib/types';
+} from './open-peer-power-js-websocket/lib';
 
 declare global {
   var __DEV__: boolean;

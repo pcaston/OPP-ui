@@ -11,7 +11,7 @@ import "./op-auth-flow";
 import { AuthProvider, fetchAuthProviders } from "../data/auth";
 import { registerServiceWorker } from "../util/register-service-worker";
 
-import(/* webpackChunkName: "pick-auth-provider" */ "./op-pick-auth-provider");
+import(/* webpackChunkName: "pick-auth-provider" */ "../auth/op-pick-auth-provider");
 
 interface QueryParams {
   client_id?: string;
