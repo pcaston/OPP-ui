@@ -1,4 +1,4 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 
 export default function attributeClassNames(
   stateObj: OppEntity,

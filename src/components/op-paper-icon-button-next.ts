@@ -12,8 +12,8 @@ export class HaPaperIconButtonNext extends paperIconButtonClass {
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
-        ? "hass:chevron-right"
-        : "hass:chevron-left";
+        ? "opp:chevron-right"
+        : "opp:chevron-left";
 
     // calling super after setting icon to have it consistently show the icon (otherwise not always shown)
     super.connectedCallback();
@@ -22,8 +22,8 @@ export class HaPaperIconButtonNext extends paperIconButtonClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-paper-icon-button-next": HaPaperIconButtonNext;
+    "op-paper-icon-button-next": HaPaperIconButtonNext;
   }
 }
 
-customElements.define("ha-paper-icon-button-next", HaPaperIconButtonNext);
+customElements.define("op-paper-icon-button-next", HaPaperIconButtonNext);

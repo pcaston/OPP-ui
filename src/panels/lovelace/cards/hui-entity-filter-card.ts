@@ -36,8 +36,8 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
     }
   }
 
-  set hass(hass: OpenPeerPower) {
-    if (!hass || !this._config) {
+  set opp(opp: OpenPeerPower) {
+    if (!opp || !this._config) {
       return;
     }
 
@@ -46,7 +46,7 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
     }
 
     const entitiesList = this._configEntities.filter((entityConf) => {
-      const stateObj = hass.states[entityConf.entity];
+      const stateObj = opp.states[entityConf.entity];
       return stateObj && this._config!.state_filter.includes(stateObj.state);
     });
 
@@ -64,7 +64,7 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
     if (element.tagName !== "HUI-ERROR-CARD") {
       element.setConfig({ ...this._baseCardConfig!, entities: entitiesList });
       element.isPanel = this.isPanel;
-      element.hass = hass;
+      element.opp = opp;
     }
 
     // Attach element if it has never been attached.

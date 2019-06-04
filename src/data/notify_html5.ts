@@ -13,8 +13,8 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-export const getAppKey = async (hass: OpenPeerPower) => {
-  const res = await hass.callWS<string>({
+export const getAppKey = async (opp: OpenPeerPower) => {
+  const res = await opp.callWS<string>({
     type: "notify/html5/appkey",
   });
   return res ? urlBase64ToUint8Array(res) : null;

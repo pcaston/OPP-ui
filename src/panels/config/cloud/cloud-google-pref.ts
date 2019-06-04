@@ -10,9 +10,9 @@ import "@material/mwc-button";
 import "@polymer/paper-toggle-button/paper-toggle-button";
 // tslint:disable-next-line
 import { PaperToggleButtonElement } from "@polymer/paper-toggle-button/paper-toggle-button";
-import "../../../components/buttons/ha-call-api-button";
+import "../../../components/buttons/op-call-api-button";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { OpenPeerPower } from "../../../types";
@@ -26,7 +26,7 @@ export class CloudGooglePref extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       cloudStatus: {},
     };
   }
@@ -42,7 +42,7 @@ export class CloudGooglePref extends LitElement {
     } = this.cloudStatus.prefs;
 
     return html`
-      <ha-card header="Google Assistant">
+      <op-card header="Google Assistant">
         <paper-toggle-button
           id="google_enabled"
           .checked="${google_enabled}"
@@ -91,7 +91,7 @@ export class CloudGooglePref extends LitElement {
                 </div>
                 <p>Exposed entities:</p>
                 <cloud-exposed-entities
-                  .hass="${this.hass}"
+                  .opp="${this.opp}"
                   .filter="${this.cloudStatus!.google_entities}"
                   .supportedDomains="${this.cloudStatus!.google_domains}"
                 ></cloud-exposed-entities>
@@ -99,22 +99,22 @@ export class CloudGooglePref extends LitElement {
             : ""}
         </div>
         <div class="card-actions">
-          <ha-call-api-button
-            .hass="${this.hass}"
+          <op-call-api-button
+            .opp="${this.opp}"
             .disabled="${!google_enabled}"
             path="cloud/google_actions/sync"
-            >Sync devices</ha-call-api-button
+            >Sync devices</op-call-api-button
           >
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
   private async _toggleChanged(ev) {
     const toggle = ev.target as PaperToggleButtonElement;
     try {
-      await updateCloudPref(this.hass!, { [toggle.id]: toggle.checked! });
-      fireEvent(this, "ha-refresh-cloud-status");
+      await updateCloudPref(this.opp!, { [toggle.id]: toggle.checked! });
+      fireEvent(this, "op-refresh-cloud-status");
     } catch (err) {
       toggle.checked = !toggle.checked;
     }
@@ -123,10 +123,10 @@ export class CloudGooglePref extends LitElement {
   private async _pinChanged(ev) {
     const input = ev.target as PaperInputElement;
     try {
-      await updateCloudPref(this.hass!, {
+      await updateCloudPref(this.opp!, {
         [input.id]: input.value || null,
       });
-      fireEvent(this, "ha-refresh-cloud-status");
+      fireEvent(this, "op-refresh-cloud-status");
     } catch (err) {
       alert(`Unable to store pin: ${err.message}`);
       input.value = this.cloudStatus!.prefs.google_secure_devices_pin;
@@ -138,13 +138,13 @@ export class CloudGooglePref extends LitElement {
       a {
         color: var(--primary-color);
       }
-      ha-card > paper-toggle-button {
+      op-card > paper-toggle-button {
         margin: -4px 0;
         position: absolute;
         right: 8px;
         top: 32px;
       }
-      ha-call-api-button {
+      op-call-api-button {
         color: var(--primary-color);
         font-weight: 500;
       }

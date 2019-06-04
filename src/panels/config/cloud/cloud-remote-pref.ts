@@ -13,7 +13,7 @@ import "@polymer/paper-item/paper-item-body";
 // tslint:disable-next-line
 import { PaperToggleButtonElement } from "@polymer/paper-toggle-button/paper-toggle-button";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { OpenPeerPower } from "../../../types";
@@ -31,7 +31,7 @@ export class CloudRemotePref extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       cloudStatus: {},
     };
   }
@@ -49,16 +49,16 @@ export class CloudRemotePref extends LitElement {
 
     if (!remote_certificate) {
       return html`
-        <ha-card header="Remote Control">
+        <op-card header="Remote Control">
           <div class="preparing">
             Remote access is being prepared. We will notify you when it's ready.
           </div>
-        </ha-card>
+        </op-card>
       `;
     }
 
     return html`
-      <ha-card header="Remote Control">
+      <op-card header="Remote Control">
         <paper-toggle-button
           .checked="${remote_connected}"
           @change="${this._toggleChanged}"
@@ -84,7 +84,7 @@ export class CloudRemotePref extends LitElement {
               `
             : ""}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -99,11 +99,11 @@ export class CloudRemotePref extends LitElement {
 
     try {
       if (toggle.checked) {
-        await connectCloudRemote(this.hass!);
+        await connectCloudRemote(this.opp!);
       } else {
-        await disconnectCloudRemote(this.hass!);
+        await disconnectCloudRemote(this.opp!);
       }
-      fireEvent(this, "ha-refresh-cloud-status");
+      fireEvent(this, "op-refresh-cloud-status");
     } catch (err) {
       alert(err.message);
       toggle.checked = !toggle.checked;
@@ -118,7 +118,7 @@ export class CloudRemotePref extends LitElement {
       a {
         color: var(--primary-color);
       }
-      ha-card > paper-toggle-button {
+      op-card > paper-toggle-button {
         margin: -4px 0;
         position: absolute;
         right: 8px;

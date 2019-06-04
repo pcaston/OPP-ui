@@ -1162,7 +1162,7 @@
         "zwave": "Z-Wave",
         "vacuum": "Porszívó",
         "zha": "ZHA",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "lovelace": "Lovelace",
         "system_health": "Rendszer Állapot",

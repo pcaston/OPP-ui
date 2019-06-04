@@ -9,18 +9,18 @@ import {
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-input/paper-input";
 
-import "../../../components/dialog/ha-paper-dialog";
+import "../../../components/dialog/op-paper-dialog";
 
 import { EntityRegistryDetailDialogParams } from "./show-dialog-entity-registry-detail";
 import { PolymerChangedEvent } from "../../../polymer-types";
-import { haStyleDialog } from "../../../resources/styles";
+import { opStyleDialog } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import computeDomain from "../../../common/entity/compute_domain";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import computeStateName from "../../../common/entity/compute_state_name";
 
 class DialogEntityRegistryDetail extends LitElement {
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
   private _name!: string;
   private _entityId!: string;
   private _error?: string;
@@ -51,13 +51,13 @@ class DialogEntityRegistryDetail extends LitElement {
       return html``;
     }
     const entry = this._params.entry;
-    const stateObj: HassEntity | undefined = this.hass.states[entry.entity_id];
+    const stateObj: OppEntity | undefined = this.opp.states[entry.entity_id];
     const invalidDomainUpdate =
       computeDomain(this._entityId.trim()) !==
       computeDomain(this._params.entry.entity_id);
 
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         @opened-changed="${this._openedChanged}"
@@ -67,7 +67,7 @@ class DialogEntityRegistryDetail extends LitElement {
           ${!stateObj
             ? html`
                 <div>
-                  ${this.hass!.localize(
+                  ${this.opp!.localize(
                     "ui.panel.config.entity_registry.editor.unavailable"
                   )}
                 </div>
@@ -82,14 +82,14 @@ class DialogEntityRegistryDetail extends LitElement {
             <paper-input
               .value=${this._name}
               @value-changed=${this._nameChanged}
-              .label=${this.hass.localize("ui.dialogs.more_info_settings.name")}
+              .label=${this.opp.localize("ui.dialogs.more_info_settings.name")}
               .placeholder=${stateObj ? computeStateName(stateObj) : ""}
               .disabled=${this._submitting}
             ></paper-input>
             <paper-input
               .value=${this._entityId}
               @value-changed=${this._entityIdChanged}
-              .label=${this.hass.localize(
+              .label=${this.opp.localize(
                 "ui.dialogs.more_info_settings.entity_id"
               )}
               error-message="Domain needs to stay the same"
@@ -104,7 +104,7 @@ class DialogEntityRegistryDetail extends LitElement {
             @click="${this._deleteEntry}"
             .disabled=${this._submitting}
           >
-            ${this.hass.localize(
+            ${this.opp.localize(
               "ui.panel.config.entity_registry.editor.delete"
             )}
           </mwc-button>
@@ -112,12 +112,12 @@ class DialogEntityRegistryDetail extends LitElement {
             @click="${this._updateEntry}"
             .disabled=${invalidDomainUpdate || this._submitting}
           >
-            ${this.hass.localize(
+            ${this.opp.localize(
               "ui.panel.config.entity_registry.editor.update"
             )}
           </mwc-button>
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -165,9 +165,9 @@ class DialogEntityRegistryDetail extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
-        ha-paper-dialog {
+        op-paper-dialog {
           min-width: 400px;
         }
         .form {

@@ -12,25 +12,25 @@ import "@polymer/paper-item/paper-item-body";
 import { OpenPeerPower } from "../../types";
 import { createConfigFlow } from "../../data/config_entries";
 import { fireEvent } from "../../common/dom/fire_event";
-import "../../components/ha-icon-next";
+import "../../components/op-icon-next";
 
 @customElement("step-flow-pick-handler")
 class StepFlowPickHandler extends LitElement {
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
   public handlers!: string[];
 
   protected render(): TemplateResult | void {
     return html`
-      <h2>${this.hass.localize("ui.panel.config.integrations.new")}</h2>
+      <h2>${this.opp.localize("ui.panel.config.integrations.new")}</h2>
       <div>
         ${this.handlers.map(
           (handler) =>
             html`
               <paper-item @click=${this._handlerPicked} .handler=${handler}>
                 <paper-item-body>
-                  ${this.hass.localize(`component.${handler}.config.title`)}
+                  ${this.opp.localize(`component.${handler}.config.title`)}
                 </paper-item-body>
-                <ha-icon-next></ha-icon-next>
+                <op-icon-next></op-icon-next>
               </paper-item>
             `
         )}
@@ -40,7 +40,7 @@ class StepFlowPickHandler extends LitElement {
 
   private async _handlerPicked(ev) {
     fireEvent(this, "flow-update", {
-      stepPromise: createConfigFlow(this.hass, ev.currentTarget.handler),
+      stepPromise: createConfigFlow(this.opp, ev.currentTarget.handler),
     });
   }
 

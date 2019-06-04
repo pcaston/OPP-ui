@@ -60,19 +60,19 @@ export type ActionConfig =
   | NoActionConfig;
 
 export const fetchConfig = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   force: boolean
 ): Promise<LovelaceConfig> =>
-  hass.callWS({
+  opp.callWS({
     type: "lovelace/config",
     force,
   });
 
 export const saveConfig = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   config: LovelaceConfig
 ): Promise<void> =>
-  hass.callWS({
+  opp.callWS({
     type: "lovelace/config/save",
     config,
   });

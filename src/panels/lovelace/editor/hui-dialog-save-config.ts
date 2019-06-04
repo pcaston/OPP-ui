@@ -8,9 +8,9 @@ import {
   property,
 } from "lit-element";
 import "@polymer/paper-spinner/paper-spinner";
-import "../../../components/dialog/ha-paper-dialog";
+import "../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 
 import { haStyleDialog } from "../../../resources/styles";
@@ -37,28 +37,28 @@ export class HuiSaveConfig extends LitElement {
   }
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   protected render(): TemplateResult | void {
     return html`
-      <ha-paper-dialog with-backdrop>
+      <op-paper-dialog with-backdrop>
         <h2>
-          ${this.hass!.localize("ui.panel.lovelace.editor.save_config.header")}
+          ${this.opp!.localize("ui.panel.lovelace.editor.save_config.header")}
         </h2>
         <paper-dialog-scrollable>
           <p>
-            ${this.hass!.localize("ui.panel.lovelace.editor.save_config.para")}
+            ${this.opp!.localize("ui.panel.lovelace.editor.save_config.para")}
           </p>
           <p>
-            ${this.hass!.localize(
+            ${this.opp!.localize(
               "ui.panel.lovelace.editor.save_config.para_sure"
             )}
           </p>
         </paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._closeDialog}"
-            >${this.hass!.localize(
+            >${this.opp!.localize(
               "ui.panel.lovelace.editor.save_config.cancel"
             )}</mwc-button
           >
@@ -67,12 +67,12 @@ export class HuiSaveConfig extends LitElement {
               ?active="${this._saving}"
               alt="Saving"
             ></paper-spinner>
-            ${this.hass!.localize(
+            ${this.opp!.localize(
               "ui.panel.lovelace.editor.save_config.save"
             )}</mwc-button
           >
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -81,7 +81,7 @@ export class HuiSaveConfig extends LitElement {
   }
 
   private async _saveConfig(): Promise<void> {
-    if (!this.hass || !this._params) {
+    if (!this.opp || !this._params) {
       return;
     }
     this._saving = true;
@@ -102,18 +102,18 @@ export class HuiSaveConfig extends LitElement {
       haStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
-          /* overrule the ha-style-dialog max-height on small screens */
-          ha-paper-dialog {
+          /* overrule the op-style-dialog max-height on small screens */
+          op-paper-dialog {
             max-height: 100%;
             height: 100%;
           }
         }
         @media all and (min-width: 660px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             width: 650px;
           }
         }
-        ha-paper-dialog {
+        op-paper-dialog {
           max-width: 650px;
         }
         paper-spinner {

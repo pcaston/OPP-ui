@@ -6,35 +6,35 @@ export interface ShoppingListItem {
   complete: boolean;
 }
 
-export const fetchItems = (hass: OpenPeerPower): Promise<ShoppingListItem[]> =>
-  hass.callWS({
+export const fetchItems = (opp: OpenPeerPower): Promise<ShoppingListItem[]> =>
+  opp.callWS({
     type: "shopping_list/items",
   });
 
 export const updateItem = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   itemId: number,
   item: {
     name?: string;
     complete?: boolean;
   }
 ): Promise<ShoppingListItem> =>
-  hass.callWS({
+  opp.callWS({
     type: "shopping_list/items/update",
     item_id: itemId,
     ...item,
   });
 
-export const clearItems = (hass: OpenPeerPower): Promise<void> =>
-  hass.callWS({
+export const clearItems = (opp: OpenPeerPower): Promise<void> =>
+  opp.callWS({
     type: "shopping_list/items/clear",
   });
 
 export const addItem = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   name: string
 ): Promise<ShoppingListItem> =>
-  hass.callWS({
+  opp.callWS({
     type: "shopping_list/items/add",
     name,
   });

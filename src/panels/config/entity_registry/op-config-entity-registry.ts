@@ -17,23 +17,23 @@ import {
   removeEntityRegistryEntry,
   subscribeEntityRegistry,
 } from "../../../data/entity_registry";
-import "../../../layouts/hass-subpage";
-import "../../../layouts/hass-loading-screen";
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-loading-screen";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 import domainIcon from "../../../common/entity/domain_icon";
 import stateIcon from "../../../common/entity/state_icon";
 import computeDomain from "../../../common/entity/compute_domain";
-import "../ha-config-section";
+import "../op-config-section";
 import {
   showEntityRegistryDetailDialog,
   loadEntityRegistryDetailDialog,
 } from "./show-dialog-entity-registry-detail";
-import { UnsubscribeFunc } from "home-assistant-js-websocket";
+import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 import { compare } from "../../../common/string/compare";
 
 class HaConfigEntityRegistry extends LitElement {
-  @property() public hass!: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _entities?: EntityRegistryEntry[];
   private _unsubEntities?: UnsubscribeFunc;
@@ -46,53 +46,53 @@ class HaConfigEntityRegistry extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || this._entities === undefined) {
+    if (!this.opp || this._entities === undefined) {
       return html`
-        <hass-loading-screen></hass-loading-screen>
+        <opp-loading-screen></opp-loading-screen>
       `;
     }
     return html`
-      <hass-subpage
-        header="${this.hass.localize(
+      <opp-subpage
+        header="${this.opp.localize(
           "ui.panel.config.entity_registry.caption"
         )}"
       >
-        <ha-config-section .isWide=${this.isWide}>
+        <op-config-section .isWide=${this.isWide}>
           <span slot="header">
-            ${this.hass.localize(
+            ${this.opp.localize(
               "ui.panel.config.entity_registry.picker.header"
             )}
           </span>
           <span slot="introduction">
-            ${this.hass.localize(
+            ${this.opp.localize(
               "ui.panel.config.entity_registry.picker.introduction"
             )}
             <p>
-              ${this.hass.localize(
+              ${this.opp.localize(
                 "ui.panel.config.entity_registry.picker.introduction2"
               )}
             </p>
             <a href="/config/integrations">
-              ${this.hass.localize(
+              ${this.opp.localize(
                 "ui.panel.config.entity_registry.picker.integrations_page"
               )}
             </a>
           </span>
-          <ha-card>
+          <op-card>
             ${this._entities.map((entry) => {
-              const state = this.hass!.states[entry.entity_id];
+              const state = this.opp!.states[entry.entity_id];
               return html`
                 <paper-icon-item @click=${this._openEditEntry} .entry=${entry}>
-                  <ha-icon
+                  <op-icon
                     slot="item-icon"
                     .icon=${state
                       ? stateIcon(state)
                       : domainIcon(computeDomain(entry.entity_id))}
-                  ></ha-icon>
+                  ></op-icon>
                   <paper-item-body two-line>
                     <div class="name">
-                      ${computeEntityRegistryName(this.hass!, entry) ||
-                        this.hass!.localize(
+                      ${computeEntityRegistryName(this.opp!, entry) ||
+                        this.opp!.localize(
                           "ui.panel.config.entity_registry.picker.unavailable"
                         )}
                     </div>
@@ -104,9 +104,9 @@ class HaConfigEntityRegistry extends LitElement {
                 </paper-icon-item>
               `;
             })}
-          </ha-card>
-        </ha-config-section>
-      </hass-subpage>
+          </op-card>
+        </op-config-section>
+      </opp-subpage>
     `;
   }
 
@@ -118,7 +118,7 @@ class HaConfigEntityRegistry extends LitElement {
   protected updated(changedProps) {
     super.updated(changedProps);
     if (!this._unsubEntities) {
-      this._unsubEntities = subscribeEntityRegistry(this.hass, (entities) => {
+      this._unsubEntities = subscribeEntityRegistry(this.opp, (entities) => {
         this._entities = entities.sort((ent1, ent2) =>
           compare(ent1.entity_id, ent2.entity_id)
         );
@@ -132,7 +132,7 @@ class HaConfigEntityRegistry extends LitElement {
       entry,
       updateEntry: async (updates) => {
         const updated = await updateEntityRegistryEntry(
-          this.hass!,
+          this.opp!,
           entry.entity_id,
           updates
         );
@@ -152,7 +152,7 @@ Deleting an entry will not remove the entity from Home Assistant. To do this, yo
         }
 
         try {
-          await removeEntityRegistryEntry(this.hass!, entry.entity_id);
+          await removeEntityRegistryEntry(this.opp!, entry.entity_id);
           this._entities = this._entities!.filter((ent) => ent !== entry);
           return true;
         } catch (err) {
@@ -167,18 +167,18 @@ Deleting an entry will not remove the entity from Home Assistant. To do this, yo
       a {
         color: var(--primary-color);
       }
-      ha-card {
+      op-card {
         direction: ltr;
         overflow: hidden;
       }
       paper-icon-item {
         cursor: pointer;
       }
-      ha-icon {
+      op-icon {
         margin-left: 8px;
       }
     `;
   }
 }
 
-customElements.define("ha-config-entity-registry", HaConfigEntityRegistry);
+customElements.define("op-config-entity-registry", HaConfigEntityRegistry);

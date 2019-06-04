@@ -45,22 +45,22 @@ class HuiConditionalElement extends HTMLElement implements LovelaceElement {
     this.updateElements();
   }
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
 
     this.updateElements();
   }
 
   private updateElements() {
-    if (!this._hass || !this._config) {
+    if (!this._opp || !this._config) {
       return;
     }
 
-    const visible = checkConditionsMet(this._config.conditions, this._hass);
+    const visible = checkConditionsMet(this._config.conditions, this._opp);
 
     this._elements.map((el: LovelaceElement) => {
       if (visible) {
-        el.hass = this._hass;
+        el.opp = this._opp;
         if (!el.parentElement) {
           this.appendChild(el);
         }

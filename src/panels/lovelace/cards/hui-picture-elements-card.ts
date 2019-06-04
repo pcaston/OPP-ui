@@ -20,11 +20,11 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
 
   private _opp?: OpenPeerPower;
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
     for (const el of this.shadowRoot!.querySelectorAll("#root > *")) {
       const element = el as LovelaceElement;
-      element.hass = this._hass;
+      element.opp = this._opp;
     }
   }
 
@@ -53,10 +53,10 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card .header="${this._config.title}">
+      <op-card .header="${this._config.title}">
         <div id="root">
           <hui-image
-            .hass="${this._hass}"
+            .opp="${this._opp}"
             .image="${this._config.image}"
             .stateImage="${this._config.state_image}"
             .cameraImage="${this._config.camera_image}"
@@ -67,13 +67,13 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
           ${this._config.elements.map(
             (elementConfig: LovelaceElementConfig) => {
               const element = createStyledHuiElement(elementConfig);
-              element.hass = this._hass;
+              element.opp = this._opp;
 
               return element;
             }
           )}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -88,7 +88,7 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
         transform: translate(-50%, -50%);
       }
 
-      ha-card {
+      op-card {
         overflow: hidden;
       }
     `;

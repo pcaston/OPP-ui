@@ -1,6 +1,6 @@
-import "../../../components/buttons/ha-call-service-button";
-import "../../../components/ha-service-description";
-import "../ha-config-section";
+import "../../../components/buttons/op-call-service-button";
+import "../../../components/op-service-description";
+import "../op-config-section";
 import "@material/mwc-button";
 import "@polymer/paper-card/paper-card";
 import "@polymer/paper-icon-button/paper-icon-button";
@@ -15,7 +15,7 @@ import {
 } from "lit-element";
 
 import { navigate } from "../../../common/navigate";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 
 export class ZHANetwork extends LitElement {
@@ -30,7 +30,7 @@ export class ZHANetwork extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       isWide: {},
       _showHelp: {},
       _joinParams: {},
@@ -39,13 +39,13 @@ export class ZHANetwork extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <ha-config-section .isWide="${this.isWide}">
+      <op-config-section .isWide="${this.isWide}">
         <div style="position: relative" slot="header">
           <span>Network Management</span>
           <paper-icon-button
             class="toggle-help-icon"
             @click="${this._onHelpTap}"
-            icon="hass:help-circle"
+            icon="opp:help-circle"
           ></paper-icon-button>
         </div>
         <span slot="introduction">Commands that affect entire network</span>
@@ -57,8 +57,8 @@ export class ZHANetwork extends LitElement {
             </mwc-button>
             ${this._showHelp
               ? html`
-                  <ha-service-description
-                    .hass="${this.hass}"
+                  <op-service-description
+                    .opp="${this.opp}"
                     domain="zha"
                     service="permit"
                     class="help-text2"
@@ -67,7 +67,7 @@ export class ZHANetwork extends LitElement {
               : ""}
           </div>
         </paper-card>
-      </ha-config-section>
+      </op-config-section>
     `;
   }
 
@@ -81,7 +81,7 @@ export class ZHANetwork extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .content {
           margin-top: 24px;
@@ -93,7 +93,7 @@ export class ZHANetwork extends LitElement {
           max-width: 600px;
         }
 
-        .card-actions.warning ha-call-service-button {
+        .card-actions.warning op-call-service-button {
           color: var(--google-red-500);
         }
 
@@ -104,7 +104,7 @@ export class ZHANetwork extends LitElement {
           color: var(--primary-color);
         }
 
-        ha-service-description {
+        op-service-description {
           display: block;
           color: grey;
         }

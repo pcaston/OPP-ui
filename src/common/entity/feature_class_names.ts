@@ -1,4 +1,4 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { supportsFeature } from "./supports-feature";
 
 // Expects classNames to be an object mapping feature-bit -> className

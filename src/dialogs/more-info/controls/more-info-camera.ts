@@ -16,7 +16,7 @@ import {
   updateCameraPrefs,
 } from "../../../data/camera";
 import { supportsFeature } from "../../../common/entity/supports-feature";
-import "../../../components/ha-camera-stream";
+import "../../../components/op-camera-stream";
 import "@polymer/paper-checkbox/paper-checkbox";
 // Not duplicate import, it's for typing
 // tslint:disable-next-line
@@ -28,16 +28,16 @@ class MoreInfoCamera extends LitElement {
   @property() private _cameraPrefs?: CameraPreferences;
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.stateObj) {
+    if (!this.opp || !this.stateObj) {
       return html``;
     }
 
     return html`
-      <ha-camera-stream
-        .hass="${this.hass}"
+      <op-camera-stream
+        .opp="${this.opp}"
         .stateObj="${this.stateObj}"
         showcontrols
-      ></ha-camera-stream>
+      ></op-camera-stream>
       ${this._cameraPrefs
         ? html`
             <paper-checkbox
@@ -67,7 +67,7 @@ class MoreInfoCamera extends LitElement {
 
     if (
       curEntityId &&
-      this.hass!.config.components.includes("stream") &&
+      this.opp!.config.components.includes("stream") &&
       supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     ) {
       // Fetch in background while we set up the video.
@@ -77,7 +77,7 @@ class MoreInfoCamera extends LitElement {
 
   private async _fetchCameraPrefs() {
     this._cameraPrefs = await fetchCameraPrefs(
-      this.hass!,
+      this.opp!,
       this.stateObj!.entity_id
     );
   }
@@ -86,7 +86,7 @@ class MoreInfoCamera extends LitElement {
     const checkbox = ev.currentTarget as PaperCheckboxElement;
     try {
       this._cameraPrefs = await updateCameraPrefs(
-        this.hass!,
+        this.opp!,
         this.stateObj!.entity_id,
         {
           preload_stream: checkbox.checked!,

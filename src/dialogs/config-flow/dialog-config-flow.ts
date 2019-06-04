@@ -12,15 +12,15 @@ import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-tooltip/paper-tooltip";
 import "@polymer/paper-spinner/paper-spinner";
-import { UnsubscribeFunc } from "home-assistant-js-websocket";
+import { UnsubscribeFunc } from "../../open-peer-power-js-websocket/lib";
 
-import "../../components/ha-form";
-import "../../components/ha-markdown";
-import "../../resources/ha-style";
-import "../../components/dialog/ha-paper-dialog";
+import "../../components/op-form";
+import "../../components/op-markdown";
+import "../../resources/op-style";
+import "../../components/dialog/op-paper-dialog";
 // Not duplicate, is for typing
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../components/dialog/op-paper-dialog";
 import { haStyleDialog } from "../../resources/styles";
 import {
   fetchConfigFlow,
@@ -62,7 +62,7 @@ declare global {
 
 @customElement("dialog-config-flow")
 class ConfigFlowDialog extends LitElement {
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
   @property() private _params?: HaConfigFlowParams;
   @property() private _loading = true;
   private _instance = instance;
@@ -90,11 +90,11 @@ class ConfigFlowDialog extends LitElement {
         this._loading = true;
         this.updateComplete.then(() => this._scheduleCenterDialog());
         try {
-          this._handlers = (await getConfigFlowHandlers(this.hass)).sort(
+          this._handlers = (await getConfigFlowHandlers(this.opp)).sort(
             (handlerA, handlerB) =>
               caseInsensitiveCompare(
-                this.hass.localize(`component.${handlerA}.config.title`),
-                this.hass.localize(`component.${handlerB}.config.title`)
+                this.opp.localize(`component.${handlerA}.config.title`),
+                this.opp.localize(`component.${handlerB}.config.title`)
               )
           );
         } finally {
@@ -108,7 +108,7 @@ class ConfigFlowDialog extends LitElement {
 
     this._loading = true;
     const curInstance = this._instance;
-    const step = await fetchConfigFlow(this.hass, params.continueFlowId);
+    const step = await fetchConfigFlow(this.opp, params.continueFlowId);
 
     // Happens if second showDialog called
     if (curInstance !== this._instance) {
@@ -128,7 +128,7 @@ class ConfigFlowDialog extends LitElement {
     }
 
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         @opened-changed=${this._openedChanged}
@@ -145,7 +145,7 @@ class ConfigFlowDialog extends LitElement {
           ? // Show handler picker
             html`
               <step-flow-pick-handler
-                .hass=${this.hass}
+                .opp=${this.opp}
                 .handlers=${this._handlers}
               ></step-flow-pick-handler>
             `
@@ -153,21 +153,21 @@ class ConfigFlowDialog extends LitElement {
           ? html`
               <step-flow-form
                 .step=${this._step}
-                .hass=${this.hass}
+                .opp=${this.opp}
               ></step-flow-form>
             `
           : this._step.type === "external"
           ? html`
               <step-flow-external
                 .step=${this._step}
-                .hass=${this.hass}
+                .opp=${this.opp}
               ></step-flow-external>
             `
           : this._step.type === "abort"
           ? html`
               <step-flow-abort
                 .step=${this._step}
-                .hass=${this.hass}
+                .opp=${this.opp}
               ></step-flow-abort>
             `
           : this._devices === undefined || this._areas === undefined
@@ -178,12 +178,12 @@ class ConfigFlowDialog extends LitElement {
           : html`
               <step-flow-create-entry
                 .step=${this._step}
-                .hass=${this.hass}
+                .opp=${this.opp}
                 .devices=${this._devices}
                 .areas=${this._areas}
               ></step-flow-create-entry>
             `}
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -215,11 +215,11 @@ class ConfigFlowDialog extends LitElement {
   }
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   private async _fetchDevices(configEntryId) {
-    this._unsubDevices = subscribeDeviceRegistry(this.hass, (devices) => {
+    this._unsubDevices = subscribeDeviceRegistry(this.opp, (devices) => {
       this._devices = devices.filter((device) =>
         device.config_entries.includes(configEntryId)
       );
@@ -227,7 +227,7 @@ class ConfigFlowDialog extends LitElement {
   }
 
   private async _fetchAreas() {
-    this._unsubAreas = subscribeAreaRegistry(this.hass, (areas) => {
+    this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
       this._areas = areas;
     });
   }
@@ -264,7 +264,7 @@ class ConfigFlowDialog extends LitElement {
 
     // If we created this flow, delete it now.
     if (this._step && !flowFinished && !this._params.continueFlowId) {
-      deleteConfigFlow(this.hass, this._step.flow_id);
+      deleteConfigFlow(this.opp, this._step.flow_id);
     }
 
     this._params.dialogClosedCallback({
@@ -301,10 +301,10 @@ class ConfigFlowDialog extends LitElement {
     return [
       haStyleDialog,
       css`
-        ha-paper-dialog {
+        op-paper-dialog {
           max-width: 500px;
         }
-        ha-paper-dialog > * {
+        op-paper-dialog > * {
           margin: 0;
           display: block;
           padding: 0;

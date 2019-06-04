@@ -11,7 +11,7 @@ import {
   customElement,
 } from "lit-element";
 
-import "../../map/ha-entity-marker";
+import "../../map/op-entity-marker";
 
 import {
   setupLeafletMap,
@@ -135,16 +135,16 @@ class HuiMapCard extends LitElement implements LovelaceCard {
       return html``;
     }
     return html`
-      <ha-card id="card" .header=${this._config.title}>
+      <op-card id="card" .header=${this._config.title}>
         <div id="root">
           <div id="map"></div>
           <paper-icon-button
             @click=${this._fitMap}
-            icon="hass:image-filter-center-focus"
+            icon="opp:image-filter-center-focus"
             title="Reset focus"
           ></paper-icon-button>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -170,7 +170,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
   }
 
   protected updated(changedProps: PropertyValues): void {
-    if (changedProps.has("hass")) {
+    if (changedProps.has("opp")) {
       this._drawEntities();
     }
   }
@@ -187,15 +187,15 @@ class HuiMapCard extends LitElement implements LovelaceCard {
   }
 
   private _fitMap(): void {
-    if (!this._leafletMap || !this.Leaflet || !this._config || !this.hass) {
+    if (!this._leafletMap || !this.Leaflet || !this._config || !this.opp) {
       return;
     }
     const zoom = this._config.default_zoom;
     if (this._mapItems.length === 0) {
       this._leafletMap.setView(
         new this.Leaflet.LatLng(
-          this.hass.config.latitude,
-          this.hass.config.longitude
+          this.opp.config.latitude,
+          this.opp.config.longitude
         ),
         zoom || 14
       );
@@ -213,11 +213,11 @@ class HuiMapCard extends LitElement implements LovelaceCard {
   }
 
   private _drawEntities(): void {
-    const hass = this.hass;
+    const opp = this.opp;
     const map = this._leafletMap;
     const config = this._config;
     const Leaflet = this.Leaflet;
-    if (!hass || !map || !config || !Leaflet) {
+    if (!opp || !map || !config || !Leaflet) {
       return;
     }
 
@@ -231,8 +231,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     // Calculate visible geo location sources
     if (config.geo_location_sources) {
       const includesAll = config.geo_location_sources.includes("all");
-      for (const entityId of Object.keys(hass.states)) {
-        const stateObj = hass.states[entityId];
+      for (const entityId of Object.keys(opp.states)) {
+        const stateObj = opp.states[entityId];
         if (
           computeDomain(entityId) === "geo_location" &&
           (includesAll ||
@@ -245,7 +245,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
     for (const entity of allEntities) {
       const entityId = entity.entity;
-      const stateObj = hass.states[entityId];
+      const stateObj = opp.states[entityId];
       if (!stateObj) {
         continue;
       }
@@ -274,7 +274,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         mapItems.push(
           Leaflet.marker([latitude, longitude], {
             icon: Leaflet.divIcon({
-              html: icon ? `<ha-icon icon="${icon}"></ha-icon>` : title,
+              html: icon ? `<op-icon icon="${icon}"></op-icon>` : title,
               iconSize: [24, 24],
               className: "",
             }),
@@ -310,11 +310,11 @@ class HuiMapCard extends LitElement implements LovelaceCard {
             // Leaflet clones this element before adding it to the map. This messes up
             // our Polymer object and we can't pass data through. Thus we hack like this.
             html: `
-              <ha-entity-marker
+              <op-entity-marker
                 entity-id="${entityId}"
                 entity-name="${entityName}"
                 entity-picture="${entityPicture || ""}"
-              ></ha-entity-marker>
+              ></op-entity-marker>
             `,
             iconSize: [48, 48],
             className: "",
@@ -356,7 +356,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
   static get styles(): CSSResult {
     return css`
-      :host([ispanel]) ha-card {
+      :host([ispanel]) op-card {
         left: 0;
         top: 0;
         width: 100%;
@@ -368,7 +368,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         position: absolute;
       }
 
-      ha-card {
+      op-card {
         overflow: hidden;
       }
 

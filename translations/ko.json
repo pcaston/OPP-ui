@@ -1168,7 +1168,7 @@
         "zwave": "Z-Wave",
         "vacuum": "청소기",
         "zha": "ZHA",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "lovelace": "Lovelace",
         "system_health": "시스템 상태",

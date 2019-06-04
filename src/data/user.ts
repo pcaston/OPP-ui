@@ -20,30 +20,30 @@ interface UpdateUserParams {
   group_ids?: User["group_ids"];
 }
 
-export const fetchUsers = async (hass: OpenPeerPower) =>
-  hass.callWS<User[]>({
+export const fetchUsers = async (opp: OpenPeerPower) =>
+  opp.callWS<User[]>({
     type: "config/auth/list",
   });
 
-export const createUser = async (hass: OpenPeerPower, name: string) =>
-  hass.callWS<{ user: User }>({
+export const createUser = async (opp: OpenPeerPower, name: string) =>
+  opp.callWS<{ user: User }>({
     type: "config/auth/create",
     name,
   });
 
 export const updateUser = async (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   userId: string,
   params: UpdateUserParams
 ) =>
-  hass.callWS<{ user: User }>({
+  opp.callWS<{ user: User }>({
     ...params,
     type: "config/auth/update",
     user_id: userId,
   });
 
-export const deleteUser = async (hass: OpenPeerPower, userId: string) =>
-  hass.callWS<void>({
+export const deleteUser = async (opp: OpenPeerPower, userId: string) =>
+  opp.callWS<void>({
     type: "config/auth/delete",
     user_id: userId,
   });

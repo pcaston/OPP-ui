@@ -71,7 +71,7 @@ documentContainer.innerHTML = `<custom-style>
       */
 
       --paper-grey-50: #fafafa; /* default for: --paper-toggle-button-unchecked-button-color */
-      --paper-grey-200: #eeeeee;  /* for ha-date-picker-style */
+      --paper-grey-200: #eeeeee;  /* for op-date-picker-style */
       --paper-grey-500: #9e9e9e;  /* --label-badge-grey */
 
       /* for paper-spinner */
@@ -119,7 +119,7 @@ documentContainer.innerHTML = `<custom-style>
       --paper-slider-active-color: var(--slider-color);
       --paper-slider-secondary-color: var(--slider-secondary-color);
       --paper-slider-container-color: var(--slider-bar-color);
-      --ha-paper-slider-pin-font-size: 15px;
+      --op-paper-slider-pin-font-size: 15px;
 
       /* mwc */
       --mdc-theme-primary: var(--primary-color);
@@ -131,7 +131,7 @@ documentContainer.innerHTML = `<custom-style>
       prevent clipping of positioned elements in a small scrollable
       force smooth scrolling if can scroll
       use non-shady selectors so this only targets iOS 9
-      conditional mixin set in ha-style-dialog does not work with shadyCSS
+      conditional mixin set in op-style-dialog does not work with shadyCSS
     */
     paper-dialog-scrollable:not(.can-scroll) &gt; .scrollable {
       -webkit-overflow-scrolling: auto !important;
@@ -141,13 +141,13 @@ documentContainer.innerHTML = `<custom-style>
       -webkit-overflow-scrolling: touch !important;
     }
   </style>
-</custom-style><dom-module id="ha-style">
+</custom-style><dom-module id="op-style">
   <template>
     <style>
     ${opStyle.cssText}
     </style>
   </template>
-</dom-module><dom-module id="ha-style-dialog">
+</dom-module><dom-module id="op-style-dialog">
   <template>
     <style>
       ${opStyleDialog.cssText}

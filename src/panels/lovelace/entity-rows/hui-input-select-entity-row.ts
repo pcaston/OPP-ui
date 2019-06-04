@@ -11,7 +11,7 @@ import {
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/op-paper-dropdown-menu";
 import "../../../components/entity/state-badge";
 import "../components/hui-warning";
 
@@ -43,18 +43,18 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity] as
+    const stateObj = this.opp.states[this._config.entity] as
       | InputSelectEntity
       | undefined;
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -65,7 +65,7 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
 
     return html`
       <state-badge .stateObj="${stateObj}"></state-badge>
-      <ha-paper-dropdown-menu
+      <op-paper-dropdown-menu
         .label=${this._config.name || computeStateName(stateObj)}
         .value=${stateObj.state}
         @iron-select=${this._selectedChanged}
@@ -78,18 +78,18 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
             `
           )}
         </paper-listbox>
-      </ha-paper-dropdown-menu>
+      </op-paper-dropdown-menu>
     `;
   }
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
 
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return;
     }
 
-    const stateObj = this.hass.states[this._config.entity] as
+    const stateObj = this.opp.states[this._config.entity] as
       | InputSelectEntity
       | undefined;
 
@@ -109,7 +109,7 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
         display: flex;
         align-items: center;
       }
-      ha-paper-dropdown-menu {
+      op-paper-dropdown-menu {
         margin-left: 16px;
         flex: 1;
       }
@@ -122,7 +122,7 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
   }
 
   private _selectedChanged(ev): void {
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
     const option = ev.target.selectedItem.innerText.trim();
     if (option === stateObj.state) {
       return;
@@ -130,7 +130,7 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
 
     forwardHaptic("light");
 
-    setInputSelectOption(this.hass!, stateObj.entity_id, option);
+    setInputSelectOption(this.opp!, stateObj.entity_id, option);
   }
 }
 

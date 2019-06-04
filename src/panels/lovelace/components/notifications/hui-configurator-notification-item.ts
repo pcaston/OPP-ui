@@ -20,16 +20,16 @@ export class HuiConfiguratorNotificationItem extends LitElement {
   @property() public notification?: HassNotification;
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.notification) {
+    if (!this.opp || !this.notification) {
       return html``;
     }
 
     return html`
       <hui-notification-item-template>
-        <span slot="header">${this.hass.localize("domain.configurator")}</span>
+        <span slot="header">${this.opp.localize("domain.configurator")}</span>
 
         <div>
-          ${this.hass.localize(
+          ${this.opp.localize(
             "ui.notification_drawer.click_to_configure",
             "entity",
             this.notification.attributes.friendly_name
@@ -37,7 +37,7 @@ export class HuiConfiguratorNotificationItem extends LitElement {
         </div>
 
         <mwc-button slot="actions" @click="${this._handleClick}"
-          >${this.hass.localize(
+          >${this.opp.localize(
             `state.configurator.${this.notification.state}`
           )}</mwc-button
         >
@@ -46,7 +46,7 @@ export class HuiConfiguratorNotificationItem extends LitElement {
   }
 
   private _handleClick(): void {
-    fireEvent(this, "hass-more-info", {
+    fireEvent(this, "opp-more-info", {
       entityId: this.notification!.entity_id,
     });
   }

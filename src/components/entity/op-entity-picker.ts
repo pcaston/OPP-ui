@@ -18,7 +18,7 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
 
@@ -67,16 +67,16 @@ class HaEntityPicker extends LitElement {
 
   private _getStates = memoizeOne(
     (
-      hass: this["hass"],
+      opp: this["opp"],
       domainFilter: this["domainFilter"],
       entityFilter: this["entityFilter"]
     ) => {
       let states: OppEntity[] = [];
 
-      if (!hass) {
+      if (!opp) {
         return [];
       }
-      let entityIds = Object.keys(hass.states);
+      let entityIds = Object.keys(opp.states);
 
       if (domainFilter) {
         entityIds = entityIds.filter(
@@ -84,7 +84,7 @@ class HaEntityPicker extends LitElement {
         );
       }
 
-      states = entityIds.sort().map((key) => hass!.states[key]);
+      states = entityIds.sort().map((key) => opp!.states[key]);
 
       if (entityFilter) {
         states = states.filter(
@@ -100,14 +100,14 @@ class HaEntityPicker extends LitElement {
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
 
-    if (changedProps.has("hass") && !this._opened) {
-      this._hass = this.hass;
+    if (changedProps.has("opp") && !this._opened) {
+      this._opp = this.opp;
     }
   }
 
   protected render(): TemplateResult | void {
     const states = this._getStates(
-      this._hass,
+      this._opp,
       this.domainFilter,
       this.entityFilter
     );
@@ -125,8 +125,8 @@ class HaEntityPicker extends LitElement {
       >
         <paper-input
           .autofocus=${this.autofocus}
-          .label=${this.label === undefined && this._hass
-            ? this._hass.localize("ui.components.entity.entity-picker.entity")
+          .label=${this.label === undefined && this._opp
+            ? this._opp.localize("ui.components.entity.entity-picker.entity")
             : this.label}
           .value=${this._value}
           .disabled=${this.disabled}
@@ -141,7 +141,7 @@ class HaEntityPicker extends LitElement {
                 <paper-icon-button
                   slot="suffix"
                   class="clear-button"
-                  icon="hass:close"
+                  icon="opp:close"
                   no-ripple
                 >
                   Clear
@@ -153,7 +153,7 @@ class HaEntityPicker extends LitElement {
                 <paper-icon-button
                   slot="suffix"
                   class="toggle-button"
-                  .icon=${this._opened ? "hass:menu-up" : "hass:menu-down"}
+                  .icon=${this._opened ? "opp:menu-up" : "opp:menu-down"}
                 >
                   Toggle
                 </paper-icon-button>
@@ -198,4 +198,4 @@ class HaEntityPicker extends LitElement {
   }
 }
 
-customElements.define("ha-entity-picker", HaEntityPicker);
+customElements.define("op-entity-picker", HaEntityPicker);

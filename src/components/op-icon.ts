@@ -29,8 +29,8 @@ export class HaIcon extends ironIconClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-icon": HaIcon;
+    "op-icon": HaIcon;
   }
 }
 
-customElements.define("ha-icon", HaIcon);
+customElements.define("op-icon", HaIcon);

@@ -17,13 +17,13 @@ import { configFlowContentStyles } from "./styles";
 @customElement("step-flow-abort")
 class StepFlowAbort extends LitElement {
   @property()
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
 
   @property()
   private step!: ConfigFlowStepAbort;
 
   protected render(): TemplateResult | void {
-    const localize = this.hass.localize;
+    const localize = this.opp.localize;
     const step = this.step;
 
     const description = localizeKey(
@@ -37,7 +37,7 @@ class StepFlowAbort extends LitElement {
       <div class="content">
         ${description
           ? html`
-              <ha-markdown .content=${description} allow-svg></ha-markdown>
+              <op-markdown .content=${description} allow-svg></op-markdown>
             `
           : ""}
       </div>

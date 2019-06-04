@@ -81,7 +81,7 @@ export class HuiEntityButtonCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -90,13 +90,13 @@ export class HuiEntityButtonCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
-        <ha-entity-picker
-          .hass="${this.hass}"
+        <op-entity-picker
+          .opp="${this.opp}"
           .value="${this._entity}"
           .configValue=${"entity"}
           @change="${this._valueChanged}"
           allow-custom-entity
-        ></ha-entity-picker>
+        ></op-entity-picker>
         <div class="side-by-side">
           <paper-input
             label="Name (Optional)"
@@ -126,7 +126,7 @@ export class HuiEntityButtonCardEditor extends LitElement
           >
         </div>
         <hui-theme-select-editor
-          .hass="${this.hass}"
+          .opp="${this.opp}"
           .value="${this._theme}"
           .configValue="${"theme"}"
           @theme-changed="${this._valueChanged}"
@@ -134,7 +134,7 @@ export class HuiEntityButtonCardEditor extends LitElement
         <div class="side-by-side">
           <hui-action-editor
             label="Tap Action"
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .config="${this._tap_action}"
             .actions="${actions}"
             .configValue="${"tap_action"}"
@@ -142,7 +142,7 @@ export class HuiEntityButtonCardEditor extends LitElement
           ></hui-action-editor>
           <hui-action-editor
             label="Hold Action"
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .config="${this._hold_action}"
             .actions="${actions}"
             .configValue="${"hold_action"}"
@@ -154,7 +154,7 @@ export class HuiEntityButtonCardEditor extends LitElement
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

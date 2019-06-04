@@ -11,7 +11,7 @@ import "@polymer/paper-toggle-button/paper-toggle-button";
 // tslint:disable-next-line
 import { PaperToggleButtonElement } from "@polymer/paper-toggle-button/paper-toggle-button";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { OpenPeerPower } from "../../../types";
@@ -24,7 +24,7 @@ export class CloudAlexaPref extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       cloudStatus: {},
     };
   }
@@ -37,7 +37,7 @@ export class CloudAlexaPref extends LitElement {
     const enabled = this.cloudStatus!.prefs.alexa_enabled;
 
     return html`
-      <ha-card header="Alexa">
+      <op-card header="Alexa">
         <paper-toggle-button
           .checked="${enabled}"
           @change="${this._toggleChanged}"
@@ -67,22 +67,22 @@ export class CloudAlexaPref extends LitElement {
             ? html`
                 <p>Exposed entities:</p>
                 <cloud-exposed-entities
-                  .hass="${this.hass}"
+                  .opp="${this.opp}"
                   .filter="${this.cloudStatus!.alexa_entities}"
                   .supportedDomains="${this.cloudStatus!.alexa_domains}"
                 ></cloud-exposed-entities>
               `
             : ""}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
   private async _toggleChanged(ev) {
     const toggle = ev.target as PaperToggleButtonElement;
     try {
-      await updateCloudPref(this.hass!, { alexa_enabled: toggle.checked! });
-      fireEvent(this, "ha-refresh-cloud-status");
+      await updateCloudPref(this.opp!, { alexa_enabled: toggle.checked! });
+      fireEvent(this, "op-refresh-cloud-status");
     } catch (err) {
       toggle.checked = !toggle.checked;
     }
@@ -93,7 +93,7 @@ export class CloudAlexaPref extends LitElement {
       a {
         color: var(--primary-color);
       }
-      ha-card > paper-toggle-button {
+      op-card > paper-toggle-button {
         margin: -4px 0;
         position: absolute;
         right: 8px;

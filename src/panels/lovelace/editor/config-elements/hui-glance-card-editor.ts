@@ -13,8 +13,8 @@ import "@polymer/paper-toggle-button/paper-toggle-button";
 import "../../../../components/entity/state-badge";
 import "../../components/hui-theme-select-editor";
 import "../../components/hui-entity-editor";
-import "../../../../components/ha-card";
-import "../../../../components/ha-icon";
+import "../../../../components/op-card";
+import "../../../../components/op-icon";
 
 import { struct } from "../../common/structs/struct";
 import { processEditorEntities } from "../process-editor-entities";
@@ -85,7 +85,7 @@ export class HuiGlanceCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -100,7 +100,7 @@ export class HuiGlanceCardEditor extends LitElement
         ></paper-input>
         <div class="side-by-side">
           <hui-theme-select-editor
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .value="${this._theme}"
             .configValue="${"theme"}"
             @theme-changed="${this._valueChanged}"
@@ -135,7 +135,7 @@ export class HuiGlanceCardEditor extends LitElement
         </div>
       </div>
       <hui-entity-editor
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .entities="${this._configEntities}"
         @entities-changed="${this._valueChanged}"
       ></hui-entity-editor>
@@ -143,7 +143,7 @@ export class HuiGlanceCardEditor extends LitElement
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

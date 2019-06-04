@@ -10,8 +10,8 @@ import {
 } from "lit-element";
 
 import "../../../components/entity/state-badge";
-import "../../../components/ha-relative-time";
-import "../../../components/ha-icon";
+import "../../../components/op-relative-time";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";
@@ -26,17 +26,17 @@ class HuiGenericEntityRow extends LitElement {
   @property() public showSecondary: boolean = true;
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.config) {
+    if (!this.opp || !this.config) {
       return html``;
     }
     const stateObj = this.config.entity
-      ? this.hass.states[this.config.entity]
+      ? this.opp.states[this.config.entity]
       : undefined;
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this.config.entity
@@ -62,10 +62,10 @@ class HuiGenericEntityRow extends LitElement {
               ? stateObj.entity_id
               : this.config.secondary_info === "last-changed"
               ? html`
-                  <ha-relative-time
-                    .hass="${this.hass}"
+                  <op-relative-time
+                    .opp="${this.opp}"
                     .datetime="${stateObj.last_changed}"
-                  ></ha-relative-time>
+                  ></op-relative-time>
                 `
               : ""}
           </div>
@@ -78,8 +78,8 @@ class HuiGenericEntityRow extends LitElement {
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (changedProps.has("hass")) {
-      this.toggleAttribute("rtl", computeRTL(this.hass!));
+    if (changedProps.has("opp")) {
+      this.toggleAttribute("rtl", computeRTL(this.opp!));
     }
   }
 
@@ -114,7 +114,7 @@ class HuiGenericEntityRow extends LitElement {
         margin-left: 0;
       }
       .secondary,
-      ha-relative-time {
+      op-relative-time {
         display: block;
         color: var(--secondary-text-color);
       }

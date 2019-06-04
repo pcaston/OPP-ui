@@ -15,7 +15,7 @@ import "../components/hui-warning";
 
 import { EntityRow, EntityConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 import {
   SUPPORTS_PLAY,
@@ -44,16 +44,16 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -64,15 +64,15 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
 
     return html`
       <hui-generic-entity-row
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .config="${this._config}"
         .showSecondary="false"
       >
         ${OFF_STATES.includes(stateObj.state)
           ? html`
               <div>
-                ${this.hass!.localize(`state.media_player.${stateObj.state}`) ||
-                  this.hass!.localize(`state.default.${stateObj.state}`) ||
+                ${this.opp!.localize(`state.media_player.${stateObj.state}`) ||
+                  this.opp!.localize(`state.default.${stateObj.state}`) ||
                   stateObj.state}
               </div>
             `
@@ -90,7 +90,7 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
                 ${supportsFeature(stateObj, SUPPORT_NEXT_TRACK)
                   ? html`
                       <paper-icon-button
-                        icon="hass:skip-next"
+                        icon="opp:skip-next"
                         @click="${this._nextTrack}"
                       ></paper-icon-button>
                     `
@@ -110,18 +110,18 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
     `;
   }
 
-  private _computeControlIcon(stateObj: HassEntity): string {
+  private _computeControlIcon(stateObj: OppEntity): string {
     if (stateObj.state !== "playing") {
-      return "hass:play";
+      return "opp:play";
     }
 
     // tslint:disable-next-line:no-bitwise
     return supportsFeature(stateObj, SUPPORT_PAUSE)
-      ? "hass:pause"
-      : "hass:stop";
+      ? "opp:pause"
+      : "opp:stop";
   }
 
-  private _computeMediaTitle(stateObj: HassEntity): string {
+  private _computeMediaTitle(stateObj: OppEntity): string {
     let prefix;
     let suffix;
 
@@ -147,14 +147,14 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
 
   private _playPause(ev: MouseEvent): void {
     ev.stopPropagation();
-    this.hass!.callService("media_player", "media_play_pause", {
+    this.opp!.callService("media_player", "media_play_pause", {
       entity_id: this._config!.entity,
     });
   }
 
   private _nextTrack(ev: MouseEvent): void {
     ev.stopPropagation();
-    this.hass!.callService("media_player", "media_next_track", {
+    this.opp!.callService("media_player", "media_next_track", {
       entity_id: this._config!.entity,
     });
   }

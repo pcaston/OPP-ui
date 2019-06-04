@@ -4,7 +4,7 @@ import {
   LovelaceCardConfig,
   LovelaceViewConfig,
 } from "../../../data/lovelace";
-import { HassEntity, HassEntities } from "home-assistant-js-websocket";
+import { OppEntity, OppEntities } from "../../../open-peer-power-js-websocket/lib";
 
 import extractViews from "../../../common/entity/extract_views";
 import getViewEntities from "../../../common/entity/get_view_entities";
@@ -56,19 +56,19 @@ interface Registries {
 let subscribedRegistries = false;
 
 interface SplittedByAreas {
-  areasWithEntities: Array<[AreaRegistryEntry, HassEntity[]]>;
-  otherEntities: HassEntities;
+  areasWithEntities: Array<[AreaRegistryEntry, OppEntity[]]>;
+  otherEntities: OppEntities;
 }
 
 const splitByAreas = (
   registries: Registries,
-  entities: HassEntities
+  entities: OppEntities
 ): SplittedByAreas => {
   const allEntities = { ...entities };
   const areasWithEntities: SplittedByAreas["areasWithEntities"] = [];
 
   for (const area of registries.areas) {
-    const areaEntities: HassEntity[] = [];
+    const areaEntities: OppEntity[] = [];
     const areaDevices = new Set(
       registries.devices
         .filter((device) => device.area_id === area.area_id)
@@ -97,7 +97,7 @@ const splitByAreas = (
 };
 
 const computeCards = (
-  states: Array<[string, HassEntity]>,
+  states: Array<[string, OppEntity]>,
   entityCardOptions: Partial<EntitiesCardConfig>
 ): LovelaceCardConfig[] => {
   const cards: LovelaceCardConfig[] = [];
@@ -172,25 +172,25 @@ const computeCards = (
   return cards;
 };
 
-const computeDefaultViewStates = (hass: OpenPeerPower): HassEntities => {
+const computeDefaultViewStates = (opp: OpenPeerPower): OppEntities => {
   const states = {};
-  Object.keys(hass.states).forEach((entityId) => {
-    const stateObj = hass.states[entityId];
+  Object.keys(opp.states).forEach((entityId) => {
+    const stateObj = opp.states[entityId];
     if (
       !stateObj.attributes.hidden &&
       !HIDE_DOMAIN.has(computeStateDomain(stateObj))
     ) {
-      states[entityId] = hass.states[entityId];
+      states[entityId] = opp.states[entityId];
     }
   });
   return states;
 };
 
 const generateDefaultViewConfig = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   registries: Registries
 ): LovelaceViewConfig => {
-  const states = computeDefaultViewStates(hass);
+  const states = computeDefaultViewStates(opp);
   const path = "default_view";
   const title = "Home";
   const icon = undefined;
@@ -207,7 +207,7 @@ const generateDefaultViewConfig = (
   const splittedByAreas = splitByAreas(registries, states);
 
   const config = generateViewConfig(
-    hass.localize,
+    opp.localize,
     path,
     title,
     icon,
@@ -236,7 +236,7 @@ const generateViewConfig = (
   path: string,
   title: string | undefined,
   icon: string | undefined,
-  entities: HassEntities,
+  entities: OppEntities,
   groupOrders: { [entityId: string]: number }
 ): LovelaceViewConfig => {
   const splitted = splitByGroups(entities);
@@ -276,7 +276,7 @@ const generateViewConfig = (
     cards = cards.concat(
       computeCards(
         groupEntity.attributes.entity_id.map(
-          (entityId): [string, HassEntity] => [entityId, entities[entityId]]
+          (entityId): [string, OppEntity] => [entityId, entities[entityId]]
         ),
         {
           title: computeStateName(groupEntity),
@@ -292,7 +292,7 @@ const generateViewConfig = (
       cards = cards.concat(
         computeCards(
           ungroupedEntitites[domain].map(
-            (entityId): [string, HassEntity] => [entityId, entities[entityId]]
+            (entityId): [string, OppEntity] => [entityId, entities[entityId]]
           ),
           {
             title: localize(`domain.${domain}`),
@@ -316,13 +316,13 @@ const generateViewConfig = (
 };
 
 export const generateLovelaceConfig = async (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   localize: LocalizeFunc
 ): Promise<LovelaceConfig> => {
-  const viewEntities = extractViews(hass.states);
+  const viewEntities = extractViews(opp.states);
 
   const views = viewEntities.map((viewEntity: GroupEntity) => {
-    const states = getViewEntities(hass.states, viewEntity);
+    const states = getViewEntities(opp.states, viewEntity);
 
     // In the case of a normal view, we use group order as specified in view
     const groupOrders = {};
@@ -340,7 +340,7 @@ export const generateLovelaceConfig = async (
     );
   });
 
-  let title = hass.config.location_name;
+  let title = opp.config.location_name;
 
   // User can override default view. If they didn't, we will add one
   // that contains all entities.
@@ -352,22 +352,22 @@ export const generateLovelaceConfig = async (
     // so that we don't serve up stale data after changing areas.
     if (!subscribedRegistries) {
       subscribedRegistries = true;
-      subscribeAreaRegistry(hass, () => undefined);
-      subscribeDeviceRegistry(hass, () => undefined);
-      subscribeEntityRegistry(hass, () => undefined);
+      subscribeAreaRegistry(opp, () => undefined);
+      subscribeDeviceRegistry(opp, () => undefined);
+      subscribeEntityRegistry(opp, () => undefined);
     }
 
     const [areas, devices, entities] = await Promise.all([
-      subscribeOne(hass, subscribeAreaRegistry),
-      subscribeOne(hass, subscribeDeviceRegistry),
-      subscribeOne(hass, subscribeEntityRegistry),
+      subscribeOne(opp, subscribeAreaRegistry),
+      subscribeOne(opp, subscribeDeviceRegistry),
+      subscribeOne(opp, subscribeEntityRegistry),
     ]);
     const registries = { areas, devices, entities };
 
-    views.unshift(generateDefaultViewConfig(hass, registries));
+    views.unshift(generateDefaultViewConfig(opp, registries));
 
     // Add map of geo locations to default view if loaded
-    if (hass.config.components.includes("geo_location")) {
+    if (opp.config.components.includes("geo_location")) {
       if (views[0] && views[0].cards) {
         views[0].cards.push({
           type: "map",
@@ -384,7 +384,7 @@ export const generateLovelaceConfig = async (
 
   if (__DEMO__) {
     views[0].cards!.unshift({
-      type: "custom:ha-demo-card",
+      type: "custom:op-demo-card",
     });
   }
 

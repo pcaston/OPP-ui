@@ -27,7 +27,7 @@ import {
   readAttributeValue,
   ZHADevice,
 } from "../../../data/zha";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { formatAsPaddedHex } from "./functions";
 import {
@@ -266,7 +266,7 @@ export class ZHAClusterAttributes extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .flex {
           -ms-flex: 1 1 0.000000001px;
@@ -343,8 +343,8 @@ export class ZHAClusterAttributes extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-cluster-attributes": ZHAClusterAttributes;
+    "zha-cluster-attributes": ZHAClusterAttributes;
   }
 }
 
-customElements.define("zop-cluster-attributes", ZHAClusterAttributes);
+customElements.define("zha-cluster-attributes", ZHAClusterAttributes);

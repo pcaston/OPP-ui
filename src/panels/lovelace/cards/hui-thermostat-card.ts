@@ -9,8 +9,8 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import "@polymer/paper-icon-button/paper-icon-button";
 
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
@@ -36,15 +36,15 @@ const thermostatConfig = {
 };
 
 const modeIcons = {
-  auto: "hass:autorenew",
-  manual: "hass:cursor-pointer",
-  heat: "hass:fire",
-  cool: "hass:snowflake",
-  off: "hass:power",
-  fan_only: "hass:fan",
-  eco: "hass:leaf",
-  dry: "hass:water-percent",
-  idle: "hass:power-sleep",
+  auto: "opp:autorenew",
+  manual: "opp:cursor-pointer",
+  heat: "opp:fire",
+  cool: "opp:snowflake",
+  off: "opp:power",
+  fan_only: "opp:fan",
+  eco: "opp:leaf",
+  dry: "opp:water-percent",
+  idle: "opp:power-sleep",
 };
 
 @customElement("hui-thermostat-card")
@@ -92,15 +92,15 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
-    const stateObj = this.hass.states[this._config.entity] as ClimateEntity;
+    const stateObj = this.opp.states[this._config.entity] as ClimateEntity;
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -114,7 +114,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       : "unknown-mode";
     return html`
       ${this.renderStyle()}
-      <ha-card
+      <op-card
         class="${classMap({
           [mode]: true,
           large: this._broadCard!,
@@ -122,7 +122,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
         })}">
         <div id="root">
           <paper-icon-button
-            icon="hass:dots-vertical"
+            icon="opp:dots-vertical"
             class="more-info"
             @click="${this._handleMoreInfo}"
           ></paper-icon-button>
@@ -137,7 +137,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
                   stateObj.attributes.current_temperature
                     ? html`
                         <span class="uom"
-                          >${this.hass.config.unit_system.temperature}</span
+                          >${this.opp.config.unit_system.temperature}</span
                         >
                       `
                     : ""
@@ -146,7 +146,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
             </div>
             <div class="climate-info">
             <div id="set-temperature"></div>
-            <div class="current-mode">${this.hass!.localize(
+            <div class="current-mode">${this.opp!.localize(
               `state.climate.${stateObj.state}`
             )}</div>
             <div class="modes">
@@ -156,7 +156,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
             </div>
           </div>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -173,17 +173,17 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (!this._config || !this.hass || !changedProps.has("hass")) {
+    if (!this._config || !this.opp || !changedProps.has("opp")) {
       return;
     }
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
 
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config.theme);
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
 
-    const stateObj = this.hass.states[this._config.entity] as ClimateEntity;
+    const stateObj = this.opp.states[this._config.entity] as ClimateEntity;
 
     if (!stateObj) {
       return;
@@ -205,16 +205,16 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private get _stepSize(): number {
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (stateObj.attributes.target_temp_step) {
       return stateObj.attributes.target_temp_step;
     }
-    return this.hass!.config.unit_system.temperature === UNIT_F ? 1 : 0.5;
+    return this.opp!.config.unit_system.temperature === UNIT_F ? 1 : 0.5;
   }
 
   private async _initialLoad(): Promise<void> {
-    const stateObj = this.hass!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
 
     if (!stateObj) {
       // Card will require refresh to work again
@@ -301,26 +301,26 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private _setTemperature(e): void {
-    const stateObj = this.hass!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
     if (
       stateObj.attributes.target_temp_low &&
       stateObj.attributes.target_temp_high
     ) {
       if (e.handle.index === 1) {
-        this.hass!.callService("climate", "set_temperature", {
+        this.opp!.callService("climate", "set_temperature", {
           entity_id: this._config!.entity,
           target_temp_low: e.handle.value,
           target_temp_high: stateObj.attributes.target_temp_high,
         });
       } else {
-        this.hass!.callService("climate", "set_temperature", {
+        this.opp!.callService("climate", "set_temperature", {
           entity_id: this._config!.entity,
           target_temp_low: stateObj.attributes.target_temp_low,
           target_temp_high: e.handle.value,
         });
       }
     } else {
-      this.hass!.callService("climate", "set_temperature", {
+      this.opp!.callService("climate", "set_temperature", {
         entity_id: this._config!.entity,
         temperature: e.value,
       });
@@ -332,23 +332,23 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       return html``;
     }
     return html`
-      <ha-icon
+      <op-icon
         class="${classMap({ "selected-icon": currentMode === mode })}"
         .mode="${mode}"
         .icon="${modeIcons[mode]}"
         @click="${this._handleModeClick}"
-      ></ha-icon>
+      ></op-icon>
     `;
   }
 
   private _handleMoreInfo() {
-    fireEvent(this, "hass-more-info", {
+    fireEvent(this, "opp-more-info", {
       entityId: this._config!.entity,
     });
   }
 
   private _handleModeClick(e: MouseEvent): void {
-    this.hass!.callService("climate", "set_operation_mode", {
+    this.opp!.callService("climate", "set_operation_mode", {
       entity_id: this._config!.entity,
       operation_mode: (e.currentTarget as any).mode,
     });
@@ -376,7 +376,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
         :host {
           display: block;
         }
-        ha-card {
+        op-card {
           overflow: hidden;
           --rail-border-color: transparent;
           --auto-color: green;
@@ -525,13 +525,13 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
         .modes {
           margin-top: 16px;
         }
-        .modes ha-icon {
+        .modes op-icon {
           color: var(--disabled-text-color);
           cursor: pointer;
           display: inline-block;
           margin: 0 10px;
         }
-        .modes ha-icon.selected-icon {
+        .modes op-icon.selected-icon {
           color: var(--mode-color);
         }
         .current-temperature {

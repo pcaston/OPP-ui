@@ -9,7 +9,7 @@ import {
   CSSResult,
 } from "lit-element";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 import "../components/hui-entities-toggle";
 
 import { fireEvent } from "../../../common/dom/fire_event";
@@ -41,18 +41,18 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
 
   protected _configEntities?: EntitiesCardEntityConfig[];
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
     this.shadowRoot!.querySelectorAll("#states > div > *").forEach(
       (element: unknown) => {
-        (element as EntityRow).hass = hass;
+        (element as EntityRow).opp = opp;
       }
     );
     const entitiesToggle = this.shadowRoot!.querySelector(
       "hui-entities-toggle"
     );
     if (entitiesToggle) {
-      (entitiesToggle as any).hass = hass;
+      (entitiesToggle as any).opp = opp;
     }
   }
 
@@ -73,19 +73,19 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    if (this._hass && this._config) {
-      applyThemesOnElement(this, this._hass.themes, this._config.theme);
+    if (this._opp && this._config) {
+      applyThemesOnElement(this, this._opp.themes, this._config.theme);
     }
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this._hass) {
+    if (!this._config || !this._opp) {
       return html``;
     }
     const { show_header_toggle, title } = this._config;
 
     return html`
-      <ha-card>
+      <op-card>
         ${!title && !show_header_toggle
           ? html``
           : html`
@@ -95,7 +95,7 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
                   ? html``
                   : html`
                       <hui-entities-toggle
-                        .hass="${this._hass}"
+                        .opp="${this._opp}"
                         .entities="${this._configEntities!.map(
                           (conf) => conf.entity
                         )}"
@@ -108,7 +108,7 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
             this.renderEntity(entityConf)
           )}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -145,8 +145,8 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
 
   private renderEntity(entityConf: EntitiesCardEntityConfig): TemplateResult {
     const element = createRowElement(entityConf);
-    if (this._hass) {
-      element.hass = this._hass;
+    if (this._opp) {
+      element.opp = this._opp;
     }
     if (
       entityConf.entity &&
@@ -163,7 +163,7 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
 
   private _handleClick(entityConf: EntitiesCardEntityConfig): void {
     const entityId = entityConf.entity;
-    fireEvent(this, "hass-more-info", { entityId });
+    fireEvent(this, "opp-more-info", { entityId });
   }
 }
 

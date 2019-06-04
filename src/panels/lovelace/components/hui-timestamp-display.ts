@@ -52,7 +52,7 @@ class HuiTimestampDisplay extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.ts || !this.hass) {
+    if (!this.ts || !this.opp) {
       return html``;
     }
 
@@ -71,7 +71,7 @@ class HuiTimestampDisplay extends LitElement {
     }
     if (format in FORMATS) {
       return html`
-        ${FORMATS[format](this.ts, this.hass.language)}
+        ${FORMATS[format](this.ts, this.opp.language)}
       `;
     }
     return html`
@@ -112,11 +112,11 @@ class HuiTimestampDisplay extends LitElement {
   }
 
   private _updateRelative(): void {
-    if (this.ts && this.hass!.localize) {
+    if (this.ts && this.opp!.localize) {
       this._relative =
         this._format === "relative"
-          ? relativeTime(this.ts, this.hass!.localize)
-          : (this._relative = relativeTime(new Date(), this.hass!.localize, {
+          ? relativeTime(this.ts, this.opp!.localize)
+          : (this._relative = relativeTime(new Date(), this.opp!.localize, {
               compareTime: this.ts,
               includeTense: false,
             }));

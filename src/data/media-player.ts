@@ -13,22 +13,22 @@ export interface MediaPlayerThumbnail {
 }
 
 export const fetchMediaPlayerThumbnailWithCache = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string
 ) =>
   timeCachePromiseFunc(
     "_media_playerTmb",
     9000,
     fetchMediaPlayerThumbnail,
-    hass,
+    opp,
     entityId
   );
 
 export const fetchMediaPlayerThumbnail = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string
 ) => {
-  return hass.callWS<MediaPlayerThumbnail>({
+  return opp.callWS<MediaPlayerThumbnail>({
     type: "media_player_thumbnail",
     entity_id: entityId,
   });

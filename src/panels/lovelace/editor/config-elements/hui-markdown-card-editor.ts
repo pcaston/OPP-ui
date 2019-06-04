@@ -43,7 +43,7 @@ export class HuiMarkdownCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -70,7 +70,7 @@ export class HuiMarkdownCardEditor extends LitElement
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

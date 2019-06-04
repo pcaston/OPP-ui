@@ -36,7 +36,7 @@ const stateHistoryCache: { [cacheKey: string]: CachedResults } = {};
 
 // Cached type 1 unction. Without cache config.
 export const getRecent = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   startTime: Date,
   endTime: Date,
@@ -54,8 +54,8 @@ export const getRecent = (
     return cache.data;
   }
 
-  const prom = fetchRecent(hass, entityId, startTime, endTime).then(
-    (stateHistory) => computeHistory(hass, stateHistory, localize, language),
+  const prom = fetchRecent(opp, entityId, startTime, endTime).then(
+    (stateHistory) => computeHistory(opp, stateHistory, localize, language),
     (err) => {
       delete RECENT_CACHE[entityId];
       throw err;
@@ -86,7 +86,7 @@ function getEmptyCache(
 }
 
 export const getRecentWithCache = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   cacheConfig: CacheConfig,
   localize: LocalizeFunc,
@@ -129,7 +129,7 @@ export const getRecentWithCache = (
       const results = await Promise.all([
         curCacheProm,
         fetchRecent(
-          hass,
+          opp,
           entityId,
           toFetchStartTime,
           endTime,
@@ -142,7 +142,7 @@ export const getRecentWithCache = (
       throw err;
     }
     const stateHistory = computeHistory(
-      hass,
+      opp,
       fetchedHistory,
       localize,
       language

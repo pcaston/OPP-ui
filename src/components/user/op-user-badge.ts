@@ -27,7 +27,7 @@ const computeInitials = (name: string) => {
   );
 };
 
-@customElement("ha-user-badge")
+@customElement("op-user-badge")
 class StateBadge extends LitElement {
   @property() public user?: User | CurrentUser;
 
@@ -72,6 +72,6 @@ class StateBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-user-badge": StateBadge;
+    "op-user-badge": StateBadge;
   }
 }

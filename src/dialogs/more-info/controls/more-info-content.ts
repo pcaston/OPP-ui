@@ -3,7 +3,7 @@ import {
   PropertyValues,
   UpdatingElement,
 } from "lit-element";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 import "./more-info-alarm_control_panel";
 import "./more-info-automation";
@@ -32,12 +32,12 @@ import { OpenPeerPower } from "../../../types";
 
 class MoreInfoContent extends UpdatingElement {
   public opp?: OpenPeerPower;
-  public stateObj?: HassEntity;
+  public stateObj?: OppEntity;
   private _detachedChild?: ChildNode;
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       stateObj: {},
     };
   }
@@ -51,9 +51,9 @@ class MoreInfoContent extends UpdatingElement {
   protected update(changedProps: PropertyValues): void {
     super.update(changedProps);
     const stateObj = this.stateObj;
-    const hass = this.hass;
+    const opp = this.opp;
 
-    if (!stateObj || !hass) {
+    if (!stateObj || !opp) {
       if (this.lastChild) {
         this._detachedChild = this.lastChild;
         // Detach child to prevent it from doing work.
@@ -73,7 +73,7 @@ class MoreInfoContent extends UpdatingElement {
         : "more-info-" + stateMoreInfoType(stateObj);
 
     dynamicContentUpdater(this, moreInfoType.toUpperCase(), {
-      hass,
+      opp,
       stateObj,
     });
   }

@@ -63,9 +63,9 @@ export class HuiYamlEditor extends HTMLElement {
             </style>`;
   }
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
-    if (this._hass) {
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
+    if (this._opp) {
       this.setScrollBarDirection();
     }
   }
@@ -103,7 +103,7 @@ export class HuiYamlEditor extends HTMLElement {
             "Shift-Tab": "indentLess",
           },
           gutters:
-            this._hass && computeRTL(this._hass!)
+            this._opp && computeRTL(this._opp!)
               ? ["rtl-gutter", "CodeMirror-linenumbers"]
               : [],
         }
@@ -126,7 +126,7 @@ export class HuiYamlEditor extends HTMLElement {
 
     this.codemirror
       .getWrapperElement()
-      .classList.toggle("rtl", computeRTL(this._hass!));
+      .classList.toggle("rtl", computeRTL(this._opp!));
   }
 }
 

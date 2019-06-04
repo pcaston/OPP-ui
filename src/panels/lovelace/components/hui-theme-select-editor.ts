@@ -31,7 +31,7 @@ export class HuiThemeSelectEditor extends LitElement {
 
   protected render(): TemplateResult | void {
     const themes = ["Backend-selected", "default"].concat(
-      Object.keys(this.hass!.themes.themes).sort()
+      Object.keys(this.opp!.themes.themes).sort()
     );
 
     return html`
@@ -64,7 +64,7 @@ export class HuiThemeSelectEditor extends LitElement {
   }
 
   private _changed(ev): void {
-    if (!this.hass || ev.target.value === "") {
+    if (!this.opp || ev.target.value === "") {
       return;
     }
     this.value = ev.target.value;

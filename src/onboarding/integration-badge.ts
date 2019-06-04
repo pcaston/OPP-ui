@@ -7,7 +7,7 @@ import {
   CSSResult,
   css,
 } from "lit-element";
-import "../components/ha-icon";
+import "../components/op-icon";
 
 @customElement("integration-badge")
 class IntegrationBadge extends LitElement {
@@ -22,7 +22,7 @@ class IntegrationBadge extends LitElement {
         <iron-icon .icon=${this.icon}></iron-icon>
         ${this.badgeIcon
           ? html`
-              <ha-icon class="badge" .icon=${this.badgeIcon}></ha-icon>
+              <op-icon class="badge" .icon=${this.badgeIcon}></op-icon>
             `
           : ""}
       </div>

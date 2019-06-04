@@ -5,7 +5,7 @@
  *   const states = [state1, state2]
  *   states.sort(statesSortByName);
  */
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import computeStateName from "./compute_state_name";
 
 export default function sortStatesByName(

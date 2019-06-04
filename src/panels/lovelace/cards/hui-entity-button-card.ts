@@ -8,11 +8,11 @@ import {
   customElement,
   property,
 } from "lit-element";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import { styleMap } from "lit-html/directives/style-map";
 import "@material/mwc-ripple";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 import "../components/hui-warning";
 
 import isValidEntityId from "../../../common/entity/valid_entity_id";
@@ -88,26 +88,26 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
     if (oldHass) {
       return (
         oldHass.states[this._config!.entity] !==
-        this.hass!.states[this._config!.entity]
+        this.opp!.states[this._config!.entity]
       );
     }
     return true;
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -117,14 +117,14 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+      <op-card
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
       >
         ${this._config.show_icon
           ? html`
-              <ha-icon
+              <op-icon
                 data-domain="${computeStateDomain(stateObj)}"
                 data-state="${stateObj.state}"
                 .icon="${this._config.icon || stateIcon(stateObj)}"
@@ -132,7 +132,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
                   filter: this._computeBrightness(stateObj),
                   color: this._computeColor(stateObj),
                 })}"
-              ></ha-icon>
+              ></op-icon>
             `
           : ""}
         ${this._config.show_name
@@ -143,24 +143,24 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
             `
           : ""}
         <mwc-ripple></mwc-ripple>
-      </ha-card>
+      </op-card>
     `;
   }
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config.theme);
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-card {
+      op-card {
         cursor: pointer;
         display: flex;
         flex-direction: column;
@@ -170,27 +170,27 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
         font-size: 1.2rem;
       }
 
-      ha-icon {
+      op-icon {
         width: 40%;
         height: auto;
         color: var(--paper-item-icon-color, #44739e);
       }
 
-      ha-icon[data-domain="light"][data-state="on"],
-      ha-icon[data-domain="switch"][data-state="on"],
-      ha-icon[data-domain="binary_sensor"][data-state="on"],
-      ha-icon[data-domain="fan"][data-state="on"],
-      ha-icon[data-domain="sun"][data-state="above_horizon"] {
+      op-icon[data-domain="light"][data-state="on"],
+      op-icon[data-domain="switch"][data-state="on"],
+      op-icon[data-domain="binary_sensor"][data-state="on"],
+      op-icon[data-domain="fan"][data-state="on"],
+      op-icon[data-domain="sun"][data-state="above_horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 
-      ha-icon[data-state="unavailable"] {
+      op-icon[data-state="unavailable"] {
         color: var(--state-icon-unavailable-color);
       }
     `;
   }
 
-  private _computeBrightness(stateObj: HassEntity | LightEntity): string {
+  private _computeBrightness(stateObj: OppEntity | LightEntity): string {
     if (!stateObj.attributes.brightness) {
       return "";
     }
@@ -198,7 +198,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     return `brightness(${(brightness + 245) / 5}%)`;
   }
 
-  private _computeColor(stateObj: HassEntity | LightEntity): string {
+  private _computeColor(stateObj: OppEntity | LightEntity): string {
     if (!stateObj.attributes.hs_color) {
       return "";
     }
@@ -210,11 +210,11 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
   }
 
   private _handleTap() {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold() {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 }
 

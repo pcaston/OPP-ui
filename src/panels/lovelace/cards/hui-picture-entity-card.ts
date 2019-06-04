@@ -10,7 +10,7 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 import "../components/hui-image";
 import "../components/hui-warning";
 
@@ -56,16 +56,16 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -76,9 +76,9 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
 
     const name = this._config.name || computeStateName(stateObj);
     const state = computeStateDisplay(
-      this.hass!.localize,
+      this.opp!.localize,
       stateObj,
-      this.hass.language
+      this.opp.language
     );
 
     let footer: TemplateResult | string = "";
@@ -100,9 +100,9 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card>
+      <op-card>
         <hui-image
-          .hass="${this.hass}"
+          .opp="${this.opp}"
           .image="${this._config.image}"
           .stateImage="${this._config.state_image}"
           .cameraImage="${computeDomain(this._config.entity) === "camera"
@@ -111,21 +111,21 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
           .cameraView="${this._config.camera_view}"
           .entity="${this._config.entity}"
           .aspectRatio="${this._config.aspect_ratio}"
-          @ha-click="${this._handleTap}"
-          @ha-hold="${this._handleHold}"
+          @op-click="${this._handleTap}"
+          @op-hold="${this._handleHold}"
           .longPress="${longPress()}"
           class="${classMap({
             clickable: stateObj.state !== UNAVAILABLE,
           })}"
         ></hui-image>
         ${footer}
-      </ha-card>
+      </op-card>
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-card {
+      op-card {
         min-height: 75px;
         overflow: hidden;
         position: relative;
@@ -165,11 +165,11 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
   }
 
   private _handleTap() {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold() {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 }
 

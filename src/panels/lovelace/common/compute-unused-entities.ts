@@ -68,11 +68,11 @@ const computeUsedEntities = (config) => {
 };
 
 export const computeUnusedEntities = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   config: LovelaceConfig
 ): string[] => {
   const usedEntities = computeUsedEntities(config);
-  return Object.keys(hass.states)
+  return Object.keys(opp.states)
     .filter(
       (entity) =>
         !usedEntities.has(entity) &&

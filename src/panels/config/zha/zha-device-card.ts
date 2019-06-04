@@ -40,7 +40,7 @@ import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "zop-device-removed": {
+    "zha-device-removed": {
       device?: ZHADevice;
     };
   }
@@ -100,7 +100,7 @@ class ZHADeviceCard extends LitElement {
   protected serviceCalled(ev): void {
     // Check if this is for us
     if (ev.detail.success && ev.detail.service === "remove") {
-      fireEvent(this, "zop-device-removed", {
+      fireEvent(this, "zha-device-removed", {
         device: this.device,
       });
     }
@@ -128,12 +128,12 @@ class ZHADeviceCard extends LitElement {
         <div class="card-content">
           <dl>
             <dt>IEEE:</dt>
-            <dd class="zop-info">${this.device!.ieee}</dd>
+            <dd class="zha-info">${this.device!.ieee}</dd>
             ${
               this.device!.quirk_applied
                 ? html`
                     <dt>Quirk:</dt>
-                    <dd class="zop-info">${this.device!.quirk_class}</dd>
+                    <dd class="zha-info">${this.device!.quirk_class}</dd>
                   `
                 : ""
             }
@@ -344,7 +344,7 @@ class ZHADeviceCard extends LitElement {
           margin-top: 8px;
         }
         .manuf,
-        .zop-info,
+        .zha-info,
         .entity-id {
           color: var(--secondary-text-color);
         }
@@ -402,6 +402,6 @@ class ZHADeviceCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-device-card": ZHADeviceCard;
+    "zha-device-card": ZHADeviceCard;
   }
 }

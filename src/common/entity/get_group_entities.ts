@@ -1,4 +1,4 @@
-import { OppEntities } from "home-assistant-js-websocket";
+import { OppEntities } from "../../open-peer-power-js-websocket/lib";
 import { GroupEntity } from "../../types";
 
 export default function getGroupEntities(

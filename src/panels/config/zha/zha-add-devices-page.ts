@@ -1,7 +1,7 @@
 import "../../../components/op-service-description";
 import "../../../components/op-textarea";
 import "../../../layouts/opp-subpage";
-import "./zop-device-card";
+import "./zha-device-card";
 import "@material/mwc-button";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-spinner/paper-spinner";
@@ -17,10 +17,10 @@ import {
 } from "lit-element";
 
 import { ZHADevice } from "../../../data/zha";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower, Route } from "../../../types";
 
-@customElement("zop-add-devices-page")
+@customElement("zha-add-devices-page")
 class ZHAAddDevicesPage extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
@@ -111,7 +111,7 @@ class ZHAAddDevicesPage extends LitElement {
             : html`
                 ${this._discoveredDevices.map(
                   (device) => html`
-                    <zop-device-card
+                    <zha-device-card
                       class="card"
                       .opp="${this.opp}"
                       .device="${device}"
@@ -119,7 +119,7 @@ class ZHAAddDevicesPage extends LitElement {
                       .showHelp="${this._showHelp}"
                       .showActions="${!this._active}"
                       .isJoinPage="${true}"
-                    ></zop-device-card>
+                    ></zha-device-card>
                   `
                 )}
               `}
@@ -178,7 +178,7 @@ class ZHAAddDevicesPage extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .discovery-text,
         .content-header {
@@ -250,6 +250,6 @@ class ZHAAddDevicesPage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-add-devices-page": ZHAAddDevicesPage;
+    "zha-add-devices-page": ZHAAddDevicesPage;
   }
 }

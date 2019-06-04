@@ -75,7 +75,7 @@ export class HuiImage extends LitElement {
   protected render(): TemplateResult | void {
     const ratio = this.aspectRatio ? parseAspectRatio(this.aspectRatio) : null;
     const stateObj =
-      this.hass && this.entity ? this.hass.states[this.entity] : undefined;
+      this.opp && this.entity ? this.opp.states[this.entity] : undefined;
     const state = stateObj ? stateObj.state : "unavailable";
 
     // Figure out image source to use
@@ -87,7 +87,7 @@ export class HuiImage extends LitElement {
     if (this.cameraImage) {
       if (this.cameraView === "live") {
         cameraObj =
-          this.hass && (this.hass.states[this.cameraImage] as CameraEntity);
+          this.opp && (this.opp.states[this.cameraImage] as CameraEntity);
       } else {
         imageSrc = this._cameraImageSrc;
       }
@@ -130,10 +130,10 @@ export class HuiImage extends LitElement {
       >
         ${this.cameraImage && this.cameraView === "live"
           ? html`
-              <ha-camera-stream
-                .hass="${this.hass}"
+              <op-camera-stream
+                .opp="${this.opp}"
                 .stateObj="${cameraObj}"
-              ></ha-camera-stream>
+              ></op-camera-stream>
             `
           : html`
               <img
@@ -193,11 +193,11 @@ export class HuiImage extends LitElement {
   }
 
   private async _updateCameraImageSrc(): Promise<void> {
-    if (!this.hass || !this.cameraImage) {
+    if (!this.opp || !this.cameraImage) {
       return;
     }
 
-    const cameraState = this.hass.states[this.cameraImage] as
+    const cameraState = this.opp.states[this.cameraImage] as
       | CameraEntity
       | undefined;
 
@@ -207,7 +207,7 @@ export class HuiImage extends LitElement {
     }
 
     this._cameraImageSrc = await fetchThumbnailUrlWithCache(
-      this.hass,
+      this.opp,
       this.cameraImage
     );
   }

@@ -8,9 +8,9 @@ import {
   property,
 } from "lit-element";
 import "@polymer/paper-spinner/paper-spinner";
-import "../../../../components/dialog/ha-paper-dialog";
+import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 
@@ -49,23 +49,23 @@ export class HuiDialogEditLovelace extends LitElement {
   }
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   protected render(): TemplateResult | void {
     return html`
-      <ha-paper-dialog with-backdrop>
+      <op-paper-dialog with-backdrop>
         <h2>Edit Lovelace</h2>
         <paper-dialog-scrollable>
           <hui-lovelace-editor
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .config="${this._config}"
             @lovelace-config-changed="${this._ConfigChanged}"
           ></hui-lovelace-editor
         ></paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._closeDialog}"
-            >${this.hass!.localize("ui.common.cancel")}</mwc-button
+            >${this.opp!.localize("ui.common.cancel")}</mwc-button
           >
           <mwc-button
             ?disabled="${!this._config || this._saving}"
@@ -75,10 +75,10 @@ export class HuiDialogEditLovelace extends LitElement {
               ?active="${this._saving}"
               alt="Saving"
             ></paper-spinner>
-            ${this.hass!.localize("ui.common.save")}</mwc-button
+            ${this.opp!.localize("ui.common.save")}</mwc-button
           >
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -130,18 +130,18 @@ export class HuiDialogEditLovelace extends LitElement {
       haStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
-          /* overrule the ha-style-dialog max-height on small screens */
-          ha-paper-dialog {
+          /* overrule the op-style-dialog max-height on small screens */
+          op-paper-dialog {
             max-height: 100%;
             height: 100%;
           }
         }
         @media all and (min-width: 660px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             width: 650px;
           }
         }
-        ha-paper-dialog {
+        op-paper-dialog {
           max-width: 650px;
         }
         mwc-button paper-spinner {

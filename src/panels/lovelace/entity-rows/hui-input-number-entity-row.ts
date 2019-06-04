@@ -10,7 +10,7 @@ import {
 } from "lit-element";
 
 import "../components/hui-generic-entity-row";
-import "../../../components/ha-slider";
+import "../../../components/op-slider";
 import "../components/hui-warning";
 
 import { computeRTLDirection } from "../../../common/util/compute_rtl";
@@ -55,16 +55,16 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -74,13 +74,13 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <div>
           ${stateObj.attributes.mode === "slider"
             ? html`
                 <div class="flex">
-                  <ha-slider
-                    .dir="${computeRTLDirection(this.hass!)}"
+                  <op-slider
+                    .dir="${computeRTLDirection(this.opp!)}"
                     .step="${Number(stateObj.attributes.step)}"
                     .min="${Number(stateObj.attributes.min)}"
                     .max="${Number(stateObj.attributes.max)}"
@@ -89,7 +89,7 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
                     @change="${this._selectedValueChanged}"
                     ignore-bar-touch
                     id="input"
-                  ></ha-slider>
+                  ></op-slider>
                   <span class="state">
                     ${Number(stateObj.state)}
                     ${stateObj.attributes.unit_of_measurement}
@@ -152,10 +152,10 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
 
   private _selectedValueChanged(): void {
     const element = this._inputElement;
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (element.value !== stateObj.state) {
-      setValue(this.hass!, stateObj.entity_id, element.value!);
+      setValue(this.opp!, stateObj.entity_id, element.value!);
     }
   }
 }

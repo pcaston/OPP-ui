@@ -6,7 +6,7 @@ import {
   property,
 } from "lit-element";
 
-import "../../../../components/entity/ha-entity-picker";
+import "../../../../components/entity/op-entity-picker";
 
 import { struct } from "../../common/structs/struct";
 import { EntitiesEditorEvent, EditorTarget } from "../types";
@@ -43,7 +43,7 @@ export class HuiWeatherForecastCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -57,21 +57,21 @@ export class HuiWeatherForecastCardEditor extends LitElement
             .configValue="${"name"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
-          <ha-entity-picker
-            .hass="${this.hass}"
+          <op-entity-picker
+            .opp="${this.opp}"
             .value="${this._entity}"
             .configValue=${"entity"}
             domain-filter="weather"
             @change="${this._valueChanged}"
             allow-custom-entity
-          ></ha-entity-picker>
+          ></op-entity-picker>
         </div>
       </div>
     `;
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

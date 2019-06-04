@@ -8,7 +8,7 @@ import {
   CSSResult,
 } from "lit-element";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { styleMap } from "lit-html/directives/style-map";
@@ -21,7 +21,7 @@ export class HuiIframeCard extends LitElement implements LovelaceCard {
     return document.createElement("hui-iframe-card-editor");
   }
   public static getStubConfig(): object {
-    return { url: "https://www.home-assistant.io", aspect_ratio: "50%" };
+    return { url: "https://www.open-peer-power.io", aspect_ratio: "50%" };
   }
 
   @property() protected _config?: IframeCardConfig;
@@ -52,7 +52,7 @@ export class HuiIframeCard extends LitElement implements LovelaceCard {
     const aspectRatio = this._config.aspect_ratio || "50%";
 
     return html`
-      <ha-card .header="${this._config.title}">
+      <op-card .header="${this._config.title}">
         <div
           id="root"
           style="${styleMap({
@@ -61,13 +61,13 @@ export class HuiIframeCard extends LitElement implements LovelaceCard {
         >
           <iframe src="${this._config.url}"></iframe>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-card {
+      op-card {
         overflow: hidden;
       }
 

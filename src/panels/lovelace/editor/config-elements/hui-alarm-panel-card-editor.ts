@@ -18,8 +18,8 @@ import { LovelaceCardEditor } from "../../types";
 import { fireEvent } from "../../../../common/dom/fire_event";
 import { configElementStyle } from "./config-elements-style";
 
-import "../../../../components/entity/ha-entity-picker";
-import "../../../../components/ha-icon";
+import "../../../../components/entity/op-entity-picker";
+import "../../../../components/op-icon";
 import { AlarmPanelCardConfig } from "../../cards/types";
 
 const cardConfigStruct = struct({
@@ -54,7 +54,7 @@ export class HuiAlarmPanelCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -70,25 +70,25 @@ export class HuiAlarmPanelCardEditor extends LitElement
             .configValue="${"name"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
-          <ha-entity-picker
-            .hass="${this.hass}"
+          <op-entity-picker
+            .opp="${this.opp}"
             .value="${this._entity}"
             .configValue=${"entity"}
             domain-filter="alarm_control_panel"
             @change="${this._valueChanged}"
             allow-custom-entity
-          ></ha-entity-picker>
+          ></op-entity-picker>
         </div>
         <span>Used States</span> ${this._states.map((state, index) => {
           return html`
             <div class="states">
               <paper-item>${state}</paper-item>
-              <ha-icon
+              <op-icon
                 class="deleteState"
                 .value="${index}"
-                icon="hass:close"
+                icon="opp:close"
                 @click=${this._stateRemoved}
-              ></ha-icon>
+              ></op-icon>
             </div>
           `;
         })}
@@ -120,14 +120,14 @@ export class HuiAlarmPanelCardEditor extends LitElement
       .states:hover > .deleteState {
         visibility: visible;
       }
-      ha-icon {
+      op-icon {
         padding-top: 12px;
       }
     `;
   }
 
   private _stateRemoved(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this._states || !this.hass) {
+    if (!this._config || !this._states || !this.opp) {
       return;
     }
 
@@ -145,7 +145,7 @@ export class HuiAlarmPanelCardEditor extends LitElement
   }
 
   private _stateAdded(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;
@@ -163,7 +163,7 @@ export class HuiAlarmPanelCardEditor extends LitElement
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

@@ -29,7 +29,7 @@ import {
 @customElement("step-flow-create-entry")
 class StepFlowCreateEntry extends LitElement {
   @property()
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
 
   @property()
   public step!: ConfigFlowStepCreateEntry;
@@ -41,7 +41,7 @@ class StepFlowCreateEntry extends LitElement {
   public areas!: AreaRegistryEntry[];
 
   protected render(): TemplateResult | void {
-    const localize = this.hass.localize;
+    const localize = this.opp.localize;
     const step = this.step;
 
     const description = localizeKey(
@@ -56,7 +56,7 @@ class StepFlowCreateEntry extends LitElement {
       <div class="content">
         ${description
           ? html`
-              <ha-markdown .content=${description} allow-svg></ha-markdown>
+              <op-markdown .content=${description} allow-svg></op-markdown>
             `
           : ""}
         <p>Created config for ${step.title}.</p>
@@ -120,7 +120,7 @@ class StepFlowCreateEntry extends LitElement {
       return;
     }
     try {
-      const area = await createAreaRegistryEntry(this.hass, {
+      const area = await createAreaRegistryEntry(this.opp, {
         name,
       });
       this.areas = [...this.areas, area];
@@ -140,7 +140,7 @@ class StepFlowCreateEntry extends LitElement {
 
     const area = dropdown.selectedItem.area;
     try {
-      await updateDeviceRegistryEntry(this.hass, device, {
+      await updateDeviceRegistryEntry(this.opp, device, {
         area_id: area,
       });
     } catch (err) {

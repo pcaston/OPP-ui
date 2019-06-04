@@ -20,7 +20,7 @@ export class HuiNotificationItem extends LitElement {
   @property() public notification?: HassNotification;
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!this.hass || !this.notification || changedProps.has("notification")) {
+    if (!this.opp || !this.notification || changedProps.has("notification")) {
       return true;
     }
 
@@ -28,20 +28,20 @@ export class HuiNotificationItem extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.notification) {
+    if (!this.opp || !this.notification) {
       return html``;
     }
 
     return this.notification.entity_id
       ? html`
           <hui-configurator-notification-item
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .notification="${this.notification}"
           ></hui-configurator-notification-item>
         `
       : html`
           <hui-persistent-notification-item
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .notification="${this.notification}"
           ></hui-persistent-notification-item>
         `;

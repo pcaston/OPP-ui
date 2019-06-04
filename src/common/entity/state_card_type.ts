@@ -1,11 +1,11 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import canToggleState from "./can_toggle_state";
 import computeStateDomain from "./compute_state_domain";
 import { DOMAINS_WITH_CARD } from "../const";
 import { OpenPeerPower } from "../../types";
 
 export default function stateCardType(
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   stateObj: OppEntity
 ) {
   if (stateObj.state === "unavailable") {
@@ -18,7 +18,7 @@ export default function stateCardType(
     return domain;
   }
   if (
-    canToggleState(hass, stateObj) &&
+    canToggleState(opp, stateObj) &&
     stateObj.attributes.control !== "hidden"
   ) {
     return "toggle";

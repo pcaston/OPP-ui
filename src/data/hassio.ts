@@ -62,8 +62,8 @@ export interface OppioAddonDetails {
   icon: boolean;
   logo: boolean;
   changelog: boolean;
-  hassio_api: boolean;
-  hassio_role: "default" | "openpeerpower" | "manager" | "admin";
+  oppio_api: boolean;
+  oppio_role: "default" | "openpeerpower" | "manager" | "admin";
   openpeerpower_api: boolean;
   auth_api: boolean;
   full_access: boolean;
@@ -141,84 +141,84 @@ export interface OppioPartialSnapshotCreateParams {
   password?: string;
 }
 
-const hassioApiResultExtractor = <T>(response: OppioResponse<T>) =>
+const oppioApiResultExtractor = <T>(response: OppioResponse<T>) =>
   response.data;
 
-export const createOppioSession = async (hass: OpenPeerPower) => {
-  const response = await hass.callApi<OppioResponse<CreateSessionResponse>>(
+export const createOppioSession = async (opp: OpenPeerPower) => {
+  const response = await opp.callApi<OppioResponse<CreateSessionResponse>>(
     "POST",
-    "hassio/ingress/session"
+    "oppio/ingress/session"
   );
   document.cookie = `ingress_session=${
     response.data.session
-  };path=/api/hassio_ingress/`;
+  };path=/api/oppio_ingress/`;
 };
 
-export const reloadOppioAddons = (hass: OpenPeerPower) =>
-  hass.callApi<unknown>("POST", `hassio/addons/reload`);
+export const reloadOppioAddons = (opp: OpenPeerPower) =>
+  opp.callApi<unknown>("POST", `oppio/addons/reload`);
 
-export const fetchOppioAddonsInfo = (hass: OpenPeerPower) =>
-  hass
-    .callApi<OppioResponse<OppioAddonsInfo>>("GET", `hassio/addons`)
-    .then(hassioApiResultExtractor);
+export const fetchOppioAddonsInfo = (opp: OpenPeerPower) =>
+  opp
+    .callApi<OppioResponse<OppioAddonsInfo>>("GET", `oppio/addons`)
+    .then(oppioApiResultExtractor);
 
-export const fetchOppioAddonInfo = (hass: OpenPeerPower, addon: string) =>
-  hass
+export const fetchOppioAddonInfo = (opp: OpenPeerPower, addon: string) =>
+  opp
     .callApi<OppioResponse<OppioAddonDetails>>(
       "GET",
-      `hassio/addons/${addon}/info`
+      `oppio/addons/${addon}/info`
     )
-    .then(hassioApiResultExtractor);
+    .then(oppioApiResultExtractor);
 
-export const fetchOppioSupervisorInfo = (hass: OpenPeerPower) =>
-  hass
+export const fetchOppioSupervisorInfo = (opp: OpenPeerPower) =>
+  opp
     .callApi<OppioResponse<OppioSupervisorInfo>>(
       "GET",
-      "hassio/supervisor/info"
+      "oppio/supervisor/info"
     )
-    .then(hassioApiResultExtractor);
+    .then(oppioApiResultExtractor);
 
-export const fetchOppioHostInfo = (hass: OpenPeerPower) =>
-  hass
-    .callApi<OppioResponse<OppioHostInfo>>("GET", "hassio/host/info")
-    .then(hassioApiResultExtractor);
+export const fetchOppioHostInfo = (opp: OpenPeerPower) =>
+  opp
+    .callApi<OppioResponse<OppioHostInfo>>("GET", "oppio/host/info")
+    .then(oppioApiResultExtractor);
 
-export const fetchOppioOpenPeerPowerInfo = (hass: OpenPeerPower) =>
-  hass
+export const fetchOppioOpenPeerPowerInfo = (opp: OpenPeerPower) =>
+  opp
     .callApi<OppioResponse<OppioOpenPeerPowerInfo>>(
       "GET",
-      "hassio/openpeerpower/info"
+      "oppio/openpeerpower/info"
     )
-    .then(hassioApiResultExtractor);
+    .then(oppioApiResultExtractor);
 
-export const fetchOppioSnapshots = (hass: OpenPeerPower) =>
-  hass
+export const fetchOppioSnapshots = (opp: OpenPeerPower) =>
+  opp
     .callApi<OppioResponse<{ snapshots: OppioSnapshot[] }>>(
       "GET",
-      "hassio/snapshots"
+      "oppio/snapshots"
     )
     .then((resp) => resp.data.snapshots);
 
-export const reloadOppioSnapshots = (hass: OpenPeerPower) =>
-  hass.callApi<unknown>("POST", `hassio/snapshots/reload`);
+export const reloadOppioSnapshots = (opp: OpenPeerPower) =>
+  opp.callApi<unknown>("POST", `oppio/snapshots/reload`);
 
 export const createOppioFullSnapshot = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   data: OppioFullSnapshotCreateParams
-) => hass.callApi<unknown>("POST", "hassio/snapshots/new/full", data);
+) => opp.callApi<unknown>("POST", "oppio/snapshots/new/full", data);
 
 export const createOppioPartialSnapshot = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   data: OppioPartialSnapshotCreateParams
-) => hass.callApi<unknown>("POST", "hassio/snapshots/new/partial", data);
+) => opp.callApi<unknown>("POST", "oppio/snapshots/new/partial", data);
 
 export const fetchOppioSnapshotInfo = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   snapshot: string
 ) =>
-  hass
+  opp
     .callApi<OppioResponse<OppioSnapshotDetail>>(
       "GET",
-      `hassio/snapshots/${snapshot}/info`
+      `oppio/snapshots/${snapshot}/info`
     )
-    .then(hassioApiResultExtractor);
+    .then(oppioApiResultExtractor);

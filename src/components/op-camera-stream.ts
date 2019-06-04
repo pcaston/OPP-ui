@@ -21,7 +21,7 @@ import { supportsFeature } from "../common/entity/supports-feature";
 
 type HLSModule = typeof import("hls.js");
 
-@customElement("ha-camera-stream")
+@customElement("op-camera-stream")
 class HaCameraStream extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public stateObj?: CameraEntity;
@@ -109,7 +109,7 @@ class HaCameraStream extends LitElement {
   private get _shouldRenderMJPEG() {
     return (
       this._forceMJPEG === this.stateObj!.entity_id ||
-      !this.hass!.config.components.includes("stream") ||
+      !this.opp!.config.components.includes("stream") ||
       !supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     );
   }
@@ -137,7 +137,7 @@ class HaCameraStream extends LitElement {
 
     try {
       const { url } = await fetchStreamUrl(
-        this.hass!,
+        this.opp!,
         this.stateObj!.entity_id
       );
 
@@ -206,6 +206,6 @@ class HaCameraStream extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-camera-stream": HaCameraStream;
+    "op-camera-stream": HaCameraStream;
   }
 }

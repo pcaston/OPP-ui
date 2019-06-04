@@ -15,8 +15,8 @@ import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 import computeStateName from "../../../common/entity/compute_state_name";
 import stateIcon from "../../../common/entity/state_icon";
 
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -183,16 +183,16 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -233,12 +233,12 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       graph = "";
     }
     return html`
-      <ha-card @click="${this._handleClick}">
+      <op-card @click="${this._handleClick}">
         <div class="flex">
           <div class="icon">
-            <ha-icon
+            <op-icon
               .icon="${this._config.icon || stateIcon(stateObj)}"
-            ></ha-icon>
+            ></op-icon>
           </div>
           <div class="header">
             <span class="name"
@@ -254,7 +254,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
           >
         </div>
         <div class="graph"><div>${graph}</div></div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -272,13 +272,13 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
-    if (!this._config || this._config.graph !== "line" || !this.hass) {
+    if (!this._config || this._config.graph !== "line" || !this.opp) {
       return;
     }
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config!.theme);
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config!.theme);
     }
 
     const minute = 60000;
@@ -290,7 +290,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
   }
 
   private _handleClick(): void {
-    fireEvent(this, "hass-more-info", { entityId: this._config!.entity });
+    fireEvent(this, "opp-more-info", { entityId: this._config!.entity });
   }
 
   private async _getHistory(): Promise<void> {
@@ -299,7 +299,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
     startTime.setHours(endTime.getHours() - this._config!.hours_to_show!);
 
     const stateHistory = await fetchRecent(
-      this.hass,
+      this.opp,
       this._config!.entity,
       startTime,
       endTime
@@ -327,7 +327,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
         flex-direction: column;
       }
 
-      ha-card {
+      op-card {
         display: flex;
         flex-direction: column;
         flex: 1;

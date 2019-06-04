@@ -8,11 +8,11 @@ export interface Condition {
 
 export function checkConditionsMet(
   conditions: Condition[],
-  hass: OpenPeerPower
+  opp: OpenPeerPower
 ): boolean {
   return conditions.every((c) => {
-    const state = hass.states[c.entity]
-      ? hass!.states[c.entity].state
+    const state = opp.states[c.entity]
+      ? opp!.states[c.entity].state
       : "unavailable";
 
     return c.state ? state === c.state : state !== c.state_not;

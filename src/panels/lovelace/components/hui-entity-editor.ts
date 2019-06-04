@@ -12,7 +12,7 @@ import { OpenPeerPower } from "../../../types";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { EntityConfig } from "../entity-rows/types";
 
-import "../../../components/entity/ha-entity-picker";
+import "../../../components/entity/op-entity-picker";
 import { EditorTarget } from "../editor/types";
 
 @customElement("hui-entity-editor")
@@ -31,19 +31,19 @@ export class HuiEntityEditor extends LitElement {
       <div class="entities">
         ${this.entities.map((entityConf, index) => {
           return html`
-            <ha-entity-picker
-              .hass="${this.hass}"
+            <op-entity-picker
+              .opp="${this.opp}"
               .value="${entityConf.entity}"
               .index="${index}"
               @change="${this._valueChanged}"
               allow-custom-entity
-            ></ha-entity-picker>
+            ></op-entity-picker>
           `;
         })}
-        <ha-entity-picker
-          .hass="${this.hass}"
+        <op-entity-picker
+          .opp="${this.opp}"
           @change="${this._addEntity}"
-        ></ha-entity-picker>
+        ></op-entity-picker>
       </div>
     `;
   }

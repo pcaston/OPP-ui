@@ -10,11 +10,11 @@ export function hasConfigOrEntityChanged(
     return true;
   }
 
-  const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
+  const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
   if (oldHass) {
     return (
       oldHass.states[element._config!.entity] !==
-      element.hass!.states[element._config!.entity]
+      element.opp!.states[element._config!.entity]
     );
   }
 

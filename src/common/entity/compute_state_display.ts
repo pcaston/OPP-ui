@@ -1,4 +1,4 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import computeStateDomain from "./compute_state_domain";
 import formatDateTime from "../datetime/format_date_time";
 import formatDate from "../datetime/format_date";

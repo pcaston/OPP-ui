@@ -9,15 +9,15 @@ import {
 import "@material/mwc-button";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import "../../../components/dialog/ha-paper-dialog";
+import "../../../components/dialog/op-paper-dialog";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
 
 import { OpenPeerPower } from "../../../types";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { WebhookDialogParams } from "./show-cloud-webhook-manage-dialog";
 
 const inputLabel = "Public URL – Click to copy to clipboard";
@@ -46,10 +46,10 @@ export class CloudWebhookManageDialog extends LitElement {
     const { webhook, cloudhook } = this._params;
     const docsUrl =
       webhook.domain === "automation"
-        ? "https://www.home-assistant.io/docs/automation/trigger/#webhook-trigger"
-        : `https://www.home-assistant.io/components/${webhook.domain}/`;
+        ? "https://www.open-peer-power.io/docs/automation/trigger/#webhook-trigger"
+        : `https://www.open-peer-power.io/components/${webhook.domain}/`;
     return html`
-      <ha-paper-dialog with-backdrop>
+      <op-paper-dialog with-backdrop>
         <h2>Webhook for ${webhook.name}</h2>
         <div>
           <p>The webhook is available at the following url:</p>
@@ -80,12 +80,12 @@ export class CloudWebhookManageDialog extends LitElement {
           >
           <mwc-button @click="${this._closeDialog}">CLOSE</mwc-button>
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   private get _paperInput(): PaperInputElement {
@@ -125,9 +125,9 @@ export class CloudWebhookManageDialog extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
-        ha-paper-dialog {
+        op-paper-dialog {
           width: 650px;
         }
         paper-input {

@@ -8,18 +8,18 @@ export const timeCachePromiseFunc = async <T>(
   cacheKey: string,
   cacheTime: number,
   func: (
-    hass: OpenPeerPower,
+    opp: OpenPeerPower,
     entityId: string,
     ...args: unknown[]
   ) => Promise<T>,
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   ...args: unknown[]
 ): Promise<T> => {
-  let cache: ResultCache<T> | undefined = (hass as any)[cacheKey];
+  let cache: ResultCache<T> | undefined = (opp as any)[cacheKey];
 
   if (!cache) {
-    cache = hass[cacheKey] = {};
+    cache = opp[cacheKey] = {};
   }
 
   const lastResult = cache[entityId];
@@ -28,7 +28,7 @@ export const timeCachePromiseFunc = async <T>(
     return lastResult;
   }
 
-  const result = func(hass, entityId, ...args);
+  const result = func(opp, entityId, ...args);
   cache[entityId] = result;
 
   result.then(

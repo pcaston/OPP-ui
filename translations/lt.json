@@ -471,7 +471,7 @@
     },
     "domain": {
         "zwave": "Z-Wave",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "lovelace": "Lovelace",
         "system_health": "Sistemos sveikata",

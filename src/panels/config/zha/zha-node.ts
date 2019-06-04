@@ -1,6 +1,6 @@
-import "../../../components/buttons/ha-call-service-button";
-import "../../../components/ha-service-description";
-import "../ha-config-section";
+import "../../../components/buttons/op-call-service-button";
+import "../../../components/op-service-description";
+import "../op-config-section";
 import "./zha-clusters";
 import "./zha-device-card";
 import "@material/mwc-button";
@@ -22,7 +22,7 @@ import {
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { fetchDevices, ZHADevice } from "../../../data/zha";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { sortZHADevices } from "./functions";
 import { ItemSelectedEvent, ZHADeviceRemovedEvent } from "./types";
@@ -52,13 +52,13 @@ export class ZHANode extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <ha-config-section .isWide="${this.isWide}">
+      <op-config-section .isWide="${this.isWide}">
         <div class="sectionHeader" slot="header">
           <span>Device Management</span>
           <paper-icon-button
             class="toggle-help-icon"
             @click="${this._onHelpTap}"
-            icon="hass:help-circle"
+            icon="opp:help-circle"
           ></paper-icon-button>
         </div>
         <span slot="introduction">
@@ -105,7 +105,7 @@ export class ZHANode extends LitElement {
             ? html`
                 <zha-device-card
                   class="card"
-                  .hass="${this.hass}"
+                  .opp="${this.opp}"
                   .device="${this._selectedDevice}"
                   .narrow="${!this.isWide}"
                   .showHelp="${this._showHelp}"
@@ -117,14 +117,14 @@ export class ZHANode extends LitElement {
             : ""}
           ${this._selectedDevice ? this._renderClusters() : ""}
         </paper-card>
-      </ha-config-section>
+      </op-config-section>
     `;
   }
 
   private _renderClusters(): TemplateResult {
     return html`
       <zha-clusters
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .selectedDevice="${this._selectedDevice}"
         .showHelp="${this._showHelp}"
       ></zha-clusters>
@@ -142,7 +142,7 @@ export class ZHANode extends LitElement {
   }
 
   private async _fetchDevices() {
-    this._nodes = (await fetchDevices(this.hass!)).sort(sortZHADevices);
+    this._nodes = (await fetchDevices(this.opp!)).sort(sortZHADevices);
   }
 
   private _onDeviceRemoved(event: ZHADeviceRemovedEvent): void {
@@ -154,7 +154,7 @@ export class ZHANode extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .flex {
           -ms-flex: 1 1 0.000000001px;
@@ -216,7 +216,7 @@ export class ZHANode extends LitElement {
           word-wrap: break-word;
         }
 
-        ha-service-description {
+        op-service-description {
           display: block;
           color: grey;
         }

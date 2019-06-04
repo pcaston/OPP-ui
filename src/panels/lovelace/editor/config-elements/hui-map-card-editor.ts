@@ -72,7 +72,7 @@ export class HuiMapCardEditor extends LitElement implements LovelaceCardEditor {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -101,7 +101,7 @@ export class HuiMapCardEditor extends LitElement implements LovelaceCardEditor {
           ></paper-input>
         </div>
         <hui-entity-editor
-          .hass="${this.hass}"
+          .opp="${this.opp}"
           .entities="${this._configEntities}"
           @entities-changed="${this._entitiesValueChanged}"
         ></hui-entity-editor>
@@ -109,7 +109,7 @@ export class HuiMapCardEditor extends LitElement implements LovelaceCardEditor {
         <div class="geo_location_sources">
           <hui-input-list-editor
             inputLabel="Source"
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .value="${this._geo_location_sources}"
             .configValue="${"geo_location_sources"}"
             @value-changed="${this._valueChanged}"
@@ -120,7 +120,7 @@ export class HuiMapCardEditor extends LitElement implements LovelaceCardEditor {
   }
 
   private _entitiesValueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     if (ev.detail && ev.detail.entities) {
@@ -131,7 +131,7 @@ export class HuiMapCardEditor extends LitElement implements LovelaceCardEditor {
   }
 
   private _valueChanged(ev: PolymerChangedEvent<any>): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

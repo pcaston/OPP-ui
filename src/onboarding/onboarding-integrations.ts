@@ -31,7 +31,7 @@ import { genClientId } from "../open-peer-power-js-websocket/lib";
 
 @customElement("onboarding-integrations")
 class OnboardingIntegrations extends LitElement {
-  @property() public hass!: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
   @property() public onboardingLocalize!: LocalizeFunc;
   @property() private _entries?: ConfigEntry[];
   @property() private _discovered?: ConfigFlowProgress[];
@@ -39,7 +39,7 @@ class OnboardingIntegrations extends LitElement {
 
   public connectedCallback() {
     super.connectedCallback();
-    this.hass.connection
+    this.opp.connection
       .subscribeEvents(
         debounce(() => this._loadData(), 500),
         "config_entry_discovered"
@@ -63,7 +63,7 @@ class OnboardingIntegrations extends LitElement {
     // Render discovered and existing entries together sorted by localized title.
     const entries: Array<[string, TemplateResult]> = this._entries.map(
       (entry) => {
-        const title = this.hass.localize(
+        const title = this.opp.localize(
           `component.${entry.domain}.config.title`
         );
         return [
@@ -71,7 +71,7 @@ class OnboardingIntegrations extends LitElement {
           html`
             <integration-badge
               .title=${title}
-              icon="hass:check"
+              icon="opp:check"
             ></integration-badge>
           `,
         ];
@@ -79,7 +79,7 @@ class OnboardingIntegrations extends LitElement {
     );
     const discovered: Array<[string, TemplateResult]> = this._discovered.map(
       (flow) => {
-        const title = localizeConfigFlowTitle(this.hass.localize, flow);
+        const title = localizeConfigFlowTitle(this.opp.localize, flow);
         return [
           title,
           html`
@@ -87,7 +87,7 @@ class OnboardingIntegrations extends LitElement {
               <integration-badge
                 clickable
                 .title=${title}
-                icon="hass:plus"
+                icon="opp:plus"
               ></integration-badge>
             </button>
           `,
@@ -110,7 +110,7 @@ class OnboardingIntegrations extends LitElement {
             title=${this.onboardingLocalize(
               "ui.panel.page-onboarding.integration.more_integrations"
             )}
-            icon="hass:dots-horizontal"
+            icon="opp:dots-horizontal"
           ></integration-badge>
         </button>
       </div>
@@ -147,15 +147,15 @@ class OnboardingIntegrations extends LitElement {
 
   private async _loadData() {
     const [discovered, entries] = await Promise.all([
-      getConfigFlowsInProgress(this.hass!),
-      getConfigEntries(this.hass!),
+      getConfigFlowsInProgress(this.opp!),
+      getConfigEntries(this.opp!),
     ]);
     this._discovered = discovered;
     this._entries = entries;
   }
 
   private async _finish() {
-    const result = await onboardIntegrationStep(this.hass, {
+    const result = await onboardIntegrationStep(this.opp, {
       client_id: genClientId(),
     });
     fireEvent(this, "onboarding-step", {

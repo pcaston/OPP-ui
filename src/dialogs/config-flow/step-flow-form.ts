@@ -12,9 +12,9 @@ import "@material/mwc-button";
 import "@polymer/paper-tooltip/paper-tooltip";
 import "@polymer/paper-spinner/paper-spinner";
 
-import "../../components/ha-form";
-import "../../components/ha-markdown";
-import "../../resources/ha-style";
+import "../../components/op-form";
+import "../../components/op-markdown";
+import "../../resources/op-style";
 import {
   handleConfigFlowStep,
   FieldSchema,
@@ -32,7 +32,7 @@ class StepFlowForm extends LitElement {
   public step!: ConfigFlowStepForm;
 
   @property()
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
 
   @property()
   private _loading = false;
@@ -44,7 +44,7 @@ class StepFlowForm extends LitElement {
   private _errorMsg?: string;
 
   protected render(): TemplateResult | void {
-    const localize = this.hass.localize;
+    const localize = this.opp.localize;
     const step = this.step;
 
     const allRequiredInfoFilledIn =
@@ -79,17 +79,17 @@ class StepFlowForm extends LitElement {
           : ""}
         ${description
           ? html`
-              <ha-markdown .content=${description} allow-svg></ha-markdown>
+              <op-markdown .content=${description} allow-svg></op-markdown>
             `
           : ""}
-        <ha-form
+        <op-form
           .data=${this._stepDataProcessed}
           @data-changed=${this._stepDataChanged}
           .schema=${step.data_schema}
           .error=${step.errors}
           .computeLabel=${this._labelCallback}
           .computeError=${this._errorCallback}
-        ></ha-form>
+        ></op-form>
       </div>
       <div class="buttons">
         ${this._loading
@@ -162,7 +162,7 @@ class StepFlowForm extends LitElement {
 
     try {
       const step = await handleConfigFlowStep(
-        this.hass,
+        this.opp,
         this.step.flow_id,
         toSendData
       );
@@ -191,7 +191,7 @@ class StepFlowForm extends LitElement {
   private _labelCallback = (schema: FieldSchema): string => {
     const step = this.step as ConfigFlowStepForm;
 
-    return this.hass.localize(
+    return this.opp.localize(
       `component.${step.handler}.config.step.${step.step_id}.data.${
         schema.name
       }`
@@ -199,7 +199,7 @@ class StepFlowForm extends LitElement {
   };
 
   private _errorCallback = (error: string) =>
-    this.hass.localize(`component.${this.step.handler}.config.error.${error}`);
+    this.opp.localize(`component.${this.step.handler}.config.error.${error}`);
 
   static get styles(): CSSResultArray {
     return [

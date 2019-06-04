@@ -11,9 +11,9 @@ import "../components/hui-generic-entity-row";
 import "../../../components/paper-time-input.js";
 // tslint:disable-next-line:no-duplicate-imports
 import { PaperTimeInput } from "../../../components/paper-time-input.js";
-import "../../../components/ha-date-input";
+import "../../../components/op-date-input";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaDateInput } from "../../../components/ha-date-input";
+import { HaDateInput } from "../../../components/op-date-input";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
@@ -37,16 +37,16 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -56,16 +56,16 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         ${stateObj.attributes.has_date
           ? html`
-              <ha-date-input
+              <op-date-input
                 .year=${stateObj.attributes.year}
                 .month=${("0" + stateObj.attributes.month).slice(-2)}
                 .day=${("0" + stateObj.attributes.day).slice(-2)}
                 @change=${this._selectedValueChanged}
                 @click=${this._stopEventPropagation}
-              ></ha-date-input>
+              ></op-date-input>
               ${stateObj.attributes.has_time ? "," : ""}
             `
           : ``}
@@ -99,11 +99,11 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
   }
 
   private get _dateInputEl(): HaDateInput {
-    return this.shadowRoot!.querySelector("ha-date-input")!;
+    return this.shadowRoot!.querySelector("op-date-input")!;
   }
 
   private _selectedValueChanged(ev): void {
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     const time =
       this._timeInputEl !== null
@@ -114,7 +114,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
       this._dateInputEl !== null ? this._dateInputEl.value : undefined;
 
     if (time !== stateObj.state) {
-      setInputDateTimeValue(this.hass!, stateObj.entity_id, time, date);
+      setInputDateTimeValue(this.opp!, stateObj.entity_id, time, date);
     }
 
     ev.target.blur();
