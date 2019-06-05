@@ -75,7 +75,7 @@ class HaPanelConfig extends OppRouterPage {
       zha: {
         tag: "zha-config-panel",
         load: () =>
-          import(/* webpackChunkName: "panel-config-zha" */ "./zha/zop-config-panel"),
+          import(/* webpackChunkName: "panel-config-zha" */ "./zha/open-peer-powerconfig-panel"),
       },
       zwave: {
         tag: "op-config-zwave",

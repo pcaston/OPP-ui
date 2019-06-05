@@ -1,10 +1,10 @@
 import "../../../components/op-paper-icon-button-arrow-prev";
 import "../../../layouts/opp-subpage";
-import "./zop-binding";
-import "./zop-cluster-attributes";
-import "./zop-cluster-commands";
-import "./zop-network";
-import "./zop-node";
+import "./open-peer-powerbinding";
+import "./open-peer-powercluster-attributes";
+import "./open-peer-powercluster-commands";
+import "./open-peer-powernetwork";
+import "./open-peer-powernode";
 import "@polymer/paper-icon-button/paper-icon-button";
 
 import {
@@ -40,37 +40,37 @@ export class HaConfigZha extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage header="Zigbee Home Automation">
-        <zop-network
+        <open-peer-powernetwork
           .isWide="${this.isWide}"
           .opp="${this.opp}"
-        ></zop-network>
+        ></open-peer-powernetwork>
 
-        <zop-node
+        <open-peer-powernode
           .isWide="${this.isWide}"
           .opp="${this.opp}"
-          @zop-cluster-selected="${this._onClusterSelected}"
-          @zop-node-selected="${this._onDeviceSelected}"
-        ></zop-node>
+          @open-peer-powercluster-selected="${this._onClusterSelected}"
+          @open-peer-powernode-selected="${this._onDeviceSelected}"
+        ></open-peer-powernode>
         ${this._selectedCluster
           ? html`
-              <zop-cluster-attributes
+              <open-peer-powercluster-attributes
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedNode="${this._selectedDevice}"
                 .selectedCluster="${this._selectedCluster}"
-              ></zop-cluster-attributes>
+              ></open-peer-powercluster-attributes>
 
-              <zop-cluster-commands
+              <open-peer-powercluster-commands
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedNode="${this._selectedDevice}"
                 .selectedCluster="${this._selectedCluster}"
-              ></zop-cluster-commands>
+              ></open-peer-powercluster-commands>
             `
           : ""}
         ${this._selectedDevice && this._bindableDevices.length > 0
           ? html`
-              <zop-binding-control
+              <open-peer-powerbinding-control
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedDevice="${this._selectedDevice}"
