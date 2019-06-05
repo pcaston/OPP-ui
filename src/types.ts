@@ -8,6 +8,8 @@ import {
   OppEntityAttributeBase,
   OppServices,
 } from './open-peer-power-js-websocket/lib';
+import { LocalizeFunc } from "./common/translations/localize";
+import { ExternalMessaging } from "./external_app/external_messaging";
 
 declare global {
   var __DEV__: boolean;

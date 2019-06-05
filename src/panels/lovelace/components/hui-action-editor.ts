@@ -13,7 +13,7 @@ import "@polymer/paper-listbox/paper-listbox";
 import "../../../components/op-service-picker";
 
 import { OpenPeerPower } from "../../../types";
-import { fireEvent, HASSDomEvent } from "../../../common/dom/fire_event";
+import { fireEvent, OPPDomEvent } from "../../../common/dom/fire_event";
 import { EditorTarget } from "../editor/types";
 import {
   ActionConfig,
@@ -23,12 +23,12 @@ import {
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "action-changed": undefined;
   }
   // for add event listener
   interface HTMLElementEventMap {
-    "action-changed": HASSDomEvent<undefined>;
+    "action-changed": OPPDomEvent<undefined>;
   }
 }
 

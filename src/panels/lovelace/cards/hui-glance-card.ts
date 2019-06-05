@@ -84,11 +84,11 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldHass && this._configEntities) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (oldOpp && this._configEntities) {
       for (const entity of this._configEntities) {
         if (
-          oldHass.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }
@@ -121,8 +121,8 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const oldHass = changedProperties.get("opp") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.opp.themes) {
+    const oldOpp = changedProperties.get("opp") as OpenPeerPower | undefined;
+    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }

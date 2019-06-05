@@ -85,10 +85,10 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldHass) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (oldOpp) {
       return (
-        oldHass.states[this._config!.entity] !==
+        oldOpp.states[this._config!.entity] !==
         this.opp!.states[this._config!.entity]
       );
     }

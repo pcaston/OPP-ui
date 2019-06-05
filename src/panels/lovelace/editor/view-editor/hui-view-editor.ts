@@ -17,7 +17,7 @@ import "../../components/hui-theme-select-editor";
 import { LovelaceViewConfig } from "../../../../data/lovelace";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "view-config-changed": {
       config: LovelaceViewConfig;
     };

@@ -12,7 +12,7 @@ import "../../components/dialog/op-paper-dialog";
 
 import { SystemLogDetailDialogParams } from "./show-dialog-system-log-detail";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 
 class DialogSystemLogDetail extends LitElement {
   private _params?: SystemLogDetailDialogParams;
@@ -66,7 +66,7 @@ class DialogSystemLogDetail extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           direction: ltr;

@@ -11,14 +11,14 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import yaml from "js-yaml";
 
-import { haStyleDialog } from "../../../../resources/styles";
+import { opStyleDialog } from "../../../../resources/styles";
 
 import "@polymer/paper-spinner/paper-spinner";
 import "@polymer/paper-dialog/paper-dialog";
 import "../../../../components/dialog/op-paper-dialog";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import { OpenPeerPower } from "../../../../types";
@@ -40,7 +40,7 @@ import { getCardElementTag } from "../../common/get-card-element-tag";
 import { afterNextRender } from "../../../../common/util/render-status";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "entities-changed": {
       entities: EntityConfig[];
     };
@@ -78,7 +78,7 @@ export class HuiEditCard extends LitElement {
 
   @property() private _errorMsg?: TemplateResult;
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
@@ -384,7 +384,7 @@ export class HuiEditCard extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         :host {
           --code-mirror-max-height: calc(100vh - 176px);

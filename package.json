@@ -76,6 +76,9 @@
     "deep-clone-simple": "^1.1.1",
     "es6-object-assign": "^1.1.0",
     "fecha": "^3.0.3",
+    "fuse": "^0.4.0",
+    "google-timezones-json": "^1.0.2",
+    "hls": "^0.0.1",
     "hls.js": "^0.12.4",
     "intl-messageformat": "^3.1.4",
     "jquery": "^3.4.1",
@@ -100,6 +103,7 @@
   },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",
+    "@types/hls.js": "^0.12.4",
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
     "del": "^3.0.0",

@@ -88,10 +88,10 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldHass) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (oldOpp) {
       return (
-        oldHass.states[this._config!.entity] !==
+        oldOpp.states[this._config!.entity] !==
         this.opp!.states[this._config!.entity]
       );
     }
@@ -152,8 +152,8 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     if (!this._config || !this.opp) {
       return;
     }
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.opp.themes) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }

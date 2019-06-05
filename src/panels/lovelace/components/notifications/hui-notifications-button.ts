@@ -11,7 +11,7 @@ import { fireEvent } from "../../../../common/dom/fire_event";
 
 declare global {
   // tslint:disable-next-line
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "opened-changed": { value: boolean };
   }
 }

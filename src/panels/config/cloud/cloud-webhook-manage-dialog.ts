@@ -12,7 +12,7 @@ import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "../../../components/dialog/op-paper-dialog";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
 
@@ -84,7 +84,7 @@ export class CloudWebhookManageDialog extends LitElement {
     `;
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 

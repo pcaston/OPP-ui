@@ -10,7 +10,7 @@ import {
 import "@polymer/paper-item/paper-item";
 import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 
 import { moveCard } from "../config-util";
 import { MoveCardViewDialogParams } from "./show-move-card-view-dialog";
@@ -76,7 +76,7 @@ export class HuiDialogMoveCardView extends LitElement {
     `;
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 

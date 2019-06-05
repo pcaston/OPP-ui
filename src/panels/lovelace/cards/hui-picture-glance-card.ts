@@ -81,15 +81,15 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldHass) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldOpp) {
       return true;
     }
 
     if (this._entitiesDialog) {
       for (const entity of this._entitiesDialog) {
         if (
-          oldHass.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }
@@ -99,7 +99,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesToggle) {
       for (const entity of this._entitiesToggle) {
         if (
-          oldHass.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }

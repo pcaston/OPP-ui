@@ -4,7 +4,7 @@ import { LitElement, query, property, TemplateResult, html } from "lit-element";
 import { OpenPeerPower } from "../types";
 // Typing
 // tslint:disable-next-line: no-duplicate-imports
-import { HaToast } from "../components/op-toast";
+import { OpToast } from "../components/op-toast";
 
 export interface ShowToastParams {
   message: string;
@@ -12,7 +12,7 @@ export interface ShowToastParams {
 
 class NotificationManager extends LitElement {
   @property() public opp!: OpenPeerPower;
-  @query("op-toast") private _toast!: HaToast;
+  @query("op-toast") private _toast!: OpToast;
 
   public showDialog({ message }: ShowToastParams) {
     const toast = this._toast;

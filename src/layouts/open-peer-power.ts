@@ -10,12 +10,12 @@ import { DEFAULT_PANEL } from "../common/const";
 
 import { Route, OpenPeerPower } from "../types";
 import { navigate } from "../common/navigate";
-import { OppELement } from "../state/opp-element";
+import { OppElement } from "../state/opp-element";
 
 (LitElement.prototype as any).html = html;
 (LitElement.prototype as any).css = css;
 
-export class OpenPeerPowerAppEl extends OppELement {
+export class OpenPeerPowerAppEl extends OppElement {
   @property() private _route?: Route;
   @property() private _error?: boolean;
   @property() private _panelUrl?: string;

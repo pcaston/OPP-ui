@@ -20,8 +20,8 @@ import "../../resources/op-style";
 import "../../components/dialog/op-paper-dialog";
 // Not duplicate, is for typing
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../components/dialog/op-paper-dialog";
-import { haStyleDialog } from "../../resources/styles";
+import { OpPaperDialog } from "../../components/dialog/op-paper-dialog";
+import { opStyleDialog } from "../../resources/styles";
 import {
   fetchConfigFlow,
   ConfigFlowStep,
@@ -52,7 +52,7 @@ let instance = 0;
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "flow-update": {
       step?: ConfigFlowStep;
       stepPromise?: Promise<ConfigFlowStep>;
@@ -214,7 +214,7 @@ class ConfigFlowDialog extends LitElement {
     setTimeout(() => this._dialog.center(), 0);
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
@@ -299,7 +299,7 @@ class ConfigFlowDialog extends LitElement {
 
   static get styles(): CSSResultArray {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           max-width: 500px;

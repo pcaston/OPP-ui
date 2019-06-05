@@ -1,11 +1,11 @@
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
-import { HaToast } from "../components/op-toast";
+import { OpToast } from "../components/op-toast";
 import { computeRTL } from "../common/util/compute_rtl";
 
 export default (superClass: Constructor<LitElement & OppBaseEl>) =>
   class extends superClass {
-    private _discToast?: HaToast;
+    private _discToast?: OpToast;
 
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);

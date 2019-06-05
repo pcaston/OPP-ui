@@ -29,7 +29,7 @@ import { ItemSelectedEvent, ZHADeviceRemovedEvent } from "./types";
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "zha-node-selected": {
       node?: ZHADevice;
     };

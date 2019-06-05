@@ -14,11 +14,11 @@ import "@polymer/paper-tabs/paper-tabs";
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 
-import { haStyleDialog } from "../../../../resources/styles";
+import { opStyleDialog } from "../../../../resources/styles";
 
 import "../../components/hui-entity-editor";
 import "./hui-view-editor";
@@ -83,7 +83,7 @@ export class HuiEditView extends LitElement {
     this._dialog.open();
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
@@ -262,7 +262,7 @@ export class HuiEditView extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
           /* overrule the op-style-dialog max-height on small screens */

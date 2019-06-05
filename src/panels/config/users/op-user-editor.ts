@@ -10,10 +10,10 @@ import {
 import { until } from "lit-html/directives/until";
 import "@material/mwc-button";
 
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import { opStyle } from "../../../resources/styles";
-import "../../../components/ha-card";
-import { HomeAssistant } from "../../../types";
+import "../../../components/op-card";
+import { OpenPeerPower } from "../../../types";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { navigate } from "../../../common/navigate";
 import {
@@ -25,30 +25,30 @@ import {
 } from "../../../data/user";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "reload-users": undefined;
   }
 }
 
 const GROUPS = [SYSTEM_GROUP_ID_USER, SYSTEM_GROUP_ID_ADMIN];
 
-@customElement("ha-user-editor")
+@customElement("op-user-editor")
 class HaUserEditor extends LitElement {
-  @property() public hass?: HomeAssistant;
+  @property() public opp?: OpenPeerPower;
   @property() public user?: User;
 
   protected render(): TemplateResult | void {
-    const hass = this.hass;
+    const opp = this.opp;
     const user = this.user;
-    if (!hass || !user) {
+    if (!opp || !user) {
       return html``;
     }
 
     return html`
-      <hass-subpage
-        .header=${hass.localize("ui.panel.config.users.editor.caption")}
+      <opp-subpage
+        .header=${opp.localize("ui.panel.config.users.editor.caption")}
       >
-        <ha-card .header=${this._name}>
+        <op-card .header=${this._name}>
           <table class="card-content">
             <tr>
               <td>ID</td>
@@ -70,7 +70,7 @@ class HaUserEditor extends LitElement {
                   ${GROUPS.map(
                     (groupId) => html`
                       <option value=${groupId}>
-                        ${hass.localize(`groups.${groupId}`)}
+                        ${opp.localize(`groups.${groupId}`)}
                       </option>
                     `
                   )}
@@ -102,14 +102,14 @@ class HaUserEditor extends LitElement {
 
           <div class="card-actions">
             <mwc-button @click=${this._handleRenameUser}>
-              ${hass.localize("ui.panel.config.users.editor.rename_user")}
+              ${opp.localize("ui.panel.config.users.editor.rename_user")}
             </mwc-button>
             <mwc-button
               class="warning"
               @click=${this._deleteUser}
               .disabled=${user.system_generated}
             >
-              ${hass.localize("ui.panel.config.users.editor.delete_user")}
+              ${opp.localize("ui.panel.config.users.editor.delete_user")}
             </mwc-button>
             ${user.system_generated
               ? html`
@@ -117,8 +117,8 @@ class HaUserEditor extends LitElement {
                 `
               : ""}
           </div>
-        </ha-card>
-      </hass-subpage>
+        </op-card>
+      </opp-subpage>
     `;
   }
 
@@ -134,7 +134,7 @@ class HaUserEditor extends LitElement {
     }
 
     try {
-      await updateUser(this.hass!, this.user!.id, {
+      await updateUser(this.opp!, this.user!.id, {
         name: newName,
       });
       fireEvent(this, "reload-users");
@@ -147,7 +147,7 @@ class HaUserEditor extends LitElement {
     const selectEl = ev.currentTarget as HTMLSelectElement;
     const newGroup = selectEl.value;
     try {
-      await updateUser(this.hass!, this.user!.id, {
+      await updateUser(this.opp!, this.user!.id, {
         group_ids: [newGroup],
       });
       fireEvent(this, "reload-users");
@@ -163,7 +163,7 @@ class HaUserEditor extends LitElement {
       return;
     }
     try {
-      await deleteUser(this.hass!, this.user!.id);
+      await deleteUser(this.opp!, this.user!.id);
     } catch (err) {
       alert(err.code);
       return;
@@ -181,11 +181,11 @@ class HaUserEditor extends LitElement {
           justify-content: space-between;
           align-items: center;
         }
-        ha-card {
+        op-card {
           max-width: 600px;
           margin: 0 auto 16px;
         }
-        hass-subpage ha-card:first-of-type {
+        opp-subpage op-card:first-of-type {
           direction: ltr;
         }
         table {
@@ -204,6 +204,6 @@ class HaUserEditor extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-user-editor": HaUserEditor;
+    "op-user-editor": HaUserEditor;
   }
 }

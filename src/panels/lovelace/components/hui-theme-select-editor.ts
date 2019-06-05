@@ -10,16 +10,16 @@ import {
 import "@material/mwc-button";
 
 import { OpenPeerPower } from "../../../types";
-import { fireEvent, HASSDomEvent } from "../../../common/dom/fire_event";
+import { fireEvent, OPPDomEvent } from "../../../common/dom/fire_event";
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "theme-changed": undefined;
   }
   // for add event listener
   interface HTMLElementEventMap {
-    "theme-changed": HASSDomEvent<undefined>;
+    "theme-changed": OPPDomEvent<undefined>;
   }
 }
 

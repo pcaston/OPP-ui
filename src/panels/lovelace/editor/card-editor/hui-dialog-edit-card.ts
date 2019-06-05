@@ -7,7 +7,7 @@ import {
 } from "lit-element";
 
 import { OpenPeerPower } from "../../../../types";
-import { HASSDomEvent } from "../../../../common/dom/fire_event";
+import { OPPDomEvent } from "../../../../common/dom/fire_event";
 import { LovelaceCardConfig } from "../../../../data/lovelace";
 import "./hui-edit-card";
 import "./hui-dialog-pick-card";
@@ -16,12 +16,12 @@ import { addCard, replaceCard } from "../config-util";
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "reload-lovelace": undefined;
   }
   // for add event listener
   interface HTMLElementEventMap {
-    "reload-lovelace": HASSDomEvent<undefined>;
+    "reload-lovelace": OPPDomEvent<undefined>;
   }
 }
 

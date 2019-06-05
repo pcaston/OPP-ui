@@ -4,13 +4,13 @@ import { customElement, property } from "lit-element";
 
 import { listenMediaQuery } from "../../../common/dom/media_query";
 import {
-  HassRouterPage,
+  OppRouterPage,
   RouterOptions,
 } from "../../../layouts/opp-router-page";
 import { OpenPeerPower } from "../../../types";
 
 @customElement("zha-config-panel")
-class ZHAConfigPanel extends HassRouterPage {
+class ZHAConfigPanel extends OppRouterPage {
   @property() public opp!: OpenPeerPower;
   @property() public _wideSidebar: boolean = false;
   @property() public _wide: boolean = false;

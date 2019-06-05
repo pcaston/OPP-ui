@@ -3,7 +3,7 @@ import { Lovelace } from "../types";
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "show-save-config": SaveDialogParams;
   }
 }

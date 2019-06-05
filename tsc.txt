@@ -1,0 +1,42 @@
+node_modules/@material/mwc-button/mwc-button.d.ts(30,5): error TS2416: Property 'render' in type 'Button' is not assignable to the same property in base type 'LitElement'.
+  Type '() => TemplateResult' is not assignable to type '() => void | TemplateResult'.
+    Type 'TemplateResult' is not assignable to type 'void | TemplateResult'.
+      Type 'import("C:/OPP/OPP-ui/node_modules/lit-html/lib/template-result").TemplateResult' is not assignable to type 'import("C:/OPP/OPP-ui/node_modules/lit-element/node_modules/lit-html/lib/template-result").TemplateResult'.
+        Types of property 'values' are incompatible.
+          Type 'ReadonlyArray<unknown>' is missing the following properties from type 'unknown[]': pop, push, reverse, shift, and 6 more.
+node_modules/intl-messageformat/src/index.ts(54,32): error TS2349: Cannot invoke an expression whose type lacks a call signature. Type '((value: number) => Pattern[]) | ((value: string) => Pattern[])' has no compatible call signatures.
+
+src/components/op-camera-stream.ts(33,34): error TS2304: Cannot find name 'Hls'.
+src/components/opp-home-view.ts(19,11): error TS2740: Type '{}' is missing the following properties from type 'OpenPeerPower': auth, connection, connected, states, and 17 more.
+src/components/opp-home-view.ts(25,11): error TS6133: 'badges' is declared but its value is never read.
+src/onboarding/onboarding-integrations.ts(64,11): error TS2322: Type '(string | TemplateResult)[][]' is not assignable to type '[string, TemplateResult][]'.
+  Type '(string | TemplateResult)[]' is missing the following properties from type '[string, TemplateResult]': 0, 1
+src/onboarding/onboarding-integrations.ts(80,11): error TS2322: Type '(string | TemplateResult)[][]' is not assignable to type '[string, TemplateResult][]'.
+src/open-peer-power-js-websocket/lib/connection.ts(298,24): error TS6133: 'ev' is declared but its value is never read.
+src/open-peer-power-js-websocket/lib/socket.ts(87,31): error TS6133: 'event' is declared but its value is never read.
+src/open-peer-power-js-websocket/lib/store.ts(12,17): error TS6133: 'State' is declared but its value is never read.
+src/open-peer-power-js-websocket/lib/store.ts(30,18): error TS2345: Argument of type 'Listener<State>' is not assignable to parameter of type 'never'.
+src/panels/config/automation/op-automation-picker.ts(92,53): error TS2339: Property 'last_triggered' does not exist on type 'OppEntityAttributeBase & { id?: string | undefined; }'.
+src/panels/config/automation/op-automation-picker.ts(95,61): error TS2339: Property 'last_triggered' does not exist on type 'OppEntityAttributeBase & { id?: string | undefined; }'.
+src/panels/config/integrations/dialog-device-registry-detail.ts(53,46): error TS2345: Argument of type 'Connection' is not assignable to parameter of type 'OpenPeerPower'.
+  Type 'Connection' is missing the following properties from type 'OpenPeerPower': auth, connection, connected, states, and 17 more.
+src/panels/config/integrations/dialog-device-registry-detail.ts(161,9): error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.
+  Type 'null' is not assignable to type 'string | undefined'.
+src/panels/config/integrations/dialog-device-registry-detail.ts(162,9): error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.
+  Type 'null' is not assignable to type 'string | undefined'.
+src/panels/config/op-panel-config.ts(78,61): error TS2307: Cannot find module './zha/zop-config-panel'.
+src/panels/lovelace/cards/hui-picture-elements-card.ts(25,22): error TS2488: Type 'NodeListOf<Element>' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/panels/lovelace/common/generate-lovelace-config.ts(222,23): error TS2345: Argument of type '(string | OppEntity)[][]' is not assignable to parameter of type '[string, OppEntity][]'.
+  Type '(string | OppEntity)[]' is missing the following properties from type '[string, OppEntity]': 0, 1
+../../Users/s69171/AppData/Roaming/npm/node_modules/typescript/lib/lib.dom.d.ts(4505,101): error TS2344: Type 'HTMLElementTagNameMap[K]' does not satisfy the constraint 'Element'.
+  Type 'HTMLElement | HTMLCanvasElement | HTMLImageElement | HTMLVideoElement | HTMLAnchorElement | HTMLAppletElement | HTMLScriptElement | HTMLEmbedElement | HTMLFormElement | ... 268 more ... | StateCardInputSelect' is not assignable to type 'Element'.
+    Type 'OpToast' is missing the following properties from type 'Element': assignedSlot, attributes, classList, className, and 122 more.
+../../Users/s69171/AppData/Roaming/npm/node_modules/typescript/lib/lib.dom.d.ts(4859,101): error TS2344: Type 'HTMLElementTagNameMap[K]' does not satisfy the constraint 'Element'.
+  Type 'HTMLElement | HTMLCanvasElement | HTMLImageElement | HTMLVideoElement | HTMLAnchorElement | HTMLAppletElement | HTMLScriptElement | HTMLEmbedElement | HTMLFormElement | ... 268 more ... | StateCardInputSelect' is not assignable to type 'Element'.
+    Type 'OpToast' is not assignable to type 'Element'.
+../../Users/s69171/AppData/Roaming/npm/node_modules/typescript/lib/lib.dom.d.ts(10605,87): error TS2344: Type 'HTMLElementTagNameMap[K]' does not satisfy the constraint 'Node'.
+  Type 'HTMLElement | HTMLCanvasElement | HTMLImageElement | HTMLVideoElement | HTMLAnchorElement | HTMLAppletElement | HTMLScriptElement | HTMLEmbedElement | HTMLFormElement | ... 268 more ... | StateCardInputSelect' is not assignable to type 'Node'.
+    Type 'OpToast' is missing the following properties from type 'Node': baseURI, childNodes, firstChild, isConnected, and 47 more.
+../../Users/s69171/AppData/Roaming/npm/node_modules/typescript/lib/lib.dom.d.ts(10837,87): error TS2344: Type 'HTMLElementTagNameMap[K]' does not satisfy the constraint 'Node'.
+  Type 'HTMLElement | HTMLCanvasElement | HTMLImageElement | HTMLVideoElement | HTMLAnchorElement | HTMLAppletElement | HTMLScriptElement | HTMLEmbedElement | HTMLFormElement | ... 268 more ... | StateCardInputSelect' is not assignable to type 'Node'.
+    Type 'OpToast' is not assignable to type 'Node'.

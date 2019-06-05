@@ -1,15 +1,15 @@
-import { HASSDomEvent, fireEvent } from "../../../../common/dom/fire_event";
+import { OPPDomEvent, fireEvent } from "../../../../common/dom/fire_event";
 import { Lovelace } from "../../types";
 
 declare global {
   // for fire event
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "reload-lovelace": undefined;
     "show-edit-view": EditViewDialogParams;
   }
   // for add event listener
   interface HTMLElementEventMap {
-    "reload-lovelace": HASSDomEvent<undefined>;
+    "reload-lovelace": OPPDomEvent<undefined>;
   }
 }
 

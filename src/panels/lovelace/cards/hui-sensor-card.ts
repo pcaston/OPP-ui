@@ -276,8 +276,8 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.opp.themes) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
       applyThemesOnElement(this, this.opp.themes, this._config!.theme);
     }
 

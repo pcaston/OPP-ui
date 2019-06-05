@@ -11,7 +11,7 @@ import "@material/mwc-button";
 import "../../../components/dialog/op-paper-dialog";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../components/dialog/op-paper-dialog";
 
 import { OpenPeerPower } from "../../../types";
 import { opStyle } from "../../../resources/styles";
@@ -62,7 +62,7 @@ class DialogCloudCertificate extends LitElement {
     `;
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 

@@ -79,9 +79,9 @@ class HuiTimerEntityRow extends LitElement {
 
     if (changedProps.has("opp")) {
       const stateObj = this.opp!.states[this._config!.entity];
-      const oldHass = changedProps.get("opp") as this["opp"];
-      const oldStateObj = oldHass
-        ? oldHass.states[this._config!.entity]
+      const oldOpp = changedProps.get("opp") as this["opp"];
+      const oldStateObj = oldOpp
+        ? oldOpp.states[this._config!.entity]
         : undefined;
 
       if (oldStateObj !== stateObj) {

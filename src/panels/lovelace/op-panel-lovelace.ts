@@ -100,7 +100,7 @@ class LovelacePanel extends LitElement {
 
     const oldOpp = changedProps.get("opp") as this["opp"];
 
-    if (oldHass && this.opp!.dockedSidebar !== oldHass.dockedSidebar) {
+    if (oldOpp && this.opp!.dockedSidebar !== oldOpp.dockedSidebar) {
       this._updateColumns();
     }
   }

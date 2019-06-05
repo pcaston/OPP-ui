@@ -10,7 +10,7 @@ import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 
 import "../../../../components/dialog/op-paper-dialog";
 
-import { haStyleDialog } from "../../../../resources/styles";
+import { opStyleDialog } from "../../../../resources/styles";
 
 import "./hui-card-picker";
 import { OpenPeerPower } from "../../../../types";
@@ -57,7 +57,7 @@ export class HuiDialogPickCard extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
           /* overrule the op-style-dialog max-height on small screens */

@@ -142,9 +142,9 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
-    if (!oldHass || oldHass.themes !== this.opp.themes) {
+    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }

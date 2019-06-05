@@ -10,10 +10,10 @@ import {
 import "@polymer/paper-spinner/paper-spinner";
 import "../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 
-import { haStyleDialog } from "../../../resources/styles";
+import { opStyleDialog } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { SaveDialogParams } from "./show-save-config-dialog";
 
@@ -36,7 +36,7 @@ export class HuiSaveConfig extends LitElement {
     this._dialog.open();
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
@@ -99,7 +99,7 @@ export class HuiSaveConfig extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
           /* overrule the op-style-dialog max-height on small screens */

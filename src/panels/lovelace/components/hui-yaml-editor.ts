@@ -9,7 +9,7 @@ import { computeRTL } from "../../../common/util/compute_rtl";
 import { customElement } from "lit-element";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "yaml-changed": {
       value: string;
     };

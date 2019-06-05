@@ -177,9 +177,9 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
-    if (!oldHass || oldHass.themes !== this.opp.themes) {
+    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
 
@@ -193,7 +193,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       this._jQuery &&
       // If jQuery changed, we just rendered in firstUpdated
       !changedProps.has("_jQuery") &&
-      (!oldHass || oldHass.states[this._config.entity] !== stateObj)
+      (!oldOpp || oldOpp.states[this._config.entity] !== stateObj)
     ) {
       const [sliderValue, uiValue] = this._genSliderValue(stateObj);
 

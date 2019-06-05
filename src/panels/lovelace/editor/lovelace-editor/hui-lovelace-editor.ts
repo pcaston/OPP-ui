@@ -15,7 +15,7 @@ import { configElementStyle } from "../config-elements/config-elements-style";
 import { LovelaceConfig } from "../../../../data/lovelace";
 
 declare global {
-  interface HASSDomEvents {
+  interface OPPDomEvents {
     "lovelace-config-changed": {
       config: LovelaceConfig;
     };

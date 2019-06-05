@@ -3,7 +3,7 @@ import "@polymer/paper-toast/paper-toast";
 // tslint:disable-next-line
 const PaperToast = customElements.get("paper-toast");
 
-export class HaToast extends PaperToast {
+export class OpToast extends PaperToast {
   public connectedCallback() {
     super.connectedCallback();
 
@@ -24,8 +24,8 @@ export class HaToast extends PaperToast {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-toast": HaToast;
+    "op-toast": OpToast;
   }
 }
 
-customElements.define("op-toast", HaToast);
+customElements.define("op-toast", OpToast);
