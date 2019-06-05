@@ -1079,7 +1079,7 @@
         "weblink": "Weblink",
         "zwave": "",
         "vacuum": "Aspirando",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "system_health": "Integridade Do Sistema",
         "person": "Pessoa"

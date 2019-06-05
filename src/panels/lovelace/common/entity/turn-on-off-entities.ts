@@ -3,13 +3,13 @@ import { STATES_OFF } from "../../../../common/const";
 import { OpenPeerPower } from "../../../../types";
 
 export const turnOnOffEntities = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityIds: string[],
   turnOn = true
 ): void => {
   const domainsToCall = {};
   entityIds.forEach((entityId) => {
-    if (STATES_OFF.includes(hass.states[entityId].state) === turnOn) {
+    if (STATES_OFF.includes(opp.states[entityId].state) === turnOn) {
       const stateDomain = computeDomain(entityId);
       const serviceDomain = ["cover", "lock"].includes(stateDomain)
         ? stateDomain
@@ -36,6 +36,6 @@ export const turnOnOffEntities = (
     }
 
     const entities = domainsToCall[domain];
-    hass.callService(domain, service, { entity_id: entities });
+    opp.callService(domain, service, { entity_id: entities });
   });
 };

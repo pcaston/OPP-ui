@@ -8,7 +8,7 @@ import "@polymer/paper-toggle-button/paper-toggle-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-spinner/paper-spinner";
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { OpenPeerPower, WebhookError } from "../../../types";
 import { Webhook, fetchWebhooks } from "../../../data/webhook";
@@ -29,7 +29,7 @@ export class CloudWebhooks extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       cloudStatus: {},
       _cloudHooks: {},
       _localHooks: {},
@@ -50,7 +50,7 @@ export class CloudWebhooks extends LitElement {
   protected render() {
     return html`
       ${this.renderStyle()}
-      <ha-card header="Webhooks">
+      <op-card header="Webhooks">
         <div class="card-content">
           Anything that is configured to be triggered by a webhook can be given
           a publicly accessible URL to allow you to send data back to Home
@@ -63,7 +63,7 @@ export class CloudWebhooks extends LitElement {
             </a>
           </div>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -148,7 +148,7 @@ export class CloudWebhooks extends LitElement {
     let updatedWebhook;
 
     try {
-      updatedWebhook = await createCloudhook(this.hass!, entry.webhook_id);
+      updatedWebhook = await createCloudhook(this.opp!, entry.webhook_id);
     } catch (err) {
       alert((err as WebhookError).message);
       return;
@@ -170,7 +170,7 @@ export class CloudWebhooks extends LitElement {
   private async _disableWebhook(webhookId: string) {
     this._progress = [...this._progress, webhookId];
     try {
-      await deleteCloudhook(this.hass!, webhookId!);
+      await deleteCloudhook(this.opp!, webhookId!);
     } catch (err) {
       alert(`Failed to disable webhook: ${(err as WebhookError).message}`);
       return;
@@ -184,8 +184,8 @@ export class CloudWebhooks extends LitElement {
   }
 
   private async _fetchData() {
-    this._localHooks = this.hass!.config.components.includes("webhook")
-      ? await fetchWebhooks(this.hass!)
+    this._localHooks = this.opp!.config.components.includes("webhook")
+      ? await fetchWebhooks(this.opp!)
       : [];
   }
 

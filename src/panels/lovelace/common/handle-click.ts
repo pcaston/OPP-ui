@@ -6,7 +6,7 @@ import { ActionConfig } from "../../../data/lovelace";
 
 export const handleClick = (
   node: HTMLElement,
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   config: {
     entity?: string;
     camera_image?: string;
@@ -32,7 +32,7 @@ export const handleClick = (
   switch (actionConfig.action) {
     case "more-info":
       if (config.entity || config.camera_image) {
-        fireEvent(node, "hass-more-info", {
+        fireEvent(node, "opp-more-info", {
           entityId: config.entity ? config.entity : config.camera_image!,
         });
       }
@@ -44,7 +44,7 @@ export const handleClick = (
       break;
     case "toggle":
       if (config.entity) {
-        toggleEntity(hass, config.entity!);
+        toggleEntity(opp, config.entity!);
       }
       break;
     case "call-service": {
@@ -52,7 +52,7 @@ export const handleClick = (
         return;
       }
       const [domain, service] = actionConfig.service.split(".", 2);
-      hass.callService(domain, service, actionConfig.service_data);
+      opp.callService(domain, service, actionConfig.service_data);
     }
   }
 };

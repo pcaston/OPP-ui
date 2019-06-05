@@ -9,8 +9,8 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import "../../../components/ha-card";
-import "../../../components/ha-markdown";
+import "../../../components/op-card";
+import "../../../components/op-markdown";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { MarkdownCardConfig } from "./types";
@@ -46,14 +46,14 @@ export class HuiMarkdownCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card .header="${this._config.title}">
-        <ha-markdown
+      <op-card .header="${this._config.title}">
+        <op-markdown
           class="markdown ${classMap({
             "no-header": !this._config.title,
           })}"
           .content="${this._config.content}"
-        ></ha-markdown>
-      </ha-card>
+        ></op-markdown>
+      </op-card>
     `;
   }
 
@@ -68,7 +68,7 @@ export class HuiMarkdownCard extends LitElement implements LovelaceCard {
         line-height: 20px;
         /* end paper-font-body1 style */
       }
-      ha-markdown {
+      op-markdown {
         display: block;
         padding: 0 16px 16px;
         -ms-user-select: initial;
@@ -78,16 +78,16 @@ export class HuiMarkdownCard extends LitElement implements LovelaceCard {
       .markdown.no-header {
         padding-top: 16px;
       }
-      ha-markdown > *:first-child {
+      op-markdown > *:first-child {
         margin-top: 0;
       }
-      ha-markdown > *:last-child {
+      op-markdown > *:last-child {
         margin-bottom: 0;
       }
-      ha-markdown a {
+      op-markdown a {
         color: var(--primary-color);
       }
-      ha-markdown img {
+      op-markdown img {
         max-width: 100%;
       }
     `;

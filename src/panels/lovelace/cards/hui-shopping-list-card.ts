@@ -11,8 +11,8 @@ import { repeat } from "lit-html/directives/repeat";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
 import "@polymer/paper-checkbox/paper-checkbox";
 
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -60,8 +60,8 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
   public connectedCallback(): void {
     super.connectedCallback();
 
-    if (this.hass) {
-      this._unsubEvents = this.hass.connection.subscribeEvents(
+    if (this.opp) {
+      this._unsubEvents = this.opp.connection.subscribeEvents(
         () => this._fetchData(),
         "shopping_list_updated"
       );
@@ -78,27 +78,27 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
     return html`
-      <ha-card .header="${this._config.title}">
+      <op-card .header="${this._config.title}">
         <div class="addRow">
-          <ha-icon
+          <op-icon
             class="addButton"
             @click="${this._addItem}"
-            icon="hass:plus"
-            .title="${this.hass!.localize(
+            icon="opp:plus"
+            .title="${this.opp!.localize(
               "ui.panel.lovelace.cards.shopping-list.add_item"
             )}"
           >
-          </ha-icon>
+          </op-icon>
           <paper-item-body>
             <paper-input
               no-label-float
               class="addBox"
-              placeholder="${this.hass!.localize(
+              placeholder="${this.opp!.localize(
                 "ui.panel.lovelace.cards.shopping-list.add_item"
               )}"
               @keydown="${this._addKeyPress}"
@@ -135,19 +135,19 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
               <div class="divider"></div>
               <div class="checked">
                 <span class="label">
-                  ${this.hass!.localize(
+                  ${this.opp!.localize(
                     "ui.panel.lovelace.cards.shopping-list.checked_items"
                   )}
                 </span>
-                <ha-icon
+                <op-icon
                   class="clearall"
                   @click="${this._clearItems}"
-                  icon="hass:notification-clear-all"
-                  .title="${this.hass!.localize(
+                  icon="opp:notification-clear-all"
+                  .title="${this.opp!.localize(
                     "ui.panel.lovelace.cards.shopping-list.clear_items"
                   )}"
                 >
-                </ha-icon>
+                </op-icon>
               </div>
               ${repeat(
                 this._checkedItems!,
@@ -176,7 +176,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
               )}
             `
           : ""}
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -238,17 +238,17 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
         padding-right: 10px;
       }
 
-      .addRow > ha-icon {
+      .addRow > op-icon {
         color: var(--secondary-text-color);
       }
     `;
   }
 
   private async _fetchData(): Promise<void> {
-    if (this.hass) {
+    if (this.opp) {
       const checkedItems: ShoppingListItem[] = [];
       const uncheckedItems: ShoppingListItem[] = [];
-      const items = await fetchItems(this.hass);
+      const items = await fetchItems(this.opp);
       for (const key in items) {
         if (items[key].complete) {
           checkedItems.push(items[key]);
@@ -262,13 +262,13 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
   }
 
   private _completeItem(ev): void {
-    updateItem(this.hass!, ev.target.itemId, {
+    updateItem(this.opp!, ev.target.itemId, {
       complete: ev.target.checked,
     }).catch(() => this._fetchData());
   }
 
   private _saveEdit(ev): void {
-    updateItem(this.hass!, ev.target.itemId, {
+    updateItem(this.opp!, ev.target.itemId, {
       name: ev.target.value,
     }).catch(() => this._fetchData());
 
@@ -276,8 +276,8 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
   }
 
   private _clearItems(): void {
-    if (this.hass) {
-      clearItems(this.hass).catch(() => this._fetchData());
+    if (this.opp) {
+      clearItems(this.opp).catch(() => this._fetchData());
     }
   }
 
@@ -289,7 +289,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
     const newItem = this._newItem;
 
     if (newItem.value!.length > 0) {
-      addItem(this.hass!, newItem.value!).catch(() => this._fetchData());
+      addItem(this.opp!, newItem.value!).catch(() => this._fetchData());
     }
 
     newItem.value = "";

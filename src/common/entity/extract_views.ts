@@ -1,4 +1,4 @@
-import { OppEntities } from "home-assistant-js-websocket";
+import { OppEntities } from "../../open-peer-power-js-websocket/lib";
 import { DEFAULT_VIEW_ENTITY_ID } from "../const";
 import { GroupEntity } from "../../types";
 

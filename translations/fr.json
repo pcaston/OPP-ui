@@ -1159,7 +1159,7 @@
         "zwave": "Z-Wave",
         "vacuum": "Aspirateur",
         "zha": "ZHA",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "lovelace": "Lovelace",
         "system_health": "Santé du système",

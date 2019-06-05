@@ -8,9 +8,9 @@ import {
   CSSResult,
 } from "lit-element";
 import "@polymer/paper-item/paper-item";
-import "../../../../components/dialog/ha-paper-dialog";
+import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 
 import { moveCard } from "../config-util";
 import { MoveCardViewDialogParams } from "./show-move-card-view-dialog";
@@ -30,7 +30,7 @@ export class HuiDialogMoveCardView extends LitElement {
       return html``;
     }
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         @opened-changed="${this._openedChanged}"
@@ -46,7 +46,7 @@ export class HuiDialogMoveCardView extends LitElement {
             >
           `;
         })}
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -77,7 +77,7 @@ export class HuiDialogMoveCardView extends LitElement {
   }
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   private _moveCard(e: Event): void {

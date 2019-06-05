@@ -15,14 +15,14 @@ export class HuiCardPreview extends HTMLElement {
   private _opp?: OpenPeerPower;
   private _element?: LovelaceCard;
 
-  set hass(hass: OpenPeerPower) {
-    if (!this._hass || this._hass.language !== hass.language) {
-      this.style.direction = computeRTL(hass) ? "rtl" : "ltr";
+  set opp(opp: OpenPeerPower) {
+    if (!this._opp || this._opp.language !== opp.language) {
+      this.style.direction = computeRTL(opp) ? "rtl" : "ltr";
     }
 
-    this._hass = hass;
+    this._opp = opp;
     if (this._element) {
-      this._element.hass = hass;
+      this._element.opp = opp;
     }
   }
 
@@ -70,8 +70,8 @@ export class HuiCardPreview extends HTMLElement {
     this._cleanup();
     this._element = createCardElement(configValue);
 
-    if (this._hass) {
-      this._element!.hass = this._hass;
+    if (this._opp) {
+      this._element!.opp = this._opp;
     }
 
     this.appendChild(this._element!);

@@ -11,7 +11,7 @@ import {
 import { EntityRow, WeblinkConfig } from "../entity-rows/types";
 import { OpenPeerPower } from "../../../types";
 
-import "../../../components/ha-icon";
+import "../../../components/op-icon";
 
 @customElement("hui-weblink-row")
 class HuiWeblinkRow extends LitElement implements EntityRow {
@@ -25,7 +25,7 @@ class HuiWeblinkRow extends LitElement implements EntityRow {
     }
 
     this._config = {
-      icon: "hass:link",
+      icon: "opp:link",
       name: config.url,
       ...config,
     };
@@ -38,7 +38,7 @@ class HuiWeblinkRow extends LitElement implements EntityRow {
 
     return html`
       <a href="${this._config.url}" target="_blank">
-        <ha-icon .icon="${this._config.icon}"></ha-icon>
+        <op-icon .icon="${this._config.icon}"></op-icon>
         <div>${this._config.name}</div>
       </a>
     `;
@@ -51,7 +51,7 @@ class HuiWeblinkRow extends LitElement implements EntityRow {
         align-items: center;
         color: var(--primary-color);
       }
-      ha-icon {
+      op-icon {
         padding: 8px;
         color: var(--paper-item-icon-color);
       }

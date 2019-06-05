@@ -34,16 +34,16 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -53,11 +53,11 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <mwc-button @click="${this._callService}">
           ${stateObj.state === "locked"
-            ? this.hass!.localize("ui.card.lock.unlock")
-            : this.hass!.localize("ui.card.lock.lock")}
+            ? this.opp!.localize("ui.card.lock.unlock")
+            : this.opp!.localize("ui.card.lock.lock")}
         </mwc-button>
       </hui-generic-entity-row>
     `;
@@ -73,8 +73,8 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
 
   private _callService(ev): void {
     ev.stopPropagation();
-    const stateObj = this.hass!.states[this._config!.entity];
-    this.hass!.callService(
+    const stateObj = this.opp!.states[this._config!.entity];
+    this.opp!.callService(
       "lock",
       stateObj.state === "locked" ? "unlock" : "lock",
       { entity_id: stateObj.entity_id }

@@ -1,6 +1,6 @@
 import "@polymer/paper-dialog/paper-dialog";
 import { mixinBehaviors } from "@polymer/polymer/lib/legacy/class";
-import { HaIronFocusablesHelper } from "./ha-iron-focusables-helper.js";
+import { HaIronFocusablesHelper } from "./op-iron-focusables-helper.js";
 // tslint:disable-next-line
 import { PaperDialogElement } from "@polymer/paper-dialog/paper-dialog";
 
@@ -22,7 +22,7 @@ export class HaPaperDialog
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-paper-dialog": HaPaperDialog;
+    "op-paper-dialog": HaPaperDialog;
   }
 }
-customElements.define("ha-paper-dialog", HaPaperDialog);
+customElements.define("op-paper-dialog", HaPaperDialog);

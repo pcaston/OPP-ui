@@ -1,4 +1,4 @@
 import { OpenPeerPower } from "../types";
 
-export const fetchErrorLog = (hass: OpenPeerPower) =>
-  hass.callApi<string>("GET", "error_log");
+export const fetchErrorLog = (opp: OpenPeerPower) =>
+  opp.callApi<string>("GET", "error_log");

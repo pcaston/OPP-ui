@@ -13,34 +13,34 @@ export interface PersonMutableParams {
   device_trackers: string[];
 }
 
-export const fetchPersons = (hass: OpenPeerPower) =>
-  hass.callWS<{
+export const fetchPersons = (opp: OpenPeerPower) =>
+  opp.callWS<{
     storage: Person[];
     config: Person[];
   }>({ type: "person/list" });
 
 export const createPerson = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   values: PersonMutableParams
 ) =>
-  hass.callWS<Person>({
+  opp.callWS<Person>({
     type: "person/create",
     ...values,
   });
 
 export const updatePerson = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   personId: string,
   updates: Partial<PersonMutableParams>
 ) =>
-  hass.callWS<Person>({
+  opp.callWS<Person>({
     type: "person/update",
     person_id: personId,
     ...updates,
   });
 
-export const deletePerson = (hass: OpenPeerPower, personId: string) =>
-  hass.callWS({
+export const deletePerson = (opp: OpenPeerPower, personId: string) =>
+  opp.callWS({
     type: "person/delete",
     person_id: personId,
   });

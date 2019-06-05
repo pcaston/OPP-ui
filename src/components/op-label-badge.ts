@@ -8,7 +8,7 @@ import {
   css,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import "./ha-icon";
+import "./op-icon";
 
 class HaLabelBadge extends LitElement {
   public value?: string;
@@ -39,7 +39,7 @@ class HaLabelBadge extends LitElement {
           >
             ${this.icon && !this.value && !this.image
               ? html`
-                  <ha-icon .icon="${this.icon}"></ha-icon>
+                  <op-icon .icon="${this.icon}"></op-icon>
                 `
               : ""}
             ${this.value && !this.image
@@ -82,13 +82,13 @@ class HaLabelBadge extends LitElement {
           position: relative;
           display: block;
           margin: 0 auto;
-          width: var(--ha-label-badge-size, 2.5em);
+          width: var(--op-label-badge-size, 2.5em);
           text-align: center;
-          height: var(--ha-label-badge-size, 2.5em);
-          line-height: var(--ha-label-badge-size, 2.5em);
-          font-size: var(--ha-label-badge-font-size, 1.5em);
+          height: var(--op-label-badge-size, 2.5em);
+          line-height: var(--op-label-badge-size, 2.5em);
+          font-size: var(--op-label-badge-font-size, 1.5em);
           border-radius: 50%;
-          border: 0.1em solid var(--ha-label-badge-color, var(--primary-color));
+          border: 0.1em solid var(--op-label-badge-color, var(--primary-color));
           color: var(--label-badge-text-color, rgb(76, 76, 76));
 
           white-space: nowrap;
@@ -117,8 +117,8 @@ class HaLabelBadge extends LitElement {
           box-sizing: border-box;
           max-width: 100%;
           display: inline-block;
-          background-color: var(--ha-label-badge-color, var(--primary-color));
-          color: var(--ha-label-badge-label-color, white);
+          background-color: var(--op-label-badge-color, var(--primary-color));
+          color: var(--op-label-badge-label-color, white);
           border-radius: 1em;
           padding: 9% 16% 8% 16%; /* mostly apitalized text, not much descenders => bit more top margin */
           font-weight: 500;
@@ -126,7 +126,7 @@ class HaLabelBadge extends LitElement {
           text-transform: uppercase;
           text-overflow: ellipsis;
           transition: background-color 0.3s ease-in-out;
-          text-transform: var(--ha-label-badge-label-text-transform, uppercase);
+          text-transform: var(--op-label-badge-label-text-transform, uppercase);
         }
         .label-badge .label.big span {
           font-size: 90%;
@@ -134,9 +134,9 @@ class HaLabelBadge extends LitElement {
         }
         .badge-container .title {
           margin-top: 1em;
-          font-size: var(--ha-label-badge-title-font-size, 0.9em);
-          width: var(--ha-label-badge-title-width, 5em);
-          font-weight: var(--ha-label-badge-title-font-weight, 400);
+          font-size: var(--op-label-badge-title-font-size, 0.9em);
+          width: var(--op-label-badge-title-width, 5em);
+          font-weight: var(--op-label-badge-title-font-weight, 400);
           overflow: hidden;
           text-overflow: ellipsis;
           line-height: normal;
@@ -158,8 +158,8 @@ class HaLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-label-badge": HaLabelBadge;
+    "op-label-badge": HaLabelBadge;
   }
 }
 
-customElements.define("ha-label-badge", HaLabelBadge);
+customElements.define("op-label-badge", HaLabelBadge);

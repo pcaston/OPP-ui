@@ -15,7 +15,7 @@ import secondsToDuration from "../../../common/datetime/seconds_to_duration";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityConfig } from "./types";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 
 @customElement("hui-timer-entity-row")
@@ -41,16 +41,16 @@ class HuiTimerEntityRow extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -60,7 +60,7 @@ class HuiTimerEntityRow extends LitElement {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <div>${this._computeDisplay(stateObj)}</div>
       </hui-generic-entity-row>
     `;
@@ -77,9 +77,9 @@ class HuiTimerEntityRow extends LitElement {
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
 
-    if (changedProps.has("hass")) {
-      const stateObj = this.hass!.states[this._config!.entity];
-      const oldHass = changedProps.get("hass") as this["hass"];
+    if (changedProps.has("opp")) {
+      const stateObj = this.opp!.states[this._config!.entity];
+      const oldHass = changedProps.get("opp") as this["opp"];
       const oldStateObj = oldHass
         ? oldHass.states[this._config!.entity]
         : undefined;
@@ -99,7 +99,7 @@ class HuiTimerEntityRow extends LitElement {
     }
   }
 
-  private _startInterval(stateObj: HassEntity): void {
+  private _startInterval(stateObj: OppEntity): void {
     this._clearInterval();
     this._calculateRemaining(stateObj);
 
@@ -111,23 +111,23 @@ class HuiTimerEntityRow extends LitElement {
     }
   }
 
-  private _calculateRemaining(stateObj: HassEntity): void {
+  private _calculateRemaining(stateObj: OppEntity): void {
     this._timeRemaining = timerTimeRemaining(stateObj);
   }
 
-  private _computeDisplay(stateObj: HassEntity): string | null {
+  private _computeDisplay(stateObj: OppEntity): string | null {
     if (!stateObj) {
       return null;
     }
 
     if (stateObj.state === "idle" || this._timeRemaining === 0) {
-      return this.hass!.localize("state.timer." + stateObj.state);
+      return this.opp!.localize("state.timer." + stateObj.state);
     }
 
     let display = secondsToDuration(this._timeRemaining || 0);
 
     if (stateObj.state === "paused") {
-      display += ` (${this.hass!.localize("state.timer.paused")})`;
+      display += ` (${this.opp!.localize("state.timer.paused")})`;
     }
 
     return display;

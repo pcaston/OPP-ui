@@ -60,7 +60,7 @@ export class HuiDialogEditCard extends LitElement {
       // Card picker
       return html`
         <hui-dialog-pick-card
-          .hass="${this.hass}"
+          .opp="${this.opp}"
           .cardPicked="${this._cardPicked}"
           .closeDialog="${this._cancel}"
         ></hui-dialog-pick-card>
@@ -68,7 +68,7 @@ export class HuiDialogEditCard extends LitElement {
     }
     return html`
       <hui-edit-card
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .lovelace="${this._params.lovelace}"
         .cardConfig="${this._cardConfig}"
         .closeDialog="${this._cancel}"

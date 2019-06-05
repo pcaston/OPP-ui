@@ -27,25 +27,25 @@ export class HuiEmptyStateCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
     return html`
       <paper-card
-        .heading="${this.hass.localize(
+        .heading="${this.opp.localize(
           "ui.panel.lovelace.cards.empty_state.title"
         )}"
       >
         <div class="card-content">
-          ${this.hass.localize(
+          ${this.opp.localize(
             "ui.panel.lovelace.cards.empty_state.no_devices"
           )}
         </div>
         <div class="card-actions">
           <a href="/config/integrations">
             <mwc-button>
-              ${this.hass.localize(
+              ${this.opp.localize(
                 "ui.panel.lovelace.cards.empty_state.go_to_integrations_page"
               )}
             </mwc-button>

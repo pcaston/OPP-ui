@@ -22,13 +22,13 @@ import { configFlowContentStyles } from "./styles";
 @customElement("step-flow-external")
 class StepFlowExternal extends LitElement {
   @property()
-  public hass!: OpenPeerPower;
+  public opp!: OpenPeerPower;
 
   @property()
   private step!: ConfigFlowStepExternal;
 
   protected render(): TemplateResult | void {
-    const localize = this.hass.localize;
+    const localize = this.opp.localize;
     const step = this.step;
 
     const description = localizeKey(
@@ -51,7 +51,7 @@ class StepFlowExternal extends LitElement {
         </p>
         ${description
           ? html`
-              <ha-markdown .content=${description} allow-svg></ha-markdown>
+              <op-markdown .content=${description} allow-svg></op-markdown>
             `
           : ""}
         <div class="open-button">
@@ -69,13 +69,13 @@ class StepFlowExternal extends LitElement {
 
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
-    this.hass.connection.subscribeEvents<DataEntryFlowProgressedEvent>(
+    this.opp.connection.subscribeEvents<DataEntryFlowProgressedEvent>(
       async (ev) => {
         if (ev.data.flow_id !== this.step.flow_id) {
           return;
         }
 
-        const step = await fetchConfigFlow(this.hass, this.step.flow_id);
+        const step = await fetchConfigFlow(this.opp, this.step.flow_id);
         fireEvent(this, "flow-update", { step });
       },
       "data_entry_flow_progressed"

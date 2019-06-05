@@ -34,16 +34,16 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -53,7 +53,7 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <paper-input
           no-label-float
           .value="${stateObj.state}"
@@ -75,10 +75,10 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
 
   private _selectedValueChanged(ev): void {
     const element = this._inputEl;
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (element.value !== stateObj.state) {
-      setValue(this.hass!, stateObj.entity_id, element.value!);
+      setValue(this.opp!, stateObj.entity_id, element.value!);
     }
 
     ev.target.blur();

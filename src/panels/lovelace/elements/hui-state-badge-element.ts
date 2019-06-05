@@ -7,7 +7,7 @@ import {
   PropertyValues,
 } from "lit-element";
 
-import "../../../components/entity/ha-state-label-badge";
+import "../../../components/entity/op-state-label-badge";
 import "../components/hui-warning-element";
 
 import computeStateName from "../../../common/entity/compute_state_name";
@@ -34,16 +34,16 @@ export class HuiStateBadgeElement extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity!];
+    const stateObj = this.opp.states[this._config.entity!];
 
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label="${this.hass.localize(
+          label="${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -53,15 +53,15 @@ export class HuiStateBadgeElement extends LitElement
     }
 
     return html`
-      <ha-state-label-badge
-        .hass="${this.hass}"
+      <op-state-label-badge
+        .opp="${this.opp}"
         .state="${stateObj}"
         .title="${this._config.title === undefined
           ? computeStateName(stateObj)
           : this._config.title === null
           ? ""
           : this._config.title}"
-      ></ha-state-label-badge>
+      ></op-state-label-badge>
     `;
   }
 }

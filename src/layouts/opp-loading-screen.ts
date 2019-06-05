@@ -11,7 +11,7 @@ import {
 } from "lit-element";
 import "../components/op-menu-button";
 import "../components/op-paper-icon-button-arrow-prev";
-import { haStyle } from "../resources/styles";
+import { opStyle } from "../resources/styles";
 
 @customElement("opp-loading-screen")
 class OppLoadingScreen extends LitElement {
@@ -42,7 +42,7 @@ class OppLoadingScreen extends LitElement {
 
   static get styles(): CSSResultArray {
     return [
-      haStyle,
+      opStyle,
       css`
         .content {
           height: calc(100% - 64px);

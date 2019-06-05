@@ -1,7 +1,7 @@
 import { OpenPeerPower } from "../../types";
 
-export default function canToggleDomain(hass: OpenPeerPower, domain: string) {
-  const services = hass.services[domain];
+export default function canToggleDomain(opp: OpenPeerPower, domain: string) {
+  const services = opp.services[domain];
   if (!services) {
     return false;
   }

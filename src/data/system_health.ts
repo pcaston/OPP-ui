@@ -3,7 +3,7 @@ import { OpenPeerPower } from "../types";
 export interface OpenPeerPowerSystemHealthInfo {
   version: string;
   dev: boolean;
-  hassio: boolean;
+  oppio: boolean;
   virtualenv: string;
   python_version: string;
   docker: boolean;
@@ -17,8 +17,8 @@ export interface SystemHealthInfo {
 }
 
 export const fetchSystemHealthInfo = (
-  hass: OpenPeerPower
+  opp: OpenPeerPower
 ): Promise<SystemHealthInfo> =>
-  hass.callWS({
+  opp.callWS({
     type: "system_health/info",
   });

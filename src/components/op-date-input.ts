@@ -11,7 +11,7 @@ import "@polymer/paper-input/paper-input";
 // tslint:disable-next-line:no-duplicate-imports
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
 
-@customElement("ha-date-input")
+@customElement("op-date-input")
 export class HaDateInput extends LitElement {
   @property() public year?: string;
   @property() public month?: string;
@@ -123,6 +123,6 @@ export class HaDateInput extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-date-input": HaDateInput;
+    "op-date-input": HaDateInput;
   }
 }

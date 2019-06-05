@@ -13,15 +13,15 @@ export abstract class HuiStackCard extends LitElement implements LovelaceCard {
     };
   }
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
 
     if (!this._cards) {
       return;
     }
 
     for (const element of this._cards) {
-      element.hass = this._hass;
+      element.opp = this._opp;
     }
   }
   protected _cards?: LovelaceCard[];
@@ -56,8 +56,8 @@ export abstract class HuiStackCard extends LitElement implements LovelaceCard {
 
   private _createCardElement(cardConfig: LovelaceCardConfig) {
     const element = createCardElement(cardConfig) as LovelaceCard;
-    if (this._hass) {
-      element.hass = this._hass;
+    if (this._opp) {
+      element.opp = this._opp;
     }
     element.addEventListener(
       "ll-rebuild",

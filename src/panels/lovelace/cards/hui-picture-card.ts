@@ -8,7 +8,7 @@ import {
   CSSResult,
 } from "lit-element";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { OpenPeerPower } from "../../../types";
@@ -26,7 +26,7 @@ export class HuiPictureCard extends LitElement implements LovelaceCard {
   public static getStubConfig(): object {
     return {
       image:
-        "https://www.home-assistant.io/images/merchandise/shirt-frontpage.png",
+        "https://www.open-peer-power.io/images/merchandise/shirt-frontpage.png",
       tap_action: { action: "none" },
       hold_action: { action: "none" },
     };
@@ -49,14 +49,14 @@ export class HuiPictureCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
     return html`
-      <ha-card
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+      <op-card
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
         class="${classMap({
           clickable: Boolean(
@@ -65,17 +65,17 @@ export class HuiPictureCard extends LitElement implements LovelaceCard {
         })}"
       >
         <img src="${this._config.image}" />
-      </ha-card>
+      </op-card>
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-card {
+      op-card {
         overflow: hidden;
       }
 
-      ha-card.clickable {
+      op-card.clickable {
         cursor: pointer;
       }
 
@@ -87,11 +87,11 @@ export class HuiPictureCard extends LitElement implements LovelaceCard {
   }
 
   private _handleTap() {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold() {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 }
 

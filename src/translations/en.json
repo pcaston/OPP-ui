@@ -12,7 +12,7 @@
     "device_tracker": "Device tracker",
     "fan": "Fan",
     "group": "Group",
-    "hassio": "Opp.io",
+    "oppio": "Opp.io",
     "history_graph": "History graph",
     "openpeerpower": "Home Assistant",
     "image_processing": "Image processing",

@@ -50,7 +50,7 @@ export class Entity {
     // tslint:disable-next-line
     console.log("update", this.entityId, this);
 
-    this.hass.updateStates({
+    this.opp.updateStates({
       [this.entityId]: this.toState(),
     });
   }
@@ -228,7 +228,7 @@ class GroupEntity extends Entity {
 
     await Promise.all(
       this.attributes.entity_id.map((ent) => {
-        const entity = this.hass.mockEntities[ent];
+        const entity = this.opp.mockEntities[ent];
         return entity.handleService(entity.domain, service, data);
       })
     );

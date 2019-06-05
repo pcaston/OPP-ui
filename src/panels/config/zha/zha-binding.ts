@@ -19,12 +19,12 @@ import {
 } from "lit-element";
 
 import { bindDevices, unbindDevices, ZHADevice } from "../../../data/zha";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { ItemSelectedEvent } from "./types";
 import "@polymer/paper-item/paper-item";
 
-@customElement("zop-binding-control")
+@customElement("zha-binding-control")
 export class ZHABindingControl extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public isWide?: boolean;
@@ -141,7 +141,7 @@ export class ZHABindingControl extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .flex {
           -ms-flex: 1 1 0.000000001px;
@@ -217,6 +217,6 @@ export class ZHABindingControl extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-binding-control": ZHABindingControl;
+    "zha-binding-control": ZHABindingControl;
   }
 }

@@ -10,8 +10,8 @@ import {
 } from "lit-element";
 
 import "../components/hui-generic-entity-row";
-import "../../../components/ha-cover-controls";
-import "../../../components/ha-cover-tilt-controls";
+import "../../../components/op-cover-controls";
+import "../../../components/op-cover-tilt-controls";
 import "../components/hui-warning";
 
 import { isTiltOnly } from "../../../util/cover-model";
@@ -37,16 +37,16 @@ class HuiCoverEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -56,19 +56,19 @@ class HuiCoverEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         ${isTiltOnly(stateObj)
           ? html`
-              <ha-cover-tilt-controls
-                .hass="${this.hass}"
+              <op-cover-tilt-controls
+                .opp="${this.opp}"
                 .stateObj="${stateObj}"
-              ></ha-cover-tilt-controls>
+              ></op-cover-tilt-controls>
             `
           : html`
-              <ha-cover-controls
-                .hass="${this.hass}"
+              <op-cover-controls
+                .opp="${this.opp}"
                 .stateObj="${stateObj}"
-              ></ha-cover-controls>
+              ></op-cover-controls>
             `}
       </hui-generic-entity-row>
     `;
@@ -76,8 +76,8 @@ class HuiCoverEntityRow extends LitElement implements EntityRow {
 
   static get styles(): CSSResult {
     return css`
-      ha-cover-controls,
-      ha-cover-tilt-controls {
+      op-cover-controls,
+      op-cover-tilt-controls {
         margin-right: -0.57em;
       }
     `;

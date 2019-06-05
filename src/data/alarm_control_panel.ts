@@ -4,7 +4,7 @@ export const FORMAT_TEXT = "text";
 export const FORMAT_NUMBER = "number";
 
 export const callAlarmAction = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entity: string,
   action:
     | "arm_away"
@@ -14,7 +14,7 @@ export const callAlarmAction = (
     | "disarm",
   code: string
 ) => {
-  hass!.callService("alarm_control_panel", "alarm_" + action, {
+  opp!.callService("alarm_control_panel", "alarm_" + action, {
     entity_id: entity,
     code,
   });

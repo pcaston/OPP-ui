@@ -1,5 +1,5 @@
 import { directive, PropertyPart } from "lit-html";
-// See https://github.com/home-assistant/home-assistant-polymer/pull/2457
+// See https://github.com/open-peer-power/open-peer-power-polymer/pull/2457
 // on how to undo mwc -> paper migration
 // import "@material/mwc-ripple";
 import "@polymer/paper-ripple";
@@ -125,9 +125,9 @@ class LongPress extends HTMLElement implements LongPress {
       this.stopAnimation();
       this.timer = undefined;
       if (this.held) {
-        element.dispatchEvent(new Event("ha-hold"));
+        element.dispatchEvent(new Event("op-hold"));
       } else {
-        element.dispatchEvent(new Event("ha-click"));
+        element.dispatchEvent(new Event("op-click"));
       }
       this.cooldownEnd = true;
       window.setTimeout(() => (this.cooldownEnd = false), 100);

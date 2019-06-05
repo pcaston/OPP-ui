@@ -6,7 +6,7 @@ export interface Webhook {
   name: string;
 }
 
-export const fetchWebhooks = (hass: OpenPeerPower): Promise<Webhook[]> =>
-  hass.callWS({
+export const fetchWebhooks = (opp: OpenPeerPower): Promise<Webhook[]> =>
+  opp.callWS({
     type: "webhook/list",
   });

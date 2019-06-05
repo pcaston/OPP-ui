@@ -10,7 +10,7 @@ import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 
-import "../../../components/ha-service-picker";
+import "../../../components/op-service-picker";
 
 import { OpenPeerPower } from "../../../types";
 import { fireEvent, HASSDomEvent } from "../../../common/dom/fire_event";
@@ -57,7 +57,7 @@ export class HuiActionEditor extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.actions) {
+    if (!this.opp || !this.actions) {
       return html``;
     }
     return html`
@@ -89,12 +89,12 @@ export class HuiActionEditor extends LitElement {
         : ""}
       ${this.config && this.config.action === "call-service"
         ? html`
-            <ha-service-picker
-              .hass="${this.hass}"
+            <op-service-picker
+              .opp="${this.opp}"
               .value="${this._service}"
               .configValue="${"service"}"
               @value-changed="${this._valueChanged}"
-            ></ha-service-picker>
+            ></op-service-picker>
             <h3>Toggle Editor to input Service Data</h3>
           `
         : ""}
@@ -102,7 +102,7 @@ export class HuiActionEditor extends LitElement {
   }
 
   private _valueChanged(ev: Event): void {
-    if (!this.hass) {
+    if (!this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

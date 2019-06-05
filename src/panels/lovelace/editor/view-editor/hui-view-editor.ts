@@ -70,7 +70,7 @@ export class HuiViewEditor extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -96,7 +96,7 @@ export class HuiViewEditor extends LitElement {
           @value-changed="${this._valueChanged}"
         ></paper-input>
         <hui-theme-select-editor
-          .hass="${this.hass}"
+          .opp="${this.opp}"
           .value="${this._theme}"
           .configValue="${"theme"}"
           @theme-changed="${this._valueChanged}"
@@ -112,7 +112,7 @@ export class HuiViewEditor extends LitElement {
   }
 
   private _valueChanged(ev: Event): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
 

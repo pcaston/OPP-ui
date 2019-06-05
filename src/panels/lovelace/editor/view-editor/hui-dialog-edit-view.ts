@@ -40,7 +40,7 @@ export class HuiDialogEditView extends LitElement {
     }
     return html`
       <hui-edit-view
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .lovelace="${this._params.lovelace}"
         .viewIndex="${this._params.viewIndex}"
       >

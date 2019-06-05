@@ -10,7 +10,7 @@ import {
 } from "lit-element";
 import { styleMap } from "lit-html/directives/style-map";
 
-import "../../../components/ha-card";
+import "../../../components/op-card";
 import "../components/hui-warning";
 
 import isValidEntityId from "../../../common/entity/valid_entity_id";
@@ -66,16 +66,16 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -89,7 +89,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
     if (isNaN(state)) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_non_numeric",
             "entity",
             this._config.entity
@@ -99,7 +99,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card @click="${this._handleClick}">
+      <op-card @click="${this._handleClick}">
         <div class="container">
           <div class="gauge-a"></div>
           <div class="gauge-b"></div>
@@ -122,7 +122,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
             </div>
           </div>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -138,14 +138,14 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
 
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config.theme);
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
 
@@ -158,7 +158,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
       return;
     }
     (this.shadowRoot!.querySelector(
-      "ha-card"
+      "op-card"
     )! as HTMLElement).style.setProperty("--base-unit", baseUnit);
   }
 
@@ -205,12 +205,12 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
   }
 
   private _handleClick(): void {
-    fireEvent(this, "hass-more-info", { entityId: this._config!.entity });
+    fireEvent(this, "opp-more-info", { entityId: this._config!.entity });
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-card {
+      op-card {
         --base-unit: 50px;
         height: calc(var(--base-unit) * 3);
         position: relative;

@@ -9,15 +9,15 @@ import {
 
 import { fireEvent } from "../common/dom/fire_event";
 
-@customElement("ha-menu-button")
+@customElement("op-menu-button")
 class HaMenuButton extends LitElement {
   @property({ type: Boolean })
-  public hassio = false;
+  public oppio = false;
 
   protected render(): TemplateResult | void {
     return html`
       <paper-icon-button
-        .icon=${this.hassio ? "hassio:menu" : "hass:menu"}
+        .icon=${this.oppio ? "oppio:menu" : "opp:menu"}
         @click=${this._toggleMenu}
       ></paper-icon-button>
     `;
@@ -36,6 +36,6 @@ class HaMenuButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-menu-button": HaMenuButton;
+    "op-menu-button": HaMenuButton;
   }
 }

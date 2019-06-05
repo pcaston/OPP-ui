@@ -9,7 +9,7 @@ import {
   PropertyValues,
 } from "lit-element";
 
-import "../../../components/ha-climate-state";
+import "../../../components/op-climate-state";
 import "../components/hui-generic-entity-row";
 import "../components/hui-warning";
 
@@ -36,16 +36,16 @@ class HuiClimateEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -55,18 +55,18 @@ class HuiClimateEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
-        <ha-climate-state
-          .hass="${this.hass}"
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
+        <op-climate-state
+          .opp="${this.opp}"
           .stateObj="${stateObj}"
-        ></ha-climate-state>
+        ></op-climate-state>
       </hui-generic-entity-row>
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-climate-state {
+      op-climate-state {
         text-align: right;
       }
     `;

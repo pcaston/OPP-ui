@@ -12,7 +12,7 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "../../components/op-menu-button";
 
 import { OpenPeerPower } from "../../types";
-import { haStyle } from "../../resources/styles";
+import { opStyle } from "../../resources/styles";
 
 import "./system-log-card";
 import "./error-log-card";
@@ -167,7 +167,7 @@ class HaPanelDevInfo extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         :host {
           -ms-user-select: initial;

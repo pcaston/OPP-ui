@@ -49,7 +49,7 @@ export class HuiCardPicker extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <h3>
-        ${this.hass!.localize("ui.panel.lovelace.editor.edit_card.pick_card")}
+        ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.pick_card")}
       </h3>
       <div class="cards-container">
         ${cards.map((card) => {
@@ -93,7 +93,7 @@ export class HuiCardPicker extends LitElement {
     let config: LovelaceCardConfig = { type };
 
     if (elClass && elClass.getStubConfig) {
-      const cardConfig = elClass.getStubConfig(this.hass);
+      const cardConfig = elClass.getStubConfig(this.opp);
       config = { ...config, ...cardConfig };
     }
 

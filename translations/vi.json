@@ -1134,7 +1134,7 @@
         "zwave": "Z-Wave",
         "vacuum": "Vacuum",
         "zha": "ZHA",
-        "hassio": "Opp.io",
+        "oppio": "Opp.io",
         "openpeerpower": "Home Assistant",
         "lovelace": "Lovelace",
         "system_health": "Sức khỏe hệ thống",

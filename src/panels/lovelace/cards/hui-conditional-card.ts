@@ -33,8 +33,8 @@ class HuiConditionalCard extends HTMLElement implements LovelaceCard {
     this.update();
   }
 
-  set hass(hass: OpenPeerPower) {
-    this._hass = hass;
+  set opp(opp: OpenPeerPower) {
+    this._opp = opp;
 
     this.update();
   }
@@ -44,15 +44,15 @@ class HuiConditionalCard extends HTMLElement implements LovelaceCard {
   }
 
   private update() {
-    if (!this._card || !this._hass) {
+    if (!this._card || !this._opp) {
       return;
     }
 
     const visible =
-      this._config && checkConditionsMet(this._config.conditions, this._hass);
+      this._config && checkConditionsMet(this._config.conditions, this._opp);
 
     if (visible) {
-      this._card.hass = this._hass;
+      this._card.opp = this._opp;
       if (!this._card.parentElement) {
         this.appendChild(this._card);
       }

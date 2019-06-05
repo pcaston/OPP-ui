@@ -9,7 +9,7 @@ import {
 } from "../../../layouts/opp-router-page";
 import { OpenPeerPower } from "../../../types";
 
-@customElement("zop-config-panel")
+@customElement("zha-config-panel")
 class ZHAConfigPanel extends HassRouterPage {
   @property() public opp!: OpenPeerPower;
   @property() public _wideSidebar: boolean = false;
@@ -23,12 +23,12 @@ class ZHAConfigPanel extends HassRouterPage {
       configuration: {
         tag: "op-config-zha",
         load: () =>
-          import(/* webpackChunkName: "zop-configuration-page" */ "./op-config-zha"),
+          import(/* webpackChunkName: "zha-configuration-page" */ "./op-config-zha"),
       },
       add: {
-        tag: "zop-add-devices-page",
+        tag: "zha-add-devices-page",
         load: () =>
-          import(/* webpackChunkName: "zop-add-devices-page" */ "./zop-add-devices-page"),
+          import(/* webpackChunkName: "zha-add-devices-page" */ "./zha-add-devices-page"),
       },
     },
   };
@@ -65,6 +65,6 @@ class ZHAConfigPanel extends HassRouterPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-config-panel": ZHAConfigPanel;
+    "zha-config-panel": ZHAConfigPanel;
   }
 }

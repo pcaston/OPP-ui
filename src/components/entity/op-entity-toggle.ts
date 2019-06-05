@@ -13,14 +13,14 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { forwardHaptic } from "../../data/haptics";
 
 const isOn = (stateObj?: OppEntity) =>
   stateObj !== undefined && !STATES_OFF.includes(stateObj.state);
 
 class HaEntityToggle extends LitElement {
-  // hass is not a property so that we only re-render on stateObj changes
+  // opp is not a property so that we only re-render on stateObj changes
   public opp?: OpenPeerPower;
   @property() public stateObj?: OppEntity;
   @property() private _isOn: boolean = false;
@@ -35,12 +35,12 @@ class HaEntityToggle extends LitElement {
     if (this.stateObj.attributes.assumed_state) {
       return html`
         <paper-icon-button
-          icon="hass:flash-off"
+          icon="opp:flash-off"
           @click=${this._turnOff}
           ?state-active=${!this._isOn}
         ></paper-icon-button>
         <paper-icon-button
-          icon="hass:flash"
+          icon="opp:flash"
           @click=${this._turnOn}
           ?state-active=${this._isOn}
         ></paper-icon-button>
@@ -87,7 +87,7 @@ class HaEntityToggle extends LitElement {
   // result in the entity to be turned on. Since the state is not changing,
   // the resync is not called automatic.
   private async _callService(turnOn): Promise<void> {
-    if (!this.hass || !this.stateObj) {
+    if (!this.opp || !this.stateObj) {
       return;
     }
     forwardHaptic("light");
@@ -114,7 +114,7 @@ class HaEntityToggle extends LitElement {
     // Optimistic update.
     this._isOn = turnOn;
 
-    await this.hass.callService(serviceDomain, service, {
+    await this.opp.callService(serviceDomain, service, {
       entity_id: this.stateObj.entity_id,
     });
 
@@ -153,4 +153,4 @@ class HaEntityToggle extends LitElement {
   }
 }
 
-customElements.define("ha-entity-toggle", HaEntityToggle);
+customElements.define("op-entity-toggle", HaEntityToggle);

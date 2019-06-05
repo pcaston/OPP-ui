@@ -1,14 +1,14 @@
 import "@polymer/iron-icon/iron-icon";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { HaIcon } from "./ha-icon";
+import { HaIcon } from "./op-icon";
 
 export class HaIconNext extends HaIcon {
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
-        ? "hass:chevron-right"
-        : "hass:chevron-left";
+        ? "opp:chevron-right"
+        : "opp:chevron-left";
 
     // calling super after setting icon to have it consistently show the icon (otherwise not always shown)
     super.connectedCallback();
@@ -17,8 +17,8 @@ export class HaIconNext extends HaIcon {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-icon-next": HaIconNext;
+    "op-icon-next": HaIconNext;
   }
 }
 
-customElements.define("ha-icon-next", HaIconNext);
+customElements.define("op-icon-next", HaIconNext);

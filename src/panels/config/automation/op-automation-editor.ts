@@ -15,14 +15,14 @@ import { classMap } from "lit-html/directives/class-map";
 
 import { h, render } from "preact";
 
-import "../../../components/ha-paper-icon-button-arrow-prev";
-import "../../../layouts/ha-app-layout";
+import "../../../components/op-paper-icon-button-arrow-prev";
+import "../../../layouts/op-app-layout";
 
 import Automation from "../js/automation";
 import unmountPreact from "../../../common/preact/unmount";
 import computeStateName from "../../../common/entity/compute_state_name";
 
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { AutomationEntity, AutomationConfig } from "../../../data/automation";
 import { navigate } from "../../../common/navigate";
@@ -44,7 +44,7 @@ class HaAutomationEditor extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       automation: {},
       creatingNew: {},
       isWide: {},
@@ -68,20 +68,20 @@ class HaAutomationEditor extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return;
     }
     return html`
-      <ha-app-layout has-scrolling-region>
+      <op-app-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <ha-paper-icon-button-arrow-prev
+            <op-paper-icon-button-arrow-prev
               @click=${this._backTapped}
-            ></ha-paper-icon-button-arrow-prev>
+            ></op-paper-icon-button-arrow-prev>
             <div main-title>
               ${this.automation
                 ? computeStateName(this.automation)
-                : this.hass.localize(
+                : this.opp.localize(
                     "ui.panel.config.automation.editor.default_name"
                   )}
             </div>
@@ -97,7 +97,7 @@ class HaAutomationEditor extends LitElement {
           <div
             id="root"
             class="${classMap({
-              rtl: computeRTL(this.hass),
+              rtl: computeRTL(this.opp),
             })}"
           ></div>
         </div>
@@ -105,16 +105,16 @@ class HaAutomationEditor extends LitElement {
           slot="fab"
           ?is-wide="${this.isWide}"
           ?dirty="${this._dirty}"
-          icon="hass:content-save"
-          .title="${this.hass.localize(
+          icon="opp:content-save"
+          .title="${this.opp.localize(
             "ui.panel.config.automation.editor.save"
           )}"
           @click=${this._saveAutomation}
           class="${classMap({
-            rtl: computeRTL(this.hass),
+            rtl: computeRTL(this.opp),
           })}"
         ></paper-fab>
-      </ha-app-layout>
+      </op-app-layout>
     `;
   }
 
@@ -125,12 +125,12 @@ class HaAutomationEditor extends LitElement {
     if (
       changedProps.has("automation") &&
       this.automation &&
-      this.hass &&
+      this.opp &&
       // Only refresh config if we picked a new automation. If same ID, don't fetch it.
       (!oldAutomation ||
         oldAutomation.attributes.id !== this.automation.attributes.id)
     ) {
-      this.hass
+      this.opp
         .callApi<AutomationConfig>(
           "GET",
           `config/automation/config/${this.automation.attributes.id}`
@@ -149,10 +149,10 @@ class HaAutomationEditor extends LitElement {
         });
     }
 
-    if (changedProps.has("creatingNew") && this.creatingNew && this.hass) {
+    if (changedProps.has("creatingNew") && this.creatingNew && this.opp) {
       this._dirty = false;
       this._config = {
-        alias: this.hass.localize(
+        alias: this.opp.localize(
           "ui.panel.config.automation.editor.default_name"
         ),
         trigger: [{ platform: "state" }],
@@ -161,15 +161,15 @@ class HaAutomationEditor extends LitElement {
       };
     }
 
-    if (changedProps.has("_config") && this.hass) {
+    if (changedProps.has("_config") && this.opp) {
       this._rendered = AutomationEditor(
         this.shadowRoot!.querySelector("#root"),
         {
           automation: this._config,
           onChange: this._configChanged,
           isWide: this.isWide,
-          hass: this.hass,
-          localize: this.hass.localize,
+          opp: this.opp,
+          localize: this.opp.localize,
         },
         this._rendered
       );
@@ -191,7 +191,7 @@ class HaAutomationEditor extends LitElement {
     if (
       this._dirty &&
       !confirm(
-        this.hass!.localize("ui.panel.config.automation.editor.unsaved_confirm")
+        this.opp!.localize("ui.panel.config.automation.editor.unsaved_confirm")
       )
     ) {
       return;
@@ -203,7 +203,7 @@ class HaAutomationEditor extends LitElement {
     const id = this.creatingNew
       ? "" + Date.now()
       : this.automation!.attributes.id;
-    this.hass!.callApi(
+    this.opp!.callApi(
       "POST",
       "config/automation/config/" + id,
       this._config
@@ -224,9 +224,9 @@ class HaAutomationEditor extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
-        ha-card {
+        op-card {
           overflow: hidden;
         }
         .errors {
@@ -241,8 +241,8 @@ class HaAutomationEditor extends LitElement {
         .script {
           margin-top: -16px;
         }
-        .triggers ha-card,
-        .script ha-card {
+        .triggers op-card,
+        .script op-card {
           margin-top: 16px;
         }
         .add-card mwc-button {
@@ -299,4 +299,4 @@ class HaAutomationEditor extends LitElement {
   }
 }
 
-customElements.define("ha-automation-editor", HaAutomationEditor);
+customElements.define("op-automation-editor", HaAutomationEditor);

@@ -24,7 +24,7 @@ import {
   fetchCommandsForCluster,
   ZHADevice,
 } from "../../../data/zha";
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { formatAsPaddedHex } from "./functions";
 import {
@@ -201,7 +201,7 @@ export class ZHAClusterCommands extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .flex {
           -ms-flex: 1 1 0.000000001px;
@@ -284,8 +284,8 @@ export class ZHAClusterCommands extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-cluster-commands": ZHAClusterCommands;
+    "zha-cluster-commands": ZHAClusterCommands;
   }
 }
 
-customElements.define("zop-cluster-commands", ZHAClusterCommands);
+customElements.define("zha-cluster-commands", ZHAClusterCommands);

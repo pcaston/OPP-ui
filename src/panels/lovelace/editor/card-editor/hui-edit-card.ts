@@ -15,10 +15,10 @@ import { haStyleDialog } from "../../../../resources/styles";
 
 import "@polymer/paper-spinner/paper-spinner";
 import "@polymer/paper-dialog/paper-dialog";
-import "../../../../components/dialog/ha-paper-dialog";
+import "../../../../components/dialog/op-paper-dialog";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../../components/dialog/ha-paper-dialog";
+import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import { OpenPeerPower } from "../../../../types";
@@ -79,7 +79,7 @@ export class HuiEditCard extends LitElement {
   @property() private _errorMsg?: TemplateResult;
 
   private get _dialog(): HaPaperDialog {
-    return this.shadowRoot!.querySelector("ha-paper-dialog")!;
+    return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   private get _previewEl(): HuiCardPreview {
@@ -133,7 +133,7 @@ export class HuiEditCard extends LitElement {
             ? this._configElement
             : html`
                 <hui-yaml-editor
-                  .hass="${this.hass}"
+                  .opp="${this.opp}"
                   .value="${this._cardYaml}"
                   @yaml-changed="${this._handleYamlChanged}"
                   @yaml-save="${this._save}"
@@ -143,19 +143,19 @@ export class HuiEditCard extends LitElement {
       `;
 
       preview = html`
-        <hui-card-preview .hass="${this.hass}"> </hui-card-preview>
+        <hui-card-preview .opp="${this.opp}"> </hui-card-preview>
       `;
     }
 
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         modal
         @opened-changed="${this._openedChanged}"
       >
         <h2>
-          ${this.hass!.localize("ui.panel.lovelace.editor.edit_card.header")}
+          ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.header")}
         </h2>
         <paper-spinner
           ?active="${this._loading}"
@@ -180,12 +180,12 @@ export class HuiEditCard extends LitElement {
                   ?disabled="${this._configElement === null ||
                     this._configState !== "OK"}"
                   @click="${this._toggleEditor}"
-                  >${this.hass!.localize(
+                  >${this.opp!.localize(
                     "ui.panel.lovelace.editor.edit_card.toggle_editor"
                   )}</mwc-button
                 >
                 <mwc-button @click="${this.closeDialog}"
-                  >${this.hass!.localize("ui.common.cancel")}</mwc-button
+                  >${this.opp!.localize("ui.common.cancel")}</mwc-button
                 >
                 <mwc-button
                   ?disabled="${this._saving || this._configState !== "OK"}"
@@ -195,12 +195,12 @@ export class HuiEditCard extends LitElement {
                     ?active="${this._saving}"
                     alt="Saving"
                   ></paper-spinner>
-                  ${this.hass!.localize("ui.common.save")}
+                  ${this.opp!.localize("ui.common.save")}
                 </mwc-button>
               </div>
             `
           : ""}
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -362,7 +362,7 @@ export class HuiEditCard extends LitElement {
       return false;
     }
 
-    configElement.hass = this.hass;
+    configElement.opp = this.opp;
     configElement.addEventListener("config-changed", (ev) =>
       this._handleUIConfigChanged(ev.detail.config)
     );
@@ -391,20 +391,20 @@ export class HuiEditCard extends LitElement {
         }
 
         @media all and (max-width: 450px), all and (max-height: 500px) {
-          /* overrule the ha-style-dialog max-height on small screens */
-          ha-paper-dialog {
+          /* overrule the op-style-dialog max-height on small screens */
+          op-paper-dialog {
             max-height: 100%;
             height: 100%;
           }
         }
 
         @media all and (min-width: 660px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             width: 845px;
           }
         }
 
-        ha-paper-dialog {
+        op-paper-dialog {
           max-width: 845px;
         }
 
@@ -428,7 +428,7 @@ export class HuiEditCard extends LitElement {
         }
 
         @media (min-width: 1200px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             max-width: none;
             width: 1000px;
           }

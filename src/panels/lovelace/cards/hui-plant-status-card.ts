@@ -8,10 +8,10 @@ import {
   customElement,
   PropertyValues,
 } from "lit-element";
-import { HassEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 
 import computeStateName from "../../../common/entity/compute_state_name";
 
@@ -22,11 +22,11 @@ import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { PlantStatusCardConfig, PlantAttributeTarget } from "./types";
 
 const SENSORS = {
-  moisture: "hass:water",
-  temperature: "hass:thermometer",
-  brightness: "hass:white-balance-sunny",
-  conductivity: "hass:emoticon-poop",
-  battery: "hass:battery",
+  moisture: "opp:water",
+  temperature: "opp:thermometer",
+  brightness: "opp:white-balance-sunny",
+  conductivity: "opp:emoticon-poop",
+  battery: "opp:battery",
 };
 
 @customElement("hui-plant-status-card")
@@ -61,16 +61,16 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config!.entity];
+    const stateObj = this.opp.states[this._config!.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -80,7 +80,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <ha-card
+      <op-card
         class="${stateObj.attributes.entity_picture ? "has-plant-image" : ""}"
       >
         <div
@@ -100,12 +100,12 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
                 .value="${item}"
               >
                 <div>
-                  <ha-icon
+                  <op-icon
                     icon="${this.computeIcon(
                       item,
                       stateObj.attributes.battery
                     )}"
-                  ></ha-icon>
+                  ></op-icon>
                 </div>
                 <div
                   class="${stateObj.attributes.problem.indexOf(item) === -1
@@ -121,7 +121,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
             `
           )}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -174,7 +174,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
         padding-bottom: 16px;
       }
 
-      ha-icon {
+      op-icon {
         color: var(--paper-item-icon-color);
         margin-bottom: 8px;
       }
@@ -198,7 +198,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
     `;
   }
 
-  private computeAttributes(stateObj: HassEntity): string[] {
+  private computeAttributes(stateObj: OppEntity): string[] {
     return Object.keys(SENSORS).filter((key) => key in stateObj.attributes);
   }
 
@@ -217,10 +217,10 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
 
   private _handleMoreInfo(ev: Event): void {
     const target = ev.currentTarget! as PlantAttributeTarget;
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (target.value) {
-      fireEvent(this, "hass-more-info", {
+      fireEvent(this, "opp-more-info", {
         entityId: stateObj.attributes.sensors[target.value],
       });
     }

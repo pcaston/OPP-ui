@@ -12,8 +12,8 @@ import stateIcon from "../../../common/entity/state_icon";
 import computeStateName from "../../../common/entity/compute_state_name";
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { fireEvent } from "../../../common/dom/fire_event";
@@ -73,16 +73,16 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this._config) {
+    if (!this.opp || !this._config) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp.states[this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -93,16 +93,16 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
 
     return html`
       ${this.renderStyle()}
-      <ha-card>
+      <op-card>
         <paper-icon-button
-          icon="hass:dots-vertical"
+          icon="opp:dots-vertical"
           class="more-info"
           @click="${this._handleMoreInfo}"
         ></paper-icon-button>
         <div id="light"></div>
         <div id="tooltip">
           <div class="icon-state">
-            <ha-icon
+            <op-icon
               class="light-icon"
               data-state="${stateObj.state}"
               .icon="${stateIcon(stateObj)}"
@@ -111,14 +111,14 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
                 color: this._computeColor(stateObj),
               })}"
               @click="${this._handleTap}"
-            ></ha-icon>
-            <div class="brightness" @ha-click="${this._handleTap}"></div>
+            ></op-icon>
+            <div class="brightness" @op-click="${this._handleTap}"></div>
             <div class="name">
               ${this._config.name || computeStateName(stateObj)}
             </div>
           </div>
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -132,7 +132,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     this._roundSliderStyle = loaded.roundSliderStyle;
     this._jQuery = loaded.jQuery;
 
-    const stateObj = this.hass!.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp!.states[this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       // Card will require refresh to work again
@@ -154,11 +154,11 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (!this._config || !this.hass || !this._jQuery) {
+    if (!this._config || !this.opp || !this._jQuery) {
       return;
     }
 
-    const stateObj = this.hass!.states[this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (!stateObj) {
       return;
@@ -170,9 +170,9 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       value: Math.round((attrs.brightness / 254) * 100) || 0,
     });
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config.theme);
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
 
@@ -184,7 +184,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
           display: block;
         }
 
-        ha-card {
+        op-card {
           position: relative;
           overflow: hidden;
           --brightness-font-color: white;
@@ -330,7 +330,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
   }
 
   private _setBrightness(e: any): void {
-    this.hass!.callService("light", "turn_on", {
+    this.opp!.callService("light", "turn_on", {
       entity_id: this._config!.entity,
       brightness_pct: e.value,
     });
@@ -356,11 +356,11 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
   }
 
   private _handleTap() {
-    toggleEntity(this.hass!, this._config!.entity!);
+    toggleEntity(this.opp!, this._config!.entity!);
   }
 
   private _handleMoreInfo() {
-    fireEvent(this, "hass-more-info", {
+    fireEvent(this, "opp-more-info", {
       entityId: this._config!.entity,
     });
   }

@@ -7,8 +7,8 @@ import {
 } from "lit-element";
 import "@polymer/paper-input/paper-input";
 
-import "../../../../components/entity/ha-entity-picker";
-import "../../../../components/ha-icon";
+import "../../../../components/entity/op-entity-picker";
+import "../../../../components/op-icon";
 
 import { struct } from "../../common/structs/struct";
 import { EntitiesEditorEvent, EditorTarget } from "../types";
@@ -45,7 +45,7 @@ export class HuiPlantStatusCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -59,21 +59,21 @@ export class HuiPlantStatusCardEditor extends LitElement
             .configValue="${"name"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
-          <ha-entity-picker
-            .hass="${this.hass}"
+          <op-entity-picker
+            .opp="${this.opp}"
             .value="${this._entity}"
             .configValue=${"entity"}
             domain-filter="plant"
             @change="${this._valueChanged}"
             allow-custom-entity
-          ></ha-entity-picker>
+          ></op-entity-picker>
         </div>
       </div>
     `;
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

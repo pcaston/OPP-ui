@@ -8,7 +8,7 @@ import {
   css,
 } from "lit-element";
 
-import "../../../components/buttons/ha-call-service-button";
+import "../../../components/buttons/op-call-service-button";
 
 import { LovelaceElement, ServiceButtonElementConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
@@ -46,24 +46,24 @@ export class HuiServiceButtonElement extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
     return html`
-      <ha-call-service-button
-        .hass="${this.hass}"
+      <op-call-service-button
+        .opp="${this.opp}"
         .domain="${this._domain}"
         .service="${this._service}"
         .serviceData="${this._config.service_data}"
-        >${this._config.title}</ha-call-service-button
+        >${this._config.title}</op-call-service-button
       >
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      ha-call-service-button {
+      op-call-service-button {
         color: var(--primary-color);
         white-space: nowrap;
       }

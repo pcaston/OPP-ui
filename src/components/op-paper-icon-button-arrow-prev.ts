@@ -9,17 +9,17 @@ const paperIconButtonClass = customElements.get(
 ) as Constructor<PaperIconButtonElement>;
 
 export class HaPaperIconButtonArrowPrev extends paperIconButtonClass {
-  public hassio?: boolean;
+  public oppio?: boolean;
 
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
-        ? this.hassio
-          ? "hassio:arrow-left"
-          : "hass:arrow-left"
-        : this.hassio
-        ? "hassio:arrow-right"
-        : "hass:arrow-right";
+        ? this.oppio
+          ? "oppio:arrow-left"
+          : "opp:arrow-left"
+        : this.oppio
+        ? "oppio:arrow-right"
+        : "opp:arrow-right";
 
     // calling super after setting icon to have it consistently show the icon (otherwise not always shown)
     super.connectedCallback();
@@ -28,11 +28,11 @@ export class HaPaperIconButtonArrowPrev extends paperIconButtonClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-paper-icon-button-arrow-prev": HaPaperIconButtonArrowPrev;
+    "op-paper-icon-button-arrow-prev": HaPaperIconButtonArrowPrev;
   }
 }
 
 customElements.define(
-  "ha-paper-icon-button-arrow-prev",
+  "op-paper-icon-button-arrow-prev",
   HaPaperIconButtonArrowPrev
 );

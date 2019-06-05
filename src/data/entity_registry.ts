@@ -18,32 +18,32 @@ export interface EntityRegistryEntryUpdateParams {
 }
 
 export const computeEntityRegistryName = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entry: EntityRegistryEntry
 ): string | null => {
   if (entry.name) {
     return entry.name;
   }
-  const state = hass.states[entry.entity_id];
+  const state = opp.states[entry.entity_id];
   return state ? computeStateName(state) : null;
 };
 
 export const updateEntityRegistryEntry = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   updates: Partial<EntityRegistryEntryUpdateParams>
 ): Promise<EntityRegistryEntry> =>
-  hass.callWS<EntityRegistryEntry>({
+  opp.callWS<EntityRegistryEntry>({
     type: "config/entity_registry/update",
     entity_id: entityId,
     ...updates,
   });
 
 export const removeEntityRegistryEntry = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string
 ): Promise<void> =>
-  hass.callWS({
+  opp.callWS({
     type: "config/entity_registry/remove",
     entity_id: entityId,
   });
@@ -67,13 +67,13 @@ const subscribeEntityRegistryUpdates = (conn, store) =>
   );
 
 export const subscribeEntityRegistry = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   onChange: (entities: EntityRegistryEntry[]) => void
 ) =>
   createCollection<EntityRegistryEntry[]>(
     "_entityRegistry",
     fetchEntityRegistry,
     subscribeEntityRegistryUpdates,
-    hass.connection,
+    opp.connection,
     onChange
   );

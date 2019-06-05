@@ -1,11 +1,11 @@
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import canToggleDomain from "./can_toggle_domain";
 import computeStateDomain from "./compute_state_domain";
 import { OpenPeerPower } from "../../types";
 import { supportsFeature } from "./supports-feature";
 
 export default function canToggleState(
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   stateObj: OppEntity
 ) {
   const domain = computeStateDomain(stateObj);
@@ -16,5 +16,5 @@ export default function canToggleState(
     return supportsFeature(stateObj, 4096);
   }
 
-  return canToggleDomain(hass, domain);
+  return canToggleDomain(opp, domain);
 }

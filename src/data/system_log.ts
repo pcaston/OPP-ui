@@ -12,5 +12,5 @@ export interface LoggedError {
   first_occured: number;
 }
 
-export const fetchSystemLog = (hass: OpenPeerPower) =>
-  hass.callApi<LoggedError[]>("GET", "error/all");
+export const fetchSystemLog = (opp: OpenPeerPower) =>
+  opp.callApi<LoggedError[]>("GET", "error/all");

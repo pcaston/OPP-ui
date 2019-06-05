@@ -8,7 +8,7 @@ import {
   customElement,
 } from "lit-element";
 
-import "../../../components/ha-icon";
+import "../../../components/op-icon";
 
 import { computeTooltip } from "../common/compute-tooltip";
 import { handleClick } from "../common/handle-click";
@@ -30,27 +30,27 @@ export class HuiIconElement extends LitElement implements LovelaceElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
     return html`
-      <ha-icon
+      <op-icon
         .icon="${this._config.icon}"
-        .title="${computeTooltip(this.hass, this._config)}"
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+        .title="${computeTooltip(this.opp, this._config)}"
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
-      ></ha-icon>
+      ></op-icon>
     `;
   }
 
   private _handleTap(): void {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold(): void {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 
   static get styles(): CSSResult {

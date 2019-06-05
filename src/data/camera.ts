@@ -24,31 +24,31 @@ export const computeMJPEGStreamUrl = (entity: CameraEntity) =>
   }`;
 
 export const fetchThumbnailUrlWithCache = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string
 ) =>
   timeCachePromiseFunc(
     "_cameraTmbUrl",
     9000,
     fetchThumbnailUrl,
-    hass,
+    opp,
     entityId
   );
 
-export const fetchThumbnailUrl = (hass: OpenPeerPower, entityId: string) =>
-  getSignedPath(hass, `/api/camera_proxy/${entityId}`).then(({ path }) => path);
+export const fetchThumbnailUrl = (opp: OpenPeerPower, entityId: string) =>
+  getSignedPath(opp, `/api/camera_proxy/${entityId}`).then(({ path }) => path);
 
-export const fetchThumbnail = (hass: OpenPeerPower, entityId: string) => {
+export const fetchThumbnail = (opp: OpenPeerPower, entityId: string) => {
   // tslint:disable-next-line: no-console
   console.warn("This method has been deprecated.");
-  return hass.callWS<CameraThumbnail>({
+  return opp.callWS<CameraThumbnail>({
     type: "camera_thumbnail",
     entity_id: entityId,
   });
 };
 
 export const fetchStreamUrl = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   format?: "hls"
 ) => {
@@ -60,23 +60,23 @@ export const fetchStreamUrl = (
     // @ts-ignore
     data.format = format;
   }
-  return hass.callWS<Stream>(data);
+  return opp.callWS<Stream>(data);
 };
 
-export const fetchCameraPrefs = (hass: OpenPeerPower, entityId: string) =>
-  hass.callWS<CameraPreferences>({
+export const fetchCameraPrefs = (opp: OpenPeerPower, entityId: string) =>
+  opp.callWS<CameraPreferences>({
     type: "camera/get_prefs",
     entity_id: entityId,
   });
 
 export const updateCameraPrefs = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   prefs: {
     preload_stream?: boolean;
   }
 ) =>
-  hass.callWS<CameraPreferences>({
+  opp.callWS<CameraPreferences>({
     type: "camera/update_prefs",
     entity_id: entityId,
     ...prefs,

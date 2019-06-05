@@ -12,13 +12,13 @@ import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
 import isValidEntityId from "../../common/entity/valid_entity_id";
 
-import "./ha-entity-picker";
+import "./op-entity-picker";
 // Not a duplicate, type import
 // tslint:disable-next-line
-import { HaEntityPickerEntityFilterFunc } from "./ha-entity-picker";
-import { OppEntity } from "home-assistant-js-websocket";
+import { HaEntityPickerEntityFilterFunc } from "./op-entity-picker";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 
-@customElement("ha-entities-picker")
+@customElement("op-entities-picker")
 class HaEntitiesPickerLight extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public value?: string[];
@@ -28,7 +28,7 @@ class HaEntitiesPickerLight extends LitElement {
   @property({ attribute: "pick-entity-label" }) public pickEntityLabel?: string;
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return;
     }
     const currentEntities = this._currentEntities;
@@ -36,27 +36,27 @@ class HaEntitiesPickerLight extends LitElement {
       ${currentEntities.map(
         (entityId) => html`
           <div>
-            <ha-entity-picker
+            <op-entity-picker
               allow-custom-entity
               .curValue=${entityId}
-              .hass=${this.hass}
+              .opp=${this.opp}
               .domainFilter=${this.domainFilter}
               .entityFilter=${this._entityFilter}
               .value=${entityId}
               .label=${this.pickedEntityLabel}
               @value-changed=${this._entityChanged}
-            ></ha-entity-picker>
+            ></op-entity-picker>
           </div>
         `
       )}
       <div>
-        <ha-entity-picker
-          .hass=${this.hass}
+        <op-entity-picker
+          .opp=${this.opp}
           .domainFilter=${this.domainFilter}
           .entityFilter=${this._entityFilter}
           .label=${this.pickEntityLabel}
           @value-changed=${this._addEntity}
-        ></ha-entity-picker>
+        ></op-entity-picker>
       </div>
     `;
   }
@@ -116,6 +116,6 @@ class HaEntitiesPickerLight extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-entities-picker": HaEntitiesPickerLight;
+    "op-entities-picker": HaEntitiesPickerLight;
   }
 }

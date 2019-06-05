@@ -9,7 +9,7 @@ import {
   PropertyValues,
 } from "lit-element";
 
-import "../../../components/entity/ha-state-label-badge";
+import "../../../components/entity/op-state-label-badge";
 import "../components/hui-warning-element";
 
 import computeStateDisplay from "../../../common/entity/compute_state_display";
@@ -38,16 +38,16 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity!];
+    const stateObj = this.opp.states[this._config.entity!];
 
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label=${this.hass.localize(
+          label=${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -58,16 +58,16 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
 
     return html`
       <div
-        .title="${computeTooltip(this.hass, this._config)}"
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+        .title="${computeTooltip(this.opp, this._config)}"
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
       >
         ${this._config.prefix}${stateObj
           ? computeStateDisplay(
-              this.hass.localize,
+              this.opp.localize,
               stateObj,
-              this.hass.language
+              this.opp.language
             )
           : "-"}${this._config.suffix}
       </div>
@@ -75,11 +75,11 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
   }
 
   private _handleTap(): void {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold(): void {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 
   static get styles(): CSSResult {

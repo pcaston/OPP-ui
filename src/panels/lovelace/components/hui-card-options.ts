@@ -36,7 +36,7 @@ export class HuiCardOptions extends LitElement {
       <div class="options">
         <div class="primary-actions">
           <mwc-button @click="${this._editCard}"
-            >${this.hass!.localize(
+            >${this.opp!.localize(
               "ui.panel.lovelace.editor.edit_card.edit"
             )}</mwc-button
           >
@@ -45,7 +45,7 @@ export class HuiCardOptions extends LitElement {
           <paper-icon-button
             title="Move card down"
             class="move-arrow"
-            icon="hass:arrow-down"
+            icon="opp:arrow-down"
             @click="${this._cardDown}"
             ?disabled="${this.lovelace!.config.views[this.path![0]].cards!
               .length ===
@@ -54,7 +54,7 @@ export class HuiCardOptions extends LitElement {
           <paper-icon-button
             title="Move card up"
             class="move-arrow"
-            icon="hass:arrow-up"
+            icon="opp:arrow-up"
             @click="${this._cardUp}"
             ?disabled="${this.path![1] === 0}"
           ></paper-icon-button>
@@ -64,17 +64,17 @@ export class HuiCardOptions extends LitElement {
             vertical-offset="40"
           >
             <paper-icon-button
-              icon="hass:dots-vertical"
+              icon="opp:dots-vertical"
               slot="dropdown-trigger"
             ></paper-icon-button>
             <paper-listbox slot="dropdown-content">
               <paper-item @click="${this._moveCard}"
-                >${this.hass!.localize(
+                >${this.opp!.localize(
                   "ui.panel.lovelace.editor.edit_card.move"
                 )}</paper-item
               >
               <paper-item @click="${this._deleteCard}"
-                >${this.hass!.localize(
+                >${this.opp!.localize(
                   "ui.panel.lovelace.editor.edit_card.delete"
                 )}</paper-item
               >

@@ -8,7 +8,7 @@ import {
 } from "lit-element";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 
-import "../../../../components/dialog/ha-paper-dialog";
+import "../../../../components/dialog/op-paper-dialog";
 
 import { haStyleDialog } from "../../../../resources/styles";
 
@@ -24,24 +24,24 @@ export class HuiDialogPickCard extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         @opened-changed="${this._openedChanged}"
       >
         <h2>
-          ${this.hass!.localize("ui.panel.lovelace.editor.edit_card.header")}
+          ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.header")}
         </h2>
         <paper-dialog-scrollable>
           <hui-card-picker
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .cardPicked="${this.cardPicked}"
           ></hui-card-picker>
         </paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._skipPick}">MANUAL CARD</mwc-button>
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -60,20 +60,20 @@ export class HuiDialogPickCard extends LitElement {
       haStyleDialog,
       css`
         @media all and (max-width: 450px), all and (max-height: 500px) {
-          /* overrule the ha-style-dialog max-height on small screens */
-          ha-paper-dialog {
+          /* overrule the op-style-dialog max-height on small screens */
+          op-paper-dialog {
             max-height: 100%;
             height: 100%;
           }
         }
 
         @media all and (min-width: 660px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             width: 650px;
           }
         }
 
-        ha-paper-dialog {
+        op-paper-dialog {
           max-width: 650px;
         }
       `,

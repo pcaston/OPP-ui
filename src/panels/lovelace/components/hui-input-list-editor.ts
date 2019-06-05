@@ -38,7 +38,7 @@ export class HuiInputListEditor extends LitElement {
             ><paper-icon-button
               slot="suffix"
               class="clear-button"
-              icon="hass:close"
+              icon="opp:close"
               no-ripple
               @click="${this._removeEntry}"
               >Clear</paper-icon-button

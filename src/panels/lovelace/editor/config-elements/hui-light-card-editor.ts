@@ -50,7 +50,7 @@ export class HuiLightCardEditor extends LitElement
   }
 
   protected render(): TemplateResult | void {
-    if (!this.hass) {
+    if (!this.opp) {
       return html``;
     }
 
@@ -64,16 +64,16 @@ export class HuiLightCardEditor extends LitElement
           @value-changed="${this._valueChanged}"
         ></paper-input>
         <div class="side-by-side">
-          <ha-entity-picker
-            .hass="${this.hass}"
+          <op-entity-picker
+            .opp="${this.opp}"
             .value="${this._entity}"
             .configValue=${"entity"}
             domain-filter="light"
             @change="${this._valueChanged}"
             allow-custom-entity
-          ></ha-entity-picker>
+          ></op-entity-picker>
           <hui-theme-select-editor
-            .hass="${this.hass}"
+            .opp="${this.opp}"
             .value="${this._theme}"
             .configValue="${"theme"}"
             @theme-changed="${this._valueChanged}"
@@ -84,7 +84,7 @@ export class HuiLightCardEditor extends LitElement
   }
 
   private _valueChanged(ev: EntitiesEditorEvent): void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
     const target = ev.target! as EditorTarget;

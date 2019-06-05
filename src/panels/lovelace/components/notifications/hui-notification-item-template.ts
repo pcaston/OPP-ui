@@ -7,17 +7,17 @@ import {
   CSSResult,
 } from "lit-element";
 
-import "../../../../components/ha-card";
+import "../../../../components/op-card";
 
 @customElement("hui-notification-item-template")
 export class HuiNotificationItemTemplate extends LitElement {
   protected render(): TemplateResult | void {
     return html`
-      <ha-card>
+      <op-card>
         <div class="header"><slot name="header"></slot></div>
         <div class="contents"><slot></slot></div>
         <div class="actions"><slot name="actions"></slot></div>
-      </ha-card>
+      </op-card>
     `;
   }
 
@@ -27,7 +27,7 @@ export class HuiNotificationItemTemplate extends LitElement {
         padding: 16px;
       }
 
-      ha-card .header {
+      op-card .header {
         /* start paper-font-headline style */
         font-family: "Roboto", "Noto", sans-serif;
         -webkit-font-smoothing: antialiased; /* OS X subpixel AA bleed bug */

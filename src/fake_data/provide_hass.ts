@@ -13,7 +13,7 @@ const ensureArray = <T>(val: T | T[]): T[] =>
   Array.isArray(val) ? val : [val];
 
 type MockRestCallback = (
-  hass: MockOpenPeerPower,
+  opp: MockOpenPeerPower,
   method: string,
   path: string,
   parameters: { [key: string]: any } | undefined
@@ -35,8 +35,8 @@ export const provideOpp = (
   overrideData: Partial<OpenPeerPower> = {}
 ): MockOpenPeerPower => {
   elements = ensureArray(elements);
-  // Can happen because we store sidebar, more info etc on hass.
-  const hass = (): MockOpenPeerPower => elements[0].hass;
+  // Can happen because we store sidebar, more info etc on opp.
+  const opp = (): MockOpenPeerPower => elements[0].opp;
 
   const wsCommands = {};
   const restResponses: Array<[string | RegExp, MockRestCallback]> = [];
@@ -46,20 +46,20 @@ export const provideOpp = (
   const entities = {};
 
   function updateStates(newStates: OppEntities) {
-    hass().updateOpp({
-      states: { ...hass().states, ...newStates },
+    opp().updateOpp({
+      states: { ...opp().states, ...newStates },
     });
   }
 
   function addEntities(newEntities, replace: boolean = false) {
     const states = {};
     ensureArray(newEntities).forEach((ent) => {
-      ent.hass = hass();
+      ent.opp = opp();
       entities[ent.entityId] = ent;
       states[ent.entityId] = ent.toState();
     });
     if (replace) {
-      hass().updateOpp({
+      opp().updateOpp({
         states,
       });
     } else {
@@ -88,7 +88,7 @@ export const provideOpp = (
 
   const localLanguage = getLocalLanguage();
 
-  const hassObj: MockOpenPeerPower = {
+  const oppObj: MockOpenPeerPower = {
     // Home Assistant properties
     auth: {} as any,
     connection: {
@@ -162,7 +162,7 @@ export const provideOpp = (
       );
 
       return response
-        ? response[1](hass(), method, path, parameters)
+        ? response[1](opp(), method, path, parameters)
         : Promise.reject(`API Mock for ${path} is not implemented`);
     },
     fetchWithAuth: () => Promise.reject("Not implemented"),
@@ -186,16 +186,16 @@ export const provideOpp = (
             code: "command_not_mocked",
             message: `WS Command ${
               msg.type
-            } is not implemented in provide_hass.`,
+            } is not implemented in provide_opp.`,
           });
     },
 
     // Mock stuff
     mockEntities: entities,
     updateOpp(obj: Partial<MockOpenPeerPower>) {
-      const newOpp = { ...hass(), ...obj };
+      const newOpp = { ...opp(), ...obj };
       elements.forEach((el) => {
-        el.hass = newOpp;
+        el.opp = newOpp;
       });
     },
     updateStates,
@@ -208,16 +208,16 @@ export const provideOpp = (
       (eventListeners[event] || []).forEach((fn) => fn(event));
     },
     mockTheme(theme) {
-      hass().updateOpp({
+      opp().updateOpp({
         selectedTheme: theme ? "mock" : "default",
         themes: {
-          ...hass().themes,
+          ...opp().themes,
           themes: {
             mock: theme as any,
           },
         },
       });
-      const { themes, selectedTheme } = hass();
+      const { themes, selectedTheme } = opp();
       applyThemesOnElement(
         document.documentElement,
         themes,
@@ -229,10 +229,10 @@ export const provideOpp = (
     ...overrideData,
   };
 
-  // Update the elements. Note, we call it on hassObj so that if it was
+  // Update the elements. Note, we call it on oppObj so that if it was
   // overridden (like in the demo), it will still work.
-  hassObj.updateOpp(hassObj);
+  oppObj.updateOpp(oppObj);
 
   // @ts-ignore
-  return hassObj;
+  return oppObj;
 };

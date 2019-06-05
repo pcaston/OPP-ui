@@ -8,18 +8,18 @@ import {
   PropertyValues,
   query,
 } from "lit-element";
-import "../ha-icon";
+import "../op-icon";
 import computeStateDomain from "../../common/entity/compute_state_domain";
 import stateIcon from "../../common/entity/state_icon";
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { HaIcon } from "../ha-icon";
+import { HaIcon } from "../op-icon";
 
 class StateBadge extends LitElement {
   @property() public stateObj?: OppEntity;
   @property() public overrideIcon?: string;
-  @query("ha-icon") private _icon!: HaIcon;
+  @query("op-icon") private _icon!: HaIcon;
 
   protected render(): TemplateResult | void {
     const stateObj = this.stateObj;
@@ -29,12 +29,12 @@ class StateBadge extends LitElement {
     }
 
     return html`
-      <ha-icon
+      <op-icon
         id="icon"
         data-domain=${computeStateDomain(stateObj)}
         data-state=${stateObj.state}
         .icon=${this.overrideIcon || stateIcon(stateObj)}
-      ></ha-icon>
+      ></op-icon>
     `;
   }
 
@@ -97,21 +97,21 @@ class StateBadge extends LitElement {
         line-height: 40px;
       }
 
-      ha-icon {
+      op-icon {
         transition: color 0.3s ease-in-out, filter 0.3s ease-in-out;
       }
 
       /* Color the icon if light or sun is on */
-      ha-icon[data-domain="light"][data-state="on"],
-      ha-icon[data-domain="switch"][data-state="on"],
-      ha-icon[data-domain="binary_sensor"][data-state="on"],
-      ha-icon[data-domain="fan"][data-state="on"],
-      ha-icon[data-domain="sun"][data-state="above_horizon"] {
+      op-icon[data-domain="light"][data-state="on"],
+      op-icon[data-domain="switch"][data-state="on"],
+      op-icon[data-domain="binary_sensor"][data-state="on"],
+      op-icon[data-domain="fan"][data-state="on"],
+      op-icon[data-domain="sun"][data-state="above_horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 
       /* Color the icon if unavailable */
-      ha-icon[data-state="unavailable"] {
+      op-icon[data-state="unavailable"] {
         color: var(--state-icon-unavailable-color);
       }
     `;

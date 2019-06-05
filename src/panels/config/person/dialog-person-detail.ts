@@ -10,18 +10,18 @@ import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
 
-import "../../../components/dialog/ha-paper-dialog";
+import "../../../components/dialog/op-paper-dialog";
 
-import "../../../components/entity/ha-entities-picker";
-import "../../../components/user/ha-user-picker";
+import "../../../components/entity/op-entities-picker";
+import "../../../components/user/op-user-picker";
 import { PersonDetailDialogParams } from "./show-dialog-person-detail";
 import { PolymerChangedEvent } from "../../../polymer-types";
-import { haStyleDialog } from "../../../resources/styles";
+import { opStyleDialog } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { PersonMutableParams } from "../../../data/person";
 
 class DialogPersonDetail extends LitElement {
-  @property() public hass!: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
   @property() private _name!: string;
   @property() private _userId?: string;
   @property() private _deviceTrackers!: string[];
@@ -50,7 +50,7 @@ class DialogPersonDetail extends LitElement {
     }
     const nameInvalid = this._name.trim() === "";
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         @opened-changed="${this._openedChanged}"
@@ -70,30 +70,30 @@ class DialogPersonDetail extends LitElement {
               error-message="Name is required"
               .invalid=${nameInvalid}
             ></paper-input>
-            <ha-user-picker
+            <op-user-picker
               label="Linked User"
-              .hass=${this.hass}
+              .opp=${this.opp}
               .value=${this._userId}
               .users=${this._params.users}
               @value-changed=${this._userChanged}
-            ></ha-user-picker>
+            ></op-user-picker>
             <p>
-              ${this.hass.localize(
+              ${this.opp.localize(
                 "ui.panel.config.person.detail.device_tracker_intro"
               )}
             </p>
-            <ha-entities-picker
-              .hass=${this.hass}
+            <op-entities-picker
+              .opp=${this.opp}
               .value=${this._deviceTrackers}
               domain-filter="device_tracker"
-              .pickedEntityLabel=${this.hass.localize(
+              .pickedEntityLabel=${this.opp.localize(
                 "ui.panel.config.person.detail.device_tracker_picked"
               )}
-              .pickEntityLabel=${this.hass.localize(
+              .pickEntityLabel=${this.opp.localize(
                 "ui.panel.config.person.detail.device_tracker_pick"
               )}
               @value-changed=${this._deviceTrackersChanged}
-            ></ha-entities-picker>
+            ></op-entities-picker>
           </div>
         </paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
@@ -115,7 +115,7 @@ class DialogPersonDetail extends LitElement {
             ${this._params.entry ? "UPDATE" : "CREATE"}
           </mwc-button>
         </div>
-      </ha-paper-dialog>
+      </op-paper-dialog>
     `;
   }
 
@@ -174,15 +174,15 @@ class DialogPersonDetail extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
-        ha-paper-dialog {
+        op-paper-dialog {
           min-width: 400px;
         }
         .form {
           padding-bottom: 24px;
         }
-        ha-user-picker {
+        op-user-picker {
           margin-top: 16px;
         }
         mwc-button.warning {

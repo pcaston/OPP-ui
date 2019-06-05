@@ -2,7 +2,7 @@ import computeDomain from "../../../../common/entity/compute_domain";
 import { OpenPeerPower } from "../../../../types";
 
 export const turnOnOffEntity = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entityId: string,
   turnOn = true
 ): Promise<void> => {
@@ -21,5 +21,5 @@ export const turnOnOffEntity = (
       service = turnOn ? "turn_on" : "turn_off";
   }
 
-  return hass.callService(serviceDomain, service, { entity_id: entityId });
+  return opp.callService(serviceDomain, service, { entity_id: entityId });
 };

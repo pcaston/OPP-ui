@@ -10,7 +10,7 @@ import {
 } from "lit-element";
 
 import "../components/hui-generic-entity-row";
-import "../../../components/entity/ha-entity-toggle";
+import "../../../components/entity/op-entity-toggle";
 import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";
@@ -35,16 +35,16 @@ class HuiScriptEntityRow extends LitElement implements EntityRow {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -54,17 +54,17 @@ class HuiScriptEntityRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <hui-generic-entity-row .hass="${this.hass}" .config="${this._config}">
+      <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         ${stateObj.attributes.can_cancel
           ? html`
-              <ha-entity-toggle
-                .hass="${this.hass}"
+              <op-entity-toggle
+                .opp="${this.opp}"
                 .stateObj="${stateObj}"
-              ></ha-entity-toggle>
+              ></op-entity-toggle>
             `
           : html`
               <mwc-button @click="${this._callService}">
-                ${this.hass!.localize("ui.card.script.execute")}
+                ${this.opp!.localize("ui.card.script.execute")}
               </mwc-button>
             `}
       </hui-generic-entity-row>
@@ -81,7 +81,7 @@ class HuiScriptEntityRow extends LitElement implements EntityRow {
 
   private _callService(ev): void {
     ev.stopPropagation();
-    this.hass!.callService("script", "turn_on", {
+    this.opp!.callService("script", "turn_on", {
       entity_id: this._config!.entity,
     });
   }

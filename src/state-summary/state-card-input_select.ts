@@ -24,7 +24,7 @@ import { stopPropagation } from "../common/dom/stop_propagation";
 
 @customElement("state-card-input_select")
 class StateCardInputSelect extends LitElement {
-  @property() public hass!: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
   @property() public stateObj!: InputSelectEntity;
 
   protected render(): TemplateResult | void {
@@ -62,7 +62,7 @@ class StateCardInputSelect extends LitElement {
     if (option === this.stateObj.state) {
       return;
     }
-    await setInputSelectOption(this.hass, this.stateObj.entity_id, option);
+    await setInputSelectOption(this.opp, this.stateObj.entity_id, option);
   }
 
   static get styles(): CSSResult {

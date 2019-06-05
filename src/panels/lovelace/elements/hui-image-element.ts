@@ -34,23 +34,23 @@ export class HuiImageElement extends LitElement implements LovelaceElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
     return html`
       <hui-image
-        .hass="${this.hass}"
+        .opp="${this.opp}"
         .entity="${this._config.entity}"
         .image="${this._config.image}"
         .stateImage="${this._config.state_image}"
         .cameraImage="${this._config.camera_image}"
         .filter="${this._config.filter}"
         .stateFilter="${this._config.state_filter}"
-        .title="${computeTooltip(this.hass, this._config)}"
+        .title="${computeTooltip(this.opp, this._config)}"
         .aspectRatio="${this._config.aspect_ratio}"
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
       ></hui-image>
     `;
@@ -70,11 +70,11 @@ export class HuiImageElement extends LitElement implements LovelaceElement {
   }
 
   private _handleTap(): void {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold(): void {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 }
 

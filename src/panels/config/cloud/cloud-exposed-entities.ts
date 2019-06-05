@@ -7,8 +7,8 @@ import {
 } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 import "@polymer/paper-tooltip/paper-tooltip";
-import { HassEntityBase } from "home-assistant-js-websocket";
-import "../../../components/entity/ha-state-icon";
+import { OppEntityBase } from "../../../open-peer-power-js-websocket/lib";
+import "../../../components/entity/op-state-icon";
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { OpenPeerPower } from "../../../types";
@@ -27,7 +27,7 @@ export class CloudExposedEntities extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       filter: {},
       supportedDomains: {},
       _filterFunc: {},
@@ -39,11 +39,11 @@ export class CloudExposedEntities extends LitElement {
       return html``;
     }
 
-    const states: Array<[string, HassEntityBase]> = [];
+    const states: Array<[string, OppEntityBase]> = [];
 
-    Object.keys(this.hass!.states).forEach((entityId) => {
+    Object.keys(this.opp!.states).forEach((entityId) => {
       if (this._filterFunc!(entityId)) {
-        const stateObj = this.hass!.states[entityId];
+        const stateObj = this.opp!.states[entityId];
         states.push([computeStateName(stateObj), stateObj]);
       }
     });
@@ -56,10 +56,10 @@ export class CloudExposedEntities extends LitElement {
         (stateInfo) => stateInfo[1].entity_id,
         (stateInfo) => html`
           <span>
-            <ha-state-icon
+            <op-state-icon
               .stateObj="${stateInfo[1]}"
               @click="${this._handleMoreInfo}"
-            ></ha-state-icon>
+            ></op-state-icon>
             <paper-tooltip position="bottom">${stateInfo[0]}</paper-tooltip>
           </span>
         `
@@ -89,7 +89,7 @@ export class CloudExposedEntities extends LitElement {
   }
 
   private _handleMoreInfo(ev: MouseEvent) {
-    fireEvent(this, "hass-more-info", {
+    fireEvent(this, "opp-more-info", {
       entityId: (ev.currentTarget as any).stateObj.entity_id,
     });
   }
@@ -97,7 +97,7 @@ export class CloudExposedEntities extends LitElement {
   private renderStyle(): TemplateResult {
     return html`
       <style>
-        ha-state-icon {
+        op-state-icon {
           color: var(--primary-text-color);
           cursor: pointer;
         }

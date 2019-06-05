@@ -10,8 +10,8 @@ import {
 import "@material/mwc-button";
 import "@polymer/paper-tooltip/paper-tooltip";
 
-import "../../../../components/ha-relative-time";
-import "../../../../components/ha-markdown";
+import "../../../../components/op-relative-time";
+import "../../../../components/op-markdown";
 import "./hui-notification-item-template";
 
 import { OpenPeerPower } from "../../../../types";
@@ -24,7 +24,7 @@ export class HuiPersistentNotificationItem extends LitElement {
   @property() public notification?: HassNotification;
 
   protected render(): TemplateResult | void {
-    if (!this.hass || !this.notification) {
+    if (!this.opp || !this.notification) {
       return html``;
     }
 
@@ -32,17 +32,17 @@ export class HuiPersistentNotificationItem extends LitElement {
       <hui-notification-item-template>
         <span slot="header">${this._computeTitle(this.notification)}</span>
 
-        <ha-markdown content="${this.notification.message}"></ha-markdown>
+        <op-markdown content="${this.notification.message}"></op-markdown>
 
         <div class="time">
           <span>
-            <ha-relative-time
-              .hass="${this.hass}"
+            <op-relative-time
+              .opp="${this.opp}"
               .datetime="${this.notification.created_at}"
-            ></ha-relative-time>
+            ></op-relative-time>
             <paper-tooltip
               >${this._computeTooltip(
-                this.hass,
+                this.opp,
                 this.notification
               )}</paper-tooltip
             >
@@ -50,7 +50,7 @@ export class HuiPersistentNotificationItem extends LitElement {
         </div>
 
         <mwc-button slot="actions" @click="${this._handleDismiss}"
-          >${this.hass.localize(
+          >${this.opp.localize(
             "ui.card.persistent_notification.dismiss"
           )}</mwc-button
         >
@@ -65,7 +65,7 @@ export class HuiPersistentNotificationItem extends LitElement {
         justify-content: flex-end;
         margin-top: 6px;
       }
-      ha-relative-time {
+      op-relative-time {
         color: var(--secondary-text-color);
       }
       a {
@@ -75,7 +75,7 @@ export class HuiPersistentNotificationItem extends LitElement {
   }
 
   private _handleDismiss(): void {
-    this.hass!.callService("persistent_notification", "dismiss", {
+    this.opp!.callService("persistent_notification", "dismiss", {
       notification_id: this.notification!.notification_id,
     });
   }
@@ -85,15 +85,15 @@ export class HuiPersistentNotificationItem extends LitElement {
   }
 
   private _computeTooltip(
-    hass: OpenPeerPower,
+    opp: OpenPeerPower,
     notification: HassNotification
   ): string | undefined {
-    if (!hass || !notification) {
+    if (!opp || !notification) {
       return undefined;
     }
 
     const d = new Date(notification.created_at!);
-    return d.toLocaleDateString(hass.language, {
+    return d.toLocaleDateString(opp.language, {
       year: "numeric",
       month: "short",
       day: "numeric",

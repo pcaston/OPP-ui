@@ -1,11 +1,11 @@
 import { OpenPeerPower } from "../types";
 
 export const setInputSelectOption = (
-  hass: OpenPeerPower,
+  opp: OpenPeerPower,
   entity: string,
   option: string
 ) =>
-  hass.callService("input_select", "select_option", {
+  opp.callService("input_select", "select_option", {
     option,
     entity_id: entity,
   });

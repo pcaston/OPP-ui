@@ -18,11 +18,11 @@ import {
   deletePerson,
   createPerson,
 } from "../../../data/person";
-import "../../../components/ha-card";
-import "../../../layouts/hass-subpage";
-import "../../../layouts/hass-loading-screen";
+import "../../../components/op-card";
+import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-loading-screen";
 import { compare } from "../../../common/string/compare";
-import "../ha-config-section";
+import "../op-config-section";
 import {
   showPersonDetailDialog,
   loadPersonDetailDialog,
@@ -38,7 +38,7 @@ class HaConfigPerson extends LitElement {
 
   static get properties(): PropertyDeclarations {
     return {
-      hass: {},
+      opp: {},
       isWide: {},
       _storageItems: {},
       _configItems: {},
@@ -47,17 +47,17 @@ class HaConfigPerson extends LitElement {
 
   protected render(): TemplateResult | void {
     if (
-      !this.hass ||
+      !this.opp ||
       this._storageItems === undefined ||
       this._configItems === undefined
     ) {
       return html`
-        <hass-loading-screen></hass-loading-screen>
+        <opp-loading-screen></opp-loading-screen>
       `;
     }
     return html`
-      <hass-subpage header="Persons">
-        <ha-config-section .isWide=${this.isWide}>
+      <opp-subpage header="Persons">
+        <op-config-section .isWide=${this.isWide}>
           <span slot="header">Persons</span>
           <span slot="introduction">
             Here you can define each person of interest in Home Assistant.
@@ -70,7 +70,7 @@ class HaConfigPerson extends LitElement {
                 `
               : ""}
           </span>
-          <ha-card class="storage">
+          <op-card class="storage">
             ${this._storageItems.map((entry) => {
               return html`
                 <paper-item @click=${this._openEditEntry} .entry=${entry}>
@@ -90,10 +90,10 @@ class HaConfigPerson extends LitElement {
                   </div>
                 `
               : html``}
-          </ha-card>
+          </op-card>
           ${this._configItems.length > 0
             ? html`
-                <ha-card header="Configuration.yaml persons">
+                <op-card header="Configuration.yaml persons">
                   ${this._configItems.map((entry) => {
                     return html`
                       <paper-item>
@@ -103,15 +103,15 @@ class HaConfigPerson extends LitElement {
                       </paper-item>
                     `;
                   })}
-                </ha-card>
+                </op-card>
               `
             : ""}
-        </ha-config-section>
-      </hass-subpage>
+        </op-config-section>
+      </opp-subpage>
 
       <paper-fab
         ?is-wide=${this.isWide}
-        icon="hass:plus"
+        icon="opp:plus"
         title="Create Area"
         @click=${this._createPerson}
       ></paper-fab>
@@ -125,8 +125,8 @@ class HaConfigPerson extends LitElement {
   }
 
   private async _fetchData() {
-    this._usersLoad = fetchUsers(this.hass!);
-    const personData = await fetchPersons(this.hass!);
+    this._usersLoad = fetchUsers(this.opp!);
+    const personData = await fetchPersons(this.opp!);
 
     this._storageItems = personData.storage.sort((ent1, ent2) =>
       compare(ent1.name, ent2.name)
@@ -167,13 +167,13 @@ class HaConfigPerson extends LitElement {
       entry,
       users: this._allowedUsers(users, entry),
       createEntry: async (values) => {
-        const created = await createPerson(this.hass!, values);
+        const created = await createPerson(this.opp!, values);
         this._storageItems = this._storageItems!.concat(created).sort(
           (ent1, ent2) => compare(ent1.name, ent2.name)
         );
       },
       updateEntry: async (values) => {
-        const updated = await updatePerson(this.hass!, entry!.id, values);
+        const updated = await updatePerson(this.opp!, entry!.id, values);
         this._storageItems = this._storageItems!.map((ent) =>
           ent === entry ? updated : ent
         );
@@ -188,7 +188,7 @@ All devices belonging to this person will become unassigned.`)
         }
 
         try {
-          await deletePerson(this.hass!, entry!.id);
+          await deletePerson(this.opp!, entry!.id);
           this._storageItems = this._storageItems!.filter(
             (ent) => ent !== entry
           );
@@ -205,7 +205,7 @@ All devices belonging to this person will become unassigned.`)
       a {
         color: var(--primary-color);
       }
-      ha-card {
+      op-card {
         max-width: 600px;
         margin: 16px auto;
         overflow: hidden;
@@ -218,7 +218,7 @@ All devices belonging to this person will become unassigned.`)
         padding-top: 4px;
         padding-bottom: 4px;
       }
-      ha-card.storage paper-item {
+      op-card.storage paper-item {
         cursor: pointer;
       }
       paper-fab {
@@ -236,4 +236,4 @@ All devices belonging to this person will become unassigned.`)
   }
 }
 
-customElements.define("ha-config-person", HaConfigPerson);
+customElements.define("op-config-person", HaConfigPerson);

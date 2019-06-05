@@ -15,8 +15,8 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/entity/state-badge";
-import "../../../components/ha-card";
-import "../../../components/ha-icon";
+import "../../../components/op-card";
+import "../../../components/op-icon";
 import "../components/hui-warning-element";
 
 import { OpenPeerPower } from "../../../types";
@@ -74,7 +74,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
 
     this._configEntities = entities;
 
-    if (this.hass) {
+    if (this.opp) {
       this.requestUpdate();
     }
   }
@@ -84,11 +84,11 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
       return true;
     }
 
-    const oldHass = changedProps.get("hass") as OpenPeerPower | undefined;
+    const oldHass = changedProps.get("opp") as OpenPeerPower | undefined;
     if (oldHass && this._configEntities) {
       for (const entity of this._configEntities) {
         if (
-          oldHass.states[entity.entity] !== this.hass!.states[entity.entity]
+          oldHass.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }
@@ -99,31 +99,31 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
     const { title } = this._config;
 
     return html`
-      <ha-card .header="${title}">
+      <op-card .header="${title}">
         <div class="${classMap({ entities: true, "no-header": !title })}">
           ${this._configEntities!.map((entityConf) =>
             this.renderEntity(entityConf)
           )}
         </div>
-      </ha-card>
+      </op-card>
     `;
   }
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return;
     }
 
-    const oldHass = changedProperties.get("hass") as OpenPeerPower | undefined;
-    if (!oldHass || oldHass.themes !== this.hass.themes) {
-      applyThemesOnElement(this, this.hass.themes, this._config.theme);
+    const oldHass = changedProperties.get("opp") as OpenPeerPower | undefined;
+    if (!oldHass || oldHass.themes !== this.opp.themes) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
 
@@ -164,12 +164,12 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(entityConf): TemplateResult {
-    const stateObj = this.hass!.states[entityConf.entity];
+    const stateObj = this.opp!.states[entityConf.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label=${this.hass!.localize(
+          label=${this.opp!.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             entityConf.entity
@@ -182,8 +182,8 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
       <div
         class="entity"
         .entityConf="${entityConf}"
-        @ha-click="${this._handleTap}"
-        @ha-hold="${this._handleHold}"
+        @op-click="${this._handleTap}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
       >
         ${this._config!.show_name !== false
@@ -207,9 +207,9 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
           ? html`
               <div>
                 ${computeStateDisplay(
-                  this.hass!.localize,
+                  this.opp!.localize,
                   stateObj,
-                  this.hass!.language
+                  this.opp!.language
                 )}
               </div>
             `
@@ -220,12 +220,12 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
 
   private _handleTap(ev: MouseEvent): void {
     const config = (ev.currentTarget as any).entityConf as ConfigEntity;
-    handleClick(this, this.hass!, config, false);
+    handleClick(this, this.opp!, config, false);
   }
 
   private _handleHold(ev: MouseEvent): void {
     const config = (ev.currentTarget as any).entityConf as ConfigEntity;
-    handleClick(this, this.hass!, config, true);
+    handleClick(this, this.opp!, config, true);
   }
 }
 

@@ -48,7 +48,7 @@ class HaEntityPicker extends LitElement {
           ${this._sortedUsers(this.users).map(
             (user) => html`
               <paper-icon-item data-user-id=${user.id}>
-                <ha-user-badge .user=${user} slot="item-icon"></ha-user-badge>
+                <op-user-badge .user=${user} slot="item-icon"></op-user-badge>
                 ${user.name}
               </paper-icon-item>
             `
@@ -65,7 +65,7 @@ class HaEntityPicker extends LitElement {
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     if (this.users === undefined) {
-      fetchUsers(this.hass!).then((users) => {
+      fetchUsers(this.opp!).then((users) => {
         this.users = users;
       });
     }
@@ -101,4 +101,4 @@ class HaEntityPicker extends LitElement {
   }
 }
 
-customElements.define("ha-user-picker", HaEntityPicker);
+customElements.define("op-user-picker", HaEntityPicker);

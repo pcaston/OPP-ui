@@ -14,12 +14,12 @@ class HaCard extends LitElement {
     return css`
       :host {
         background: var(
-          --ha-card-background,
+          --op-card-background,
           var(--paper-card-background-color, white)
         );
-        border-radius: var(--ha-card-border-radius, 2px);
+        border-radius: var(--op-card-border-radius, 2px);
         box-shadow: var(
-          --ha-card-box-shadow,
+          --op-card-box-shadow,
           0 2px 2px 0 rgba(0, 0, 0, 0.14),
           0 1px 5px 0 rgba(0, 0, 0, 0.12),
           0 3px 1px -2px rgba(0, 0, 0, 0.2)
@@ -32,9 +32,9 @@ class HaCard extends LitElement {
 
       .card-header,
       :host ::slotted(.card-header) {
-        color: var(--ha-card-header-color, --primary-text-color);
-        font-family: var(--ha-card-header-font-family, inherit);
-        font-size: var(--ha-card-header-font-size, 24px);
+        color: var(--op-card-header-color, --primary-text-color);
+        font-family: var(--op-card-header-font-family, inherit);
+        font-size: var(--op-card-header-font-size, 24px);
         letter-spacing: -0.012em;
         line-height: 32px;
         padding: 24px 16px 16px;
@@ -70,4 +70,4 @@ class HaCard extends LitElement {
   }
 }
 
-customElements.define("ha-card", HaCard);
+customElements.define("op-card", HaCard);

@@ -37,16 +37,16 @@ export class HuiStateIconElement extends LitElement implements LovelaceElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.hass.states[this._config.entity!];
+    const stateObj = this.opp.states[this._config.entity!];
 
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label=${this.hass.localize(
+          label=${this.opp.localize(
             "ui.panel.lovelace.warning.entity_not_found",
             "entity",
             this._config.entity
@@ -58,9 +58,9 @@ export class HuiStateIconElement extends LitElement implements LovelaceElement {
     return html`
       <state-badge
         .stateObj="${stateObj}"
-        .title="${computeTooltip(this.hass, this._config)}"
-        @ha-click="${this._handleClick}"
-        @ha-hold="${this._handleHold}"
+        .title="${computeTooltip(this.opp, this._config)}"
+        @op-click="${this._handleClick}"
+        @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
         .overrideIcon=${this._config.icon}
       ></state-badge>
@@ -76,11 +76,11 @@ export class HuiStateIconElement extends LitElement implements LovelaceElement {
   }
 
   private _handleClick(): void {
-    handleClick(this, this.hass!, this._config!, false);
+    handleClick(this, this.opp!, this._config!, false);
   }
 
   private _handleHold(): void {
-    handleClick(this, this.hass!, this._config!, true);
+    handleClick(this, this.opp!, this._config!, true);
   }
 }
 
