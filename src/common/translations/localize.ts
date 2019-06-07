@@ -1,4 +1,4 @@
-import IntlMessageFormat from "intl-messageformat/src/index";
+import IntlMessageFormat from "../../../node_modules/intl-messageformat/src/index";
 import { Resources } from "../../types";
 
 export type LocalizeFunc = (key: string, ...args: any[]) => string;

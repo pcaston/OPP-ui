@@ -226,7 +226,6 @@ export class OPPui extends LitElement {
   }
 
   protected firstUpdated() {
-    debugger;
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
@@ -289,7 +288,6 @@ export class OPPui extends LitElement {
         import('../components/opp-home-view');
         break;
       case 'opp':
-        debugger;
         import('../layouts/open-peer-power');
         break;
       case 'about':
