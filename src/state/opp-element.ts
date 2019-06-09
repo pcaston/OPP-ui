@@ -9,20 +9,31 @@ import { connectionMixin } from "./connection-mixin";
 import NotificationMixin from "./notification-mixin";
 import DisconnectToastMixin from "./disconnect-toast-mixin";
 import { urlSyncMixin } from "./url-sync-mixin";
-import { LitElement } from "lit-element";
+import { LitElement } from 'lit-element';
 
 const ext = <T>(baseClass: T, mixins): T =>
   mixins.reduceRight((base, mixin) => mixin(base), baseClass);
 
 export class OppElement extends ext(OppBaseMixin(LitElement), [
-  AuthMixin,
-  ThemesMixin,
-  TranslationsMixin,
-  MoreInfoMixin,
-  SidebarMixin,
-  DisconnectToastMixin,
-  connectionMixin,
-  NotificationMixin,
-  dialogManagerMixin,
-  urlSyncMixin,
+    AuthMixin,
+    ThemesMixin,
+    MoreInfoMixin,
+    SidebarMixin,
+    DisconnectToastMixin,
+    NotificationMixin,
+    dialogManagerMixin,
+
 ]) {}
+
+//export class OppElement extends ext(OppBaseMixin(LitElement), [
+  //AuthMixin,
+  //ThemesMixin,
+  //TranslationsMixin,
+  //MoreInfoMixin,
+  //SidebarMixin,
+  //DisconnectToastMixin,
+  //connectionMixin,
+  //NotificationMixin,
+  //dialogManagerMixin,
+  //urlSyncMixin,
+//]) {}
