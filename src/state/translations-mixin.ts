@@ -29,6 +29,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
 
     protected oppConnected() {
       super.oppConnected();
+      debugger;
       getUserLanguage(this.opp!).then((language) => {
         if (language && this.opp!.language !== language) {
           // We just get language from backend, no need to save back

@@ -65,7 +65,8 @@ export class AppliancesView extends PageViewElement {
   protected render() {
     return html`
       <section>
-        <h3>Badges</h3>
+        <h3>Badger</h3>
+        <script>console.log("home-view")</script>
         <badge-list .opp="${this.opp}"></badge-list>
       </section>
       <section>
