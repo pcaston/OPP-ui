@@ -18,6 +18,7 @@ class OppLoadingScreen extends LitElement {
   @property({ type: Boolean }) public rootnav? = false;
 
   protected render(): TemplateResult | void {
+    debugger;
     return html`
       <app-toolbar>
         ${this.rootnav

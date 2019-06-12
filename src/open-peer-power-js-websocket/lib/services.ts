@@ -22,6 +22,7 @@ function processServiceRegistered(
   state: OppServices,
   event: ServiceRegisteredEvent
 ) {
+  debugger;
   if (state === undefined) return null;
 
   const { domain, service } = event.data;

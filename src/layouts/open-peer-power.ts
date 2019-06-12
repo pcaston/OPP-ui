@@ -30,7 +30,7 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected render() {
     const opp = this.opp;
-
+    debugger;
     return html`
       <app-location
         @route-changed=${this._routeChanged}
@@ -56,6 +56,7 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected async _initialize() {
     try {
+      debugger;
       const { auth, conn } = await window.oppConnection;
       this.initializeOpp(auth, conn);
     } catch (err) {

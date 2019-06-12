@@ -81,6 +81,7 @@ export class Connection {
     // connection options
     //  - setupRetry: amount of ms to retry when unable to connect on initial setup
     //  - createSocket: create a new Socket connection
+    debugger;
     this.options = options;
     // id if next command to send
     this.commandId = 1;

@@ -64,6 +64,7 @@ function genAuthorizeUrl(
   redirectUrl: string,
   state: string
 ) {
+  debugger;
   let authorizeUrl = `${oppUrl}/auth/authorize?response_type=code&client_id=${encodeURIComponent(
     clientId
   )}&redirect_uri=${encodeURIComponent(redirectUrl)}`;
@@ -81,6 +82,7 @@ function redirectAuthorize(
   state: string
 ) {
   // Add either ?auth_callback=1 or &auth_callback=1
+  debugger;
   redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + "auth_callback=1";
 
   document.location!.href = genAuthorizeUrl(
@@ -96,6 +98,7 @@ async function tokenRequest(
   clientId: string,
   data: AuthorizationCodeRequest | RefreshTokenRequest
 ) {
+  debugger;
   const formData = new FormData();
   formData.append("client_id", clientId);
   Object.keys(data).forEach(key => {
@@ -123,6 +126,7 @@ async function tokenRequest(
 }
 
 function fetchToken(oppUrl: string, clientId: string, code: string) {
+  debugger;
   return tokenRequest(oppUrl, clientId, {
     code,
     grant_type: "authorization_code"
@@ -142,6 +146,7 @@ export class Auth {
   data: AuthData;
 
   constructor(data: AuthData, saveTokens?: SaveTokensFunc) {
+    debugger;
     this.data = data;
     this._saveTokens = saveTokens;
   }
@@ -163,6 +168,7 @@ export class Auth {
    * Refresh the access token.
    */
   async refreshAccessToken() {
+    debugger;
     const data = await tokenRequest(this.data.oppUrl, this.data.clientId, {
       grant_type: "refresh_token",
       refresh_token: this.data.refresh_token
@@ -195,6 +201,7 @@ export class Auth {
 }
 
 export async function getAuth(options: getAuthOptions = {}): Promise<Auth> {
+  debugger;
   let data: AuthData | null | undefined;
 
   let oppUrl = options.oppUrl;

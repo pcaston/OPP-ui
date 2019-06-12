@@ -28,6 +28,7 @@ class HaAuthorize extends litLocalizeLiteMixin(LitElement) {
 
   constructor() {
     super();
+    debugger;
     this.translationFragment = "page-authorize";
     const query: QueryParams = {};
     const values = location.search.substr(1).split("&");

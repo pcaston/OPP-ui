@@ -17,7 +17,7 @@ const fixedIcons = {
   fan: "opp:fan",
   group: "opp:google-circles-communities",
   history_graph: "opp:chart-line",
-  homeassistant: "opp:",
+  openpeerpower: "opp:",
   homekit: "opp:home-automation",
   image_processing: "opp:image-filter-frames",
   input_boolean: "opp:drawing",
