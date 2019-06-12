@@ -35,6 +35,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
 
   protected firstUpdated(changedProps: PropertyValues) {
     super.firstUpdated(changedProps);
+    debugger;
 
     if (this.clientId == null || this.redirectUri == null) {
       // tslint:disable-next-line: no-console

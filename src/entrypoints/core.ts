@@ -78,13 +78,13 @@ window.oppConnection.then(({ conn }) => {
 });
 
 window.addEventListener("error", (e) => {
-  const openPeerPower = document.querySelector("open-peer-power") as any;
+  const openpeerpower = document.querySelector("open-peer-power") as any;
   if (
-    openPeerPower &&
-    openPeerPower.opp &&
-    (openPeerPower.opp as OpenPeerPower).callService
+    openpeerpower &&
+    openpeerpower.opp &&
+    (openpeerpower.opp as OpenPeerPower).callService
   ) {
-    openPeerPower.opp.callService("system_log", "write", {
+    openpeerpower.opp.callService("system_log", "write", {
       logger: `frontend.${
         __DEV__ ? "js_dev" : "js"
       }.${__BUILD__}.${__VERSION__.replace(".", "")}`,

@@ -13,7 +13,7 @@ export const turnOnOffEntities = (
       const stateDomain = computeDomain(entityId);
       const serviceDomain = ["cover", "lock"].includes(stateDomain)
         ? stateDomain
-        : "openPeerPower";
+        : "openpeerpower";
 
       if (!(serviceDomain in domainsToCall)) {
         domainsToCall[serviceDomain] = [];

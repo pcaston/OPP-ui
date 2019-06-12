@@ -16,10 +16,10 @@ import {
 } from "../../data/system_health";
 
 const sortKeys = (a: string, b: string) => {
-  if (a === "openPeerPower") {
+  if (a === "openpeerpower") {
     return -1;
   }
-  if (b === "openPeerPower") {
+  if (b === "openpeerpower") {
     return 1;
   }
   if (a < b) {
@@ -69,7 +69,11 @@ class SystemHealthCard extends LitElement {
             </tr>
           `);
         }
+<<<<<<< HEAD
         if (domain !== "openPeerPower") {
+=======
+        if (domain !== "openpeerpower") {
+>>>>>>> 867b036c3350b981b7f471a85709270414dc6278
           sections.push(
             html`
               <h3>${this.opp.localize(`domain.${domain}`) || domain}</h3>

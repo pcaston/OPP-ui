@@ -1143,7 +1143,7 @@
               },
               "abort": {
                 "no_api_password_set": "You don't have an API password configured.",
-                "login_expired": "[%key:ui::panel::page-authorize::form::providers::openPeerPower::abort::login_expired%]"
+                "login_expired": "[%key:ui::panel::page-authorize::form::providers::openpeerpower::abort::login_expired%]"
               }
             },
             "trusted_networks": {

@@ -7,7 +7,7 @@ export const turnOnOffEntity = (
   turnOn = true
 ): Promise<void> => {
   const stateDomain = computeDomain(entityId);
-  const serviceDomain = stateDomain === "group" ? "openPeerPower" : stateDomain;
+  const serviceDomain = stateDomain === "group" ? "openpeerpower" : stateDomain;
 
   let service;
   switch (stateDomain) {
