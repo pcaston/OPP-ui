@@ -19,6 +19,7 @@ const LOCALE_LOOKUP = {
  * Search for a matching translation from most specific to general
  */
 function findAvailableLanguage(language: string) {
+  debugger;
   // In most case, the language has the same format with our translation meta data
   if (language in translationMetadata.translations) {
     return language;
@@ -58,6 +59,7 @@ export async function getUserLanguage(opp: OpenPeerPower) {
  * Get browser specific language
  */
 export function getLocalLanguage() {
+  debugger;
   let language = null;
   if (STORAGE.selectedLanguage) {
     try {

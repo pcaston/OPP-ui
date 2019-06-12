@@ -16,10 +16,10 @@ import {
 } from "../../data/system_health";
 
 const sortKeys = (a: string, b: string) => {
-  if (a === "homeassistant") {
+  if (a === "openPeerPower") {
     return -1;
   }
-  if (b === "homeassistant") {
+  if (b === "openPeerPower") {
     return 1;
   }
   if (a < b) {
@@ -69,7 +69,7 @@ class SystemHealthCard extends LitElement {
             </tr>
           `);
         }
-        if (domain !== "homeassistant") {
+        if (domain !== "openPeerPower") {
           sections.push(
             html`
               <h3>${this.opp.localize(`domain.${domain}`) || domain}</h3>

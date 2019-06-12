@@ -29,6 +29,7 @@ export class OpenPeerPowerAppEl extends OppElement {
   }
 
   protected render() {
+    debugger;
     const opp = this.opp;
 
     return html`

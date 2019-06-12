@@ -20,6 +20,7 @@ export class OppElement extends ext(OppBaseMixin(LitElement), [
     MoreInfoMixin,
     SidebarMixin,
     DisconnectToastMixin,
+    connectionMixin,
     NotificationMixin,
     dialogManagerMixin,
 

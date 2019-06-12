@@ -64,6 +64,7 @@
 
         <script>
       function _ls(src) {
+        debugger;
         var doc = document.documentElement;
         var script = doc.insertBefore(
           document.createElement("script"),
@@ -92,6 +93,7 @@
     <script type="module">
       import "/frontend_latest/onboarding.js";
       import "/frontend_latest/opp-icons.js";
+      debugger;
       window.stepsPromise = fetch("/api/onboarding", {
         credentials: "same-origin",
       });

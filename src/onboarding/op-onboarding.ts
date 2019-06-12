@@ -48,6 +48,7 @@ class OpOnboarding extends litLocalizeLiteMixin(OppElement) {
   @property() private _steps?: OnboardingStep[];
 
   protected render(): TemplateResult | void {
+    debugger;
     const step = this._curStep()!;
 
     if (this._loading || !step) {
