@@ -83,7 +83,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
         `;
       case "loading":
         return html`
-          ${this.localize("ui.panel.page-authorize.form.working")}
+          "Please wait"
         `;
     }
   }

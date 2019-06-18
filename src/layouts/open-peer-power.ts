@@ -13,7 +13,6 @@ import { registerServiceWorker } from "../util/register-service-worker";
 import { DEFAULT_PANEL } from "../common/const";
 
 import { Route, OpenPeerPower } from "../types";
-import { navigate } from "../common/navigate";
 import { OppElement } from "../state/opp-element";
 
 @customElement('open-peer-power')

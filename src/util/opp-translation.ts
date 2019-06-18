@@ -4,34 +4,19 @@ import { OpenPeerPower } from "../types";
 
 const STORAGE = window.localStorage || {};
 
-// Chinese locales need map to Simplified or Traditional Chinese
-const LOCALE_LOOKUP = {
-  "zh-cn": "zh-Hans",
-  "zh-sg": "zh-Hans",
-  "zh-my": "zh-Hans",
-  "zh-tw": "zh-Hant",
-  "zh-hk": "zh-Hant",
-  "zh-mo": "zh-Hant",
-  zh: "zh-Hant", // all other Chinese locales map to Traditional Chinese
-};
-
 /**
  * Search for a matching translation from most specific to general
  */
 function findAvailableLanguage(language: string) {
   debugger;
   // In most case, the language has the same format with our translation meta data
-  if (language in translationMetadata.translations) {
-    return language;
-  }
-
+  //if (language in translationMetadata.translations) {
+  //  return 'language';
+ // }
+  return 'en';
   // Perform case-insenstive comparison since browser isn't required to
   // report languages with specific cases.
   const langLower = language.toLowerCase();
-
-  if (langLower in LOCALE_LOOKUP) {
-    return LOCALE_LOOKUP[langLower];
-  }
 
   for (const lang in Object.keys(translationMetadata.translations)) {
     if (lang.toLowerCase() === langLower) {

@@ -1,6 +1,5 @@
 import OppBaseMixin from "./opp-base-mixin";
 import AuthMixin from "./auth-mixin";
-import TranslationsMixin from "./translations-mixin";
 import ThemesMixin from "./themes-mixin";
 import MoreInfoMixin from "./more-info-mixin";
 import SidebarMixin from "./sidebar-mixin";
@@ -17,7 +16,6 @@ const ext = <T>(baseClass: T, mixins): T =>
 export class OppElement extends ext(OppBaseMixin(LitElement), [
     AuthMixin,
     ThemesMixin,
-    TranslationsMixin,
     MoreInfoMixin,
     SidebarMixin,
     DisconnectToastMixin,
