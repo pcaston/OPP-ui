@@ -2,7 +2,6 @@ import { translationMetadata } from "../resources/translations-metadata";
 import {
   getTranslation,
   getLocalLanguage,
-  getUserLanguage,
 } from "../util/opp-translation";
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
