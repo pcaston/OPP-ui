@@ -102,11 +102,7 @@ class HaEntityToggle extends LitElement {
       serviceDomain = "cover";
       service = turnOn ? "open_cover" : "close_cover";
     } else if (stateDomain === "group") {
-<<<<<<< HEAD
-      serviceDomain = "openPeerPower";
-=======
       serviceDomain = "openpeerpower";
->>>>>>> 867b036c3350b981b7f471a85709270414dc6278
       service = turnOn ? "turn_on" : "turn_off";
     } else {
       serviceDomain = stateDomain;

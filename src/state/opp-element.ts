@@ -17,13 +17,14 @@ const ext = <T>(baseClass: T, mixins): T =>
 export class OppElement extends ext(OppBaseMixin(LitElement), [
     AuthMixin,
     ThemesMixin,
+    TranslationsMixin,
     MoreInfoMixin,
     SidebarMixin,
     DisconnectToastMixin,
     connectionMixin,
     NotificationMixin,
     dialogManagerMixin,
-
+    urlSyncMixin,
 ]) {}
 
 //export class OppElement extends ext(OppBaseMixin(LitElement), [
