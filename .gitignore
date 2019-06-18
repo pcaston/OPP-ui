@@ -41,6 +41,7 @@ typings/
 
 # Output of TypeScript
 *.js
+*.js.map
 
 # Optional npm cache directory
 .npm
