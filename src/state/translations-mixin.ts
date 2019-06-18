@@ -21,6 +21,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
   class extends superClass {
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);
+      debugger;
       this.addEventListener("opp-language-select", (e) =>
         this._selectLanguage((e as CustomEvent).detail.language, true)
       );

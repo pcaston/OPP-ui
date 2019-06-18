@@ -38,6 +38,7 @@ const authProm = isExternal
 
 const connProm = async (auth) => {
   try {
+    debugger;
     const conn = await createConnection({ auth });
 
     // Clear url if we have been able to establish a connection
