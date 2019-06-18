@@ -20,10 +20,10 @@ const LOCALE_LOOKUP = {
  */
 function findAvailableLanguage(language: string) {
   // In most case, the language has the same format with our translation meta data
-  if (language in translationMetadata.translations) {
-    return language;
-  }
-
+  //if (language in translationMetadata.translations) {
+  //  return 'language';
+ // }
+  return 'en';
   // Perform case-insenstive comparison since browser isn't required to
   // report languages with specific cases.
   const langLower = language.toLowerCase();

@@ -1,6 +1,5 @@
 import OppBaseMixin from "./opp-base-mixin";
 import AuthMixin from "./auth-mixin";
-import TranslationsMixin from "./translations-mixin";
 import ThemesMixin from "./themes-mixin";
 import MoreInfoMixin from "./more-info-mixin";
 import SidebarMixin from "./sidebar-mixin";
@@ -20,9 +19,10 @@ export class OppElement extends ext(OppBaseMixin(LitElement), [
     MoreInfoMixin,
     SidebarMixin,
     DisconnectToastMixin,
+    connectionMixin,
     NotificationMixin,
     dialogManagerMixin,
-
+    urlSyncMixin,
 ]) {}
 
 //export class OppElement extends ext(OppBaseMixin(LitElement), [
