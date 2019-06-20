@@ -8,11 +8,9 @@ class HaInitPage extends LitElement {
   @property({ type: Boolean }) public error = false;
 
   protected render() {
-    debugger;
     return html`
       <div>
         <img src="/images/manifest/icon-48x48.png" height="192" />
-        <img src="/static/icons/favicon-192x192.png" height="192" />
         ${this.error
           ? html`
               <p>Unable to connect to Open Peer Power.</p>
