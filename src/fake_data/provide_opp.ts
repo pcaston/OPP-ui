@@ -6,7 +6,6 @@ import { demoPanels } from "./demo_panels";
 import { getEntity, Entity } from "./entity";
 import { OpenPeerPower } from "../types";
 import { OppEntities } from "../open-peer-power-js-websocket/lib";
-import { getLocalLanguage } from "../util/opp-translation";
 import { translationMetadata } from "../resources/translations-metadata";
 
 const ensureArray = <T>(val: T | T[]): T[] =>
@@ -86,7 +85,7 @@ export const provideOpp = (
     );
   });
 
-  const localLanguage = getLocalLanguage();
+  const localLanguage = 'en';
 
   const oppObj: MockOpenPeerPower = {
     // Home Assistant properties

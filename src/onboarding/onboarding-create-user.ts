@@ -29,23 +29,20 @@ class OnboardingCreateUser extends LitElement {
   @property() private _errorMsg?: string = undefined;
 
   protected render(): TemplateResult | void {
-    debugger;
     return html`
     <p>
-      ${this.localize("ui.panel.page-onboarding.intro")}
+     Take control of your power and keep your privacy.
     </p>
 
     <p>
-      ${this.localize("ui.panel.page-onboarding.user.intro")}
+      Register your user account.
     </p>
 
     ${
       this._errorMsg
         ? html`
             <p class="error">
-              ${this.localize(
-                `ui.panel.page-onboarding.user.error.${this._errorMsg}`
-              ) || this._errorMsg}
+              Fill in all required fields
             </p>
           `
         : ""
@@ -54,49 +51,41 @@ class OnboardingCreateUser extends LitElement {
     <form>
       <paper-input
         name="name"
-        label="${this.localize("ui.panel.page-onboarding.user.data.name")}"
+        label="Name"
         .value=${this._name}
         @value-changed=${this._handleValueChanged}
         required
         auto-validate
         autocapitalize='on'
-        .errorMessage="${this.localize(
-          "ui.panel.page-onboarding.user.required_field"
-        )}"
+        .errorMessage="Required"
         @blur=${this._maybePopulateUsername}
       ></paper-input>
 
       <paper-input
         name="username"
-        label="${this.localize("ui.panel.page-onboarding.user.data.username")}"
+        label="Username"
         value=${this._username}
         @value-changed=${this._handleValueChanged}
         required
         auto-validate
         autocapitalize='none'
-        .errorMessage="${this.localize(
-          "ui.panel.page-onboarding.user.required_field"
-        )}"
+        .errorMessage="Required"
       ></paper-input>
 
       <paper-input
         name="password"
-        label="${this.localize("ui.panel.page-onboarding.user.data.password")}"
+        label="Password"
         value=${this._password}
         @value-changed=${this._handleValueChanged}
         required
         type='password'
         auto-validate
-        .errorMessage="${this.localize(
-          "ui.panel.page-onboarding.user.required_field"
-        )}"
+        .errorMessage="Required"
       ></paper-input>
 
       <paper-input
         name="passwordConfirm"
-        label="${this.localize(
-          "ui.panel.page-onboarding.user.data.password_confirm"
-        )}"
+        label="Confirm Password"
         value=${this._passwordConfirm}
         @value-changed=${this._handleValueChanged}
         required
@@ -104,9 +93,7 @@ class OnboardingCreateUser extends LitElement {
         .invalid=${this._password !== "" &&
           this._passwordConfirm !== "" &&
           this._passwordConfirm !== this._password}
-        .errorMessage="${this.localize(
-          "ui.panel.page-onboarding.user.error.password_not_match"
-        )}"
+        .errorMessage="Passwords don't match"
       ></paper-input>
 
       <p class="action">
@@ -115,7 +102,7 @@ class OnboardingCreateUser extends LitElement {
           @click=${this._submitForm}
           .disabled=${this._loading}
         >
-          ${this.localize("ui.panel.page-onboarding.user.create_account")}
+          Create Account
         </mwc-button>
       </p>
     </div>

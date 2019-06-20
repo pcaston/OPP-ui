@@ -1,14 +1,9 @@
 import { translationMetadata } from "../resources/translations-metadata";
 
 /**
- * Search for a matching translation from most specific to general
- */
-/**
- * Get user selected language from backend
- */
-/**
  * Get browser specific language
  */
+
 // Store loaded translations in memory so translations are available immediately
 // when DOM is created in Polymer. Even a cache lookup creates noticeable latency.
 const translations = {};

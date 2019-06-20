@@ -11,7 +11,6 @@ import {
 import { translationMetadata } from "../resources/translations-metadata";
 
 import { getState } from "../util/op-pref-storage";
-import { getLocalLanguage } from "../util/opp-translation";
 import { fetchWithAuth } from "../util/fetch-with-auth";
 import oppCallApi from "../util/opp-call-api";
 import { subscribePanels } from "../data/ws-panels";
@@ -39,7 +38,7 @@ export const connectionMixin = (
         user: null as any,
         panelUrl: (this as any)._panelUrl,
 
-        language: getLocalLanguage(),
+        language: 'en',
         selectedLanguage: null,
         resources: null as any,
         localize: () => "",

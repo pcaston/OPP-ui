@@ -100,25 +100,21 @@ class OnboardingIntegrations extends LitElement {
 
     return html`
       <p>
-        ${this.onboardingLocalize("ui.panel.page-onboarding.integration.intro")}
+      Devices and services are represented in Open Peer Power as integrations. You can set them up now, or do it later from the configuration screen.
       </p>
       <div class="badges">
         ${content}
         <button @click=${this._createFlow}>
           <integration-badge
             clickable
-            title=${this.onboardingLocalize(
-              "ui.panel.page-onboarding.integration.more_integrations"
-            )}
+            title="More"
             icon="opp:dots-horizontal"
           ></integration-badge>
         </button>
       </div>
       <div class="footer">
         <mwc-button @click=${this._finish}>
-          ${this.onboardingLocalize(
-            "ui.panel.page-onboarding.integration.finish"
-          )}
+          Finish
         </mwc-button>
       </div>
     `;

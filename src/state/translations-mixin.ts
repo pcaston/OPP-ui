@@ -1,7 +1,6 @@
 import { translationMetadata } from "../resources/translations-metadata";
 import {
   getTranslation,
-  getLocalLanguage,
 } from "../util/opp-translation";
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
@@ -24,7 +23,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       this.addEventListener("opp-language-select", (e) =>
         this._selectLanguage((e as CustomEvent).detail.language, true)
       );
-      this._loadCoreTranslations(getLocalLanguage());
+      this._loadCoreTranslations('en');
     }
 
     protected oppConnected() {
@@ -42,7 +41,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       super.panelUrlChanged(newPanelUrl);
       // this may be triggered before oppConnected
       this._loadFragmentTranslations(
-        this.opp ? this.opp.language : getLocalLanguage(),
+        this.opp ? this.opp.language : 'en',
         newPanelUrl
       );
     }
