@@ -92,7 +92,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
     switch (step.type) {
       case "abort":
         return html`
-          ${this.localize("ui.panel.page-authorize.abort_intro")}:
+          Login aborted:
           <op-markdown
             .content=${this.localize(
               `ui.panel.page-authorize.form.providers.${
@@ -255,7 +255,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _unknownError() {
-    return this.localize("ui.panel.page-authorize.form.unknown_error");
+    return "Something went wrong";
   }
 
   private async _handleSubmit(ev: Event) {
