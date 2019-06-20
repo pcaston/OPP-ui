@@ -2,7 +2,6 @@
  * Lite mixin to add localization without depending on the Opp object.
  */
 import { dedupingMixin } from "@polymer/polymer/lib/utils/mixin";
-import { getLocalLanguage } from "../util/opp-translation";
 import { localizeLiteBaseMixin } from "./localize-lite-base-mixin";
 import { computeLocalize } from "../common/translations/localize";
 
@@ -17,7 +16,7 @@ export const localizeLiteMixin = dedupingMixin(
           language: {
             type: String,
             // Use browser language setup before login.
-            value: getLocalLanguage(),
+            value: 'en',
           },
           resources: Object,
           // The fragment to load.

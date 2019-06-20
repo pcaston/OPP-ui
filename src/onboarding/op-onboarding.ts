@@ -59,7 +59,7 @@ class OpOnboarding extends litLocalizeLiteMixin(OppElement) {
       return html`
         <onboarding-create-user
           .localize=${this.localize}
-          .language=${this.language}
+          .language='en'
         ></onboarding-create-user>
       `;
     } else if (step.step === "integration") {

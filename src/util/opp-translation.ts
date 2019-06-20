@@ -1,86 +1,8 @@
 import { translationMetadata } from "../resources/translations-metadata";
-import { fetchFrontendUserData } from "../data/frontend";
-import { OpenPeerPower } from "../types";
-
-const STORAGE = window.localStorage || {};
-
-/**
- * Search for a matching translation from most specific to general
- */
-function findAvailableLanguage(language: string) {
-  debugger;
-  // In most case, the language has the same format with our translation meta data
-  //if (language in translationMetadata.translations) {
-  //  return 'language';
- // }
-  return 'en';
-  // Perform case-insenstive comparison since browser isn't required to
-  // report languages with specific cases.
-  const langLower = language.toLowerCase();
-
-  for (const lang in Object.keys(translationMetadata.translations)) {
-    if (lang.toLowerCase() === langLower) {
-      return lang;
-    }
-  }
-}
-
-/**
- * Get user selected language from backend
- */
-export async function getUserLanguage(opp: OpenPeerPower) {
-  const result = await fetchFrontendUserData(opp, "language");
-  const language = result ? result.language : null;
-  if (language) {
-    const availableLanguage = findAvailableLanguage(language);
-    if (availableLanguage) {
-      return availableLanguage;
-    }
-  }
-  return null;
-}
 
 /**
  * Get browser specific language
  */
-export function getLocalLanguage() {
-  debugger;
-  let language = null;
-  if (STORAGE.selectedLanguage) {
-    try {
-      const stored = JSON.parse(STORAGE.selectedLanguage);
-      if (stored) {
-        language = findAvailableLanguage(stored);
-        if (language) {
-          return language;
-        }
-      }
-    } catch (e) {
-      // Ignore parsing error.
-    }
-  }
-  if (navigator.languages) {
-    for (const locale of navigator.languages) {
-      language = findAvailableLanguage(locale);
-      if (language) {
-        return language;
-      }
-    }
-  }
-  language = findAvailableLanguage(navigator.language);
-  if (language) {
-    return language;
-  }
-  if (navigator.language && navigator.language.includes("-")) {
-    language = findAvailableLanguage(navigator.language.split("-")[0]);
-    if (language) {
-      return language;
-    }
-  }
-
-  // Final fallback
-  return "en";
-}
 
 // Store loaded translations in memory so translations are available immediately
 // when DOM is created in Polymer. Even a cache lookup creates noticeable latency.
@@ -132,4 +54,4 @@ export async function getTranslation(
 
 // Load selected translation into memory immediately so it is ready when Polymer
 // initializes.
-getTranslation(null, getLocalLanguage());
+getTranslation(null, 'en');
