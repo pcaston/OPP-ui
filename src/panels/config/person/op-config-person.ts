@@ -60,7 +60,7 @@ class HaConfigPerson extends LitElement {
         <op-config-section .isWide=${this.isWide}>
           <span slot="header">Persons</span>
           <span slot="introduction">
-            Here you can define each person of interest in Home Assistant.
+            Here you can define each person of interest in Open Peer Power.
             ${this._configItems.length > 0
               ? html`
                   <p>

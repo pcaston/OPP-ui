@@ -16,10 +16,6 @@ export class HuiCardPreview extends HTMLElement {
   private _element?: LovelaceCard;
 
   set opp(opp: OpenPeerPower) {
-    if (!this._opp || this._opp.language !== opp.language) {
-      this.style.direction = computeRTL(opp) ? "rtl" : "ltr";
-    }
-
     this._opp = opp;
     if (this._element) {
       this._element.opp = opp;

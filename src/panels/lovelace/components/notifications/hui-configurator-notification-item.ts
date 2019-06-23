@@ -11,13 +11,13 @@ import "./hui-notification-item-template";
 
 import { OpenPeerPower } from "../../../../types";
 import { fireEvent } from "../../../../common/dom/fire_event";
-import { HassNotification } from "./types";
+import { OppNotification } from "./types";
 
 @customElement("hui-configurator-notification-item")
 export class HuiConfiguratorNotificationItem extends LitElement {
   @property() public opp?: OpenPeerPower;
 
-  @property() public notification?: HassNotification;
+  @property() public notification?: OppNotification;
 
   protected render(): TemplateResult | void {
     if (!this.opp || !this.notification) {

@@ -106,9 +106,6 @@ class OpenPeerPowerMain extends LitElement {
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
     // Make app-drawer adjust to a potential LTR/RTL change
-    if (oldOpp && oldOpp.language !== this.opp!.language) {
-      this.drawer._resetPosition();
-    }
   }
 
   private _narrowChanged(ev: PolymerChangedEvent<boolean>) {

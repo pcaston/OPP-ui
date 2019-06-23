@@ -43,11 +43,11 @@ export class CloudAlexaPref extends LitElement {
           @change="${this._toggleChanged}"
         ></paper-toggle-button>
         <div class="card-content">
-          With the Alexa integration for Home Assistant Cloud you'll be able to
-          control all your Home Assistant devices via any Alexa-enabled device.
+          With the Alexa integration for Open Peer Power Cloud you'll be able to
+          control all your Open Peer Power devices via any Alexa-enabled device.
           <ul>
             <li>
-              To activate, search in the Alexa app for the Home Assistant Smart
+              To activate, search in the Alexa app for the Open Peer Power Smart
               Home skill.
             </li>
             <li>

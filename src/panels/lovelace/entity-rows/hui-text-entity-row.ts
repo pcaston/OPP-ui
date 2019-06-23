@@ -59,8 +59,7 @@ class HuiTextEntityRow extends LitElement implements EntityRow {
         <div>
           ${computeStateDisplay(
             this.opp!.localize,
-            stateObj,
-            this.opp.language
+            stateObj
           )}
         </div>
       </hui-generic-entity-row>

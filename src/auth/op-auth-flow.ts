@@ -9,13 +9,12 @@ import {
 import "@material/mwc-button";
 import "../components/op-form";
 import "../components/op-markdown";
-import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import { AuthProvider } from "../data/auth";
 import { ConfigFlowStep, ConfigFlowStepForm } from "../data/config_entries";
 
 type State = "loading" | "error" | "step";
 
-class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
+class HaAuthFlow extends LitElement {
   @property() public authProvider?: AuthProvider;
   @property() public clientId?: string;
   @property() public redirectUri?: string;

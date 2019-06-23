@@ -11,13 +11,13 @@ import "./hui-configurator-notification-item";
 import "./hui-persistent-notification-item";
 
 import { OpenPeerPower } from "../../../../types";
-import { HassNotification } from "./types";
+import { OppNotification } from "./types";
 
 @customElement("hui-notification-item")
 export class HuiNotificationItem extends LitElement {
   @property() public opp?: OpenPeerPower;
 
-  @property() public notification?: HassNotification;
+  @property() public notification?: OppNotification;
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.opp || !this.notification || changedProps.has("notification")) {

@@ -29,7 +29,6 @@ export const onboardUserStep = (params: {
   name: string;
   username: string;
   password: string;
-  language: string;
 }) =>
   handleFetchPromise<OnboardingUserStepResponse>(
     fetch("/api/onboarding/users", {

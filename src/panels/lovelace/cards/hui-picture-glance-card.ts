@@ -185,8 +185,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
         title="${`
             ${computeStateName(stateObj)} : ${computeStateDisplay(
           this.opp!.localize,
-          stateObj,
-          this.opp!.language
+          stateObj
         )}
           `}"
       ></op-icon>

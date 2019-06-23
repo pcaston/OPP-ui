@@ -92,7 +92,6 @@ const equalState = (obj1: LineChartState, obj2: LineChartState) =>
 
 const processTimelineEntity = (
   localize: LocalizeFunc,
-  language: string,
   states: OppEntity[]
 ): TimelineEntity => {
   const data: TimelineState[] = [];
@@ -103,7 +102,7 @@ const processTimelineEntity = (
     }
 
     data.push({
-      state_localize: computeStateDisplay(localize, state, language),
+      state_localize: computeStateDisplay(localize, state),
       state: state.state,
       last_changed: state.last_changed,
     });
@@ -178,8 +177,6 @@ const processLineChartEntities = (
 export const computeHistory = (
   opp: OpenPeerPower,
   stateHistory: OppEntity[][],
-  localize: LocalizeFunc,
-  language: string
 ): HistoryResult => {
   const lineChartDevices: { [unit: string]: OppEntity[][] } = {};
   const timelineDevices: TimelineEntity[] = [];
@@ -208,7 +205,7 @@ export const computeHistory = (
 
     if (!unit) {
       timelineDevices.push(
-        processTimelineEntity(localize, language, stateInfo)
+        processTimelineEntity(localize, stateInfo)
       );
     } else if (unit in lineChartDevices) {
       lineChartDevices[unit].push(stateInfo);

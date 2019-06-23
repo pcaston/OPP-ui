@@ -72,8 +72,7 @@ class HuiSensorEntityRow extends LitElement implements EntityRow {
               `
             : computeStateDisplay(
                 this.opp!.localize,
-                stateObj,
-                this.opp.language
+                stateObj
               )}
         </div>
       </hui-generic-entity-row>

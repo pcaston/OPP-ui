@@ -215,6 +215,13 @@ export class OPPui extends LitElement {
       <footer>
         <p>Open Peer Power</p>
       </footer>
+      <script type="module">
+        debugger;
+        import "./entrypoints/core";
+        import "./entrypoints/app";
+        import "./entrypoints/opp-icons";
+        window.customPanelJS = "./entrypoints/custom-panel";
+      </script>
     `;
   }
 

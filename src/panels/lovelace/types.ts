@@ -12,7 +12,6 @@ export interface Lovelace {
   config: LovelaceConfig;
   editMode: boolean;
   mode: "generated" | "yaml" | "storage";
-  language: string;
   enableFullEditMode: () => void;
   setEditMode: (editMode: boolean) => void;
   saveConfig: (newConfig: LovelaceConfig) => Promise<void>;

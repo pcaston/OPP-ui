@@ -7,7 +7,6 @@ import {
 } from "./history";
 import { OpenPeerPower } from "../types";
 import { OppEntity } from "../open-peer-power-js-websocket/lib";
-import { LocalizeFunc } from "../common/translations/localize";
 
 interface CacheConfig {
   refresh: number;
@@ -19,14 +18,12 @@ interface CachedResults {
   prom: Promise<HistoryResult>;
   startTime: Date;
   endTime: Date;
-  language: string;
   data: HistoryResult;
 }
 
 // This is a different interface, a different cache :(
 interface RecentCacheResults {
   created: number;
-  language: string;
   data: Promise<HistoryResult>;
 }
 
@@ -40,22 +37,19 @@ export const getRecent = (
   entityId: string,
   startTime: Date,
   endTime: Date,
-  localize: LocalizeFunc,
-  language: string
 ) => {
   const cacheKey = entityId;
   const cache = RECENT_CACHE[cacheKey];
 
   if (
     cache &&
-    Date.now() - cache.created < RECENT_THRESHOLD &&
-    cache.language === language
+    Date.now() - cache.created < RECENT_THRESHOLD 
   ) {
     return cache.data;
   }
 
   const prom = fetchRecent(opp, entityId, startTime, endTime).then(
-    (stateHistory) => computeHistory(opp, stateHistory, localize, language),
+    (stateHistory) => computeHistory(opp, stateHistory, localize),
     (err) => {
       delete RECENT_CACHE[entityId];
       throw err;
@@ -64,7 +58,6 @@ export const getRecent = (
 
   RECENT_CACHE[cacheKey] = {
     created: Date.now(),
-    language,
     data: prom,
   };
   return prom;
@@ -72,13 +65,11 @@ export const getRecent = (
 
 // Cache type 2 functionality
 function getEmptyCache(
-  language: string,
   startTime: Date,
   endTime: Date
 ): CachedResults {
   return {
     prom: Promise.resolve({ line: [], timeline: [] }),
-    language,
     startTime,
     endTime,
     data: { line: [], timeline: [] },
@@ -89,8 +80,6 @@ export const getRecentWithCache = (
   opp: OpenPeerPower,
   entityId: string,
   cacheConfig: CacheConfig,
-  localize: LocalizeFunc,
-  language: string
 ) => {
   const cacheKey = cacheConfig.cacheKey;
   const endTime = new Date();
@@ -103,8 +92,7 @@ export const getRecentWithCache = (
   if (
     cache &&
     toFetchStartTime >= cache.startTime &&
-    toFetchStartTime <= cache.endTime &&
-    cache.language === language
+    toFetchStartTime <= cache.endTime
   ) {
     toFetchStartTime = cache.endTime;
     appendingToCache = true;
@@ -114,7 +102,6 @@ export const getRecentWithCache = (
     }
   } else {
     cache = stateHistoryCache[cacheKey] = getEmptyCache(
-      language,
       startTime,
       endTime
     );
@@ -144,8 +131,6 @@ export const getRecentWithCache = (
     const stateHistory = computeHistory(
       opp,
       fetchedHistory,
-      localize,
-      language
     );
     if (appendingToCache) {
       mergeLine(stateHistory.line, cache.data.line);

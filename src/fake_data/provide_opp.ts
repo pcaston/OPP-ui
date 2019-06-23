@@ -85,10 +85,9 @@ export const provideOpp = (
     );
   });
 
-  const localLanguage = 'en';
 
   const oppObj: MockOpenPeerPower = {
-    // Home Assistant properties
+    // Open Peer Power properties
     auth: {} as any,
     connection: {
       addEventListener: () => undefined,
@@ -135,8 +134,6 @@ export const provideOpp = (
     },
     panelUrl: "lovelace",
 
-    language: localLanguage,
-    selectedLanguage: localLanguage,
     resources: null as any,
     localize: () => "",
 

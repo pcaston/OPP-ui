@@ -1,7 +1,6 @@
 import { LitElement, html, property } from "lit-element";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
-import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import { fireEvent } from "../common/dom/fire_event";
 import "../components/op-icon-next";
 import { AuthProvider } from "../data/auth";
@@ -12,7 +11,7 @@ declare global {
   }
 }
 
-class HaPickAuthProvider extends litLocalizeLiteMixin(LitElement) {
+class HaPickAuthProvider extends LitElement {
   @property() public authProviders: AuthProvider[] = [];
 
   protected render() {
@@ -25,7 +24,7 @@ class HaPickAuthProvider extends litLocalizeLiteMixin(LitElement) {
           margin-top: 0;
         }
       </style>
-      <p>${this.localize("ui.panel.page-authorize.pick_auth_provider")}:</p>
+      <p>Or log in with:</p>
       ${this.authProviders.map(
         (provider) => html`
           <paper-item .auth_provider=${provider} @click=${this._handlePick}>

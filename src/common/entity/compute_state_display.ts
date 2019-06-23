@@ -8,7 +8,6 @@ import { LocalizeFunc } from "../translations/localize";
 export default (
   localize: LocalizeFunc,
   stateObj: OppEntity,
-  language: string
 ): string => {
   let display: string | undefined;
   const domain = computeStateDomain(stateObj);
@@ -37,7 +36,7 @@ export default (
         stateObj.attributes.month - 1,
         stateObj.attributes.day
       );
-      display = formatDate(date, language);
+      display = formatDate(date, 'en');
     } else if (!stateObj.attributes.has_date) {
       const now = new Date();
       date = new Date(
@@ -49,7 +48,7 @@ export default (
         stateObj.attributes.hour,
         stateObj.attributes.minute
       );
-      display = formatTime(date, language);
+      display = formatTime(date, 'en');
     } else {
       date = new Date(
         stateObj.attributes.year,
@@ -58,7 +57,7 @@ export default (
         stateObj.attributes.hour,
         stateObj.attributes.minute
       );
-      display = formatDateTime(date, language);
+      display = formatDateTime(date, 'en');
     }
   } else if (domain === "zwave") {
     if (["initializing", "dead"].includes(stateObj.state)) {

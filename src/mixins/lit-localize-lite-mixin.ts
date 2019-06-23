@@ -10,7 +10,6 @@ import { computeLocalize, LocalizeFunc } from "../common/translations/localize";
 const empty = () => "";
 
 interface LitLocalizeLiteMixin {
-  language: string;
   resources: {};
   translationFragment: string;
   localize: LocalizeFunc;
@@ -24,7 +23,6 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
     static get properties(): PropertyDeclarations {
       return {
         localize: {},
-        language: {},
         resources: {},
         translationFragment: {},
       };
@@ -34,8 +32,6 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
       super();
       // This will prevent undefined errors if called before connected to DOM.
       this.localize = empty;
-      // Use browser language setup before login.
-      this.language = 'en';
     }
 
     public connectedCallback(): void {
@@ -43,7 +39,6 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
       this._initializeLocalizeLite();
       this.localize = computeLocalize(
         this.constructor.prototype,
-        this.language,
         this.resources
       );
     }
@@ -51,12 +46,10 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
     public updated(changedProperties: PropertyValues) {
       super.updated(changedProperties);
       if (
-        changedProperties.has("language") ||
         changedProperties.has("resources")
       ) {
         this.localize = computeLocalize(
           this.constructor.prototype,
-          this.language,
           this.resources
         );
       }

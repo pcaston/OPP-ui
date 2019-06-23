@@ -49,8 +49,8 @@ export class CloudGooglePref extends LitElement {
           @change="${this._toggleChanged}"
         ></paper-toggle-button>
         <div class="card-content">
-          With the Google Assistant integration for Home Assistant Cloud you'll
-          be able to control all your Home Assistant devices via any Google
+          With the Google Assistant integration for Open Peer Power Cloud you'll
+          be able to control all your Open Peer Power devices via any Google
           Assistant-enabled device.
           <ul>
             <li>
@@ -58,7 +58,7 @@ export class CloudGooglePref extends LitElement {
                 href="https://assistant.google.com/services/a/uid/00000091fd5fb875?hl=en-US"
                 target="_blank"
               >
-                Activate the Home Assistant skill for Google Assistant
+                Activate the Open Peer Power skill for Google Assistant
               </a>
             </li>
             <li>
