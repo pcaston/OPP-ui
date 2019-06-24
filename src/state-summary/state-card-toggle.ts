@@ -2,7 +2,7 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../components/entity/ha-entity-toggle";
+import "../components/entity/op-entity-toggle";
 import "../components/entity/state-info";
 
 class StateCardToggle extends PolymerElement {
@@ -10,7 +10,7 @@ class StateCardToggle extends PolymerElement {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
       <style>
-        ha-entity-toggle {
+        op-entity-toggle {
           margin: -4px -16px -4px 0;
           padding: 4px 16px;
         }
@@ -18,10 +18,10 @@ class StateCardToggle extends PolymerElement {
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <ha-entity-toggle
+        <op-entity-toggle
           state-obj="[[stateObj]]"
           opp="[[opp]]"
-        ></ha-entity-toggle>
+        ></op-entity-toggle>
       </div>
     `;
   }

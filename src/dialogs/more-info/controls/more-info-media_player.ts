@@ -8,7 +8,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-paper-slider";
 import "../../../components/op-paper-dropdown-menu";
-import HassMediaPlayerEntity from "../../../util/opp-media-player-model";
+import OppMediaPlayerEntity from "../../../util/opp-media-player-model";
 
 import attributeClassNames from "../../../common/entity/attribute_class_names";
 import isComponentLoaded from "../../../common/config/is_component_loaded";
@@ -239,7 +239,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
   }
 
   computePlayerObj(opp, stateObj) {
-    return new HassMediaPlayerEntity(opp, stateObj);
+    return new OppMediaPlayerEntity(opp, stateObj);
   }
 
   playerObjChanged(newVal, oldVal) {

@@ -3,7 +3,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import "../components/ha-water_heater-state";
+import "../components/op-water_heater-state";
 
 class StateCardWaterHeater extends PolymerElement {
   static get template() {
@@ -15,7 +15,7 @@ class StateCardWaterHeater extends PolymerElement {
           line-height: 1.5;
         }
 
-        ha-water_heater-state {
+        op-water_heater-state {
           margin-left: 16px;
           text-align: right;
         }
@@ -23,10 +23,10 @@ class StateCardWaterHeater extends PolymerElement {
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <ha-water_heater-state
+        <op-water_heater-state
           opp="[[opp]]"
           state-obj="[[stateObj]]"
-        ></ha-water_heater-state>
+        ></op-water_heater-state>
       </div>
     `;
   }
