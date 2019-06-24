@@ -1,12 +1,10 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import LocalizeMixin from "../mixins/localize-mixin";
-
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaClimateState extends LocalizeMixin(PolymerElement) {
+class OpClimateState extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -115,4 +113,4 @@ class HaClimateState extends LocalizeMixin(PolymerElement) {
     return this.localize(`state.climate.${state}`) || state;
   }
 }
-customElements.define("ha-climate-state", HaClimateState);
+customElements.define("op-climate-state", OpClimateState);

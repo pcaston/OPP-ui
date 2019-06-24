@@ -83,4 +83,4 @@ class HaCoverControls extends PolymerElement {
   }
 }
 
-customElements.define("ha-cover-controls", HaCoverControls);
+customElements.define("op-cover-controls", OpCoverControls);

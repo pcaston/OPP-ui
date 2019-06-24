@@ -54,6 +54,7 @@ export const genExpires = (expires_in: number): number => {
 
 function genRedirectUrl() {
   // Get current url but without # part.
+  debugger;
   const { protocol, host, pathname, search } = location;
   return `${protocol}//${host}${pathname}${search}`;
 }
@@ -183,6 +184,7 @@ export class Auth {
    * Revoke the refresh & access tokens.
    */
   async revoke() {
+    debugger;
     const formData = new FormData();
     formData.append("action", "revoke");
     formData.append("token", this.data.refresh_token);

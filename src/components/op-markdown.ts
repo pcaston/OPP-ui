@@ -100,4 +100,4 @@ class HaMarkdown extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("ha-markdown", HaMarkdown);
+customElements.define("op-markdown", OpMarkdown);

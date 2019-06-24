@@ -2,8 +2,6 @@ import "@material/mwc-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import LocalizeMixin from "../mixins/localize-mixin";
-
 const STATES_INTERCEPTABLE = {
   cleaning: {
     action: "return_to_base",
@@ -34,7 +32,7 @@ const STATES_INTERCEPTABLE = {
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaVacuumState extends LocalizeMixin(PolymerElement) {
+class OpVacuumState extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -86,4 +84,4 @@ class HaVacuumState extends LocalizeMixin(PolymerElement) {
     this.opp.callService("vacuum", service, { entity_id: stateObj.entity_id });
   }
 }
-customElements.define("ha-vacuum-state", HaVacuumState);
+customElements.define("op-vacuum-state", OpVacuumState);

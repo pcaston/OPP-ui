@@ -87,4 +87,4 @@ class HaAttributes extends PolymerElement {
   }
 }
 
-customElements.define("ha-attributes", HaAttributes);
+customElements.define("op-attributes", OpAttributes);

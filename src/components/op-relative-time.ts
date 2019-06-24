@@ -3,12 +3,10 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import relativeTime from "../common/datetime/relative_time";
 
-import LocalizeMixin from "../mixins/localize-mixin";
-
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaRelativeTime extends LocalizeMixin(PolymerElement) {
+class OpRelativeTime extends PolymerElement {
   static get properties() {
     return {
       opp: Object,
@@ -64,4 +62,4 @@ class HaRelativeTime extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("ha-relative-time", HaRelativeTime);
+customElements.define("op-relative-time", OpRelativeTime);

@@ -14,7 +14,7 @@ class HaPaperSlider extends PaperSliderClass {
     const styleEl = document.createElement("style");
     styleEl.innerHTML = `
       .pin > .slider-knob > .slider-knob-inner {
-        font-size:  var(--ha-paper-slider-pin-font-size, 10px);
+        font-size:  var(--op-paper-slider-pin-font-size, 10px);
         line-height: normal;
       }
 
@@ -68,4 +68,4 @@ class HaPaperSlider extends PaperSliderClass {
     return tpl;
   }
 }
-customElements.define("ha-paper-slider", HaPaperSlider);
+customElements.define("op-paper-slider", OpPaperSlider);

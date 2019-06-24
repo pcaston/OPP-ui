@@ -1,8 +1,8 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "./ha-paper-slider";
-import "./ha-icon";
+import "./op-paper-slider";
+import "./op-icon";
 
 class HaLabeledSlider extends PolymerElement {
   static get template() {
@@ -17,22 +17,22 @@ class HaLabeledSlider extends PolymerElement {
           opacity: var(--dark-primary-opacity);
         }
 
-        ha-icon {
+        op-icon {
           float: left;
           margin-top: 4px;
           opacity: var(--dark-secondary-opacity);
         }
 
-        ha-paper-slider {
-          background-image: var(--ha-slider-background);
+        op-paper-slider {
+          background-image: var(--op-slider-background);
         }
       </style>
 
       <div class="title">[[caption]]</div>
       <div class="extra-container"><slot name="extra"></slot></div>
       <div class="slider-container">
-        <ha-icon icon="[[icon]]" hidden$="[[!icon]]"></ha-icon>
-        <ha-paper-slider
+        <op-icon icon="[[icon]]" hidden$="[[!icon]]"></op-icon>
+        <op-paper-slider
           min="[[min]]"
           max="[[max]]"
           step="[[step]]"
@@ -40,7 +40,7 @@ class HaLabeledSlider extends PolymerElement {
           disabled="[[disabled]]"
           disabled="[[disabled]]"
           value="{{value}}"
-        ></ha-paper-slider>
+        ></op-paper-slider>
       </div>
     `;
   }
@@ -74,4 +74,4 @@ class HaLabeledSlider extends PolymerElement {
   }
 }
 
-customElements.define("ha-labeled-slider", HaLabeledSlider);
+customElements.define("op-labeled-slider", OpLabeledSlider);

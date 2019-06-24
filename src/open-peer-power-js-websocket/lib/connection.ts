@@ -6,7 +6,7 @@ import * as messages from "./messages";
 import { ERR_INVALID_AUTH, ERR_CONNECTION_LOST } from "./errors";
 import { ConnectionOptions, OppEvent, MessageBase } from "./types";
 
-const DEBUG = false;
+const DEBUG = true;
 
 export type ConnectionEventListener = (
   conn: Connection,
@@ -96,6 +96,7 @@ export class Connection {
   }
 
   setSocket(socket: WebSocket) {
+    debugger;
     const oldSocket = this.socket;
     this.socket = socket;
     socket.addEventListener("message", ev => this._handleMessage(ev));
@@ -125,6 +126,7 @@ export class Connection {
   }
 
   addEventListener(eventType: Events, callback: ConnectionEventListener) {
+    debugger;
     let listeners = this.eventListeners.get(eventType);
 
     if (!listeners) {
@@ -136,6 +138,7 @@ export class Connection {
   }
 
   removeEventListener(eventType: Events, callback: ConnectionEventListener) {
+    debugger;
     const listeners = this.eventListeners.get(eventType);
 
     if (!listeners) {
@@ -179,6 +182,7 @@ export class Connection {
   }
 
   sendMessage(message: MessageBase, commandId?: number): void {
+    debugger;
     if (DEBUG) {
       console.log("Sending", message);
     }

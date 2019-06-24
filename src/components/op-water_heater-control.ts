@@ -8,7 +8,7 @@ import { EventsMixin } from "../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaWaterHeaterControl extends EventsMixin(PolymerElement) {
+class OpWaterHeaterControl extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -132,4 +132,4 @@ class HaWaterHeaterControl extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("ha-water_heater-control", HaWaterHeaterControl);
+customElements.define("op-water_heater-control", OpWaterHeaterControl);
