@@ -208,8 +208,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
               <div>
                 ${computeStateDisplay(
                   this.opp!.localize,
-                  stateObj,
-                  this.opp!.language
+                  stateObj
                 )}
               </div>
             `

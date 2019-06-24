@@ -13,22 +13,17 @@ export const localizeLiteMixin = dedupingMixin(
     class extends localizeLiteBaseMixin(superClass) {
       static get properties() {
         return {
-          language: {
-            type: String,
-            // Use browser language setup before login.
-            value: 'en',
-          },
           resources: Object,
           // The fragment to load.
           translationFragment: String,
           /**
-           * Translates a string to the current `language`. Any parameters to the
+           * Translates a string to the current  Any parameters to the
            * string should be passed in order, as follows:
            * `localize(stringKey, param1Name, param1Value, param2Name, param2Value)`
            */
           localize: {
             type: Function,
-            computed: "__computeLocalize(language, resources, formats)",
+            computed: "__computeLocalize('en', resources, formats)",
           },
         };
       }
@@ -38,10 +33,9 @@ export const localizeLiteMixin = dedupingMixin(
         this._initializeLocalizeLite();
       }
 
-      protected __computeLocalize(language, resources, formats?) {
+      protected __computeLocalize(resources, formats?) {
         return computeLocalize(
           this.constructor.prototype,
-          language,
           resources,
           formats
         );

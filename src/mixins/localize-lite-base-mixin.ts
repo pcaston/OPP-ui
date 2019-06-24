@@ -1,7 +1,6 @@
 /**
  * Lite base mixin to add localization without depending on the Opp object.
  */
-import { getTranslation } from "../util/opp-translation";
 
 /**
  * @polymerMixin
@@ -34,13 +33,4 @@ export const localizeLiteBaseMixin = (superClass) =>
       this._downloadResources();
     }
 
-    private async _downloadResources() {
-      const { language, data } = await getTranslation(
-        this.translationFragment,
-        this.language
-      );
-      this.resources = {
-        [language]: data,
-      };
-    }
   };

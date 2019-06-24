@@ -9,13 +9,12 @@ import {
 import "@material/mwc-button";
 import "../components/op-form";
 import "../components/op-markdown";
-import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import { AuthProvider } from "../data/auth";
 import { ConfigFlowStep, ConfigFlowStepForm } from "../data/config_entries";
 
 type State = "loading" | "error" | "step";
 
-class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
+class HaAuthFlow extends LitElement {
   @property() public authProvider?: AuthProvider;
   @property() public clientId?: string;
   @property() public redirectUri?: string;
@@ -92,7 +91,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
     switch (step.type) {
       case "abort":
         return html`
-          ${this.localize("ui.panel.page-authorize.abort_intro")}:
+          Login aborted:
           <op-markdown
             .content=${this.localize(
               `ui.panel.page-authorize.form.providers.${
@@ -255,7 +254,7 @@ class HaAuthFlow extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _unknownError() {
-    return this.localize("ui.panel.page-authorize.form.unknown_error");
+    return "Something went wrong";
   }
 
   private async _handleSubmit(ev: Event) {

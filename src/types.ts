@@ -110,10 +110,6 @@ export interface Notification {
   created_at: string;
 }
 
-export interface Resources {
-  [language: string]: { [key: string]: string };
-}
-
 export interface OpenPeerPower {
   auth: Auth & { external?: ExternalMessaging };
   connection: Connection;
@@ -125,20 +121,6 @@ export interface OpenPeerPower {
   selectedTheme?: string | null;
   panels: Panels;
   panelUrl: string;
-
-  // i18n
-  // current effective language, in that order:
-  //   - backend saved user selected lanugage
-  //   - language in local appstorage
-  //   - browser language
-  //   - english (en)
-  language: string;
-  // local stored language, keep that name for backward compability
-  selectedLanguage: string | null;
-  resources: Resources;
-  localize: LocalizeFunc;
-  translationMetadata: TranslationMetadata;
-
   dockedSidebar: boolean;
   moreInfoEntityId: string | null;
   user?: CurrentUser;

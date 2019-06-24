@@ -15,13 +15,13 @@ import "../../../../components/op-markdown";
 import "./hui-notification-item-template";
 
 import { OpenPeerPower } from "../../../../types";
-import { HassNotification } from "./types";
+import { OppNotification } from "./types";
 
 @customElement("hui-persistent-notification-item")
 export class HuiPersistentNotificationItem extends LitElement {
   @property() public opp?: OpenPeerPower;
 
-  @property() public notification?: HassNotification;
+  @property() public notification?: OppNotification;
 
   protected render(): TemplateResult | void {
     if (!this.opp || !this.notification) {
@@ -80,20 +80,20 @@ export class HuiPersistentNotificationItem extends LitElement {
     });
   }
 
-  private _computeTitle(notification: HassNotification): string | undefined {
+  private _computeTitle(notification: OppNotification): string | undefined {
     return notification.title || notification.notification_id;
   }
 
   private _computeTooltip(
     opp: OpenPeerPower,
-    notification: HassNotification
+    notification: OppNotification
   ): string | undefined {
     if (!opp || !notification) {
       return undefined;
     }
 
     const d = new Date(notification.created_at!);
-    return d.toLocaleDateString(opp.language, {
+    return d.toLocaleDateString('en', {
       year: "numeric",
       month: "short",
       day: "numeric",

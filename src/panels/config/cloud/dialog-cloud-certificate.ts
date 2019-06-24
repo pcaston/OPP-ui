@@ -46,7 +46,7 @@ class DialogCloudCertificate extends LitElement {
             Certificate expiration date:
             ${format_date_time(
               new Date(certificateInfo.expire_date),
-              this.opp!.language
+              'en'
             )}<br />
             (Will be automatically renewed)
           </p>

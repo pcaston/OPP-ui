@@ -47,7 +47,7 @@ class HaScriptPicker extends LitElement {
               target="_blank"
               >the instructions</a
             >
-            to make sure that you have configured Home Assistant correctly.
+            to make sure that you have configured Open Peer Power correctly.
           </div>
 
           <op-card header="Pick script to edit">

@@ -8,8 +8,6 @@ import {
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
-import { translationMetadata } from "../resources/translations-metadata";
-
 import { getState } from "../util/op-pref-storage";
 import { fetchWithAuth } from "../util/fetch-with-auth";
 import oppCallApi from "../util/opp-call-api";
@@ -37,13 +35,7 @@ export const connectionMixin = (
         services: null as any,
         user: null as any,
         panelUrl: (this as any)._panelUrl,
-
-        language: 'en',
-        selectedLanguage: null,
         resources: null as any,
-        localize: () => "",
-
-        translationMetadata,
         dockedSidebar: false,
         moreInfoEntityId: null,
         callService: async (domain, service, serviceData = {}) => {

@@ -1,5 +1,4 @@
 import { html, customElement, property} from 'lit-element';
-import { PageViewElement } from '../components/page-view-element';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from '../components/shared-styles';
@@ -10,9 +9,8 @@ import "../layouts/open-peer-power-main";
 import "../layouts/op-init-page";
 import "../resources/op-style";
 import { registerServiceWorker } from "../util/register-service-worker";
-import { DEFAULT_PANEL } from "../common/const";
 
-import { Route, OpenPeerPower } from "../types";
+import { Route } from "../types";
 import { OppElement } from "../state/opp-element";
 
 @customElement('open-peer-power')
@@ -20,7 +18,7 @@ import { OppElement } from "../state/opp-element";
 export class OpenPeerPowerAppEl extends OppElement {
   @property() private _route?: Route;
   @property() private _error?: boolean;
-  @property() private _panelUrl?: string;
+
   static get styles() {
     return [
       SharedStyles
@@ -28,9 +26,7 @@ export class OpenPeerPowerAppEl extends OppElement {
   }
 
   protected render() {
-    debugger;
     const opp = this.opp;
-    debugger;
     return html`
       <app-location
         @route-changed=${this._routeChanged}
@@ -56,7 +52,6 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected async _initialize() {
     try {
-      debugger;
       const { auth, conn } = await window.oppConnection;
       this.initializeOpp(auth, conn);
     } catch (err) {

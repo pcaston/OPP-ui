@@ -118,14 +118,7 @@ class LovelacePanel extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
-    if (
-      this.lovelace &&
-      this.opp &&
-      this.lovelace.language !== this.opp.language
-    ) {
-      // language has been changed, rebuild UI
-      this._setLovelaceConfig(this.lovelace.config, this.lovelace.mode);
-    } else if (this.lovelace && this.lovelace.mode === "generated") {
+    if (this.lovelace && this.lovelace.mode === "generated") {
       // When lovelace is generated, we re-generate each time a user goes
       // to the states panel to make sure new entities are shown.
       this._regenerateConfig();
@@ -184,7 +177,6 @@ class LovelacePanel extends LitElement {
       config,
       mode,
       editMode: this.lovelace ? this.lovelace.editMode : false,
-      language: this.opp!.language,
       enableFullEditMode: () => {
         if (!editorLoaded) {
           editorLoaded = true;

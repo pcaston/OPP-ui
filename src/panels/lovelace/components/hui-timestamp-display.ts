@@ -71,7 +71,7 @@ class HuiTimestampDisplay extends LitElement {
     }
     if (format in FORMATS) {
       return html`
-        ${FORMATS[format](this.ts, this.opp.language)}
+        ${FORMATS[format](this.ts, 'en')}
       `;
     }
     return html`

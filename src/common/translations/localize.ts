@@ -35,7 +35,6 @@ export interface FormatsType {
 
 export const computeLocalize = (
   cache: any,
-  language: string,
   resources: Resources,
   formats?: FormatsType
 ): LocalizeFunc => {
@@ -43,13 +42,13 @@ export const computeLocalize = (
   cache._localizationCache = {};
 
   return (key, ...args) => {
-    if (!key || !resources || !language || !resources[language]) {
+    if (!key || !resources || !'en' || !resources['en']) {
       return "";
     }
 
-    // Cache the key/value pairs for the same language, so that we don't
+    // Cache the key/value pairs for the same 'en', so that we don't
     // do extra work if we're just reusing strings across an application.
-    const translatedValue = resources[language][key];
+    const translatedValue = resources['en'][key];
 
     if (!translatedValue) {
       return "";
@@ -61,7 +60,6 @@ export const computeLocalize = (
     if (!translatedMessage) {
       translatedMessage = new (IntlMessageFormat as any)(
         translatedValue,
-        language,
         formats
       );
       cache._localizationCache[messageKey] = translatedMessage;

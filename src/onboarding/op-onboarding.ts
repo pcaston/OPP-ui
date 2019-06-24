@@ -59,7 +59,6 @@ class OpOnboarding extends litLocalizeLiteMixin(OppElement) {
       return html`
         <onboarding-create-user
           .localize=${this.localize}
-          .language='en'
         ></onboarding-create-user>
       `;
     } else if (step.step === "integration") {
@@ -164,7 +163,7 @@ class OpOnboarding extends litLocalizeLiteMixin(OppElement) {
     const conn = await createConnection({ auth });
     this.initializeOpp(auth, conn);
     // Load config strings for integrations
-    (this as any)._loadFragmentTranslations(this.opp!.language, "config");
+    (this as any)._loadFragmentTranslations('en', "config");
   }
 }
 

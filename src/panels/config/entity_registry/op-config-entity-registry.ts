@@ -144,9 +144,9 @@ class HaConfigEntityRegistry extends LitElement {
         if (
           !confirm(`Are you sure you want to delete this entry?
 
-Deleting an entry will not remove the entity from Home Assistant. To do this, you will need to remove the integration "${
+Deleting an entry will not remove the entity from Open Peer Power. To do this, you will need to remove the integration "${
             entry.platform
-          }" from Home Assistant.`)
+          }" from Open Peer Power.`)
         ) {
           return false;
         }

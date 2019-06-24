@@ -19,14 +19,14 @@ import formatDateTime from "../../common/datetime/format_date_time";
 import formatTime from "../../common/datetime/format_time";
 import { showSystemLogDetailDialog } from "./show-dialog-system-log-detail";
 
-const formatLogTime = (date, language: string) => {
+const formatLogTime = (date) => {
   const today = new Date().setHours(0, 0, 0, 0);
   const dateTime = new Date(date * 1000);
   const dateTimeDay = new Date(date * 1000).setHours(0, 0, 0, 0);
 
   return dateTimeDay < today
-    ? formatDateTime(dateTime, language)
-    : formatTime(dateTime, language);
+    ? formatDateTime(dateTime, 'en')
+    : formatTime(dateTime, 'en');
 };
 
 class SystemLogCard extends LitElement {
@@ -65,7 +65,7 @@ class SystemLogCard extends LitElement {
                             <div secondary>
                               ${formatLogTime(
                                 item.timestamp,
-                                this.opp!.language
+                                'en'
                               )}
                               ${item.source} (${item.level})
                               ${item.count > 1
@@ -73,7 +73,7 @@ class SystemLogCard extends LitElement {
                                     - message first occured at
                                     ${formatLogTime(
                                       item.first_occured,
-                                      this.opp!.language
+                                      'en'
                                     )}
                                     and shows up ${item.count} times
                                   `
