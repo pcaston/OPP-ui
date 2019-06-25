@@ -3,7 +3,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import OppMediaPlayerEntity from "./util/opp-media-player-model";
+import OppMediaPlayerEntity from "../util/opp-media-player-model";
 
 /*
  * @appliesMixin LocalizeMixin

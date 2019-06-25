@@ -3,8 +3,8 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import "../components/ha-cover-controls";
-import "../components/ha-cover-tilt-controls";
+import "../components/op-cover-controls";
+import "../components/op-cover-tilt-controls";
 import CoverEntity from "../util/cover-model";
 
 class StateCardCover extends PolymerElement {
@@ -20,16 +20,16 @@ class StateCardCover extends PolymerElement {
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
         <div class="horizontal layout">
-          <ha-cover-controls
+          <op-cover-controls
             hidden$="[[entityObj.isTiltOnly]]"
             opp="[[opp]]"
             state-obj="[[stateObj]]"
-          ></ha-cover-controls>
-          <ha-cover-tilt-controls
+          ></op-cover-controls>
+          <op-cover-tilt-controls
             hidden$="[[!entityObj.isTiltOnly]]"
             opp="[[opp]]"
             state-obj="[[stateObj]]"
-          ></ha-cover-tilt-controls>
+          ></op-cover-tilt-controls>
         </div>
       </div>
     `;

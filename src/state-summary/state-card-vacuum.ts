@@ -3,7 +3,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import "../components/ha-vacuum-state";
+import "../components/op-vacuum-state";
 
 class StateCardVacuum extends PolymerElement {
   static get template() {
@@ -12,10 +12,10 @@ class StateCardVacuum extends PolymerElement {
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <ha-vacuum-state
+        <op-vacuum-state
           opp="[[opp]]"
           state-obj="[[stateObj]]"
-        ></ha-vacuum-state>
+        ></op-vacuum-state>
       </div>
     `;
   }

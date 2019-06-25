@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import oppAttributeUtil from "../util/opp-attributes-util";
 
-class HaAttributes extends PolymerElement {
+class OpAttributes extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>

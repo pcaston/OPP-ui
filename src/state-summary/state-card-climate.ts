@@ -3,7 +3,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import "../components/ha-climate-state";
+import "../components/op-climate-state";
 
 class StateCardClimate extends PolymerElement {
   static get template() {
@@ -15,7 +15,7 @@ class StateCardClimate extends PolymerElement {
           line-height: 1.5;
         }
 
-        ha-climate-state {
+        op-climate-state {
           margin-left: 16px;
           text-align: right;
         }
@@ -23,10 +23,10 @@ class StateCardClimate extends PolymerElement {
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <ha-climate-state
+        <op-climate-state
           opp="[[opp]]"
           state-obj="[[stateObj]]"
-        ></ha-climate-state>
+        ></op-climate-state>
       </div>
     `;
   }
