@@ -19,7 +19,7 @@ import { HaEntityPickerEntityFilterFunc } from "./op-entity-picker";
 import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 
 @customElement("op-entities-picker")
-class HaEntitiesPickerLight extends LitElement {
+class OpEntitiesPickerLight extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public value?: string[];
   @property({ attribute: "domain-filter" }) public domainFilter?: string;
@@ -116,6 +116,6 @@ class HaEntitiesPickerLight extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-entities-picker": HaEntitiesPickerLight;
+    "op-entities-picker": OpEntitiesPickerLight;
   }
 }

@@ -10,7 +10,7 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import "./op-icon";
 
-class HaLabelBadge extends LitElement {
+class OpLabelBadge extends LitElement {
   public value?: string;
   public icon?: string;
   public label?: string;
@@ -158,8 +158,8 @@ class HaLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-label-badge": HaLabelBadge;
+    "op-label-badge": OpLabelBadge;
   }
 }
 
-customElements.define("op-label-badge", HaLabelBadge);
+customElements.define("op-label-badge", OpLabelBadge);

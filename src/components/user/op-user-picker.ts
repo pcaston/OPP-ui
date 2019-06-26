@@ -18,7 +18,7 @@ import { fireEvent } from "../../common/dom/fire_event";
 import { User, fetchUsers } from "../../data/user";
 import { compare } from "../../common/string/compare";
 
-class HaEntityPicker extends LitElement {
+class OpEntityPicker extends LitElement {
   public opp?: OpenPeerPower;
   @property() public label?: string;
   @property() public value?: string;
@@ -101,4 +101,4 @@ class HaEntityPicker extends LitElement {
   }
 }
 
-customElements.define("op-user-picker", HaEntityPicker);
+customElements.define("op-user-picker", OpEntityPicker);

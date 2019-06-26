@@ -12,7 +12,7 @@ import "@polymer/paper-input/paper-input";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
 
 @customElement("op-date-input")
-export class HaDateInput extends LitElement {
+export class OpDateInput extends LitElement {
   @property() public year?: string;
   @property() public month?: string;
   @property() public day?: string;
@@ -123,6 +123,6 @@ export class HaDateInput extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-date-input": HaDateInput;
+    "op-date-input": OpDateInput;
   }
 }

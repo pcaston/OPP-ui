@@ -8,7 +8,7 @@ const paperIconButtonClass = customElements.get(
   "paper-icon-button"
 ) as Constructor<PaperIconButtonElement>;
 
-export class HaPaperIconButtonNext extends paperIconButtonClass {
+export class OpPaperIconButtonNext extends paperIconButtonClass {
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
@@ -22,8 +22,8 @@ export class HaPaperIconButtonNext extends paperIconButtonClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-paper-icon-button-next": HaPaperIconButtonNext;
+    "op-paper-icon-button-next": OpPaperIconButtonNext;
   }
 }
 
-customElements.define("op-paper-icon-button-next", HaPaperIconButtonNext);
+customElements.define("op-paper-icon-button-next", OpPaperIconButtonNext);

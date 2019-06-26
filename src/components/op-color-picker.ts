@@ -8,7 +8,7 @@ import { EventsMixin } from "../mixins/events-mixin";
  *
  * @appliesMixin EventsMixin
  */
-class HaColorPicker extends EventsMixin(PolymerElement) {
+class OpColorPicker extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -599,4 +599,4 @@ class HaColorPicker extends EventsMixin(PolymerElement) {
     }
   }
 }
-customElements.define("op-color-picker", HaColorPicker);
+customElements.define("op-color-picker", OpColorPicker);

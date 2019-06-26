@@ -10,7 +10,7 @@ import {
 import { fireEvent } from "../common/dom/fire_event";
 
 @customElement("op-menu-button")
-class HaMenuButton extends LitElement {
+class OpMenuButton extends LitElement {
   @property({ type: Boolean })
   public oppio = false;
 
@@ -36,6 +36,6 @@ class HaMenuButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-menu-button": HaMenuButton;
+    "op-menu-button": OpMenuButton;
   }
 }

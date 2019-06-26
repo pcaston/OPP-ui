@@ -69,7 +69,7 @@ const computePanels = (opp: OpenPeerPower) => {
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaSidebar extends LitElement {
+class OpSidebar extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public _defaultPage?: string =
     localStorage.defaultPage || DEFAULT_PANEL;
@@ -378,4 +378,4 @@ declare global {
   }
 }
 
-customElements.define("op-sidebar", HaSidebar);
+customElements.define("op-sidebar", OpSidebar);

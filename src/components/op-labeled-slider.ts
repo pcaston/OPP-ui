@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "./op-paper-slider";
 import "./op-icon";
 
-class HaLabeledSlider extends PolymerElement {
+class OpLabeledSlider extends PolymerElement {
   static get template() {
     return html`
       <style>

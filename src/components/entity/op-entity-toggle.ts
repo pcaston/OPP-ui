@@ -19,7 +19,7 @@ import { forwardHaptic } from "../../data/haptics";
 const isOn = (stateObj?: OppEntity) =>
   stateObj !== undefined && !STATES_OFF.includes(stateObj.state);
 
-class HaEntityToggle extends LitElement {
+class OpEntityToggle extends LitElement {
   // opp is not a property so that we only re-render on stateObj changes
   public opp?: OpenPeerPower;
   @property() public stateObj?: OppEntity;
@@ -153,4 +153,4 @@ class HaEntityToggle extends LitElement {
   }
 }
 
-customElements.define("op-entity-toggle", HaEntityToggle);
+customElements.define("op-entity-toggle", OpEntityToggle);
