@@ -8,7 +8,7 @@ import { EventsMixin } from "../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaClimateControl extends EventsMixin(PolymerElement) {
+class OpClimateControl extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>

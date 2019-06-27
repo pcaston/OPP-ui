@@ -3,7 +3,7 @@ import "@polymer/iron-icon/iron-icon";
 // tslint:disable-next-line
 import { HaIcon } from "./op-icon";
 
-export class HaIconPrev extends HaIcon {
+export class OpIconPrev extends HaIcon {
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
@@ -21,4 +21,4 @@ declare global {
   }
 }
 
-customElements.define("op-icon-prev", HaIconPrev);
+customElements.define("op-icon-prev", OpIconPrev);

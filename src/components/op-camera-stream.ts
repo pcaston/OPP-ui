@@ -22,7 +22,7 @@ import { supportsFeature } from "../common/entity/supports-feature";
 type HLSModule = typeof import("hls.js");
 
 @customElement("op-camera-stream")
-class HaCameraStream extends LitElement {
+class OpCameraStream extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public stateObj?: CameraEntity;
   @property({ type: Boolean }) public showControls = false;
@@ -206,6 +206,6 @@ class HaCameraStream extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-camera-stream": HaCameraStream;
+    "op-camera-stream": OpCameraStream;
   }
 }

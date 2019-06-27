@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import CoverEntity from "../util/cover-model";
 
-class HaCoverControls extends PolymerElement {
+class OpCoverControls extends PolymerElement {
   static get template() {
     return html`
       <style>

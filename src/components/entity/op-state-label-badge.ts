@@ -24,7 +24,7 @@ import secondsToDuration from "../../common/datetime/seconds_to_duration";
 import "../op-label-badge";
 
 @customElement("op-state-label-badge")
-export class HaStateLabelBadge extends LitElement {
+export class OpStateLabelBadge extends LitElement {
   @property() public opp?: OpenPeerPower;
 
   @property() public state?: OppEntity;
@@ -250,6 +250,6 @@ export class HaStateLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-state-label-badge": HaStateLabelBadge;
+    "op-state-label-badge": OpStateLabelBadge;
   }
 }

@@ -7,7 +7,7 @@ import "@polymer/paper-slider/paper-slider";
  */
 const PaperSliderClass = customElements.get("paper-slider");
 
-class HaPaperSlider extends PaperSliderClass {
+class OpPaperSlider extends PaperSliderClass {
   static get template() {
     const tpl = document.createElement("template");
     tpl.innerHTML = PaperSliderClass.template.innerHTML;

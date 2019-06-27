@@ -7,7 +7,7 @@ import {
   TemplateResult,
 } from "lit-element";
 
-class HaCard extends LitElement {
+class OpCard extends LitElement {
   @property() public header?: string;
 
   static get styles(): CSSResult {
@@ -70,4 +70,4 @@ class HaCard extends LitElement {
   }
 }
 
-customElements.define("op-card", HaCard);
+customElements.define("op-card", OpCard);

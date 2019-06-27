@@ -12,7 +12,7 @@ const svgWhiteList = ["svg", "path"];
 /*
  * @appliesMixin EventsMixin
  */
-class HaMarkdown extends EventsMixin(PolymerElement) {
+class OpMarkdown extends EventsMixin(PolymerElement) {
   static get properties() {
     return {
       content: {

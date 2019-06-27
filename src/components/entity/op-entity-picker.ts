@@ -52,7 +52,7 @@ const rowRenderer = (
   root.querySelector("[secondary]")!.textContent = model.item.entity_id;
 };
 
-class HaEntityPicker extends LitElement {
+class OpEntityPicker extends LitElement {
   @property({ type: Boolean }) public autofocus?: boolean;
   @property({ type: Boolean }) public disabled?: boolean;
   @property({ type: Boolean, attribute: "allow-custom-entity" })
@@ -198,4 +198,4 @@ class HaEntityPicker extends LitElement {
   }
 }
 
-customElements.define("op-entity-picker", HaEntityPicker);
+customElements.define("op-entity-picker", OpEntityPicker);
