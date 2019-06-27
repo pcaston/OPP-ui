@@ -51,6 +51,8 @@ export class OpenPeerPowerAppEl extends OppElement {
   }
 
   protected async _initialize() {
+    console.log("Opp Initialise 1");
+    debugger;
     try {
       const { auth, conn } = await window.oppConnection;
       this.initializeOpp(auth, conn);
