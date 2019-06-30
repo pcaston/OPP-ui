@@ -268,10 +268,17 @@ export class OPPui extends LitElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'opp' : path.slice(1);
+    const page = path === '/' ? 'onboarding.html' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.
+    //"""Serve the index view."""
+    //opp = request.app['opp']
+
+    //if not opp.components.onboarding.async_is_onboarded():
+    //    return web.Response(status=302, headers={
+    //       'location': '/onboarding.html'
+    //    })
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
     this._updateDrawerState(false);
