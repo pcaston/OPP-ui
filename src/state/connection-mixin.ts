@@ -23,7 +23,7 @@ export const connectionMixin = (
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {
-      console.log("Opp Initialise");
+      console.log("Opp Initialise 2");
       this.opp = {
         auth,
         connection: conn,

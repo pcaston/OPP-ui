@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Open Peer Power</title>
+    <title>OPP ui</title>
     <meta name="generator" content="PWA Starter Kit">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="An application for energy monitoring and management at the nano grid level">
@@ -91,7 +91,6 @@
       }
     </style>
   </head>
-
   <body>
     <opp-ui appTitle="OPP Home Manager" ></opp-ui>
     <noscript>
@@ -99,17 +98,6 @@
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <div class="content">
-      <div class="header">
-        <img src="/public/static/icons/favicon-192x192.png" height="52" />
-        Open Peer Power
-      </div>
-      <op-onboarding></op-onboarding>
-    </div>
-
-    <script type="module">
-      import "/src/entrypoints/onboarding.js";
-    </script>
-
+    <script type="module" src="src/components/OPP-ui.js"></script>
   </body>
 </html>
