@@ -142,6 +142,7 @@ class OnboardingCreateUser extends LitElement {
   private async _submitForm(ev): Promise<void> {
     debugger;
     ev.preventDefault();
+    debugger;
     if (!this._name || !this._username || !this._password) {
       this._errorMsg = "required_fields";
       return;
