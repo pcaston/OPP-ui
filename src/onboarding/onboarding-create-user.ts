@@ -162,6 +162,7 @@ class OnboardingCreateUser extends LitElement {
         case 'auth_required':
           const clientId = genClientId();
           const result = {
+            id: "1",
             type: "register",
             client_id: clientId,
             name: that._name,
