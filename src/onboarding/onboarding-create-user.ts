@@ -141,7 +141,6 @@ class OnboardingCreateUser extends LitElement {
 
   private async _submitForm(ev): Promise<void> {
     ev.preventDefault();
-    debugger;
     if (!this._name || !this._username || !this._password) {
       this._errorMsg = "required_fields";
       return;
@@ -154,27 +153,53 @@ class OnboardingCreateUser extends LitElement {
 
     this._loading = true;
     this._errorMsg = "";
-
-    try {
-      const clientId = genClientId();
-
-      const result = await onboardUserStep({
-        client_id: clientId,
-        name: this._name,
-        username: this._username,
-        password: this._password,
-      });
-
-      fireEvent(this, "onboarding-step", {
-        type: "user",
-        result,
-      });
-    } catch (err) {
-      // tslint:disable-next-line
-      console.error(err);
-      this._loading = false;
-      this._errorMsg = err.body.message;
+    var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+    let that = this;
+    ws.onmessage = function (event) {
+      let data = JSON.parse(event.data);
+      console.log(data);
+      switch (data.type) {
+        case 'auth_required':
+          const clientId = genClientId();
+          const result = {
+            type: "register",
+            client_id: clientId,
+            name: that._name,
+            username: that._username,
+            password: that._password,
+          };
+         // let authobj = 
+         // {
+         //   "type": "auth",
+         //   "access_token": "ABCDEFGH"
+         // }
+          ws.send(JSON.stringify(result));
+          break;
+        case 'auth_ok':
+          let fetchstate = 
+          {
+            "id": "1",
+            "type": "get_states"
+          }
+        break;
+          default:
+            console.error(
+              "unsupported event", data);
+      }
     }
+
+    //try {
+
+      //fireEvent(this, "onboarding-step", {
+      //  type: "user",
+      //  result,
+      //});
+    //} catch (err) {
+      // tslint:disable-next-line
+      //console.error(err);
+      //this._loading = false;
+      //this._errorMsg = err.body.message;
+    //}
   }
 
   static get styles(): CSSResult {
