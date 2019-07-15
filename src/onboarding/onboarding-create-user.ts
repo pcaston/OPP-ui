@@ -169,12 +169,14 @@ class OnboardingCreateUser extends LitElement {
             username: that._username,
             password: that._password,
           };
-         // let authobj = 
-         // {
-         //   "type": "auth",
-         //   "access_token": "ABCDEFGH"
-         // }
           ws.send(JSON.stringify(result));
+          break;
+        case 'auth_token':
+          let authobj = 
+          {
+            "type": "auth",
+            "access_token": "ABCDEFGH"
+          }
           break;
         case 'auth_ok':
           let fetchstate = 
@@ -182,7 +184,7 @@ class OnboardingCreateUser extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-        break;
+          break;
           default:
             console.error(
               "unsupported event", data);
