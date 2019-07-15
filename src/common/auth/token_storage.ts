@@ -23,14 +23,12 @@ if (!tokenCache) {
 }
 
 export function askWrite() {
-  debugger;
   return (
     tokenCache.tokens !== undefined && tokenCache.writeEnabled === undefined
   );
 }
 
 export function saveTokens(tokens: AuthData | null) {
-  debugger;
   tokenCache.tokens = tokens;
   if (tokenCache.writeEnabled) {
     try {
@@ -42,7 +40,6 @@ export function saveTokens(tokens: AuthData | null) {
 }
 
 export function enableWrite() {
-  debugger;
   tokenCache.writeEnabled = true;
   if (tokenCache.tokens) {
     saveTokens(tokenCache.tokens);
@@ -50,7 +47,6 @@ export function enableWrite() {
 }
 
 export function loadTokens() {
-  debugger;
   
   if (tokenCache.tokens === undefined) {
     try {

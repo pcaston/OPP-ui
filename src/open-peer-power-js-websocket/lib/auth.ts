@@ -147,7 +147,6 @@ export class Auth {
   data: AuthData;
 
   constructor(data: AuthData, saveTokens?: SaveTokensFunc) {
-    debugger;
     this.data = data;
     this._saveTokens = saveTokens;
   }
@@ -184,7 +183,6 @@ export class Auth {
    * Revoke the refresh & access tokens.
    */
   async revoke() {
-    debugger;
     const formData = new FormData();
     formData.append("action", "revoke");
     formData.append("token", this.data.refresh_token);

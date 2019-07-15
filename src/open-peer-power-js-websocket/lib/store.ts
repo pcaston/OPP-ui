@@ -19,7 +19,6 @@ export type Store<State> = {
 };
 
 export const createStore = <State>(state?: State): Store<State> => {
-  debugger;
   let listeners: Listener<State>[] = [];
 
   function unsubscribe(listener: Listener<State> | null) {

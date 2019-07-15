@@ -15,6 +15,7 @@ import { onboardUserStep } from "../data/onboarding";
 import { PolymerChangedEvent } from "../polymer-types";
 import { LocalizeFunc } from "../common/translations/localize";
 import { fireEvent } from "../common/dom/fire_event";
+import { loadTokens, saveTokens } from "../common/auth/token_storage";
 
 @customElement("onboarding-create-user")
 class OnboardingCreateUser extends LitElement {
@@ -169,14 +170,16 @@ class OnboardingCreateUser extends LitElement {
             username: that._username,
             password: that._password,
           };
+          console.log(result);
           ws.send(JSON.stringify(result));
           break;
         case 'auth_token':
-          let authobj = 
+          const authobj = 
           {
-            "type": "auth",
-            "access_token": "ABCDEFGH"
-          }
+            type: "auth",
+            access_token: "ABCDEFGH"
+          };
+          console.log(authobj);
           break;
         case 'auth_ok':
           let fetchstate = 
@@ -185,9 +188,9 @@ class OnboardingCreateUser extends LitElement {
             "type": "get_states"
           }
           break;
-          default:
-            console.error(
-              "unsupported event", data);
+        default:
+          console.error(
+            "unsupported event", data);
       }
     }
 

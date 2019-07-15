@@ -66,7 +66,6 @@ window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
 window.oppConnection.then(({ conn }) => {
-  debugger;
   const noop = () => {
     // do nothing
   };
@@ -79,7 +78,6 @@ window.oppConnection.then(({ conn }) => {
 });
 
 window.addEventListener("error", (e) => {
-  debugger;
   const openpeerpower = document.querySelector("open-peer-power") as any;
   if (
     openpeerpower &&
