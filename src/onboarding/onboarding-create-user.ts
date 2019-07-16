@@ -170,16 +170,12 @@ class OnboardingCreateUser extends LitElement {
             username: that._username,
             password: that._password,
           };
-          console.log(result);
           ws.send(JSON.stringify(result));
           break;
         case 'auth_token':
-          const authobj = 
-          {
-            type: "auth",
-            access_token: "ABCDEFGH"
-          };
-          console.log(authobj);
+          localStorage.setItem('auth_code', data.auth_code);
+          var acode = localStorage.getItem('auth_code');
+          console.log(acode);
           break;
         case 'auth_ok':
           let fetchstate = 
