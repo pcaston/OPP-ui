@@ -161,23 +161,43 @@ class OnboardingCreateUser extends LitElement {
       console.log(data);
       switch (data.type) {
         case 'auth_required':
-          const clientId = genClientId();
-          const result = {
-            id: "1",
-            type: "register",
-            client_id: clientId,
-            name: that._name,
-            username: that._username,
-            password: that._password,
-          };
-          ws.send(JSON.stringify(result));
+            if (localStorage.getItem('auth_token')) {
+              const authobj = 
+              {
+                type: "auth",
+                access_token: localStorage.getItem('auth_token')
+              };
+              ws.send(JSON.stringify(authobj));
+              localStorage.removeItem('auth_token');
+            } 
+            else {
+              const clientId = genClientId();
+              const result = {
+              id: "1",
+              type: "register",
+              client_id: clientId,
+              name: that._name,
+              username: that._username,
+              password: that._password,
+            };
+            ws.send(JSON.stringify(result));
+            }
           break;
         case 'auth_token':
-          localStorage.setItem('auth_code', data.auth_code);
-          var acode = localStorage.getItem('auth_code');
-          console.log(acode);
+          debugger;
+          localStorage.setItem('auth_token', data.auth_code);
+          var access_token = localStorage.getItem('auth_token');
+          const authobj = 
+          {
+            id: "2",
+            type: "auth",
+            access_token: access_token
+          };
+          ws.send(JSON.stringify(authobj));
+          console.log(authobj);
           break;
         case 'auth_ok':
+          debugger;
           let fetchstate = 
           {
             "id": "1",
