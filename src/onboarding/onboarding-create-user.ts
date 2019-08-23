@@ -173,8 +173,7 @@ class OnboardingCreateUser extends LitElement {
             else {
               const clientId = genClientId();
               const result = {
-              id: "1",
-              type: "register",
+              type: "login",
               client_id: clientId,
               name: that._name,
               username: that._username,
@@ -184,7 +183,6 @@ class OnboardingCreateUser extends LitElement {
             }
           break;
         case 'auth_token':
-          debugger;
           localStorage.setItem('auth_token', data.auth_code);
           var access_token = localStorage.getItem('auth_token');
           const authobj = 
@@ -197,7 +195,6 @@ class OnboardingCreateUser extends LitElement {
           console.log(authobj);
           break;
         case 'auth_ok':
-          debugger;
           let fetchstate = 
           {
             "id": "1",
