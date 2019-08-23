@@ -8,9 +8,11 @@ import websockets
 import os
 
 
-fName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-opp = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\opp.txt'
 #fName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+fName = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+#opp = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+opp = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+
 
 USERS = set()
 with open(fName, 'r') as f:
@@ -20,11 +22,7 @@ with open(opp, 'r') as f:
 
 async def notify_state():
     if USERS:       # asyncio.wait doesn't accept an empty list
-        await asyncio.wait([user.send(json.dumps(
-            {'type': 'result',
-            'result': OPP_TEXT
-            }
-        )) for user in USERS])
+        await asyncio.wait([user.send(OPP_TEXT) for user in USERS])
 
 async def register(websocket):
     USERS.add(websocket)
@@ -42,8 +40,7 @@ async def counter(websocket, path):
 
         async for message in websocket:
             msg = json.loads(message)
-            if msg['type'] == 'login':
-
+            if msg['type'] == 'login' or msg['type'] == 'auth':
                 await websocket.send(json.dumps(
                     {'type': 'auth_ok',
                      'version': '0.1.0',
