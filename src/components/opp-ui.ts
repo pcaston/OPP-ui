@@ -230,6 +230,48 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
+    let opp_global = this;
+    var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+    ws.onmessage = function (event) {
+      let data = JSON.parse(event.data);
+      console.log(data);
+      switch (data.type) {
+        case 'auth_required':
+            if (localStorage.getItem('auth_token')) {
+              const authobj = 
+              {
+                type: "auth",
+                access_token: localStorage.getItem('auth_token')
+              };
+              ws.send(JSON.stringify(authobj));
+              localStorage.removeItem('auth_token');
+            } 
+            else {
+              const clientId = genClientId();
+              const result = {
+              type: "login",
+              client_id: clientId,
+              name: opp_global._name,
+              username: opp_global._username,
+              password: opp_global._password,
+            };
+            ws.send(JSON.stringify(result));
+            }
+          break;
+        case 'auth_ok':
+          localStorage.setItem('auth_token', data.auth_token);
+          let fetchstate = 
+          {
+            "id": "1",
+            "type": "get_states"
+          }
+          ws.send(JSON.stringify(fetchstate));
+          break;
+        default:
+          console.error(
+            "unsupported event", data);
+      }
+    }
   }
 
   protected firstUpdated() {
