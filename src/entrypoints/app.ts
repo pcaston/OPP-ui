@@ -14,6 +14,5 @@ import "../components/op-iconset-svg";
 import "../layouts/open-peer-power";
 
 setPassiveTouchGestures(true);
-debugger;
 /* LastPass createElement workaround. See #428 */
 document.createElement = Document.prototype.createElement;

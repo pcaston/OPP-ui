@@ -230,6 +230,7 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
+    debugger;
     let opp_global = this;
     var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     ws.onmessage = function (event) {
@@ -247,16 +248,8 @@ export class OPPui extends LitElement {
               localStorage.removeItem('auth_token');
             } 
             else {
-              const clientId = genClientId();
-              const result = {
-              type: "login",
-              client_id: clientId,
-              name: opp_global._name,
-              username: opp_global._username,
-              password: opp_global._password,
+              document.location.assign('/onboarding.html');
             };
-            ws.send(JSON.stringify(result));
-            }
           break;
         case 'auth_ok':
           localStorage.setItem('auth_token', data.auth_token);
@@ -310,7 +303,7 @@ export class OPPui extends LitElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'onboarding.html' : path.slice(1);
+    const page = path === '/' ? 'index.html' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.
