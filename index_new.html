@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>OPP ui</title>
+    <title>Open Peer Power</title>
     <meta name="generator" content="PWA Starter Kit">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="An application for energy monitoring and management at the nano grid level">
@@ -91,6 +91,7 @@
       }
     </style>
   </head>
+
   <body>
     <opp-ui appTitle="OPP Home Manager" ></opp-ui>
     <noscript>
@@ -98,6 +99,40 @@
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script type="module" src="src/components/OPP-ui.js"></script>
+    <div class="content">
+      <div class="header">
+        <img src="/public/static/icons/favicon-192x192.png" height="52" />
+        Open Peer Power
+      </div>
+      <script>
+        debugger;
+        A_T = localStorage.getItem('access_token')
+        if A_T {
+          var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+          ws.onmessage = function (event) {
+            let data = JSON.parse(event.data);
+            switch (data.type) {
+              case 'auth_required':
+                const authobj = {
+                  type: "auth",
+                  access_token: localStorage.getItem('access_token')
+                };
+                ws.send(JSON.stringify(authobj));
+                console.log(authobj);
+                break;
+              default:
+                console.error("unsupported event", data);
+            };
+          };
+          import "src/components/OPP-ui.js"
+        }
+        else {
+          import "/src/entrypoints/onboarding.js"
+        };
+      </script>
+    </div>
   </body>
 </html>
+
+
+

@@ -158,6 +158,7 @@ class OnboardingCreateUser extends LitElement {
     let that = this;
     ws.onmessage = function (event) {
       let data = JSON.parse(event.data);
+      debugger;
       console.log(data);
       switch (data.type) {
         case 'auth_required':
@@ -182,24 +183,14 @@ class OnboardingCreateUser extends LitElement {
             ws.send(JSON.stringify(result));
             }
           break;
-        case 'auth_token':
-          localStorage.setItem('auth_token', data.auth_code);
-          var access_token = localStorage.getItem('auth_token');
-          const authobj = 
-          {
-            id: "2",
-            type: "auth",
-            access_token: access_token
-          };
-          ws.send(JSON.stringify(authobj));
-          console.log(authobj);
-          break;
         case 'auth_ok':
+          localStorage.setItem('auth_token', data.auth_token);
           let fetchstate = 
           {
             "id": "1",
             "type": "get_states"
           }
+          ws.send(JSON.stringify(fetchstate));
           break;
         default:
           console.error(
