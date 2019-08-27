@@ -189,6 +189,7 @@ export class OPPui extends LitElement {
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
+          <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
       </app-header>
 
@@ -201,6 +202,7 @@ export class OPPui extends LitElement {
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>          
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
+          <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
       </app-drawer>
 
@@ -210,6 +212,7 @@ export class OPPui extends LitElement {
         <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <open-peer-power class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
+        <opp-login class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -230,7 +233,6 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
-    debugger;
     let opp_global = this;
     var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     ws.onmessage = function (event) {
@@ -248,7 +250,7 @@ export class OPPui extends LitElement {
               localStorage.removeItem('auth_token');
             } 
             else {
-              document.location.assign('/src/html/onboarding.html');
+              document.location.assign('/login');
             };
           break;
         case 'auth_ok':
@@ -303,7 +305,7 @@ export class OPPui extends LitElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'index.html' : path.slice(1);
+    const page = path === '/' ? 'view_appliances' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.
@@ -342,6 +344,9 @@ export class OPPui extends LitElement {
       case 'about':
         import('../components/about-page');
         break;
+      case 'login':
+          import('../components/opp-login');
+          break;
       default:
         page = 'view404';
         import('../components/my-view404');

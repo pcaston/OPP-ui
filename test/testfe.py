@@ -8,10 +8,10 @@ import websockets
 import os
 
 
-fName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-#fName = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-opp = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\opp.txt'
-#opp = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+#fName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+fName = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+#opp = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+opp = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\opp.txt'
 
 
 USERS = set()
