@@ -248,7 +248,7 @@ export class OPPui extends LitElement {
               localStorage.removeItem('auth_token');
             } 
             else {
-              document.location.assign('/onboarding.html');
+              document.location.assign('/src/html/onboarding.html');
             };
           break;
         case 'auth_ok':
