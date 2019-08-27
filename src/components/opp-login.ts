@@ -151,49 +151,15 @@ class OppLogin extends LitElement {
 
     this._loading = true;
     this._errorMsg = "";
-    var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
-    let that = this;
-    ws.onmessage = function (event) {
-      let data = JSON.parse(event.data);
-      debugger;
-      console.log(data);
-      switch (data.type) {
-        case 'auth_required':
-            if (localStorage.getItem('auth_token')) {
-              const authobj = 
-              {
-                type: "auth",
-                access_token: localStorage.getItem('auth_token')
-              };
-              ws.send(JSON.stringify(authobj));
-              localStorage.removeItem('auth_token');
-            } 
-            else {
-              const clientId = genClientId();
-              const result = {
-              type: "login",
-              client_id: clientId,
-              name: that._name,
-              username: that._username,
-              password: that._password,
-            };
-            ws.send(JSON.stringify(result));
-            }
-          break;
-        case 'auth_ok':
-          localStorage.setItem('auth_token', data.auth_token);
-          let fetchstate = 
-          {
-            "id": "1",
-            "type": "get_states"
-          }
-          ws.send(JSON.stringify(fetchstate));
-          break;
-        default:
-          console.error(
-            "unsupported event", data);
-      }
-    }
+    const clientId = genClientId();
+    const result = {
+      type: "login",
+      client_id: clientId,
+      name: that._name,
+      username: that._username,
+      password: that._password,
+    };
+    opp_global.ws.send(JSON.stringify(result));
   }
 
   static get styles(): CSSResult {
