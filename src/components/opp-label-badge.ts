@@ -1,31 +1,23 @@
 import {
   html,
   LitElement,
-  PropertyDeclarations,
   PropertyValues,
   TemplateResult,
   CSSResult,
   css,
+  property,
+  customElement
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import "./op-icon";
 
-class OpLabelBadge extends LitElement {
-  public value?: string;
-  public icon?: string;
-  public label?: string;
-  public description?: string;
-  public image?: string;
-
-  static get properties(): PropertyDeclarations {
-    return {
-      value: {},
-      icon: {},
-      label: {},
-      description: {},
-      image: {},
-    };
-  }
+@customElement('opp-label-badge')
+export class OppLabelBadge extends LitElement {
+  @property() public value?: string;
+  @property() public icon?: string;
+  @property() public label?: string;
+  @property() public description?: string;
+  @property() public image?: string;
 
   protected render(): TemplateResult | void {
     return html`
@@ -158,8 +150,6 @@ class OpLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-label-badge": OpLabelBadge;
+    "opp-label-badge": OppLabelBadge;
   }
 }
-
-customElements.define("op-label-badge", OpLabelBadge);

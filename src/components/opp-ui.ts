@@ -233,6 +233,7 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
+    debugger;
     let opp_global = this;
     var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     ws.onmessage = function (event) {
@@ -328,6 +329,7 @@ export class OPPui extends LitElement {
   }
 
   protected _loadPage(page: string) {
+    debugger;
     switch(page) {
       case 'view1':
         import('../components/my-view1').then(() => {

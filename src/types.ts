@@ -115,29 +115,9 @@ export interface OpenPeerPower {
   connection: Connection;
   connected: boolean;
   states: OppEntities;
-  services: OppServices;
   config: OppConfig;
-  themes: Themes;
-  selectedTheme?: string | null;
-  panels: Panels;
-  panelUrl: string;
-  dockedSidebar: boolean;
   moreInfoEntityId: string | null;
   user?: CurrentUser;
-  callService: (
-    domain: string,
-    service: string,
-    serviceData?: { [key: string]: any }
-  ) => Promise<void>;
-  callApi: <T>(
-    method: "GET" | "POST" | "PUT" | "DELETE",
-    path: string,
-    parameters?: { [key: string]: any }
-  ) => Promise<T>;
-  fetchWithAuth: (
-    path: string,
-    init?: { [key: string]: any }
-  ) => Promise<Response>;
   sendWS: (msg: MessageBase) => void;
   callWS: <T>(msg: MessageBase) => Promise<T>;
 }
