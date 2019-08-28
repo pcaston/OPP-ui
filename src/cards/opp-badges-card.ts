@@ -1,10 +1,17 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {
+  LitElement,
+  html,
+  customElement,
+  property,
+} from "lit-element";
 
 import "../components/entity/opp-state-label-badge";
 
-class OppBadgesCard extends PolymerElement {
+@customElement("opp-badges-card")
+export class OppBadgesCard extends LitElement {
   static get template() {
+    @property() public opp?: OpenPeerPower;
+    @property() public state?: Array;
     return html`
       <style>
         opp-state-label-badge {
@@ -20,12 +27,4 @@ class OppBadgesCard extends PolymerElement {
       </template>
     `;
   }
-
-  static get properties() {
-    return {
-      opp: Object,
-      states: Array,
-    };
-  }
 }
-customElements.define("opp-badges-card", OppBadgesCard);
