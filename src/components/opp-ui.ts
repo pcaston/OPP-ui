@@ -237,6 +237,7 @@ export class OPPui extends LitElement {
     setPassiveTouchGestures(true);
     debugger;
     let opp_global = this;
+    let  opp: OpenPeerPower = {};
     var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     ws.onmessage = function (event) {
       let data = JSON.parse(event.data);
@@ -266,7 +267,6 @@ export class OPPui extends LitElement {
           ws.send(JSON.stringify(fetchstate));
           break;
         case 'result':
-          var  opp: OpenPeerPower = {};
           opp.states = data.result;
           break;
         default:
