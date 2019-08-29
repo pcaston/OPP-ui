@@ -111,15 +111,9 @@ export interface Notification {
 }
 
 export interface OpenPeerPower {
-  auth: Auth & { external?: ExternalMessaging };
-  connection: Connection;
-  connected: boolean;
-  states: OppEntities;
-  config: OppConfig;
-  moreInfoEntityId: string | null;
+  states?: OppEntities;
+  moreInfoEntityId?: string | null;
   user?: CurrentUser;
-  sendWS: (msg: MessageBase) => void;
-  callWS: <T>(msg: MessageBase) => Promise<T>;
 }
 
 export type ClimateEntity = OppEntityBase & {
