@@ -4,6 +4,7 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
 import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
+import { OpenPeerPower } from '../types';
 
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
@@ -26,6 +27,7 @@ export class OPPui extends LitElement {
   @property({type: Boolean}) private _drawerOpened = false;
 
   @property({type: Boolean}) private _offline = false;
+   
 
   static get styles() {
     return [
@@ -235,6 +237,7 @@ export class OPPui extends LitElement {
     setPassiveTouchGestures(true);
     debugger;
     let opp_global = this;
+    let  opp: OpenPeerPower = {};
     var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     ws.onmessage = function (event) {
       let data = JSON.parse(event.data);
@@ -262,6 +265,9 @@ export class OPPui extends LitElement {
             "type": "get_states"
           }
           ws.send(JSON.stringify(fetchstate));
+          break;
+        case 'result':
+          opp.states = data.result;
           break;
         default:
           console.error(
