@@ -148,16 +148,16 @@ class OppLogin extends LitElement {
       this._errorMsg = "password_not_match";
       return;
     }
-    debugger;
     this._loading = true;
     this._errorMsg = "";
     const clientId = genClientId();
     const result = {
       type: "login",
       client_id: clientId,
-      name: that._name,
-      username: that._username,
-      password: that._password,
+      
+      name: this._name,
+      username: this._username,
+      password: this._password,
     };
     opp_global.ws.send(JSON.stringify(result));
   }

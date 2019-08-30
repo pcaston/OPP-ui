@@ -212,7 +212,7 @@ export class OPPui extends LitElement {
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <open-peer-power .opp="${this.opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
@@ -244,21 +244,22 @@ export class OPPui extends LitElement {
       console.log(data);
       switch (data.type) {
         case 'auth_required':
-            if (localStorage.getItem('auth_token')) {
+            let access_token = localStorage.getItem('access_token'))
+            if (access_token) {
               const authobj = 
               {
                 type: "auth",
-                access_token: localStorage.getItem('auth_token')
+                access_token: localStorage.getItem('access_token')
               };
               ws.send(JSON.stringify(authobj));
-              localStorage.removeItem('auth_token');
+              localStorage.removeItem('access_token');
             } 
             else {
               document.location.assign('/login');
             };
           break;
         case 'auth_ok':
-          localStorage.setItem('auth_token', data.auth_token);
+          localStorage.setItem('access_token', data.access_token);
           let fetchstate = 
           {
             "id": "1",
