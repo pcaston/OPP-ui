@@ -111,6 +111,7 @@ export interface Notification {
 }
 
 export interface OpenPeerPower {
+  ws: WebSocket;
   states?: OppEntities;
   moreInfoEntityId?: string | null;
   user?: CurrentUser;
