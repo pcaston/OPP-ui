@@ -12,6 +12,8 @@ import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
+import { OpenPeerPowerAppEl } from '../layouts/open-peer-power';
+
 
 declare global {
     interface Window {
@@ -27,7 +29,7 @@ export class OPPui extends LitElement {
   @property({type: Boolean}) private _drawerOpened = false;
 
   @property({type: Boolean}) private _offline = false;
-   
+  @property() private _opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
 
   static get styles() {
     return [
@@ -212,9 +214,9 @@ export class OPPui extends LitElement {
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power .opp="${this.opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <open-peer-power .opp="${this._opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login .opp="${this._opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -235,27 +237,26 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
-    debugger;
-    let opp_global = this;
-    let  opp: OpenPeerPower = {};
-    var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
-    ws.onmessage = function (event) {
+    //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+    let opp_ui = this;
+    this._opp.ws.onmessage = function (event) {
       let data = JSON.parse(event.data);
       console.log(data);
+      debugger;
       switch (data.type) {
         case 'auth_required':
-            let access_token = localStorage.getItem('access_token'))
+            let access_token = localStorage.getItem('access_token')
             if (access_token) {
               const authobj = 
               {
                 type: "auth",
                 access_token: localStorage.getItem('access_token')
               };
-              ws.send(JSON.stringify(authobj));
+              opp_ui._opp.ws.send(JSON.stringify(authobj));
               localStorage.removeItem('access_token');
             } 
             else {
-              document.location.assign('/login');
+              //document.location.assign('/login');
             };
           break;
         case 'auth_ok':
@@ -265,10 +266,10 @@ export class OPPui extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-          ws.send(JSON.stringify(fetchstate));
+          opp_ui._opp.ws.send(JSON.stringify(fetchstate));
           break;
         case 'result':
-          opp.states = data.result;
+          opp_ui._opp.states = data.result;
           break;
         default:
           console.error(
@@ -336,7 +337,6 @@ export class OPPui extends LitElement {
   }
 
   protected _loadPage(page: string) {
-    debugger;
     switch(page) {
       case 'view1':
         import('../components/my-view1').then(() => {
@@ -371,5 +371,9 @@ export class OPPui extends LitElement {
   protected _drawerOpenedChanged(e: { target: { opened: boolean; }; }) {
     this._updateDrawerState(e.target.opened);
   }
-
+// Tests
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('connected')
+  }
 }

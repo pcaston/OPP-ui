@@ -6,12 +6,13 @@ import {
 } from "lit-element";
 
 import "../components/entity/opp-state-label-badge";
+import { OpenPeerPower } from '../types';
 
 @customElement("opp-badges-card")
 export class OppBadgesCard extends LitElement {
+  @property() public opp?: OpenPeerPower;
+  @property() public state?: Array;
   static get template() {
-    @property() public opp?: OpenPeerPower;
-    @property() public state?: Array;
     return html`
       <style>
         opp-state-label-badge {

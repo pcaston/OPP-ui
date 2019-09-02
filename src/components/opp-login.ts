@@ -13,6 +13,7 @@ import {
 import { genClientId } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { LocalizeFunc } from "../common/translations/localize";
+import { OpenPeerPower } from '../types';
 
 @customElement("opp-login")
 class OppLogin extends LitElement {
@@ -24,6 +25,7 @@ class OppLogin extends LitElement {
   @property() private _passwordConfirm = "";
   @property() private _loading = false;
   @property() private _errorMsg?: string = undefined;
+  @property() private opp!: OpenPeerPower;
 
   protected render(): TemplateResult | void {
     return html`
@@ -138,6 +140,7 @@ class OppLogin extends LitElement {
   }
 
   private async _submitForm(ev): Promise<void> {
+    debugger;
     ev.preventDefault();
     if (!this._name || !this._username || !this._password) {
       this._errorMsg = "required_fields";
@@ -159,7 +162,7 @@ class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    opp_global.ws.send(JSON.stringify(result));
+    this.opp.ws.send(JSON.stringify(result));
   }
 
   static get styles(): CSSResult {
