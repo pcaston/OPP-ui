@@ -7,14 +7,18 @@ import json
 import websockets
 import os
 
-
-fName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-#fName = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-opp = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\opp.txt'
-#opp = 'C:\\Users\\s69171\\AppData\\Roaming\\.openpeerpower\\opp.txt'
-
+chkpath = 'C:\\Users\\Paul'
+chkpathw = 'C:\\Users\\s69171'
+p = Path('C:\\Users\\Paul')
+if os.path.exists(chkpathw):
+    fName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    opp = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+else:
+    fName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    opp = chkpath + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
 
 USERS = set()
+
 with open(fName, 'r') as f:
     ACCESS_TOKEN = f.read()
 with open(opp, 'r') as f:

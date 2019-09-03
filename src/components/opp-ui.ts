@@ -238,8 +238,7 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
-    let opp_ui = this;
-    this._opp.ws.onmessage = function (event) {
+    this._opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
       debugger;
@@ -252,7 +251,7 @@ export class OPPui extends LitElement {
                 type: "auth",
                 access_token: localStorage.getItem('access_token')
               };
-              opp_ui._opp.ws.send(JSON.stringify(authobj));
+              this._opp.ws.send(JSON.stringify(authobj));
               localStorage.removeItem('access_token');
             } 
             else {
@@ -266,10 +265,10 @@ export class OPPui extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-          opp_ui._opp.ws.send(JSON.stringify(fetchstate));
+          this._opp.ws.send(JSON.stringify(fetchstate));
           break;
         case 'result':
-          opp_ui._opp.states = data.result;
+          this._opp.states = data.result;
           break;
         default:
           console.error(
