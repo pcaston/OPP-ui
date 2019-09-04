@@ -168,8 +168,11 @@ class OppLogin extends LitElement {
     this.opp.ws.send(JSON.stringify(result));
   }
 
-  private async _saveAuth(ev): Promise<void> {
-
+  private async _saveAuth(item: string): Promise<void> {
+    import( "../dialogs/opp-store-auth-card").then(() => {
+      const el = document.createElement("opp-store-auth-card");
+      this.shadowRoot.appendChild(el);
+    })
   }
 
   static get styles(): CSSResult {

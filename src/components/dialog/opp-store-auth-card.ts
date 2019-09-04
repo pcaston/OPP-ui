@@ -5,7 +5,7 @@ import {
     property,
 } from "lit-element";
   
-import "../components/entity/opp-state-label-badge";git pull 
+import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../../types';
 import "@polymer/paper-card/paper-card";
 import { enableWrite } from "../common/auth/token_storage";
