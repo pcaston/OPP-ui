@@ -9,7 +9,7 @@ import os
 
 chkpath = 'C:\\Users\\Paul'
 chkpathw = 'C:\\Users\\s69171'
-p = Path('C:\\Users\\Paul')
+
 if os.path.exists(chkpathw):
     fName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     opp = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'

@@ -8,7 +8,7 @@ import {
 import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../../types';
 import "@polymer/paper-card/paper-card";
-import { enableWrite } from "../common/auth/token_storage";
+import { enableWrite } from "../../common/auth/token_storage";
 import "../resources/op-style";
   
 @customElement("opp-store-auth-card")
