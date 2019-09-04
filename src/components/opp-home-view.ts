@@ -16,7 +16,7 @@ import { Badges } from './badges-list';
 export class AppliancesView extends PageViewElement {
 
   @property({type: Object})
-  private opp: OpenPeerPower = {};
+  private opp!: OpenPeerPower;
 
   @property({type: Object})
   private appliances: Appliances = {};

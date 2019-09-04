@@ -266,6 +266,8 @@ export class OPPui extends LitElement {
             "type": "get_states"
           }
           this._opp.ws.send(JSON.stringify(fetchstate));
+          this.dispatchEvent(new CustomEvent("authorised",
+          {bubbles: true, composed: true, detail:{item:data.access_token}}));
           break;
         case 'result':
           this._opp.states = data.result;

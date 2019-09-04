@@ -12,13 +12,10 @@ import {
 } from "lit-element";
 import { genClientId } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
-import { LocalizeFunc } from "../common/translations/localize";
 import { OpenPeerPower } from '../types';
 
 @customElement("opp-login")
 class OppLogin extends LitElement {
-  @property() public localize!: LocalizeFunc;
-
   @property() private _name = "";
   @property() private _username = "";
   @property() private _password = "";
@@ -26,6 +23,12 @@ class OppLogin extends LitElement {
   @property() private _loading = false;
   @property() private _errorMsg?: string = undefined;
   @property() private opp!: OpenPeerPower;
+
+  constructor() {
+    super();
+    this.addEventListener('authorised', ((e: CustomEvent) => 
+      {this._saveAuth(e.detail.item)}) as  EventListener);
+      }
 
   protected render(): TemplateResult | void {
     return html`
@@ -163,6 +166,10 @@ class OppLogin extends LitElement {
       password: this._password,
     };
     this.opp.ws.send(JSON.stringify(result));
+  }
+
+  private async _saveAuth(ev): Promise<void> {
+
   }
 
   static get styles(): CSSResult {
