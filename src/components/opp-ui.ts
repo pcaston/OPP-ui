@@ -241,7 +241,6 @@ export class OPPui extends LitElement {
     this._opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
-      debugger;
       switch (data.type) {
         case 'auth_required':
             let access_token = localStorage.getItem('access_token')
@@ -267,7 +266,7 @@ export class OPPui extends LitElement {
           }
           this._opp.ws.send(JSON.stringify(fetchstate));
           this.dispatchEvent(new CustomEvent("authorised",
-          {bubbles: true, composed: true, detail:{item:data.access_token}}));
+          {bubbles: false, composed: true, detail:{item:data.access_token}}));
           break;
         case 'result':
           this._opp.states = data.result;
@@ -315,7 +314,7 @@ export class OPPui extends LitElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'view_appliances' : path.slice(1);
+    const page = path === '/' ? 'login' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.

@@ -1,5 +1,6 @@
 import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
+import "../components/dialog/opp-store-auth-card"
 import {
   LitElement,
   CSSResult,
@@ -27,7 +28,7 @@ class OppLogin extends LitElement {
   constructor() {
     super();
     this.addEventListener('authorised', ((e: CustomEvent) => 
-      {this._saveAuth(e.detail.item)}) as  EventListener, true);
+      {this._saveAuth(e.detail.item)}) as  EventListener);
       }
 
   protected render(): TemplateResult | void {
@@ -170,10 +171,8 @@ class OppLogin extends LitElement {
 
   private async _saveAuth(item: string): Promise<void> {
     debugger;
-    import( "../components/dialog/opp-store-auth-card").then(() => {
-      const el = document.createElement("opp-store-auth-card");
-      this.shadowRoot.appendChild(el);
-    })
+    const el = document.createElement("opp-store-auth-card");
+    this.shadowRoot.appendChild(el);
   }
 
   static get styles(): CSSResult {
