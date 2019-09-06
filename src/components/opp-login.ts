@@ -166,7 +166,10 @@ class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    this.opp.ws.send(JSON.stringify(result));
+    //debugger;
+    //const el = document.createElement("opp-store-auth-card");
+    //this.shadowRoot.appendChild(el);
+    //this.opp.ws.send(JSON.stringify(result));
   }
 
   private async _saveAuth(item: string): Promise<void> {

@@ -5,7 +5,7 @@ import {
     property,
 } from "lit-element";
   
-import "../components/entity/opp-state-label-badge";
+import "../../components/entity/opp-state-label-badge"
 import { OpenPeerPower } from '../../types';
 import "@polymer/paper-card/paper-card";
 import { enableWrite } from "../../common/auth/token_storage";
@@ -45,22 +45,27 @@ export class OppStoreAuth extends LitElement {
         <paper-card elevation="4">
           <div class="card-content">Do you want to save this login?</div>
           <div class="card-actions">
-            <mwc-button on-click="${this._done}">No thanks</mwc-button>
-            <mwc-button raised on-click="${this._save}>Save login</mwc-button>
+            <mwc-button on-click="_done">No thanks</mwc-button>
+            <mwc-button raised on-click="_save">Save login</mwc-button>
           </div>
         </paper-card>
       `;
   }
 
-  private _save() {
+  firstUpdated() {
+    super.firstUpdated;
+    this.classList.toggle("small", window.innerWidth < 600);
+  }
+
+  _save() {
     enableWrite();
     this._done();
   }
 
-  private _done() {
-    const card = this.shadowRoot.querySelector("paper-card");
-    card.style.transition = "bottom .25s";
-    card.style.bottom = `-${card.offsetHeight + 8}px`;
-    setTimeout(() => this.parentNode.removeChild(this), 300);
+  _done() {
+    const card = this.shadowRoot!.querySelector("paper-card");
+    card!.style.transition = "bottom .25s";
+    card!.style.bottom = `-${card!.offsetHeight + 8}px`;
+    setTimeout(() => this.parentNode!.removeChild(this), 300);
   }
 }

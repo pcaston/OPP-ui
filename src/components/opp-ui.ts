@@ -223,10 +223,8 @@ export class OPPui extends LitElement {
         <p>Open Peer Power</p>
       </footer>
       <script type="module">
-        debugger;
         import "./entrypoints/core";
         import "./entrypoints/app";
-        import "./entrypoints/opp-icons";
         window.customPanelJS = "./entrypoints/custom-panel";
       </script>
     `;
@@ -241,6 +239,7 @@ export class OPPui extends LitElement {
     this._opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
+      debugger;
       switch (data.type) {
         case 'auth_required':
             let access_token = localStorage.getItem('access_token')
@@ -258,7 +257,7 @@ export class OPPui extends LitElement {
             };
           break;
         case 'auth_ok':
-          localStorage.setItem('access_token', data.access_token);
+          //localStorage.setItem('access_token', data.access_token);
           let fetchstate = 
           {
             "id": "1",
