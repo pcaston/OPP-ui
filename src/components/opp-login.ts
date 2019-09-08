@@ -166,7 +166,7 @@ class OppLogin extends LitElement {
   }
 
   private async _saveAuth(item: string): Promise<void> {
-    const el = document.createElement("opp-store-auth-card");
+    const el = document.createElement("opp-store-auth-card", {'is': JSON.stringify({"access_code": item})});
     this.shadowRoot!.appendChild(el);
     console.log(item);
   }

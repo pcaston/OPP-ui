@@ -16,6 +16,7 @@ import "../resources/op-style";
   
 export class OppStoreAuth extends LitElement {
   @property() public opp?: OpenPeerPower;
+  @property() public access_token: string = '';
 
   //static get template() {
   render(){

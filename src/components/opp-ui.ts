@@ -242,6 +242,7 @@ export class OPPui extends LitElement {
       console.log(data);
       switch (data.type) {
         case 'auth_required':
+            let a_tokens = loadTokens()
             let access_token = localStorage.getItem('access_token')
             if (access_token) {
               const authobj = 
