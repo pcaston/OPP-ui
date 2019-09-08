@@ -5,6 +5,7 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower } from '../types';
+import { loadTokens } from "../common/auth/token_storage";
 
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
@@ -239,7 +240,6 @@ export class OPPui extends LitElement {
     this._opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
-      debugger;
       switch (data.type) {
         case 'auth_required':
             let access_token = localStorage.getItem('access_token')
@@ -264,8 +264,11 @@ export class OPPui extends LitElement {
             "type": "get_states"
           }
           this._opp.ws.send(JSON.stringify(fetchstate));
-          this.dispatchEvent(new CustomEvent("authorised",
-          {bubbles: false, composed: true, detail:{item:data.access_token}}));
+          var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
+          if (opp_login_obj) {
+            opp_login_obj!.dispatchEvent(new CustomEvent("authorised",
+            {bubbles: false, composed: true, detail:{item:data.access_token}}));
+          };
           break;
         case 'result':
           this._opp.states = data.result;
@@ -375,4 +378,5 @@ export class OPPui extends LitElement {
     super.connectedCallback()
     console.log('connected')
   }
+
 }

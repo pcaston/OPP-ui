@@ -54,11 +54,9 @@ export class OppStateLabelBadge extends LitElement {
       return html`
         <opp-label-badge
           class="warning"
-          label="${this.opp!.localize("state_badge.default.error")}"
+          label="state_badge.default.error"
           icon="opp:alert"
-          description="${this.opp!.localize(
-            "state_badge.default.entity_not_found"
-          )}"
+          description="entity_not_found"
         ></opp-label-badge>
       `;
     }
@@ -111,7 +109,7 @@ export class OppStateLabelBadge extends LitElement {
       default:
         return state.state === "unknown"
           ? "-"
-          : this.opp!.localize(`component.${domain}.state.${state.state}`) ||
+          : `component.${domain}.state.${state.state}` ||
               state.state;
     }
   }
@@ -167,8 +165,8 @@ export class OppStateLabelBadge extends LitElement {
       // the state translations that are truncated to fit within the badge label. Translations
       // are only added for device_tracker, alarm_control_panel and person.
       return (
-        this.opp!.localize(`state_badge.${domain}.${state.state}`) ||
-        this.opp!.localize(`state_badge.default.${state.state}`) ||
+        `state_badge.${domain}.${state.state}` ||
+        `state_badge.default.${state.state}` ||
         state.state
       );
     }

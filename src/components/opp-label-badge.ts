@@ -9,7 +9,7 @@ import {
   customElement
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import "./op-icon";
+import "./opp-icon";
 
 @customElement('opp-label-badge')
 export class OppLabelBadge extends LitElement {
@@ -31,7 +31,7 @@ export class OppLabelBadge extends LitElement {
           >
             ${this.icon && !this.value && !this.image
               ? html`
-                  <op-icon .icon="${this.icon}"></op-icon>
+                  <opp-icon .icon="${this.icon}"></opp-icon>
                 `
               : ""}
             ${this.value && !this.image
