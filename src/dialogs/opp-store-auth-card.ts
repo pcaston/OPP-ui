@@ -9,14 +9,15 @@ import "../components/entity/opp-state-label-badge"
 import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
-import { enableWrite } from "../common/auth/token_storage";
+import { enableWrite, saveTokens } from "../common/auth/token_storage";
 import "../resources/op-style";
+import { AuthData } from "../open-peer-power-js-websocket/lib";
   
 @customElement("opp-store-auth-card")
   
 export class OppStoreAuth extends LitElement {
   @property() public opp?: OpenPeerPower;
-  @property() public access_token: string = '';
+  @property() public access_token!: AuthData;
 
   //static get template() {
   render(){
@@ -64,6 +65,7 @@ export class OppStoreAuth extends LitElement {
     console.log(event.target);
     debugger;
     enableWrite();
+    saveTokens(this.access_token);
     this._done();
   }
 

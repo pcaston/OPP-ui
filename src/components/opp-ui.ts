@@ -242,23 +242,21 @@ export class OPPui extends LitElement {
       console.log(data);
       switch (data.type) {
         case 'auth_required':
-            let a_tokens = loadTokens()
-            let access_token = localStorage.getItem('access_token')
-            if (access_token) {
-              const authobj = 
-              {
-                type: "auth",
-                access_token: localStorage.getItem('access_token')
-              };
-              this._opp.ws.send(JSON.stringify(authobj));
-              localStorage.removeItem('access_token');
-            } 
-            else {
-              //document.location.assign('/login');
+          debugger;
+          let access_token = loadTokens()
+          if (access_token) {
+            const authobj = 
+            {
+              'type': "auth",
+              'access_token': access_token
             };
+            this._opp.ws.send(JSON.stringify(authobj));
+          } 
+          else {
+            //document.location.assign('/login');
+          };
           break;
         case 'auth_ok':
-          //localStorage.setItem('access_token', data.access_token);
           let fetchstate = 
           {
             "id": "1",
@@ -312,7 +310,6 @@ export class OPPui extends LitElement {
     if (previousOffline === undefined) {
       return;
     }
-
   }
 
   protected _locationChanged(location: Location) {
