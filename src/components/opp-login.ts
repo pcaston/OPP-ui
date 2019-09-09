@@ -1,6 +1,6 @@
 import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
-import "../components/dialog/opp-store-auth-card"
+import "../dialogs/opp-store-auth-card";
 import {
   LitElement,
   CSSResult,
@@ -24,12 +24,6 @@ class OppLogin extends LitElement {
   @property() private _loading = false;
   @property() private _errorMsg?: string = undefined;
   @property() private opp!: OpenPeerPower;
-
-  constructor() {
-    super();
-    this.addEventListener('authorised', ((e: CustomEvent) => 
-      {this._saveAuth(e.detail.item)}) as  EventListener);
-      }
 
   protected render(): TemplateResult | void {
     return html`
@@ -124,6 +118,9 @@ class OppLogin extends LitElement {
         this._submitForm(ev);
       }
     });
+    this.addEventListener('authorised', e => {
+      this._saveAuth(e.detail.item)
+    });
   }
 
   private _handleValueChanged(ev: PolymerChangedEvent<string>): void {
@@ -144,7 +141,6 @@ class OppLogin extends LitElement {
   }
 
   private async _submitForm(ev): Promise<void> {
-    debugger;
     ev.preventDefault();
     if (!this._name || !this._username || !this._password) {
       this._errorMsg = "required_fields";
@@ -166,16 +162,13 @@ class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    //debugger;
-    //const el = document.createElement("opp-store-auth-card");
-    //this.shadowRoot.appendChild(el);
-    //this.opp.ws.send(JSON.stringify(result));
+    this.opp.ws.send(JSON.stringify(result));
   }
 
   private async _saveAuth(item: string): Promise<void> {
-    debugger;
-    const el = document.createElement("opp-store-auth-card");
-    this.shadowRoot.appendChild(el);
+    const el = document.createElement("opp-store-auth-card", {'is': JSON.stringify({"access_code": item})});
+    this.shadowRoot!.appendChild(el);
+    console.log(item);
   }
 
   static get styles(): CSSResult {

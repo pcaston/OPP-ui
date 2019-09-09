@@ -5,18 +5,21 @@ import {
     property,
 } from "lit-element";
   
-import "../../components/entity/opp-state-label-badge"
-import { OpenPeerPower } from '../../types';
+import "../components/entity/opp-state-label-badge"
+import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
-import { enableWrite } from "../../common/auth/token_storage";
+import "@material/mwc-button";
+import { enableWrite } from "../common/auth/token_storage";
 import "../resources/op-style";
   
 @customElement("opp-store-auth-card")
   
 export class OppStoreAuth extends LitElement {
   @property() public opp?: OpenPeerPower;
+  @property() public access_token: string = '';
 
-  static get template() {
+  //static get template() {
+  render(){
     return html`
       <style include="op-style">
           paper-card {
@@ -45,8 +48,8 @@ export class OppStoreAuth extends LitElement {
         <paper-card elevation="4">
           <div class="card-content">Do you want to save this login?</div>
           <div class="card-actions">
-            <mwc-button on-click="_done">No thanks</mwc-button>
-            <mwc-button raised on-click="_save">Save login</mwc-button>
+            <mwc-button @click=${this._done }>No thanks</mwc-button>
+            <mwc-button raised @click=${this._save}>Save login</mwc-button>
           </div>
         </paper-card>
       `;
@@ -57,12 +60,14 @@ export class OppStoreAuth extends LitElement {
     this.classList.toggle("small", window.innerWidth < 600);
   }
 
-  _save() {
+  private _save(event: Event) {
+    console.log(event.target);
+    debugger;
     enableWrite();
     this._done();
   }
 
-  _done() {
+  private _done() {
     const card = this.shadowRoot!.querySelector("paper-card");
     card!.style.transition = "bottom .25s";
     card!.style.bottom = `-${card!.offsetHeight + 8}px`;
