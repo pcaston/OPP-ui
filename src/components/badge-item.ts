@@ -2,15 +2,11 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('badge-item')
 export class BadgeItem extends LitElement {
-  @property({type: String}) id = '';
-
-  @property({type: String}) name = '';
-
-  @property({type: String}) type = '';
-
-  @property({type: Number}) usage = 0;
-
-  @property({type: String}) cost = '';
+  @property() id: string = '';
+  @property() name: string = '';
+  @property() type: string = '';
+  @property() usage: number = 0;
+  @property() cost: string = '';
 
   protected render() {
     return html`

@@ -15,18 +15,10 @@ import { Badges } from './badges-list';
 @customElement('opp-home-view')
 export class AppliancesView extends PageViewElement {
 
-  @property({type: Object})
-  private opp!: OpenPeerPower;
-
-  @property({type: Object})
-  private appliances: Appliances = {};
-
-  @property({type: Object})
-  private badges: Badges = {};
-
-  @property({type: Object})
-  private ws: WebSocket = this._getws();
-  
+  @property() private opp!: OpenPeerPower;
+  @property() private appliances: Appliances = {};
+  @property() private badges: Badges = {};
+ 
   static get styles() {
     return [
       SharedStyles,
@@ -84,31 +76,5 @@ export class AppliancesView extends PageViewElement {
         <appliance-list .appliances="${this.appliances}"></appliance-list>
       </section>
     `;
-  }
-
-  constructor() {
-    super();
-    this.addEventListener('reduceUsage', ((e: CustomEvent) => 
-      {this._reduceUsage(e.detail.item)}) as  EventListener);
-    let self = this;
-    this.ws.onmessage = function (message) {
-      self.appliances = JSON.parse(message.data);
-      console.log(message.data);
-    }
-  }
-
-  private _reduceUsage(applianceId: string) {
-    if (this.appliances[applianceId].usage.value > 0) {
-      let appls: Appliances = this.appliances;
-      //this.appliances[applianceId].usage--;
-      appls[applianceId].usage.value--;
-      this.ws.send(JSON.stringify(appls));
-    }
-
-    this.appliances = JSON.parse(JSON.stringify(this.appliances));
-  }
-
-  private _getws() {
-    return new WebSocket ("ws://127.0.0.1:8123/api/websocket")
   }
 }

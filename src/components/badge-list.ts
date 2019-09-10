@@ -1,4 +1,5 @@
 import { LitElement, html, css, property, customElement } from 'lit-element';
+import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
 import './badge-item';
@@ -19,7 +20,7 @@ export interface Badge {
 }
 
 @customElement('badge-list')
-export class ShopAppliances extends LitElement {
+export class BadgeList extends PageViewElement {
 
   @property({type: Object})
   private appliances: Badges = {};
@@ -45,7 +46,6 @@ export class ShopAppliances extends LitElement {
                 usage="${item.usage.value}" cost="${item.cost.value}"></badge-item>
             <button
                 .disabled="${item.usage.value === 0}"
-                @click="${this._reduceUsage}"
                 data-index="${item.badge.id}"
                 name="${item.usage.value === 0 ? 'Not used' : 'Reduce Usage' }">
               ${item.usage.value === 0 ? 'Not used': addToCartIcon }
@@ -54,10 +54,5 @@ export class ShopAppliances extends LitElement {
         `;
       })}
     `;
-  }
-  
-  private _reduceUsage(event: { currentTarget: { dataset: { [x: string]: any; }; }; }) {
-    this.dispatchEvent(new CustomEvent("reduceUsage",
-        {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }
 }
