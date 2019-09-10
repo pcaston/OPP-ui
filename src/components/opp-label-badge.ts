@@ -1,6 +1,5 @@
 import {
   html,
-  LitElement,
   PropertyValues,
   TemplateResult,
   CSSResult,
@@ -8,11 +7,12 @@ import {
   property,
   customElement
 } from "lit-element";
+import { PageViewElement } from './page-view-element';
 import { classMap } from "lit-html/directives/class-map";
 import "./opp-icon";
 
 @customElement('opp-label-badge')
-export class OppLabelBadge extends LitElement {
+export class OppLabelBadge extends PageViewElement {
   @property() public value?: string;
   @property() public icon?: string;
   @property() public label?: string;

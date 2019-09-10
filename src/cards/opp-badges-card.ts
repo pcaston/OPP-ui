@@ -1,18 +1,14 @@
-import {
-  LitElement,
-  html,
-  customElement,
-  property,
-} from "lit-element";
+import { html, property, customElement } from 'lit-element';
 
 import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../types';
+import { PageViewElement } from '../components/page-view-element';
 
 @customElement("opp-badges-card")
-export class OppBadgesCard extends LitElement {
-  @property() public opp?: OpenPeerPower;
+export class OppBadgesCard extends PageViewElement {
+  @property() private _opp?: OpenPeerPower;
   @property() public state?: Array;
-  static get template() {
+  protected render() {
     return html`
       <style>
         opp-state-label-badge {
@@ -20,12 +16,16 @@ export class OppBadgesCard extends LitElement {
           margin-bottom: var(--opp-state-label-badge-margin-bottom, 16px);
         }
       </style>
-      <template is="dom-repeat" items="[[states]]">
-        <opp-state-label-badge
-          opp="[[opp]]"
-          state="[[item]]"
-        ></opp-state-label-badge>
-      </template>
+
+      ${Object.keys(this._opp!.states!).map((key) => {
+        const item = this._opp!.states![key];
+        return html`
+          <div>
+            <opp-state-label-badge _opp="${this._opp}" id="${item.entity_id}" state="${item}"></opp-state-label-badge>
+          </div>
+        `;
+      })
+    }
     `;
   }
 }
