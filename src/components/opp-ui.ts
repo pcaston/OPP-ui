@@ -211,7 +211,7 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <opp-home-view class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
+        <opp-home-view .opp="${this._opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <open-peer-power .opp="${this._opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login .opp="${this._opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
@@ -237,9 +237,9 @@ export class OPPui extends LitElement {
     this._opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
+      let access_token = loadTokens()
       switch (data.type) {
         case 'auth_required':
-          let access_token = loadTokens()
           if (access_token) {
             const authobj = 
             {
@@ -247,7 +247,7 @@ export class OPPui extends LitElement {
               'access_token': access_token
             };
             this._opp.ws.send(JSON.stringify(authobj));
-          } 
+          }
           else {
             document.location.assign('/login');
           };
@@ -259,13 +259,17 @@ export class OPPui extends LitElement {
             "type": "get_states"
           }
           this._opp.ws.send(JSON.stringify(fetchstate));
-          var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
-          if (opp_login_obj) {
-            opp_login_obj!.dispatchEvent(new CustomEvent("authorised",
-            {bubbles: false, composed: true, detail:{item:data.access_token}}));
+          if (access_token) {}
+          else {
+            var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
+            if (opp_login_obj) {
+              opp_login_obj!.dispatchEvent(new CustomEvent("authorised",
+              {bubbles: false, composed: true, detail:{item:data.access_token}}));
+            };
           };
           break;
         case 'result':
+          debugger;
           this._opp.states = data.result;
           break;
         default:
@@ -341,7 +345,6 @@ export class OPPui extends LitElement {
         });
         break;
       case 'view_appliances':
-        debugger;
         import('../components/opp-home-view');
         break;
       case 'opp':

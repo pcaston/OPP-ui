@@ -3,11 +3,10 @@ import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
 import { OpenPeerPower } from "../types";
-import './badge-list';
 import './appliance-list';
 import '../cards/op-badges-card';
 import { Appliances } from './appliance-list';
-import { Badges } from './badge-list';
+
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
