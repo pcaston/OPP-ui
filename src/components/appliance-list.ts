@@ -52,7 +52,8 @@ export class ShopAppliances extends LitElement {
             </button>
           </div>
         `;
-      })}
+      })
+    }
     `;
   }
   
