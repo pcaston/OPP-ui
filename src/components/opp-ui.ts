@@ -24,11 +24,8 @@ declare global {
 @customElement('opp-ui')
 export class OPPui extends LitElement {
   @property({type: String}) private appTitle = '';
-
   @property({type: String}) private _page = '';
-
   @property({type: Boolean}) private _drawerOpened = false;
-
   @property({type: Boolean}) private _offline = false;
   @property() private _opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
 
@@ -242,7 +239,6 @@ export class OPPui extends LitElement {
       console.log(data);
       switch (data.type) {
         case 'auth_required':
-          debugger;
           let access_token = loadTokens()
           if (access_token) {
             const authobj = 
@@ -345,6 +341,7 @@ export class OPPui extends LitElement {
         });
         break;
       case 'view_appliances':
+        debugger;
         import('../components/opp-home-view');
         break;
       case 'opp':

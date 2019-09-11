@@ -3,19 +3,20 @@ import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
 import { OpenPeerPower } from "../types";
-import './badges-list';
+import './badge-list';
 import './appliance-list';
+import '../cards/op-badges-card';
+import { Appliances } from './appliance-list';
+import { Badges } from './badge-list';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
-import { Appliances } from './appliance-list';
-import { Badges } from './badges-list';
 
 @customElement('opp-home-view')
-export class AppliancesView extends PageViewElement {
+export class OppHomeView extends PageViewElement {
 
-  @property() private opp!: OpenPeerPower;
+  @property() private _opp!: OpenPeerPower;
   @property() private appliances: Appliances = {};
   @property() private badges: Badges = {};
  
@@ -57,16 +58,14 @@ export class AppliancesView extends PageViewElement {
   protected render() {
     return html`
       <section>
-        <h3>Badger</h3>
+        <h3>Badges</h3>
         <script>console.log("home-view")</script>
-        <badge-list .opp="${this.opp}"></badge-list>
+        <opp-badges-card .opp="${this._opp}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
 
         <p>This is a simulation of a list of appliances.  
-          The list of appliances is sourced from the server via a websocket.
-          As changes are made to the appliances, the changes are sent back to the server via the websocket.
           The server then notifies all client via their respective websockets. </p>
         <p>This view, passes properties down to its child, <code>&lt;appliances&gt;</code>, which fires events back up whenever
         it needs to communicate changes.</p>
@@ -76,5 +75,10 @@ export class AppliancesView extends PageViewElement {
         <appliance-list .appliances="${this.appliances}"></appliance-list>
       </section>
     `;
+  }
+  constructor() {
+    super();
+    debugger;
+    console.log(this._opp);
   }
 }

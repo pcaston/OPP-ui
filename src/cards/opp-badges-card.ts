@@ -28,4 +28,9 @@ export class OppBadgesCard extends PageViewElement {
     }
     `;
   }
+  constructor() {
+    super();
+    debugger;
+    console.log(this._opp);
+  }
 }
