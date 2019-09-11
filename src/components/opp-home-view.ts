@@ -59,7 +59,7 @@ export class OppHomeView extends PageViewElement {
       <section>
         <h3>Badges</h3>
         <script>console.log("home-view")</script>
-        <opp-badges-card .opp="${this._opp}"></opp-badges-card>
+        <opp-badges-card ._opp="${this._opp}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
@@ -75,8 +75,7 @@ export class OppHomeView extends PageViewElement {
       </section>
     `;
   }
-  constructor() {
-    super();
+  protected firstUpdated() {
     debugger;
     console.log(this._opp);
   }
