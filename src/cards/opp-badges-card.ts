@@ -6,9 +6,10 @@ import { PageViewElement } from '../components/page-view-element';
 
 @customElement("opp-badges-card")
 export class OppBadgesCard extends PageViewElement {
-  @property({ type : String }) opp!: OpenPeerPower;
-  @property({ type : String }) state?: Array;
+  @property({ type : Object }) opp!: OpenPeerPower;
+  @property({ type : Array }) states?: Array<String>;
   protected render() {
+    debugger;
     return html`
       <style>
         opp-state-label-badge {
@@ -27,6 +28,11 @@ export class OppBadgesCard extends PageViewElement {
       })
     }
     `;
+  }
+  constructor() {
+    super();
+    debugger;
+    console.log(this.opp);
   }
   protected firstUpdated() {
     debugger;
