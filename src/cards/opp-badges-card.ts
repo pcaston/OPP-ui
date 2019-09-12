@@ -6,8 +6,8 @@ import { PageViewElement } from '../components/page-view-element';
 
 @customElement("opp-badges-card")
 export class OppBadgesCard extends PageViewElement {
-  @property() private _opp?: OpenPeerPower;
-  @property() public state?: Array;
+  @property({ type : String }) opp!: OpenPeerPower;
+  @property({ type : String }) state?: Array;
   protected render() {
     return html`
       <style>
@@ -17,20 +17,19 @@ export class OppBadgesCard extends PageViewElement {
         }
       </style>
 
-      ${Object.keys(this._opp!.states!).map((key) => {
-        const item = this._opp!.states![key];
+      ${Object.keys(this.opp!.states!).map((key) => {
+        const item = this.opp!.states![key];
         return html`
           <div>
-            <opp-state-label-badge _opp="${this._opp}" id="${item.entity_id}" state="${item}"></opp-state-label-badge>
+            <opp-state-label-badge opp="${this.opp}" id="${item.entity_id}" state="${item}"></opp-state-label-badge>
           </div>
         `;
       })
     }
     `;
   }
-  constructor() {
-    super();
+  protected firstUpdated() {
     debugger;
-    console.log(this._opp);
+    console.log(this.opp);
   }
 }

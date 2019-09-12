@@ -25,9 +25,9 @@ import "../opp-label-badge";
 
 @customElement("opp-state-label-badge")
 export class OppStateLabelBadge extends PageViewElement {
-  @property() private _opp?: OpenPeerPower;
-  @property() public state?: OppEntity;
-  @property() private _timerTimeRemaining?: number;
+  @property({ type : String }) opp?: OpenPeerPower;
+  @property({ type : String }) state?: OppEntity;
+  @property({ type : String }) _timerTimeRemaining?: number;
 
   private _connected?: boolean;
 

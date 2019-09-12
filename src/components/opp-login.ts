@@ -17,13 +17,13 @@ import { OpenPeerPower } from '../types';
 
 @customElement("opp-login")
 class OppLogin extends LitElement {
-  @property() private _name = "";
-  @property() private _username = "";
-  @property() private _password = "";
-  @property() private _passwordConfirm = "";
-  @property() private _loading = false;
-  @property() private _errorMsg?: string = undefined;
-  @property() private opp!: OpenPeerPower;
+  @property( {type: String} ) _name = "";
+  @property( {type: String} ) _username = "";
+  @property( {type: String} ) _password = "";
+  @property( {type: String} ) _passwordConfirm = "";
+  @property( {type: String} ) _loading = false;
+  @property( {type: String} ) _errorMsg?: string = undefined;
+  @property( {type: String} ) opp!: OpenPeerPower;
 
   protected render(): TemplateResult | void {
     return html`

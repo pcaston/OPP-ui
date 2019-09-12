@@ -15,9 +15,8 @@ import { ButtonSharedStyles } from './button-shared-styles';
 @customElement('opp-home-view')
 export class OppHomeView extends PageViewElement {
 
-  @property() private _opp!: OpenPeerPower;
-  @property() private appliances: Appliances = {};
-  @property() private badges: Badges = {};
+  @property({ type : String }) opp!: OpenPeerPower;
+  @property({ type : String }) appliances: Appliances = {};
  
   static get styles() {
     return [
@@ -59,7 +58,7 @@ export class OppHomeView extends PageViewElement {
       <section>
         <h3>Badges</h3>
         <script>console.log("home-view")</script>
-        <opp-badges-card ._opp="${this._opp}"></opp-badges-card>
+        <opp-badges-card .opp="${this.opp}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
@@ -77,6 +76,6 @@ export class OppHomeView extends PageViewElement {
   }
   protected firstUpdated() {
     debugger;
-    console.log(this._opp);
+    console.log(this.opp);
   }
 }

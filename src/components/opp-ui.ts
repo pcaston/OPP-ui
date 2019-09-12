@@ -23,11 +23,11 @@ declare global {
 }
 @customElement('opp-ui')
 export class OPPui extends LitElement {
-  @property({type: String}) private appTitle = '';
-  @property({type: String}) private _page = '';
-  @property({type: Boolean}) private _drawerOpened = false;
-  @property({type: Boolean}) private _offline = false;
-  @property() private _opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+  @property({type: String}) appTitle = '';
+  @property({type: String}) _page = '';
+  @property({type: Boolean}) _drawerOpened = false;
+  @property({type: Boolean}) _offline = false;
+  @property({type: String}) opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
 
   static get styles() {
     return [
@@ -211,10 +211,10 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <opp-home-view ._opp="${this._opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power ._opp="${this._opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <opp-home-view .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
+        <open-peer-power .opp="${this.opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login ._opp="${this._opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login .opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -234,7 +234,7 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
-    this._opp.ws.onmessage = (event) => {
+    this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
       let access_token = loadTokens()
@@ -246,7 +246,7 @@ export class OPPui extends LitElement {
               'type': "auth",
               'access_token': access_token
             };
-            this._opp.ws.send(JSON.stringify(authobj));
+            this.opp.ws.send(JSON.stringify(authobj));
           }
           else {
             document.location.assign('/login');
@@ -258,7 +258,7 @@ export class OPPui extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-          this._opp.ws.send(JSON.stringify(fetchstate));
+          this.opp.ws.send(JSON.stringify(fetchstate));
           if (access_token) {}
           else {
             var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
@@ -269,8 +269,7 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
-          debugger;
-          this._opp.states = data.result;
+          this.opp.states = data.result;
           break;
         default:
           console.error(
