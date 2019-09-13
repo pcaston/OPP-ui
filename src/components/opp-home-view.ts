@@ -75,7 +75,7 @@ export class OppHomeView extends PageViewElement {
     `;
   }
   protected firstUpdated() {
-    debugger;
+    console.log("home-view first updated");
     console.log(this.opp);
   }
 }

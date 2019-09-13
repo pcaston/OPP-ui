@@ -236,7 +236,6 @@ export class OPPui extends LitElement {
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
-      console.log(data);
       let access_token = loadTokens()
       switch (data.type) {
         case 'auth_required':
@@ -270,6 +269,7 @@ export class OPPui extends LitElement {
           break;
         case 'result':
           this.opp.states = data.result;
+          console.log('opp-ui case result');
           break;
         default:
           console.error(
@@ -372,8 +372,8 @@ export class OPPui extends LitElement {
   }
 // Tests
   connectedCallback() {
-    super.connectedCallback()
-    console.log('connected')
+    super.connectedCallback();
+    console.log('connected');
   }
 
 }
