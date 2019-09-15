@@ -20,9 +20,11 @@ export class OppBadgesCard extends PageViewElement {
 
       ${Object.keys(this.opp!.states!).map((key) => {
         const item = this.opp!.states![key];
+        console.log("opp-badges render");
+        console.log(item);
         return html`
           <div>
-            <opp-state-label-badge opp="${this.opp}" id="${item.entity_id}" state="${item}"></opp-state-label-badge>
+            <opp-state-label-badge opp="${this.opp}" id="${item.entity_id}" state="${item}">opp-state-label-badge</opp-state-label-badge>
           </div>
         `;
       })
@@ -31,11 +33,11 @@ export class OppBadgesCard extends PageViewElement {
   }
   constructor() {
     super();
-    debugger;
-    console.log(this.opp);
+    console.log("opp-badges constructor");
   }
   protected firstUpdated() {
     debugger;
+    console.log("opp-badges first updated");
     console.log(this.opp);
   }
 }
