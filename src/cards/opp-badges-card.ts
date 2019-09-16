@@ -2,12 +2,13 @@ import { html, property, customElement } from 'lit-element';
 
 import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../types';
+import { OppEntities } from "../open-peer-power-js-websocket/lib";
 import { PageViewElement } from '../components/page-view-element';
 
 @customElement("opp-badges-card")
 export class OppBadgesCard extends PageViewElement {
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : Array }) states?: Array<String>;
+  @property({ type : Array }) states?: OppEntities;
   protected render() {
     debugger;
     return html`
@@ -24,7 +25,7 @@ export class OppBadgesCard extends PageViewElement {
         console.log(item);
         return html`
           <div>
-            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${item}">opp-state-label-badge</opp-state-label-badge>
+            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${JSON.stringify(item)}">opp-state-label-badge</opp-state-label-badge>
           </div>
         `;
       })

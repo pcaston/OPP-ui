@@ -3,9 +3,9 @@ import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
 import { OpenPeerPower } from "../types";
+import { OppEntities } from "../open-peer-power-js-websocket/lib";
 import './appliance-list';
 import '../cards/op-badges-card';
-import { States } from '../cards/opp-badges-card';
 import { Appliances } from './appliance-list';
 
 
@@ -17,7 +17,7 @@ import { ButtonSharedStyles } from './button-shared-styles';
 export class OppHomeView extends PageViewElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : Array }) states!: States;
+  @property({ type : Array }) states!: OppEntities;
   @property({ type : Array }) appliances: Appliances = {};
  
   static get styles() {
@@ -60,7 +60,7 @@ export class OppHomeView extends PageViewElement {
       <section>
         <h3>Badges</h3>
         <script>console.log("home-view")</script>
-        <opp-badges-card opp="${JSON.stringify(this.opp) states="${JSON.stringify(this.states)}"></opp-badges-card>
+        <opp-badges-card opp="${JSON.stringify(this.opp)}" states="${JSON.stringify(this.states)}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
@@ -77,8 +77,10 @@ export class OppHomeView extends PageViewElement {
     `;
   }
   protected firstUpdated() {
-    console.log("home-view first updated");
     debugger;
+    console.log("home-view first updated");
     console.log(this.opp);
+    this.states = this.opp.states!;
+    console.log(this.states);
   }
 }
