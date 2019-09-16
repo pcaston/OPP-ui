@@ -14,7 +14,7 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
 import { OpenPeerPowerAppEl } from '../layouts/open-peer-power';
-
+import { Appliances, Appliance } from './appliance-list';
 
 declare global {
     interface Window {
@@ -28,6 +28,7 @@ export class OPPui extends LitElement {
   @property({type: Boolean}) _drawerOpened = false;
   @property({type: Boolean}) _offline = false;
   @property({type: String}) opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+  @property({type: Object}) private appliances: Appliances = {};
 
   static get styles() {
     return [
@@ -211,10 +212,10 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <opp-home-view .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power .opp="${this.opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <opp-home-view appliances="${this.appliances}" opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
+        <open-peer-power opp="${this.opp}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login .opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -269,6 +270,8 @@ export class OPPui extends LitElement {
           break;
         case 'result':
           this.opp.states = data.result;
+          debugger;
+          this.appliances = this._getAllAppliances();
           console.log('opp-ui case result');
           break;
         default:
@@ -375,5 +378,31 @@ export class OPPui extends LitElement {
     super.connectedCallback();
     console.log('connected');
   }
+  protected _getAllAppliances(): Appliances {
+    const APPLIANCE_LIST = [
+      {'appliance': {'id': 1, 'name': 'fridge', 'type': 'A'},
+       'usage': {'value': 10.99},
+       'cost': {'currency': 'AUD', 'value': 3}
+      },
+      {'appliance': {'id': 2, 'name': 'dishwasher', 'type': 'B'},
+       'usage': {'value': 29.99},
+       'cost': {'currency': 'AUD', 'value': 4}
+      },
+      {'appliance': {'id': 3, 'name': 'aircon', 'type': 'C'},
+       'usage': {'value': 30.17},
+       'cost': {'currency': 'AUD', 'value': 5}
+      },
+      {'appliance': {'id': 4, 'name': 'Dryer', 'type': 'D'},
+       'usage': {'value': 12.39},
+       'cost': {'currency': 'AUD', 'value': 7}
+      }
+    ];
 
+    const appliances: Appliances = APPLIANCE_LIST.reduce((obj: Appliances, item: Appliance) => {
+      obj[item.appliance.id] = item
+      return obj
+    }, {});
+    //return appliances;
+    return APPLIANCE_LIST;
+  }
 }

@@ -10,7 +10,7 @@ import { addToCartIcon } from './my-icons';
 import { ButtonSharedStyles } from './button-shared-styles';
 
 export interface Appliances {
-  [index:string]: Appliance;
+  [index: number]: Appliance;
 }
 export interface Appliance {
   appliance: {id: string; name: string; type: string};
