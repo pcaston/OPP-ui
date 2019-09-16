@@ -5,6 +5,7 @@ import { PageViewElement } from './page-view-element';
 import { OpenPeerPower } from "../types";
 import './appliance-list';
 import '../cards/op-badges-card';
+import { States } from '../cards/opp-badges-card';
 import { Appliances } from './appliance-list';
 
 
@@ -16,7 +17,8 @@ import { ButtonSharedStyles } from './button-shared-styles';
 export class OppHomeView extends PageViewElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : String }) appliances: Appliances = {};
+  @property({ type : Array }) states!: States;
+  @property({ type : Array }) appliances: Appliances = {};
  
   static get styles() {
     return [
@@ -58,7 +60,7 @@ export class OppHomeView extends PageViewElement {
       <section>
         <h3>Badges</h3>
         <script>console.log("home-view")</script>
-        <opp-badges-card opp="${this.opp}"></opp-badges-card>
+        <opp-badges-card opp="${JSON.stringify(this.opp) states="${JSON.stringify(this.states)}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
@@ -70,7 +72,7 @@ export class OppHomeView extends PageViewElement {
       </section>
       <section>
         <h3>Appliances</h3>
-        <appliance-list appliances="${this.appliances}"></appliance-list>
+        <appliance-list appliances="${JSON.stringify(this.appliances)}"></appliance-list>
       </section>
     `;
   }

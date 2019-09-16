@@ -24,7 +24,7 @@ export class OppBadgesCard extends PageViewElement {
         console.log(item);
         return html`
           <div>
-            <opp-state-label-badge opp="${this.opp}" id="${item.entity_id}" state="${item}">opp-state-label-badge</opp-state-label-badge>
+            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${item}">opp-state-label-badge</opp-state-label-badge>
           </div>
         `;
       })
