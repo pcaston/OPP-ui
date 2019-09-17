@@ -270,7 +270,6 @@ export class OPPui extends LitElement {
           break;
         case 'result':
           this.opp.states = data.result;
-          debugger;
           this.appliances = this._getAllAppliances();
           console.log('opp-ui case result');
           break;
