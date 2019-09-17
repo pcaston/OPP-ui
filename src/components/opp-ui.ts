@@ -215,7 +215,7 @@ export class OPPui extends LitElement {
         <opp-home-view appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <open-peer-power opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -235,6 +235,7 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+    console.log("OPP-ui Constructor");
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       let access_token = loadTokens()
@@ -281,6 +282,7 @@ export class OPPui extends LitElement {
   }
 
   protected firstUpdated() {
+    console.log("OPP-ui firstUpdated");
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,

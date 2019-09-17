@@ -5,7 +5,7 @@ import { PageViewElement } from './page-view-element';
 import { OpenPeerPower } from "../types";
 import { OppEntities } from "../open-peer-power-js-websocket/lib";
 import './appliance-list';
-import '../cards/op-badges-card';
+import '../cards/opp-badges-card';
 import { Appliances } from './appliance-list';
 
 
@@ -56,6 +56,8 @@ export class OppHomeView extends PageViewElement {
   }
 
   protected render() {
+    this.states = this.opp.states!;
+    console.log(this.states);
     return html`
       <section>
         <h3>Badges</h3>
@@ -76,11 +78,13 @@ export class OppHomeView extends PageViewElement {
       </section>
     `;
   }
+  constructor() {
+    super();
+    console.log("home-view Constructor");
+  }
   protected firstUpdated() {
     debugger;
     console.log("home-view first updated");
     console.log(this.opp);
-    this.states = this.opp.states!;
-    console.log(this.states);
   }
 }

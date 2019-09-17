@@ -242,8 +242,12 @@ export class OppStateLabelBadge extends PageViewElement {
       }
     `;
   }
+  constructor() {
+    super();
+    debugger;
+    console.log("OPP-state-label-badge constructor");
+  }
 }
-
 declare global {
   interface HTMLElementTagNameMap {
     "opp-state-label-badge": OppStateLabelBadge;

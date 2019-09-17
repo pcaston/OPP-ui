@@ -10,7 +10,6 @@ export class OppBadgesCard extends PageViewElement {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states?: OppEntities;
   protected render() {
-    debugger;
     return html`
       <style>
         opp-state-label-badge {
@@ -34,6 +33,7 @@ export class OppBadgesCard extends PageViewElement {
   }
   constructor() {
     super();
+    debugger;
     console.log("opp-badges constructor");
   }
   protected firstUpdated() {
