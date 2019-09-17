@@ -17,6 +17,8 @@ class OpBadgesCard extends PolymerElement {
           opp="[[opp]]"
           state="[[item]]"
         ></op-state-label-badge>
+        <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${JSON.stringify(item)}"></opp-state-label-badge>
+
       </template>
     `;
   }

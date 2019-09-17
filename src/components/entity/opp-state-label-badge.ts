@@ -47,6 +47,7 @@ export class OppStateLabelBadge extends PageViewElement {
 
   protected render(): TemplateResult | void {
     const state = this.state;
+    console.log("render opp-state-label-badge");
 
     if (!state) {
       return html`

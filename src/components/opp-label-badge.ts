@@ -14,11 +14,13 @@ import "./opp-icon";
 @customElement('opp-label-badge')
 export class OppLabelBadge extends PageViewElement {
   @property( { type : String }  ) value?: string;
+  @property( { type : String }  ) icon?: string;
   @property( { type : String }  ) label?: string;
   @property( { type : String }  ) description?: string;
   @property( { type : String }  ) image?: string;
 
   protected render(): TemplateResult | void {
+    console.log("render opp-label-badge");
     return html`
       <div class="badge-container">
         <div class="label-badge" id="badge">
