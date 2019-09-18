@@ -21,8 +21,8 @@ export class OppBadgesCard extends PageViewElement {
         }
       </style>
 
-      ${this.states!.map((key) => {
-        const state = this.states![key];
+      ${Object.keys(this.states!).map((key) => {
+        const state: OppEntity = this.states![key];
         return html`
           <div>
             <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${state.entity_id}" state="${JSON.stringify(state)}"></opp-state-label-badge>
