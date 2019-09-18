@@ -11,8 +11,6 @@ export class OppBadgesCard extends PageViewElement {
   @property({ type : Array }) states?: OppEntities;
 
   protected render() {
-    console.log("render opp-badges-card");
-
     return html`
       <style>
         opp-state-label-badge {
@@ -20,7 +18,6 @@ export class OppBadgesCard extends PageViewElement {
           margin-bottom: var(--opp-state-label-badge-margin-bottom, 16px);
         }
       </style>
-
       ${Object.keys(this.states!).map((key) => {
         const state: OppEntity = this.states![key];
         return html`

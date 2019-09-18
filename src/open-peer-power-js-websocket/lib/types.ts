@@ -78,11 +78,13 @@ export type OppEntityAttributeBase = {
   device_class?: string;
 };
 
-export type OppEntity = OppEntityBase & {
+export interface OppEntity extends OppEntityBase {
   attributes: { [key: string]: any };
 };
 
-export type OppEntities = { [entity_id: string]: OppEntity };
+export interface OppEntities { 
+  [index: number]: OppEntity;
+}
 
 export type OppService = {
   description: string;
