@@ -10,6 +10,7 @@ export class OppBadgesCard extends PageViewElement {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states?: OppEntities;
   protected render() {
+    console.log("render opp-badges-card");
     return html`
       <style>
         opp-state-label-badge {
@@ -24,7 +25,7 @@ export class OppBadgesCard extends PageViewElement {
         console.log(item);
         return html`
           <div>
-            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${JSON.stringify(item)}">opp-state-label-badge</opp-state-label-badge>
+            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${item.entity_id}" state="${JSON.stringify(item)}"></opp-state-label-badge>
           </div>
         `;
       })

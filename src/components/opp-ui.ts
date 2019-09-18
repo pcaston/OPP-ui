@@ -178,6 +178,7 @@ export class OPPui extends LitElement {
 
   protected render() {
     // Anything that's related to rendering should be done in here.
+    console.log("render opp-ui");
     return html`
       <!-- Header -->
       <app-header condenses reveals effects="waterfall">
