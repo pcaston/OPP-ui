@@ -26,7 +26,7 @@ import "../opp-label-badge";
 @customElement("opp-state-label-badge")
 export class OppStateLabelBadge extends LitElement {
   @property({ type : Object }) opp?: OpenPeerPower;
-  @property({ type : String }) state?: OppEntity;
+  @property({ type : Object }) state?: OppEntity;
   @property({ type : String }) _timerTimeRemaining?: number;
 
   private _connected?: boolean;
@@ -62,7 +62,6 @@ export class OppStateLabelBadge extends LitElement {
     }
 
     const domain = computeStateDomain(state);
-
     return html`
       <opp-label-badge
         class="${classMap({

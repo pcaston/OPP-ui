@@ -140,6 +140,7 @@ export class OppLabelBadge extends LitElement {
 
   protected updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
+    debugger;
     if (changedProperties.has("image")) {
       this.shadowRoot!.getElementById("badge")!.style.backgroundImage = this
         .image
