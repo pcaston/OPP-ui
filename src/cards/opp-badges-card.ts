@@ -1,12 +1,11 @@
-import { html, property, customElement } from 'lit-element';
+import { LitElement, html, property, customElement } from 'lit-element';
 
 import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../types';
 import { OppEntities, OppEntity} from "../open-peer-power-js-websocket/lib";
-import { PageViewElement } from '../components/page-view-element';
 
 @customElement("opp-badges-card")
-export class OppBadgesCard extends PageViewElement {
+export class OppBadgesCard extends LitElement {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states?: OppEntities;
 
@@ -31,11 +30,9 @@ export class OppBadgesCard extends PageViewElement {
   }
   constructor() {
     super();
-    debugger;
     console.log("opp-badges constructor");
   }
   protected firstUpdated() {
-    debugger;
     console.log("opp-badges first updated");
     console.log(this.opp);
   }

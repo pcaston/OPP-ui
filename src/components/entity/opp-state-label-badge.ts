@@ -1,4 +1,5 @@
 import {
+  LitElement,
   html,
   PropertyValues,
   TemplateResult,
@@ -7,7 +8,6 @@ import {
   customElement,
   property,
 } from "lit-element";
-import { PageViewElement } from '../../components/page-view-element';
 
 import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { classMap } from "lit-html/directives/class-map";
@@ -24,7 +24,7 @@ import secondsToDuration from "../../common/datetime/seconds_to_duration";
 import "../opp-label-badge";
 
 @customElement("opp-state-label-badge")
-export class OppStateLabelBadge extends PageViewElement {
+export class OppStateLabelBadge extends LitElement {
   @property({ type : Object }) opp?: OpenPeerPower;
   @property({ type : String }) state?: OppEntity;
   @property({ type : String }) _timerTimeRemaining?: number;
@@ -46,6 +46,7 @@ export class OppStateLabelBadge extends PageViewElement {
   }
 
   protected render(): TemplateResult | void {
+    debugger;
     const state = this.state;
     console.log("render opp-state-label-badge");
 
@@ -245,7 +246,6 @@ export class OppStateLabelBadge extends PageViewElement {
   }
   constructor() {
     super();
-    debugger;
     console.log("OPP-state-label-badge constructor");
   }
 }
