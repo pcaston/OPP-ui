@@ -12,7 +12,7 @@ import computeStateName from "../../common/entity/compute_state_name";
 import computeDomain from "../../common/entity/compute_domain";
 import { updateEntityRegistryEntry } from "../../data/entity_registry";
 
-import "../../components/ha-paper-icon-button-arrow-prev";
+import "../../components/opp-paper-icon-button-arrow-prev";
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
@@ -30,7 +30,7 @@ class MoreInfoSettings extends LocalizeMixin(EventsMixin(PolymerElement)) {
         }
 
         app-toolbar [main-title] {
-          @apply --ha-more-info-app-toolbar-title;
+          @apply --opp-more-info-app-toolbar-title;
         }
 
         app-toolbar mwc-button {
@@ -44,9 +44,9 @@ class MoreInfoSettings extends LocalizeMixin(EventsMixin(PolymerElement)) {
       </style>
 
       <app-toolbar>
-        <ha-paper-icon-button-arrow-prev
+        <opp-paper-icon-button-arrow-prev
           on-click="_backTapped"
-        ></ha-paper-icon-button-arrow-prev>
+        ></opp-paper-icon-button-arrow-prev>
         <div main-title="">[[_computeStateName(stateObj)]]</div>
         <mwc-button on-click="_save" disabled="[[_computeInvalid(_entityId)]]"
           >[[localize('ui.dialogs.more_info_settings.save')]]</mwc-button

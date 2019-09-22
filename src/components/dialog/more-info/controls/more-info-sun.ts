@@ -2,7 +2,7 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-relative-time";
+import "../../../components/opp-relative-time";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 import formatTime from "../../../common/datetime/format_time";
@@ -19,10 +19,10 @@ class MoreInfoSun extends LocalizeMixin(PolymerElement) {
         <div class="data-entry layout justified horizontal">
           <div class="key">
             <span>[[itemCaption(item)]]</span>
-            <ha-relative-time
+            <opp-relative-time
               hass="[[hass]]"
               datetime-obj="[[itemDate(item)]]"
-            ></ha-relative-time>
+            ></opp-relative-time>
           </div>
           <div class="value">[[itemValue(item)]]</div>
         </div>

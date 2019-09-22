@@ -1,8 +1,8 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../cards/ha-history_graph-card";
-import "../../../components/ha-attributes";
+import "../../../cards/opp-history_graph-card";
+import "../../../components/opp-attributes";
 
 class MoreInfoHistoryGraph extends PolymerElement {
   static get template() {
@@ -13,13 +13,13 @@ class MoreInfoHistoryGraph extends PolymerElement {
           margin-bottom: 6px;
         }
       </style>
-      <ha-history_graph-card
+      <opp-history_graph-card
         hass="[[hass]]"
         state-obj="[[stateObj]]"
         in-dialog=""
       >
-        <ha-attributes state-obj="[[stateObj]]"></ha-attributes>
-      </ha-history_graph-card>
+        <opp-attributes state-obj="[[stateObj]]"></opp-attributes>
+      </opp-history_graph-card>
     `;
   }
 

@@ -32,7 +32,7 @@ export class OppLabelBadge extends LitElement {
           >
             ${this.icon && !this.value && !this.image
               ? html`
-                  <opp-icon .icon="${this.icon}"></opp-icon>
+                  <opp-icon icon="${this.icon}"></opp-icon>
                 `
               : ""}
             ${this.value && !this.image

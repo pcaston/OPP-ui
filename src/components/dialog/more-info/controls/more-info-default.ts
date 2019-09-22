@@ -1,12 +1,12 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-attributes";
+import "../../../components/opp-attributes";
 
 class MoreInfoDefault extends PolymerElement {
   static get template() {
     return html`
-      <ha-attributes state-obj="[[stateObj]]"></ha-attributes>
+      <opp-attributes state-obj="[[stateObj]]"></opp-attributes>
     `;
   }
 

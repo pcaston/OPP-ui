@@ -7,9 +7,9 @@ import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-water_heater-control";
-import "../../../components/ha-paper-slider";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-water_heater-control";
+import "../../../components/opp-paper-slider";
+import "../../../components/opp-paper-dropdown-menu";
 
 import featureClassNames from "../../../common/entity/feature_class_names";
 import { supportsFeature } from "../../../common/entity/supports-feature";
@@ -40,7 +40,7 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
         .container-operation_list iron-icon,
 
-        ha-paper-dropdown-menu {
+        opp-paper-dropdown-menu {
           width: 100%;
         }
 
@@ -48,19 +48,19 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
           cursor: pointer;
         }
 
-        ha-paper-slider {
+        opp-paper-slider {
           width: 100%;
         }
 
-        ha-water_heater-control.range-control-left,
-        ha-water_heater-control.range-control-right {
+        opp-water_heater-control.range-control-left,
+        opp-water_heater-control.range-control-right {
           float: left;
           width: 46%;
         }
-        ha-water_heater-control.range-control-left {
+        opp-water_heater-control.range-control-left {
           margin-right: 4%;
         }
-        ha-water_heater-control.range-control-right {
+        opp-water_heater-control.range-control-right {
           margin-left: 4%;
         }
 
@@ -77,7 +77,7 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
               [[localize('ui.card.water_heater.target_temperature')]]
             </div>
             <template is="dom-if" if="[[supportsTemperature(stateObj)]]">
-              <ha-water_heater-control
+              <opp-water_heater-control
                 value="[[stateObj.attributes.temperature]]"
                 units="[[hass.config.unit_system.temperature]]"
                 step="[[computeTemperatureStepSize(hass, stateObj)]]"
@@ -85,7 +85,7 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 max="[[stateObj.attributes.max_temp]]"
                 on-change="targetTemperatureChanged"
               >
-              </ha-water_heater-control>
+              </opp-water_heater-control>
             </template>
           </div>
         </div>
@@ -93,7 +93,7 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
         <template is="dom-if" if="[[supportsOperationMode(stateObj)]]">
           <div class="container-operation_list">
             <div class="controls">
-              <ha-paper-dropdown-menu
+              <opp-paper-dropdown-menu
                 label-float=""
                 dynamic-align=""
                 label="[[localize('ui.card.water_heater.operation')]]"
@@ -113,7 +113,7 @@ class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
                     >
                   </template>
                 </paper-listbox>
-              </ha-paper-dropdown-menu>
+              </opp-paper-dropdown-menu>
             </div>
           </div>
         </template>

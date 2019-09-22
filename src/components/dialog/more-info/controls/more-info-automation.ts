@@ -2,7 +2,7 @@ import "@material/mwc-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-relative-time";
+import "../../../components/opp-relative-time";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
@@ -22,10 +22,10 @@ class MoreInfoAutomation extends LocalizeMixin(PolymerElement) {
 
       <div class="flex">
         <div>[[localize('ui.card.automation.last_triggered')]]:</div>
-        <ha-relative-time
+        <opp-relative-time
           hass="[[hass]]"
           datetime="[[stateObj.attributes.last_triggered]]"
-        ></ha-relative-time>
+        ></opp-relative-time>
       </div>
 
       <div class="actions">

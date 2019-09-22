@@ -5,8 +5,8 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/state-history-charts";
-import "../../data/ha-state-history-data";
-import "../../resources/ha-style";
+import "../../data/opp-state-history-data";
+import "../../resources/opp-style";
 import "../../state-summary/state-card-content";
 
 import "./controls/more-info-content";
@@ -25,14 +25,14 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 class MoreInfoControls extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
-      <style include="ha-style-dialog">
+      <style include="opp-style-dialog">
         app-toolbar {
           color: var(--more-info-header-color);
           background-color: var(--more-info-header-background);
         }
 
         app-toolbar [main-title] {
-          @apply --ha-more-info-app-toolbar-title;
+          @apply --opp-more-info-app-toolbar-title;
         }
 
         state-card-content {
@@ -95,14 +95,14 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
           if="[[_computeShowHistoryComponent(hass, stateObj)]]"
           restamp=""
         >
-          <ha-state-history-data
+          <opp-state-history-data
             hass="[[hass]]"
             filter-type="recent-entity"
             entity-id="[[stateObj.entity_id]]"
             data="{{_stateHistory}}"
             is-loading="{{_stateHistoryLoading}}"
             cache-config="[[_cacheConfig]]"
-          ></ha-state-history-data>
+          ></opp-state-history-data>
           <state-history-charts
             hass="[[hass]]"
             history-data="[[_stateHistory]]"

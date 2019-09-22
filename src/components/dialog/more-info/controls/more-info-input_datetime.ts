@@ -4,7 +4,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "@vaadin/vaadin-date-picker/vaadin-date-picker";
 
-import "../../../components/ha-relative-time";
+import "../../../components/opp-relative-time";
 import "../../../components/paper-time-input";
 
 import attributeClassNames from "../../../common/entity/attribute_class_names";

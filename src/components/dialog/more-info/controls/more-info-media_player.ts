@@ -6,8 +6,8 @@ import "@polymer/paper-listbox/paper-listbox";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-paper-slider";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-paper-slider";
+import "../../../components/opp-paper-dropdown-menu";
 import HassMediaPlayerEntity from "../../../util/hass-media-player-model";
 
 import attributeClassNames from "../../../common/entity/attribute_class_names";
@@ -50,7 +50,7 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
           margin-top: 15px;
         }
 
-        ha-paper-dropdown-menu.source-input {
+        opp-paper-dropdown-menu.source-input {
           margin-left: 10px;
         }
 
@@ -132,7 +132,7 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
             hidden$="[[playerObj.supportsVolumeButtons]]"
             icon="[[computeMuteVolumeIcon(playerObj)]]"
           ></paper-icon-button>
-          <ha-paper-slider
+          <opp-paper-slider
             disabled$="[[playerObj.isMuted]]"
             min="0"
             max="100"
@@ -142,7 +142,7 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
             ignore-bar-touch=""
             dir="{{rtl}}"
           >
-          </ha-paper-slider>
+          </opp-paper-slider>
         </div>
         <!-- SOURCE PICKER -->
         <div
@@ -150,7 +150,7 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
           hidden$="[[computeHideSelectSource(playerObj)]]"
         >
           <iron-icon class="source-input" icon="hass:login-variant"></iron-icon>
-          <ha-paper-dropdown-menu
+          <opp-paper-dropdown-menu
             class="flex source-input"
             dynamic-align=""
             label-float=""
@@ -166,13 +166,13 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 <paper-item item-name$="[[item]]">[[item]]</paper-item>
               </template>
             </paper-listbox>
-          </ha-paper-dropdown-menu>
+          </opp-paper-dropdown-menu>
         </div>
         <!-- SOUND MODE PICKER -->
         <template is="dom-if" if="[[!computeHideSelectSoundMode(playerObj)]]">
           <div class="controls layout horizontal justified">
             <iron-icon class="source-input" icon="hass:music-note"></iron-icon>
-            <ha-paper-dropdown-menu
+            <opp-paper-dropdown-menu
               class="flex source-input"
               dynamic-align
               label-float
@@ -188,7 +188,7 @@ class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
                   <paper-item item-name$="[[item]]">[[item]]</paper-item>
                 </template>
               </paper-listbox>
-            </ha-paper-dropdown-menu>
+            </opp-paper-dropdown-menu>
           </div>
         </template>
         <!-- TTS -->

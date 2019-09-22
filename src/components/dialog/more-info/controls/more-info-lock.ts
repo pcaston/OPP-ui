@@ -3,7 +3,7 @@ import "@polymer/paper-input/paper-input";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-attributes";
+import "../../../components/opp-attributes";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
@@ -39,10 +39,10 @@ class MoreInfoLock extends LocalizeMixin(PolymerElement) {
           >[[localize('ui.card.lock.lock')]]</mwc-button
         >
       </template>
-      <ha-attributes
+      <opp-attributes
         state-obj="[[stateObj]]"
         extra-filters="code_format"
-      ></ha-attributes>
+      ></opp-attributes>
     `;
   }
 
