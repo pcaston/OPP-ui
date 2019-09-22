@@ -74,7 +74,6 @@ class OpenPeerPowerMain extends LitElement {
   }
 
   protected firstUpdated() {
-    debugger;
     import(/* webpackChunkName: "op-sidebar" */ "../components/op-sidebar");
 
     this.addEventListener("opp-toggle-menu", () => {
@@ -98,10 +97,6 @@ class OpenPeerPowerMain extends LitElement {
   protected updated(changedProps: PropertyValues) {
     debugger;
     super.updated(changedProps);
-
-    if (changedProps.has("route") && this._narrow) {
-      this.drawer.close();
-    }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
