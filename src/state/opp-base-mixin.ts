@@ -15,8 +15,6 @@ export class OppBaseEl {
   protected oppConnected() {}
   protected oppReconnected() {}
   protected oppDisconnected() {}
-  protected oppChanged(_opp: OpenPeerPower, _oldOpp?: OpenPeerPower) {}
-  protected panelUrlChanged(_newPanelUrl: string) {}
   public provideOpp(_el: HTMLElement) {}
   protected _updateOpp(_obj: Partial<OpenPeerPower>) {}
 }

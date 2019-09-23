@@ -14,7 +14,7 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
 import { OpenPeerPowerAppEl } from '../layouts/open-peer-power';
-import { Appliances, Appliance } from './appliance-list';
+import { Appliances } from './appliance-list';
 
 declare global {
     interface Window {
@@ -178,7 +178,6 @@ export class OPPui extends LitElement {
 
   protected render() {
     // Anything that's related to rendering should be done in here.
-    console.log("render opp-ui");
     return html`
       <!-- Header -->
       <app-header condenses reveals effects="waterfall">
@@ -236,7 +235,6 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
-    console.log("OPP-ui Constructor");
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       let access_token = loadTokens()
@@ -273,7 +271,6 @@ export class OPPui extends LitElement {
         case 'result':
           this.opp.states = data.result;
           this.appliances = this._getAllAppliances();
-          console.log('opp-ui case result');
           break;
         default:
           console.error(
@@ -283,7 +280,6 @@ export class OPPui extends LitElement {
   }
 
   protected firstUpdated() {
-    console.log("OPP-ui firstUpdated");
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
