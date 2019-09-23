@@ -213,7 +213,7 @@ export class OPPui extends LitElement {
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <open-peer-power appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>

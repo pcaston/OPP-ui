@@ -29,7 +29,6 @@ export const connectionMixin = (
         connected: true,
         states: null as any,
         config: null as any,
-        themes: null as any,
         panels: null as any,
         services: null as any,
         user: null as any,
