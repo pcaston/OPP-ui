@@ -6,7 +6,7 @@ import "@polymer/paper-spinner/paper-spinner";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-markdown";
+import "../../../components/opp-markdown";
 
 class MoreInfoConfigurator extends PolymerElement {
   static get template() {
@@ -51,9 +51,9 @@ class MoreInfoConfigurator extends PolymerElement {
 
       <div class="layout vertical">
         <template is="dom-if" if="[[isConfigurable]]">
-          <ha-markdown
+          <opp-markdown
             content="[[stateObj.attributes.description]]"
-          ></ha-markdown>
+          ></opp-markdown>
 
           <p class="error" hidden$="[[!stateObj.attributes.errors]]">
             [[stateObj.attributes.errors]]

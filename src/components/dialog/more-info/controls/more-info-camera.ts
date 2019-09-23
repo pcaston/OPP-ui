@@ -16,7 +16,7 @@ import {
   updateCameraPrefs,
 } from "../../../data/camera";
 import { supportsFeature } from "../../../common/entity/supports-feature";
-import "../../../components/ha-camera-stream";
+import "../../../components/opp-camera-stream";
 import "@polymer/paper-checkbox/paper-checkbox";
 // Not duplicate import, it's for typing
 // tslint:disable-next-line
@@ -33,11 +33,11 @@ class MoreInfoCamera extends LitElement {
     }
 
     return html`
-      <ha-camera-stream
+      <opp-camera-stream
         .hass="${this.hass}"
         .stateObj="${this.stateObj}"
         showcontrols
-      ></ha-camera-stream>
+      ></opp-camera-stream>
       ${this._cameraPrefs
         ? html`
             <paper-checkbox

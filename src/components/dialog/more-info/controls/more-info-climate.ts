@@ -7,9 +7,9 @@ import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-climate-control";
-import "../../../components/ha-paper-slider";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-climate-control";
+import "../../../components/opp-paper-slider";
+import "../../../components/opp-paper-dropdown-menu";
 
 import attributeClassNames from "../../../common/entity/attribute_class_names";
 import featureClassNames from "../../../common/entity/feature_class_names";
@@ -64,7 +64,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
           margin: 22px 16px 0 0;
         }
 
-        ha-paper-dropdown-menu {
+        opp-paper-dropdown-menu {
           width: 100%;
         }
 
@@ -72,7 +72,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
           cursor: pointer;
         }
 
-        ha-paper-slider {
+        opp-paper-slider {
           width: 100%;
         }
 
@@ -88,15 +88,15 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
           direction: ltr;
         }
 
-        ha-climate-control.range-control-left,
-        ha-climate-control.range-control-right {
+        opp-climate-control.range-control-left,
+        opp-climate-control.range-control-right {
           float: left;
           width: 46%;
         }
-        ha-climate-control.range-control-left {
+        opp-climate-control.range-control-left {
           margin-right: 4%;
         }
-        ha-climate-control.range-control-right {
+        opp-climate-control.range-control-right {
           margin-left: 4%;
         }
 
@@ -131,7 +131,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
               [[localize('ui.card.climate.target_temperature')]]
             </div>
             <template is="dom-if" if="[[supportsTemperature(stateObj)]]">
-              <ha-climate-control
+              <opp-climate-control
                 value="[[stateObj.attributes.temperature]]"
                 units="[[hass.config.unit_system.temperature]]"
                 step="[[computeTemperatureStepSize(hass, stateObj)]]"
@@ -139,10 +139,10 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 max="[[stateObj.attributes.max_temp]]"
                 on-change="targetTemperatureChanged"
               >
-              </ha-climate-control>
+              </opp-climate-control>
             </template>
             <template is="dom-if" if="[[supportsTemperatureRange(stateObj)]]">
-              <ha-climate-control
+              <opp-climate-control
                 value="[[stateObj.attributes.target_temp_low]]"
                 units="[[hass.config.unit_system.temperature]]"
                 step="[[computeTemperatureStepSize(hass, stateObj)]]"
@@ -151,8 +151,8 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 class="range-control-left"
                 on-change="targetTemperatureLowChanged"
               >
-              </ha-climate-control>
-              <ha-climate-control
+              </opp-climate-control>
+              <opp-climate-control
                 value="[[stateObj.attributes.target_temp_high]]"
                 units="[[hass.config.unit_system.temperature]]"
                 step="[[computeTemperatureStepSize(hass, stateObj)]]"
@@ -161,7 +161,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 class="range-control-right"
                 on-change="targetTemperatureHighChanged"
               >
-              </ha-climate-control>
+              </opp-climate-control>
             </template>
           </div>
         </div>
@@ -173,7 +173,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
               <div class="target-humidity">
                 [[stateObj.attributes.humidity]] %
               </div>
-              <ha-paper-slider
+              <opp-paper-slider
                 class="humidity"
                 min="[[stateObj.attributes.min_humidity]]"
                 max="[[stateObj.attributes.max_humidity]]"
@@ -185,7 +185,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 ignore-bar-touch=""
                 dir="[[rtl]]"
               >
-              </ha-paper-slider>
+              </opp-paper-slider>
             </div>
           </div>
         </template>
@@ -193,7 +193,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
         <template is="dom-if" if="[[supportsOperationMode(stateObj)]]">
           <div class="container-operation_list">
             <div class="controls">
-              <ha-paper-dropdown-menu
+              <opp-paper-dropdown-menu
                 label-float=""
                 dynamic-align=""
                 label="[[localize('ui.card.climate.operation')]]"
@@ -213,14 +213,14 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                     >
                   </template>
                 </paper-listbox>
-              </ha-paper-dropdown-menu>
+              </opp-paper-dropdown-menu>
             </div>
           </div>
         </template>
 
         <template is="dom-if" if="[[supportsFanMode(stateObj)]]">
           <div class="container-fan_list">
-            <ha-paper-dropdown-menu
+            <opp-paper-dropdown-menu
               label-float=""
               dynamic-align=""
               label="[[localize('ui.card.climate.fan_mode')]]"
@@ -240,13 +240,13 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                   </paper-item>
                 </template>
               </paper-listbox>
-            </ha-paper-dropdown-menu>
+            </opp-paper-dropdown-menu>
           </div>
         </template>
 
         <template is="dom-if" if="[[supportsSwingMode(stateObj)]]">
           <div class="container-swing_list">
-            <ha-paper-dropdown-menu
+            <opp-paper-dropdown-menu
               label-float=""
               dynamic-align=""
               label="[[localize('ui.card.climate.swing_mode')]]"
@@ -264,7 +264,7 @@ class MoreInfoClimate extends LocalizeMixin(EventsMixin(PolymerElement)) {
                   <paper-item item-name$="[[item]]">[[item]]</paper-item>
                 </template>
               </paper-listbox>
-            </ha-paper-dropdown-menu>
+            </opp-paper-dropdown-menu>
           </div>
         </template>
 

@@ -6,8 +6,8 @@ import "@polymer/paper-toggle-button/paper-toggle-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-attributes";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-attributes";
+import "../../../components/opp-paper-dropdown-menu";
 
 import attributeClassNames from "../../../common/entity/attribute_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
@@ -33,7 +33,7 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
           display: block;
         }
 
-        ha-paper-dropdown-menu {
+        opp-paper-dropdown-menu {
           width: 100%;
         }
 
@@ -44,7 +44,7 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
       <div class$="[[computeClassNames(stateObj)]]">
         <div class="container-speed_list">
-          <ha-paper-dropdown-menu
+          <opp-paper-dropdown-menu
             label-float=""
             dynamic-align=""
             label="[[localize('ui.card.fan.speed')]]"
@@ -62,7 +62,7 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 <paper-item item-name$="[[item]]">[[item]]</paper-item>
               </template>
             </paper-listbox>
-          </ha-paper-dropdown-menu>
+          </opp-paper-dropdown-menu>
         </div>
 
         <div class="container-oscillating">
@@ -95,10 +95,10 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
         </div>
       </div>
 
-      <ha-attributes
+      <opp-attributes
         state-obj="[[stateObj]]"
         extra-filters="speed,speed_list,oscillating,direction"
-      ></ha-attributes>
+      ></opp-attributes>
     `;
   }
 

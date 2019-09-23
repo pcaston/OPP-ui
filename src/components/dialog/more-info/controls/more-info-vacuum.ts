@@ -6,8 +6,8 @@ import "@polymer/paper-listbox/paper-listbox";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-attributes";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-attributes";
+import "../../../components/opp-paper-dropdown-menu";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 
 class MoreInfoVacuum extends PolymerElement {
@@ -104,7 +104,7 @@ class MoreInfoVacuum extends PolymerElement {
 
       <div hidden$="[[!supportsFanSpeed(stateObj)]]">
         <div class="horizontal justified layout">
-          <ha-paper-dropdown-menu
+          <opp-paper-dropdown-menu
             label-float=""
             dynamic-align=""
             label="Fan speed"
@@ -122,7 +122,7 @@ class MoreInfoVacuum extends PolymerElement {
                 <paper-item item-name$="[[item]]">[[item]]</paper-item>
               </template>
             </paper-listbox>
-          </ha-paper-dropdown-menu>
+          </opp-paper-dropdown-menu>
           <div
             style="justify-content: center; align-self: center; padding-top: 1.3em"
           >
@@ -134,10 +134,10 @@ class MoreInfoVacuum extends PolymerElement {
         </div>
         <p></p>
       </div>
-      <ha-attributes
+      <opp-attributes
         state-obj="[[stateObj]]"
         extra-filters="fan_speed,fan_speed_list,status,battery_level,battery_icon"
-      ></ha-attributes>
+      ></opp-attributes>
     `;
   }
 

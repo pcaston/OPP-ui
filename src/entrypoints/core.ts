@@ -10,9 +10,6 @@ import {
 } from "../open-peer-power-js-websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
-import { subscribePanels } from "../data/ws-panels";
-import { subscribeThemes } from "../data/ws-themes";
-import { subscribeUser } from "../data/ws-user";
 import { OpenPeerPower } from "../types";
 import { oppUrl } from "../data/auth";
 
@@ -38,7 +35,6 @@ const authProm = isExternal
 
 const connProm = async (auth) => {
   try {
-    debugger;
     const conn = await createConnection({ auth });
 
     // Clear url if we have been able to establish a connection
@@ -70,11 +66,6 @@ window.oppConnection.then(({ conn }) => {
     // do nothing
   };
   subscribeEntities(conn, noop);
-  subscribeConfig(conn, noop);
-  subscribeServices(conn, noop);
-  subscribePanels(conn, noop);
-  subscribeThemes(conn, noop);
-  subscribeUser(conn, noop);
 });
 
 window.addEventListener("error", (e) => {

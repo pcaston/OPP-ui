@@ -400,11 +400,6 @@ export class OPPui extends LitElement {
       }
     ];
 
-    const appliances: Appliances = APPLIANCE_LIST.reduce((obj: Appliances, item: Appliance) => {
-      obj[item.appliance.id] = item
-      return obj
-    }, {});
-    //return appliances;
     return APPLIANCE_LIST;
   }
 }

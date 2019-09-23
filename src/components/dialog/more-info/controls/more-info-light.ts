@@ -4,10 +4,10 @@ import "@polymer/paper-listbox/paper-listbox";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-attributes";
-import "../../../components/ha-color-picker";
-import "../../../components/ha-labeled-slider";
-import "../../../components/ha-paper-dropdown-menu";
+import "../../../components/opp-attributes";
+import "../../../components/opp-color-picker";
+import "../../../components/opp-labeled-slider";
+import "../../../components/opp-paper-dropdown-menu";
 
 import featureClassNames from "../../../common/entity/feature_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
@@ -38,7 +38,7 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
         }
 
         .color_temp {
-          --ha-slider-background: -webkit-linear-gradient(
+          --opp-slider-background: -webkit-linear-gradient(
             right,
             rgb(255, 160, 0) 0%,
             white 50%,
@@ -53,7 +53,7 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
           width: 100%;
         }
 
-        ha-color-picker {
+        opp-color-picker {
           display: block;
           width: 100%;
 
@@ -108,14 +108,14 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
           overflow: visible;
         }
 
-        .has-color.is-on ha-color-picker {
+        .has-color.is-on opp-color-picker {
           max-height: 500px;
           overflow: visible;
-          --ha-color-picker-wheel-borderwidth: 5;
-          --ha-color-picker-wheel-bordercolor: white;
-          --ha-color-picker-wheel-shadow: none;
-          --ha-color-picker-marker-borderwidth: 2;
-          --ha-color-picker-marker-bordercolor: white;
+          --opp-color-picker-wheel-borderwidth: 5;
+          --opp-color-picker-wheel-bordercolor: white;
+          --opp-color-picker-wheel-shadow: none;
+          --opp-color-picker-marker-borderwidth: 2;
+          --opp-color-picker-marker-bordercolor: white;
         }
 
         .is-unavailable .control {
@@ -129,38 +129,38 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
       <div class$="[[computeClassNames(stateObj)]]">
         <div class="control brightness">
-          <ha-labeled-slider
+          <opp-labeled-slider
             caption="[[localize('ui.card.light.brightness')]]"
             icon="hass:brightness-5"
             min="1"
             max="255"
             value="{{brightnessSliderValue}}"
             on-change="brightnessSliderChanged"
-          ></ha-labeled-slider>
+          ></opp-labeled-slider>
         </div>
 
         <div class="control color_temp">
-          <ha-labeled-slider
+          <opp-labeled-slider
             caption="[[localize('ui.card.light.color_temperature')]]"
             icon="hass:thermometer"
             min="[[stateObj.attributes.min_mireds]]"
             max="[[stateObj.attributes.max_mireds]]"
             value="{{ctSliderValue}}"
             on-change="ctSliderChanged"
-          ></ha-labeled-slider>
+          ></opp-labeled-slider>
         </div>
 
         <div class="control white_value">
-          <ha-labeled-slider
+          <opp-labeled-slider
             caption="[[localize('ui.card.light.white_value')]]"
             icon="hass:file-word-box"
             max="255"
             value="{{wvSliderValue}}"
             on-change="wvSliderChanged"
-          ></ha-labeled-slider>
+          ></opp-labeled-slider>
         </div>
         <div class="segmentationContainer">
-          <ha-color-picker
+          <opp-color-picker
             class="control color"
             on-colorselected="colorPicked"
             desired-hs-color="{{colorPickerColor}}"
@@ -168,7 +168,7 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
             hue-segments="{{hueSegments}}"
             saturation-segments="{{saturationSegments}}"
           >
-          </ha-color-picker>
+          </opp-color-picker>
           <paper-icon-button
             icon="mdi:palette"
             on-click="segmentClick"
@@ -177,7 +177,7 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
         </div>
 
         <div class="control effect_list">
-          <ha-paper-dropdown-menu
+          <opp-paper-dropdown-menu
             label-float=""
             dynamic-align=""
             label="[[localize('ui.card.light.effect')]]"
@@ -195,13 +195,13 @@ class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 <paper-item item-name$="[[item]]">[[item]]</paper-item>
               </template>
             </paper-listbox>
-          </ha-paper-dropdown-menu>
+          </opp-paper-dropdown-menu>
         </div>
 
-        <ha-attributes
+        <opp-attributes
           state-obj="[[stateObj]]"
           extra-filters="brightness,color_temp,white_value,effect_list,effect,hs_color,rgb_color,xy_color,min_mireds,max_mireds"
-        ></ha-attributes>
+        ></opp-attributes>
       </div>
     `;
   }
