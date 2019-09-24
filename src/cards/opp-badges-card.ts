@@ -10,6 +10,7 @@ export class OppBadgesCard extends LitElement {
   @property({ type : Array }) states?: OppEntities;
 
   protected render() {
+    debugger;
     return html`
       <style>
         opp-state-label-badge {
