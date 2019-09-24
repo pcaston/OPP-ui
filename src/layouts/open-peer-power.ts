@@ -6,7 +6,6 @@ import { SharedStyles } from '../components/shared-styles';
 import "../layouts/open-peer-power-main";
 import "../layouts/op-init-page";
 import "../resources/op-style";
-import { registerServiceWorker } from "../util/register-service-worker";
 
 import { OppElement } from "../state/opp-element";
 import { OpenPeerPower } from "../types";
@@ -41,20 +40,5 @@ export class OpenPeerPowerAppEl extends OppElement {
         <op-init-page .error=${this._error}></op-init-page>
       `}
     `;
-  }
-  protected firstUpdated(changedProps) {
-    super.firstUpdated(changedProps);
-    this._initialize();
-    setTimeout(registerServiceWorker, 1000);
-  }
-
-  protected async _initialize() {
-    try {
-      const { auth, conn } = await window.oppConnection;
-      this.initializeOpp(auth, conn);
-    } catch (err) {
-      this._error = true;
-      return;
-    }
   }
 }

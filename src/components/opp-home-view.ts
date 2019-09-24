@@ -1,4 +1,4 @@
-import { html, css, property, customElement } from 'lit-element';
+import { LitElement, html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
@@ -14,7 +14,7 @@ import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 
 @customElement('opp-home-view')
-export class OppHomeView extends PageViewElement {
+export class OppHomeView extends LitElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states!: OppEntities;
@@ -57,6 +57,7 @@ export class OppHomeView extends PageViewElement {
 
   protected render() {
     this.states = this.opp.states!;
+    debugger;
     console.log("render home-view");
     console.log(this.states);
     return html`
@@ -84,6 +85,7 @@ export class OppHomeView extends PageViewElement {
   }
   protected firstUpdated() {
     console.log("home-view first updated");
+    debugger;
     console.log(this.opp);
   }
 }

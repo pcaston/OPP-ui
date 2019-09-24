@@ -11,7 +11,6 @@ import { OpenPeerPower } from "../types";
 export class OppBaseEl {
   protected opp?: OpenPeerPower;
   protected _pendingOpp: Partial<OpenPeerPower> = {};
-  protected initializeOpp(_auth: Auth, _conn: Connection) {}
   protected oppConnected() {}
   protected oppReconnected() {}
   protected oppDisconnected() {}
