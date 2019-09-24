@@ -42,19 +42,23 @@ async def counter(websocket, path):
             {'type': 'auth_required'}
         ))
 
-        async for message in websocket:
-            msg = json.loads(message)
-            if msg['type'] == 'login' or msg['type'] == 'auth':
-                await websocket.send(json.dumps(
-                    {'type': 'auth_ok',
-                     'version': '0.1.0',
-                     'access_token': ACCESS_TOKEN
-                    }
-                ))
-            elif msg['type'] == 'get_states':
-                await notify_state()
-            else:
-                print("unsupported event: {}", msg)
+        try:
+            await websocket.recv()
+            async for message in websocket:
+                msg = json.loads(message)
+                if msg['type'] == 'login' or msg['type'] == 'auth':
+                    await websocket.send(json.dumps(
+                        {'type': 'auth_ok',
+                         'version': '0.1.0',
+                         'access_token': ACCESS_TOKEN
+                        }
+                    ))
+                elif msg['type'] == 'get_states':
+                    await notify_state()
+                else:
+                    print("unsupported event: {}", msg)
+        except:
+            pass
     finally:
         await unregister(websocket)
 

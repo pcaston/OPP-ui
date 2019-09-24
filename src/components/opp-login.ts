@@ -23,7 +23,7 @@ class OppLogin extends LitElement {
   @property( {type: String} ) _passwordConfirm = "";
   @property( {type: String} ) _loading = false;
   @property( {type: String} ) _errorMsg?: string = undefined;
-  @property( {type: String} ) opp!: OpenPeerPower;
+  @property( {type: Object} ) opp!: OpenPeerPower;
 
   protected render(): TemplateResult | void {
     return html`

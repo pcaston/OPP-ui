@@ -238,6 +238,7 @@ export class OPPui extends LitElement {
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       let access_token = loadTokens()
+      debugger;
       switch (data.type) {
         case 'auth_required':
           if (access_token) {
@@ -374,7 +375,6 @@ export class OPPui extends LitElement {
 // Tests
   connectedCallback() {
     super.connectedCallback();
-    console.log('connected');
   }
   protected _getAllAppliances(): Appliances {
     const APPLIANCE_LIST = [
