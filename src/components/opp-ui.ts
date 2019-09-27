@@ -13,7 +13,7 @@ import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from './my-icons';
-import { OpenPeerPowerAppEl } from '../layouts/open-peer-power';
+
 import { Appliances } from './appliance-list';
 
 declare global {

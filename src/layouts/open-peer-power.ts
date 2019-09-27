@@ -1,4 +1,4 @@
-import { html, customElement, property} from 'lit-element';
+import { LitElement, html, customElement, property} from 'lit-element';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from '../components/shared-styles';
@@ -14,7 +14,7 @@ import { Appliances } from '../components/appliance-list';
 
 @customElement('open-peer-power')
 
-export class OpenPeerPowerAppEl extends OppElement {
+export class OpenPeerPowerAppEl extends LitElement {
   @property() private _error?: boolean;
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states!: OppEntities;
