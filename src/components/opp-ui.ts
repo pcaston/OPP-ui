@@ -250,7 +250,10 @@ export class OPPui extends LitElement {
             this.opp.ws.send(JSON.stringify(authobj));
           }
           else {
-            document.location.assign('/login');
+            const newLocation:Location = new Location
+            newLocation.pathname = `/login`;
+            window.history.pushState({}, '', newLocation.pathname);
+            this._locationChanged(newLocation);
           };
           break;
         case 'auth_ok':
