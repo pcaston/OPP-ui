@@ -5,6 +5,7 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower } from '../types';
+import "./opp-iconset-svg";
 import { loadTokens } from "../common/auth/token_storage";
 
 // These are the elements needed by this element.
@@ -238,7 +239,6 @@ export class OPPui extends LitElement {
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       let access_token = loadTokens()
-      debugger;
       switch (data.type) {
         case 'auth_required':
           if (access_token) {

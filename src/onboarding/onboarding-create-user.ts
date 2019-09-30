@@ -158,7 +158,6 @@ class OnboardingCreateUser extends LitElement {
     let that = this;
     ws.onmessage = function (event) {
       let data = JSON.parse(event.data);
-      debugger;
       console.log(data);
       switch (data.type) {
         case 'auth_required':

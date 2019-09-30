@@ -16,7 +16,6 @@ const MSG_TYPE_AUTH_INVALID = "auth_invalid";
 const MSG_TYPE_AUTH_OK = "auth_ok";
 
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
-  debugger; 
   if (!options.auth) {
     throw ERR_OPP_HOST_REQUIRED;
   }

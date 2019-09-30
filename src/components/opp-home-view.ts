@@ -57,7 +57,6 @@ export class OppHomeView extends LitElement {
 
   protected render() {
     this.states = this.opp.states!;
-    debugger;
     console.log("render home-view");
     console.log(this.states);
     return html`
@@ -85,7 +84,6 @@ export class OppHomeView extends LitElement {
   }
   protected firstUpdated() {
     console.log("home-view first updated");
-    debugger;
     console.log(this.opp);
   }
 }

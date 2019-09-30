@@ -81,7 +81,6 @@ export class Connection {
     // connection options
     //  - setupRetry: amount of ms to retry when unable to connect on initial setup
     //  - createSocket: create a new Socket connection
-    debugger;
     this.options = options;
     // id if next command to send
     this.commandId = 1;
@@ -96,7 +95,6 @@ export class Connection {
   }
 
   setSocket(socket: WebSocket) {
-    debugger;
     const oldSocket = this.socket;
     this.socket = socket;
     socket.addEventListener("message", ev => this._handleMessage(ev));
@@ -126,7 +124,6 @@ export class Connection {
   }
 
   addEventListener(eventType: Events, callback: ConnectionEventListener) {
-    debugger;
     let listeners = this.eventListeners.get(eventType);
 
     if (!listeners) {
@@ -138,7 +135,6 @@ export class Connection {
   }
 
   removeEventListener(eventType: Events, callback: ConnectionEventListener) {
-    debugger;
     const listeners = this.eventListeners.get(eventType);
 
     if (!listeners) {
@@ -182,7 +178,6 @@ export class Connection {
   }
 
   sendMessage(message: MessageBase, commandId?: number): void {
-    debugger;
     if (DEBUG) {
       console.log("Sending", message);
     }
