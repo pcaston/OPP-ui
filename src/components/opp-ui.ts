@@ -28,7 +28,7 @@ export class OPPui extends LitElement {
   @property({type: String}) _page = '';
   @property({type: Boolean}) _drawerOpened = false;
   @property({type: Boolean}) _offline = false;
-  @property({type: Object}) opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+  @property({type: Object}) opp!: OpenPeerPower;
   @property({type: Array}) private appliances: Appliances = {};
 
   static get styles() {
@@ -236,9 +236,17 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
+  }
+
+  protected firstUpdated() {
+    installRouter((location) => this._locationChanged(location));
+    installOfflineWatcher((offline) => this._offlineChanged(offline));
+    installMediaQueryWatcher(`(min-width: 460px)`,
+        () => this._layoutChanged());
+    let access_token = loadTokens();
+    this.opp.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
-      let access_token = loadTokens()
       switch (data.type) {
         case 'auth_required':
           if (access_token) {
@@ -250,10 +258,9 @@ export class OPPui extends LitElement {
             this.opp.ws.send(JSON.stringify(authobj));
           }
           else {
-            let newLocation:Location = new Location();
-            newLocation.pathname = `/login`;
-            window.history.pushState({}, '', newLocation.pathname);
-            this._locationChanged(newLocation);
+            const newLocation = `/login`;
+            window.history.pushState({}, '', newLocation);
+            this._locationChanged(window.location);
           };
           break;
         case 'auth_ok':
@@ -280,14 +287,7 @@ export class OPPui extends LitElement {
           console.error(
             "unsupported event", data);
       }
-    }
-  }
-
-  protected firstUpdated() {
-    installRouter((location) => this._locationChanged(location));
-    installOfflineWatcher((offline) => this._offlineChanged(offline));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-        () => this._layoutChanged());
+    }    
   }
 
   protected updated(changedProps: PropertyValues) {
