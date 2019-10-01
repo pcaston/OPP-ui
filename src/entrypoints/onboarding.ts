@@ -1,4 +1,4 @@
-import "../components/op-iconset-svg";
+import "../components/opp-iconset-svg";
 import "../resources/op-style";
 import "../resources/roboto";
 import "../onboarding/op-onboarding";
