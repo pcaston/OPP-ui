@@ -47,7 +47,6 @@ export class OppStateLabelBadge extends LitElement {
 
   protected render(): TemplateResult | void {
     const state = this.state;
-
     if (!state) {
       return html`
         <opp-label-badge

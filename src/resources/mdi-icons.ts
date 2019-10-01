@@ -1,4 +1,4 @@
-import iconSetContent from "../../build/mdi.html";
+import iconSetContent from '../../build/mdi.html';
 
 const documentContainer = document.createElement("template");
 documentContainer.setAttribute("style", "display: none;");

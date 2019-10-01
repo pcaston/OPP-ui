@@ -35,7 +35,6 @@ class OpenPeerPowerMain extends LitElement {
 
   protected render(): TemplateResult | void {
     const opp = this.opp;
-    debugger;
     if (!opp) {
       return;
     }
@@ -95,7 +94,6 @@ class OpenPeerPowerMain extends LitElement {
   }
 
   protected updated(changedProps: PropertyValues) {
-    debugger;
     super.updated(changedProps);
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
