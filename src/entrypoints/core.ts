@@ -1,32 +1,21 @@
 import {
   getAuth,
   createConnection,
-  subscribeConfig,
-  subscribeEntities,
-  subscribeServices,
   ERR_INVALID_AUTH,
   Auth,
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
-import { OpenPeerPower } from "../types";
 import { oppUrl } from "../data/auth";
-
+debugger;
 declare global {
   interface Window {
     oppConnection: Promise<{ auth: Auth; conn: Connection }>;
   }
 }
 
-const isExternal = location.search.includes("external_auth=1");
-
-const authProm = isExternal
-  ? () =>
-      import(/* webpackChunkName: "external_auth" */ "../external_app/external_auth").then(
-        ({ createExternalAuth }) => createExternalAuth(oppUrl)
-      )
-  : () =>
+const authProm = () =>
       getAuth({
         oppUrl,
         saveTokens,
@@ -49,9 +38,7 @@ const connProm = async (auth) => {
     }
     // We can get invalid auth if auth tokens were stored that are no longer valid
     // Clear stored tokens.
-    if (!isExternal) {
-      saveTokens(null);
-    }
+    saveTokens(null);
     auth = await authProm();
     const conn = await createConnection({ auth });
     return { auth, conn };
@@ -59,27 +46,3 @@ const connProm = async (auth) => {
 };
 
 window.oppConnection = authProm().then(connProm);
-
-// Start fetching some of the data that we will need.
-window.oppConnection.then(({ conn }) => {
-  const noop = () => {
-    // do nothing
-  };
-  subscribeEntities(conn, noop);
-});
-
-window.addEventListener("error", (e) => {
-  const openpeerpower = document.querySelector("open-peer-power") as any;
-  if (
-    openpeerpower &&
-    openpeerpower.opp &&
-    (openpeerpower.opp as OpenPeerPower).callService
-  ) {
-    openpeerpower.opp.callService("system_log", "write", {
-      logger: `frontend.${
-        __DEV__ ? "js_dev" : "js"
-      }.${__BUILD__}.${__VERSION__.replace(".", "")}`,
-      message: `${e.filename}:${e.lineno}:${e.colno} ${e.message}`,
-    });
-  }
-});
