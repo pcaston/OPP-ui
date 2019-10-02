@@ -14,7 +14,7 @@ import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 
 @customElement('opp-home-view')
-export class OppHomeView extends LitElement {
+export class OppHomeView extends PageViewElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states!: OppEntities;

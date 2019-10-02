@@ -16,7 +16,7 @@ import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
 
 @customElement("opp-login")
-class OppLogin extends LitElement {
+export class OppLogin extends LitElement {
   @property( {type: String} ) _name = "";
   @property( {type: String} ) _username = "";
   @property( {type: String} ) _password = "";
@@ -26,6 +26,7 @@ class OppLogin extends LitElement {
   @property( {type: Object} ) opp!: OpenPeerPower;
 
   protected render(): TemplateResult | void {
+    debugger;
     return html`
     <p>
      Take control of your power and keep your privacy.
@@ -109,6 +110,8 @@ class OppLogin extends LitElement {
 
   protected firstUpdated(changedProps: PropertyValues) {
     super.firstUpdated(changedProps);
+    console.log('login firstupdated');
+    console.log(this.opp);
     setTimeout(
       () => this.shadowRoot!.querySelector("paper-input")!.focus(),
       100
@@ -184,10 +187,9 @@ class OppLogin extends LitElement {
       }
     `;
   }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "opp-login": OppLogin;
+  constructor() {
+    super();
+    console.log('login constructor');
+    console.log(this.opp);
   }
 }

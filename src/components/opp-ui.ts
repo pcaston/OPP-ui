@@ -235,16 +235,8 @@ export class OPPui extends LitElement {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
-    //let  opp: OpenPeerPower = {'ws': new WebSocket("ws://127.0.0.1:8123/api/websocket")};
-  }
-
-  protected firstUpdated() {
-    installRouter((location) => this._locationChanged(location));
-    installOfflineWatcher((offline) => this._offlineChanged(offline));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-        () => this._layoutChanged());
     let access_token = loadTokens();
-    this.opp.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+    this.opp = {ws: new WebSocket("ws://127.0.0.1:8123/api/websocket")};
     this.opp.ws.onmessage = (event) => {
       let data = JSON.parse(event.data);
       switch (data.type) {
@@ -258,6 +250,11 @@ export class OPPui extends LitElement {
             this.opp.ws.send(JSON.stringify(authobj));
           }
           else {
+            console.log('opp ui before login');
+            console.log(this.opp);
+            console.log(JSON.stringify(this.opp));
+            console.log(this.opp.ws);
+            console.log(JSON.stringify(this.opp.ws));
             const newLocation = `/login`;
             window.history.pushState({}, '', newLocation);
             this._locationChanged(window.location);
@@ -288,6 +285,13 @@ export class OPPui extends LitElement {
             "unsupported event", data);
       }
     }    
+  }
+
+  protected firstUpdated() {
+    installRouter((location) => this._locationChanged(location));
+    installOfflineWatcher((offline) => this._offlineChanged(offline));
+    installMediaQueryWatcher(`(min-width: 460px)`,
+      () => this._layoutChanged());
   }
 
   protected updated(changedProps: PropertyValues) {
