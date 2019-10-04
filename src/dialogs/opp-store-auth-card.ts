@@ -9,7 +9,7 @@ import "../components/entity/opp-state-label-badge"
 import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
-import { enableWrite, saveTokens } from "../common/auth/token_storage";
+import { saveTokens } from "../common/auth/token_storage";
 import "../resources/op-style";
 import { AuthData } from "../open-peer-power-js-websocket/lib";
   
@@ -63,7 +63,6 @@ export class OppStoreAuth extends LitElement {
 
   private _save(event: Event) {
     console.log(event.target);
-    enableWrite();
     saveTokens(this.access_token);
     this._done();
   }
