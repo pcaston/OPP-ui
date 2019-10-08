@@ -25,7 +25,6 @@ export function saveTokens(tokens: String | null) {
 
 export function loadTokens() {
   // Delete once oppTokens has been removed
-  debugger;
   if (storage.oppTokens) {
     storage.Tokens = storage.oppTokens;
     tokenCache.tokens = storage.oppTokens;

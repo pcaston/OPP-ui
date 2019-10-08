@@ -27,7 +27,7 @@ export class OPPui extends LitElement {
   @property({type: String}) _page = '';
   @property({type: Boolean}) _drawerOpened = false;
   @property({type: Boolean}) _offline = false;
-  @property({type: Object}) opp!: OpenPeerPower;
+  @property({type: Object}) opp: OpenPeerPower = {};
   @property({type: Array}) private appliances: Appliances = {};
 
   static get styles() {
@@ -235,8 +235,12 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     let tokenCache = window.__tokenCache;
-    this.opp = {ws: new WebSocket("ws://127.0.0.1:8123/api/websocket")};
-    this.opp.ws.onmessage = (event) => {
+    let wsx = window.wsx;
+    debugger;
+    console.log(window.wsx);
+    //let ws:WebSocket = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+    wsx.onmessage = (event) => {
+    //wsx.onmessage = (event) => {
       let data = JSON.parse(event.data);
       switch (data.type) {
         case 'auth_required':
@@ -246,14 +250,9 @@ export class OPPui extends LitElement {
               'type': "auth",
               'access_token': tokenCache
             };
-            this.opp.ws.send(JSON.stringify(authobj));
+            wsx.send(JSON.stringify(authobj));
           }
           else {
-            console.log('opp ui before login');
-            console.log(this.opp);
-            console.log(JSON.stringify(this.opp));
-            console.log(this.opp.ws);
-            console.log(JSON.stringify(this.opp.ws));
             const newLocation = `/login`;
             window.history.pushState({}, '', newLocation);
             this._locationChanged(window.location);
@@ -265,8 +264,8 @@ export class OPPui extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-          this.opp.ws.send(JSON.stringify(fetchstate));
-          if (access_token) {}
+          wsx.send(JSON.stringify(fetchstate));
+          if (tokenCache) {}
           else {
             var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
             if (opp_login_obj) {
