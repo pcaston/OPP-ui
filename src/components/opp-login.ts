@@ -26,7 +26,6 @@ export class OppLogin extends LitElement {
   @property( {type: Object} ) opp!: OpenPeerPower;
 
   protected render(): TemplateResult | void {
-    debugger;
     return html`
     <p>
      Take control of your power and keep your privacy.

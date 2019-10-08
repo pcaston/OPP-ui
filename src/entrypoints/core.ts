@@ -12,6 +12,17 @@ declare global {
   }
 }
 
+declare global {
+  interface Window {
+    __tokenCache: {
+      // undefined: we haven't loaded yet
+      // null: none stored
+      tokens?: String | null;
+      ws?: WebSocket | null;
+    };
+  }
+}
+
 async function authProm() {
   return await loadTokens();
 }
@@ -19,11 +30,10 @@ async function authProm() {
 const access_token = authProm();
 console.log(access_token);
 
-debugger;
 const connProm = async () => {
   try {
     const conn = await createConnection();
-    return { conn };
+    return conn;
   } catch (err) {
     if (err !== ERR_INVALID_AUTH) {
       throw err;
@@ -31,8 +41,5 @@ const connProm = async () => {
     return null;
   }
 };
-debugger;
-const ws = connProm();
-console.log(ws);
 
-window.oppConnection = { connProm };
+window.__tokenCache.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
