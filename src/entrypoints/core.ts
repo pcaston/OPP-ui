@@ -1,48 +1,38 @@
 import {
-  getAuth,
   createConnection,
   ERR_INVALID_AUTH,
-  Auth,
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
-import { loadTokens, saveTokens } from "../common/auth/token_storage";
-import { oppUrl } from "../data/auth";
-debugger;
+import { loadTokens } from "../common/auth/token_storage";
+
 declare global {
   interface Window {
-    oppConnection: Promise<{ auth: Auth; conn: Connection }>;
+    oppConnection: Promise<{ conn: Connection }>;
   }
 }
 
-const authProm = () =>
-      getAuth({
-        oppUrl,
-        saveTokens,
-        loadTokens: () => Promise.resolve(loadTokens()),
-      });
+async function authProm() {
+  return await loadTokens();
+}
+        
+const access_token = authProm();
+console.log(access_token);
 
-const connProm = async (auth) => {
+debugger;
+const connProm = async () => {
   try {
-    const conn = await createConnection({ auth });
-
-    // Clear url if we have been able to establish a connection
-    if (location.search.includes("auth_callback=1")) {
-      history.replaceState(null, "", location.pathname);
-    }
-
-    return { auth, conn };
+    const conn = await createConnection();
+    return { conn };
   } catch (err) {
     if (err !== ERR_INVALID_AUTH) {
       throw err;
     }
-    // We can get invalid auth if auth tokens were stored that are no longer valid
-    // Clear stored tokens.
-    saveTokens(null);
-    auth = await authProm();
-    const conn = await createConnection({ auth });
-    return { auth, conn };
+    return null;
   }
 };
+debugger;
+const ws = connProm();
+console.log(ws);
 
-window.oppConnection = authProm().then(connProm);
+window.oppConnection = { connProm };
