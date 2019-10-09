@@ -29,6 +29,7 @@ export class OPPui extends LitElement {
   @property({type: Boolean}) _offline = false;
   @property({type: Object}) opp: OpenPeerPower = {};
   @property({type: Array}) private appliances: Appliances = {};
+  @property({type: Object}) wsp!: WebSocket | null;
 
   static get styles() {
     return [
@@ -215,7 +216,7 @@ export class OPPui extends LitElement {
         <opp-home-view appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <open-peer-power appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login opp="${JSON.stringify(this.opp)}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -235,11 +236,12 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     let tokenCache = window.__tokenCache;
-    let wsx = window.wsx;
+    //let wsx = window.wsx;
     debugger;
     console.log(window.wsx);
-    //let ws:WebSocket = new WebSocket("ws://127.0.0.1:8123/api/websocket");
-    wsx.onmessage = (event) => {
+    this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+    //let ws:WebSocket = window.wsx;
+    this.wsp.onmessage = (event) => {
     //wsx.onmessage = (event) => {
       let data = JSON.parse(event.data);
       switch (data.type) {
@@ -250,7 +252,7 @@ export class OPPui extends LitElement {
               'type': "auth",
               'access_token': tokenCache
             };
-            wsx.send(JSON.stringify(authobj));
+            this.wsp!.send(JSON.stringify(authobj));
           }
           else {
             const newLocation = `/login`;
@@ -264,7 +266,7 @@ export class OPPui extends LitElement {
             "id": "1",
             "type": "get_states"
           }
-          wsx.send(JSON.stringify(fetchstate));
+          this.wsp!.send(JSON.stringify(fetchstate));
           if (tokenCache) {}
           else {
             var opp_login_obj = this.shadowRoot!.querySelector("opp-login")

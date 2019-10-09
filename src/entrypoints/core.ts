@@ -47,6 +47,6 @@ const connProm = async () => {
   }
 };
 debugger;
-window.__tokenCache.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
-window.wsx = window.__tokenCache.ws;
+//window.__tokenCache.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+window.wsx = new WebSocket("ws://127.0.0.1:8123/api/websocket");
 console.log(window.wsx);

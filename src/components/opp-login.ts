@@ -24,6 +24,7 @@ export class OppLogin extends LitElement {
   @property( {type: String} ) _loading = false;
   @property( {type: String} ) _errorMsg?: string = undefined;
   @property( {type: Object} ) opp!: OpenPeerPower;
+  @property( {type: Object} ) wsp!: WebSocket | null;
 
   protected render(): TemplateResult | void {
     return html`
@@ -164,7 +165,8 @@ export class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    this.opp.ws.send(JSON.stringify(result));
+    debugger;
+    this.wsp!.send(JSON.stringify(result));
   }
 
   private async _saveAuth(item: string): Promise<void> {
