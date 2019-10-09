@@ -22,6 +22,11 @@ declare global {
     };
   }
 }
+declare global {
+  interface Window {
+    wsx: WebSocket;
+  }
+};
 
 async function authProm() {
   return await loadTokens();
@@ -41,5 +46,7 @@ const connProm = async () => {
     return null;
   }
 };
-
+debugger;
 window.__tokenCache.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+window.wsx = window.__tokenCache.ws;
+console.log(window.wsx);
