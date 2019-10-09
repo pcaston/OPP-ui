@@ -17,7 +17,7 @@ import { AuthData } from "../open-peer-power-js-websocket/lib";
   
 export class OppStoreAuth extends LitElement {
   @property() public opp?: OpenPeerPower;
-  @property() public access_token!: AuthData;
+  @property() public access_token!: String;
 
   //static get template() {
   render(){
@@ -63,6 +63,7 @@ export class OppStoreAuth extends LitElement {
 
   private _save(event: Event) {
     console.log(event.target);
+    debugger;
     saveTokens(this.access_token);
     this._done();
   }
