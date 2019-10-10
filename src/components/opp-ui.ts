@@ -267,7 +267,7 @@ export class OPPui extends LitElement {
             "type": "get_states"
           }
           this.wsp!.send(JSON.stringify(fetchstate));
-          if (tokenCache) {}
+          if (tokenCache.tokens) {}
           else {
             var opp_login_obj = this.shadowRoot!.querySelector("opp-login")
             if (opp_login_obj) {

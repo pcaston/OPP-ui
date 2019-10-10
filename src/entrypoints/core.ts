@@ -18,7 +18,6 @@ declare global {
       // undefined: we haven't loaded yet
       // null: none stored
       tokens?: String | null;
-      ws?: WebSocket | null;
     };
   }
 }
@@ -46,7 +45,7 @@ const connProm = async () => {
     return null;
   }
 };
-debugger;
+
 //window.__tokenCache.ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
 window.wsx = new WebSocket("ws://127.0.0.1:8123/api/websocket");
 console.log(window.wsx);

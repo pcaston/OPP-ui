@@ -44,6 +44,7 @@ async def counter(websocket, path):
         try:
             message = await websocket.recv()
             msg = json.loads(message)
+            print(msg['type'] )
             if msg['type'] == 'login' or msg['type'] == 'auth':
                 await websocket.send(json.dumps(
                     {'type': 'auth_ok',
