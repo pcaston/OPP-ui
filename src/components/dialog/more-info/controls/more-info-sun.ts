@@ -4,8 +4,8 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/opp-relative-time";
 
-import LocalizeMixin from "../../../mixins/localize-mixin";
-import formatTime from "../../../common/datetime/format_time";
+import LocalizeMixin from "../../../../mixins/localize-mixin";
+import formatTime from "../../../../common/datetime/format_time";
 
 class MoreInfoSun extends LocalizeMixin(PolymerElement) {
   static get template() {
@@ -20,7 +20,7 @@ class MoreInfoSun extends LocalizeMixin(PolymerElement) {
           <div class="key">
             <span>[[itemCaption(item)]]</span>
             <opp-relative-time
-              hass="[[hass]]"
+              opp="[[opp]]"
               datetime-obj="[[itemDate(item)]]"
             ></opp-relative-time>
           </div>
@@ -38,13 +38,12 @@ class MoreInfoSun extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       stateObj: Object,
       risingDate: {
         type: Object,
         computed: "computeRising(stateObj)",
       },
-
       settingDate: {
         type: Object,
         computed: "computeSetting(stateObj)",
@@ -66,9 +65,9 @@ class MoreInfoSun extends LocalizeMixin(PolymerElement) {
 
   itemCaption(type) {
     if (type === "ris") {
-      return this.localize("ui.dialogs.more_info_control.sun.rising");
+      return "Rising";
     }
-    return this.localize("ui.dialogs.more_info_control.sun.setting");
+    return "Setting";
   }
 
   itemDate(type) {
@@ -76,7 +75,7 @@ class MoreInfoSun extends LocalizeMixin(PolymerElement) {
   }
 
   itemValue(type) {
-    return formatTime(this.itemDate(type), this.hass.language);
+    return formatTime(this.itemDate(type), "en");
   }
 }
 
