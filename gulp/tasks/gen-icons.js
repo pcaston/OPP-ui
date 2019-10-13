@@ -31,7 +31,19 @@ function generateIconset(iconSetName, iconNames) {
       return transformXMLtoPolymer(name, iconDef);
     })
     .join("");
-  return `<opp-iconset-svg name="${iconSetName}" size="24"><svg><defs>${iconDefs}</defs></svg></opp-iconset-svg>`;
+  return `
+    import '@polymer/iron-iconset-svg';
+    import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+    const template = html\`<opp-iconset-svg name="${iconSetName}" size="24">
+      <svg>
+        <defs>
+          ${iconDefs}
+        </defs>
+      </svg>
+    </opp-iconset-svg>\`;
+
+    document.head.appendChild(template.content);`;
 }
 
 // Helper function to map recursively over files in a folder and it's subfolders
@@ -87,7 +99,7 @@ function findOppIcons() {
   return Array.from(icons);
 }
 
-function genIconHTML(findFunction, IconSetName, bsname) {
+function genIconJS(findFunction, IconSetName, bsname) {
   const iconNames = findFunction();
   // empty stream
   return gulp.src('.', { allowEmpty: true })
@@ -98,17 +110,17 @@ function genIconHTML(findFunction, IconSetName, bsname) {
   }))
   .pipe(rename({ 
     basename: bsname, 
-    extname: ".html" }))
+    extname: ".js" }))
   .pipe(gulp.dest(OUTPUT_DIR));
 }
 
-gulp.task("gen-icons-mdi", () => genIconHTML(findMDIIcons, "mdi", "mdi"));
-gulp.task("gen-icons-opp", () => genIconHTML(findOppIcons, "opp", "opp-icons"));
+gulp.task("gen-icons-mdi", () => genIconJS(findMDIIcons, "mdi", "mdi"));
+gulp.task("gen-icons-opp", () => genIconJS(findOppIcons, "opp", "opp-icons"));
 gulp.task("gen-icons", gulp.parallel("gen-icons-mdi", "gen-icons-opp"), () => {});
 
 module.exports = {
   findMDIIcons,
   findOppIcons,
   generateIconset,
-  genIconHTML,
+  genIconJS,
 };

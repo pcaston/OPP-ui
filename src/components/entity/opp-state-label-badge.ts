@@ -65,10 +65,10 @@ export class OppStateLabelBadge extends LitElement {
           [domain]: true,
           "has-unit_of_measurement": "unit_of_measurement" in state.attributes,
         })}"
-        value="${this._computeValue(domain, state)}"
+        .value="${this._computeValue(domain, state)}"
         icon="${this._computeIcon(domain, state)}"
-        image="${state.attributes.entity_picture}"
-        label="${this._computeLabel(domain, state, this._timerTimeRemaining)}"
+        .image="${state.attributes.entity_picture}"
+        .label="${this._computeLabel(domain, state, this._timerTimeRemaining)}"
         description="${computeStateName(state)}"
       ></opp-label-badge>
     `;
