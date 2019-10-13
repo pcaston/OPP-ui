@@ -61,7 +61,6 @@ export class OppHomeView extends PageViewElement {
     console.log(this.states);
     return html`
       <section>
-        <h3>Badges</h3>
         <opp-badges-card opp="${JSON.stringify(this.opp)}" states="${JSON.stringify(this.states)}"></opp-badges-card>
       </section>
       <section>

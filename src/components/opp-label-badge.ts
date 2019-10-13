@@ -20,7 +20,6 @@ export class OppLabelBadge extends LitElement {
   @property( { type : String }  ) image?: string;
 
   protected render(): TemplateResult | void {
-    console.log("render opp-label-badge");
     return html`
       <div class="badge-container">
         <div class="label-badge" id="badge">
