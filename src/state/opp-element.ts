@@ -16,16 +16,3 @@ export class OppElement extends ext(OppBaseMixin(LitElement), [
     NotificationMixin,
     dialogManagerMixin,
 ]) {}
-
-//export class OppElement extends ext(OppBaseMixin(LitElement), [
-  //AuthMixin,
-  //ThemesMixin,
-  //TranslationsMixin,
-  //MoreInfoMixin,
-  //SidebarMixin,
-  //DisconnectToastMixin,
-  //connectionMixin,
-  //NotificationMixin,
-  //dialogManagerMixin,
-  //urlSyncMixin,
-//]) {}
