@@ -63,7 +63,6 @@ export class OppStoreAuth extends LitElement {
 
   private _save(event: Event) {
     console.log(event.target);
-    debugger;
     saveTokens(this.access_token);
     this._done();
   }

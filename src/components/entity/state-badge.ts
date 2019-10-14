@@ -14,12 +14,12 @@ import stateIcon from "../../common/entity/state_icon";
 import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { HaIcon } from "../op-icon";
+import { OppIcon } from "../opp-icon";
 
 class StateBadge extends LitElement {
   @property() public stateObj?: OppEntity;
   @property() public overrideIcon?: string;
-  @query("op-icon") private _icon!: HaIcon;
+  @query("op-icon") private _icon!: OppIcon;
 
   protected render(): TemplateResult | void {
     const stateObj = this.stateObj;

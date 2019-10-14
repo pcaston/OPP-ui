@@ -165,7 +165,6 @@ export class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    debugger;
     this.wsp!.send(JSON.stringify(result));
   }
 

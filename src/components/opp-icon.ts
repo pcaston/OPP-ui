@@ -19,10 +19,9 @@ export class OppIcon extends ironIconClass {
     methodName: string
   ): void {
     super.listen(node, eventName, methodName);
-
     if (!loaded && this._iconsetName === "mdi") {
       loaded = true;
-      import(/* webpackChunkName: "mdi-icons" */ "../resources/mdi-icons");
+      import("../resources/mdi-icons");
     }
   }
 }

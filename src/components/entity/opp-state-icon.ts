@@ -1,13 +1,13 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../op-icon";
+import "../opp-icon";
 import stateIcon from "../../common/entity/state_icon";
 
-class OpStateIcon extends PolymerElement {
+class OppStateIcon extends PolymerElement {
   static get template() {
     return html`
-      <op-icon icon="[[computeIcon(stateObj)]]"></op-icon>
+      <opp-icon icon="[[computeIcon(stateObj)]]"></opp-icon>
     `;
   }
 
@@ -24,4 +24,4 @@ class OpStateIcon extends PolymerElement {
   }
 }
 
-customElements.define("op-state-icon", OpStateIcon);
+customElements.define("opp-state-icon", OppStateIcon);
