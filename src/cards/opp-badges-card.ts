@@ -21,7 +21,7 @@ export class OppBadgesCard extends LitElement {
         const state: OppEntity = this.states![key];
         return html`
           <div>
-            <opp-state-label-badge opp="${JSON.stringify(this.opp)}" id="${state.entity_id}" state="${JSON.stringify(state)}"></opp-state-label-badge>
+            <opp-state-label-badge .opp="${this.opp}" id="${state.entity_id}" .state="${state}"></opp-state-label-badge>
           </div>
         `;
       })

@@ -1,4 +1,4 @@
-import { LitElement, html, css, property, customElement } from 'lit-element';
+import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
 
 // These are the elements needed by this element.
@@ -61,7 +61,7 @@ export class OppHomeView extends PageViewElement {
     console.log(this.states);
     return html`
       <section>
-        <opp-badges-card opp="${JSON.stringify(this.opp)}" states="${JSON.stringify(this.states)}"></opp-badges-card>
+        <opp-badges-card .opp="${this.opp}" .states="${this.states}"></opp-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>
@@ -73,7 +73,7 @@ export class OppHomeView extends PageViewElement {
       </section>
       <section>
         <h3>Appliances</h3>
-        <appliance-list appliances="${JSON.stringify(this.appliances)}"></appliance-list>
+        <appliance-list .appliances="${this.appliances}"></appliance-list>
       </section>
     `;
   }
