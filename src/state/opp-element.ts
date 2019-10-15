@@ -1,5 +1,4 @@
 import OppBaseMixin from "./opp-base-mixin";
-import AuthMixin from "./auth-mixin";
 import MoreInfoMixin from "./more-info-mixin";
 import SidebarMixin from "./sidebar-mixin";
 import { dialogManagerMixin } from "./dialog-manager-mixin";
@@ -10,7 +9,6 @@ const ext = <T>(baseClass: T, mixins): T =>
   mixins.reduceRight((base, mixin) => mixin(base), baseClass);
 
 export class OppElement extends ext(OppBaseMixin(LitElement), [
-    AuthMixin,
     MoreInfoMixin,
     SidebarMixin,
     NotificationMixin,

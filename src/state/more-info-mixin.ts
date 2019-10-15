@@ -20,11 +20,12 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       this.addEventListener("opp-more-info", (e) => this._handleMoreInfo(e));
 
       // Load it once we are having the initial rendering done.
-      import(/* webpackChunkName: "more-info-dialog" */ "../dialogs/op-more-info-dialog");
+      import("../dialogs/op-more-info-dialog");
     }
 
     private async _handleMoreInfo(ev) {
       if (!this._moreInfoEl) {
+        debugger;
         this._moreInfoEl = document.createElement("op-more-info-dialog");
         this.shadowRoot!.appendChild(this._moreInfoEl);
         this.provideOpp(this._moreInfoEl);
