@@ -274,7 +274,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         mapItems.push(
           Leaflet.marker([latitude, longitude], {
             icon: Leaflet.divIcon({
-              html: icon ? `<op-icon icon="${icon}"></op-icon>` : title,
+              html: icon ? `<opp-icon icon="${icon}"></opp-icon>` : title,
               iconSize: [24, 24],
               className: "",
             }),

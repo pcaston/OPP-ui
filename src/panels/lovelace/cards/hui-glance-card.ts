@@ -16,7 +16,7 @@ import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-warning-element";
 
 import { OpenPeerPower } from "../../../types";

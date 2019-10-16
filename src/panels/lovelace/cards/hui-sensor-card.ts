@@ -16,7 +16,7 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import stateIcon from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-warning";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -236,9 +236,9 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       <op-card @click="${this._handleClick}">
         <div class="flex">
           <div class="icon">
-            <op-icon
+            <opp-icon
               .icon="${this._config.icon || stateIcon(stateObj)}"
-            ></op-icon>
+            ></opp-icon>
           </div>
           <div class="header">
             <span class="name"

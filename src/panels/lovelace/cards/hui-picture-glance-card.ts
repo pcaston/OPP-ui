@@ -16,7 +16,7 @@ import computeDomain from "../../../common/entity/compute_domain";
 import stateIcon from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-image";
 import "../components/hui-warning-element";
 
@@ -175,7 +175,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <op-icon
+      <opp-icon
         .entity="${stateObj.entity_id}"
         @click="${dialog ? this._openDialog : this._callService}"
         class="${classMap({
@@ -188,7 +188,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
           stateObj
         )}
           `}"
-      ></op-icon>
+      ></opp-icon>
     `;
   }
 
@@ -245,13 +245,13 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
         margin-left: 8px;
       }
 
-      op-icon {
+      opp-icon {
         cursor: pointer;
         padding: 8px;
         color: #a9a9a9;
       }
 
-      op-icon.state-on {
+      opp-icon.state-on {
         color: white;
       }
     `;

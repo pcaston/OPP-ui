@@ -12,7 +12,7 @@ import { PaperInputElement } from "@polymer/paper-input/paper-input";
 import "@polymer/paper-checkbox/paper-checkbox";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -85,7 +85,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
     return html`
       <op-card .header="${this._config.title}">
         <div class="addRow">
-          <op-icon
+          <opp-icon
             class="addButton"
             @click="${this._addItem}"
             icon="opp:plus"
@@ -93,7 +93,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
               "ui.panel.lovelace.cards.shopping-list.add_item"
             )}"
           >
-          </op-icon>
+          </opp-icon>
           <paper-item-body>
             <paper-input
               no-label-float
@@ -139,7 +139,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
                     "ui.panel.lovelace.cards.shopping-list.checked_items"
                   )}
                 </span>
-                <op-icon
+                <opp-icon
                   class="clearall"
                   @click="${this._clearItems}"
                   icon="opp:notification-clear-all"
@@ -147,7 +147,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
                     "ui.panel.lovelace.cards.shopping-list.clear_items"
                   )}"
                 >
-                </op-icon>
+                </opp-icon>
               </div>
               ${repeat(
                 this._checkedItems!,
@@ -238,7 +238,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
         padding-right: 10px;
       }
 
-      .addRow > op-icon {
+      .addRow > opp-icon {
         color: var(--secondary-text-color);
       }
     `;

@@ -28,12 +28,4 @@ export class OppBadgesCard extends LitElement {
     }
     `;
   }
-  constructor() {
-    super();
-    console.log("opp-badges constructor");
-  }
-  protected firstUpdated() {
-    console.log("opp-badges first updated");
-    console.log(this.opp);
-  }
 }

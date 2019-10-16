@@ -12,7 +12,7 @@ import "@polymer/paper-item/paper-item-body";
 import { OpenPeerPower } from "../../types";
 import { createConfigFlow } from "../../data/config_entries";
 import { fireEvent } from "../../common/dom/fire_event";
-import "../../components/op-icon-next";
+import "../../components/opp-icon-next";
 
 @customElement("step-flow-pick-handler")
 class StepFlowPickHandler extends LitElement {
@@ -30,7 +30,7 @@ class StepFlowPickHandler extends LitElement {
                 <paper-item-body>
                   ${this.opp.localize(`component.${handler}.config.title`)}
                 </paper-item-body>
-                <op-icon-next></op-icon-next>
+                <opp-icon-next></opp-icon-next>
               </paper-item>
             `
         )}

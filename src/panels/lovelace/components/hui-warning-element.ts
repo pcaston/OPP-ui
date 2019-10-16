@@ -8,7 +8,7 @@ import {
   property,
 } from "lit-element";
 
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 
 @customElement("hui-warning-element")
 export class HuiWarningElement extends LitElement {
@@ -16,13 +16,13 @@ export class HuiWarningElement extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <op-icon icon="opp:alert" .title="${this.label}"></op-icon>
+      <opp-icon icon="opp:alert" .title="${this.label}"></opp-icon>
     `;
   }
 
   static get styles(): CSSResult {
     return css`
-      op-icon {
+      opp-icon {
         color: #fce588;
       }
     `;

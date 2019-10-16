@@ -20,7 +20,7 @@ import {
 import "../../../layouts/opp-subpage";
 import "../../../layouts/opp-loading-screen";
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import domainIcon from "../../../common/entity/domain_icon";
 import stateIcon from "../../../common/entity/state_icon";
 import computeDomain from "../../../common/entity/compute_domain";
@@ -83,12 +83,12 @@ class HaConfigEntityRegistry extends LitElement {
               const state = this.opp!.states[entry.entity_id];
               return html`
                 <paper-icon-item @click=${this._openEditEntry} .entry=${entry}>
-                  <op-icon
+                  <opp-icon
                     slot="item-icon"
                     .icon=${state
                       ? stateIcon(state)
                       : domainIcon(computeDomain(entry.entity_id))}
-                  ></op-icon>
+                  ></opp-icon>
                   <paper-item-body two-line>
                     <div class="name">
                       ${computeEntityRegistryName(this.opp!, entry) ||
@@ -174,7 +174,7 @@ Deleting an entry will not remove the entity from Open Peer Power. To do this, y
       paper-icon-item {
         cursor: pointer;
       }
-      op-icon {
+      opp-icon {
         margin-left: 8px;
       }
     `;

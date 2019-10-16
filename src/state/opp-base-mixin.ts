@@ -21,10 +21,10 @@ export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
 
     public provideOpp(el) {
       this.__provideOpp.push(el);
-      el.hass = this.opp;
+      el.opp = this.opp;
     }
 
-    protected async _updateHass(obj: Partial<OpenPeerPower>) {
+    protected async _updateOpp(obj: Partial<OpenPeerPower>) {
       if (!this.opp) {
         this._pendingOpp = { ...this._pendingOpp, ...obj };
         return;

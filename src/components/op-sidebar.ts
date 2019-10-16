@@ -11,7 +11,7 @@ import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-icon-item";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import "./op-icon";
+import "./opp-icon";
 
 import "../components/user/op-user-badge";
 import isComponentLoaded from "../common/config/is_component_loaded";
@@ -101,7 +101,7 @@ class OpSidebar extends LitElement {
           tabindex="-1"
         >
           <paper-icon-item>
-            <op-icon slot="item-icon" icon="opp:apps"></op-icon>
+            <opp-icon slot="item-icon" icon="opp:apps"></opp-icon>
             <span class="item-text">${opp.localize("panel.states")}</span>
           </paper-icon-item>
         </a>
@@ -114,7 +114,7 @@ class OpSidebar extends LitElement {
               tabindex="-1"
             >
               <paper-icon-item>
-                <op-icon slot="item-icon" .icon="${panel.icon}"></op-icon>
+                <opp-icon slot="item-icon" .icon="${panel.icon}"></opp-icon>
                 <span class="item-text"
                   >${opp.localize(`panel.${panel.title}`) || panel.title}</span
                 >
@@ -130,10 +130,10 @@ class OpSidebar extends LitElement {
                 @click=${this._handleExternalAppConfiguration}
               >
                 <paper-icon-item>
-                  <op-icon
+                  <opp-icon
                     slot="item-icon"
                     icon="opp:cellphone-settings-variant"
-                  ></op-icon>
+                  ></opp-icon>
                   <span class="item-text"
                     >${opp.localize(
                       "ui.sidebar.external_app_configuration"
@@ -146,7 +146,7 @@ class OpSidebar extends LitElement {
         ${!opp.user
           ? html`
               <paper-icon-item @click=${this._handleLogOut} class="logout">
-                <op-icon slot="item-icon" icon="opp:exit-to-app"></op-icon>
+                <opp-icon slot="item-icon" icon="opp:exit-to-app"></opp-icon>
                 <span class="item-text"
                   >${opp.localize("ui.sidebar.log_out")}</span
                 >
@@ -304,7 +304,7 @@ class OpSidebar extends LitElement {
         --paper-item-min-height: 40px;
       }
 
-      op-icon[slot="item-icon"] {
+      opp-icon[slot="item-icon"] {
         color: var(--sidebar-icon-color);
       }
 
@@ -333,7 +333,7 @@ class OpSidebar extends LitElement {
         font-size: 14px;
       }
 
-      a.iron-selected paper-icon-item op-icon {
+      a.iron-selected paper-icon-item opp-icon {
         color: var(--sidebar-selected-icon-color);
       }
 

@@ -2,7 +2,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/op-card";
-import "../components/op-icon";
+import "../components/opp-icon";
 
 import computeStateName from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
@@ -44,7 +44,7 @@ class OpPlantCard extends EventsMixin(PolymerElement) {
         .has-plant-image .content {
           padding-bottom: 16px;
         }
-        op-icon {
+        opp-icon {
           color: var(--paper-item-icon-color);
           margin-bottom: 8px;
         }
@@ -79,9 +79,9 @@ class OpPlantCard extends EventsMixin(PolymerElement) {
           >
             <div class="attributes" on-click="attributeClicked">
               <div>
-                <op-icon
+                <opp-icon
                   icon="[[computeIcon(item, stateObj.attributes.battery)]]"
-                ></op-icon>
+                ></opp-icon>
               </div>
               <div
                 class$="[[computeAttributeClass(stateObj.attributes.problem, item)]]"

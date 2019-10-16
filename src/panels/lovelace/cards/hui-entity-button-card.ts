@@ -124,7 +124,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
       >
         ${this._config.show_icon
           ? html`
-              <op-icon
+              <opp-icon
                 data-domain="${computeStateDomain(stateObj)}"
                 data-state="${stateObj.state}"
                 .icon="${this._config.icon || stateIcon(stateObj)}"
@@ -132,7 +132,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
                   filter: this._computeBrightness(stateObj),
                   color: this._computeColor(stateObj),
                 })}"
-              ></op-icon>
+              ></opp-icon>
             `
           : ""}
         ${this._config.show_name
@@ -170,21 +170,21 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
         font-size: 1.2rem;
       }
 
-      op-icon {
+      opp-icon {
         width: 40%;
         height: auto;
         color: var(--paper-item-icon-color, #44739e);
       }
 
-      op-icon[data-domain="light"][data-state="on"],
-      op-icon[data-domain="switch"][data-state="on"],
-      op-icon[data-domain="binary_sensor"][data-state="on"],
-      op-icon[data-domain="fan"][data-state="on"],
-      op-icon[data-domain="sun"][data-state="above_horizon"] {
+      opp-icon[data-domain="light"][data-state="on"],
+      opp-icon[data-domain="switch"][data-state="on"],
+      opp-icon[data-domain="binary_sensor"][data-state="on"],
+      opp-icon[data-domain="fan"][data-state="on"],
+      opp-icon[data-domain="sun"][data-state="above_horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 
-      op-icon[data-state="unavailable"] {
+      opp-icon[data-state="unavailable"] {
         color: var(--state-icon-unavailable-color);
       }
     `;

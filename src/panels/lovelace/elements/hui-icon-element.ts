@@ -8,7 +8,7 @@ import {
   customElement,
 } from "lit-element";
 
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 
 import { computeTooltip } from "../common/compute-tooltip";
 import { handleClick } from "../common/handle-click";
@@ -35,13 +35,13 @@ export class HuiIconElement extends LitElement implements LovelaceElement {
     }
 
     return html`
-      <op-icon
+      <opp-icon
         .icon="${this._config.icon}"
         .title="${computeTooltip(this.opp, this._config)}"
         @op-click="${this._handleTap}"
         @op-hold="${this._handleHold}"
         .longPress="${longPress()}"
-      ></op-icon>
+      ></opp-icon>
     `;
   }
 

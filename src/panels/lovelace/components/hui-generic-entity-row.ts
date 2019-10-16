@@ -11,7 +11,7 @@ import {
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-relative-time";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";

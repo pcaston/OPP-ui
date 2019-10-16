@@ -57,8 +57,6 @@ export class OppHomeView extends PageViewElement {
 
   protected render() {
     this.states = this.opp.states!;
-    console.log("render home-view");
-    console.log(this.states);
     return html`
       <section>
         <opp-badges-card .opp="${this.opp}" .states="${this.states}"></opp-badges-card>
@@ -76,13 +74,5 @@ export class OppHomeView extends PageViewElement {
         <appliance-list .appliances="${this.appliances}"></appliance-list>
       </section>
     `;
-  }
-  constructor() {
-    super();
-    console.log("home-view Constructor");
-  }
-  protected firstUpdated() {
-    console.log("home-view first updated");
-    console.log(this.opp);
   }
 }

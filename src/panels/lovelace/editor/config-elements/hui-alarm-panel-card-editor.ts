@@ -19,7 +19,7 @@ import { fireEvent } from "../../../../common/dom/fire_event";
 import { configElementStyle } from "./config-elements-style";
 
 import "../../../../components/entity/op-entity-picker";
-import "../../../../components/op-icon";
+import "../../../../components/opp-icon";
 import { AlarmPanelCardConfig } from "../../cards/types";
 
 const cardConfigStruct = struct({
@@ -83,12 +83,12 @@ export class HuiAlarmPanelCardEditor extends LitElement
           return html`
             <div class="states">
               <paper-item>${state}</paper-item>
-              <op-icon
+              <opp-icon
                 class="deleteState"
                 .value="${index}"
                 icon="opp:close"
                 @click=${this._stateRemoved}
-              ></op-icon>
+              ></opp-icon>
             </div>
           `;
         })}
@@ -120,7 +120,7 @@ export class HuiAlarmPanelCardEditor extends LitElement
       .states:hover > .deleteState {
         visibility: visible;
       }
-      op-icon {
+      opp-icon {
         padding-top: 12px;
       }
     `;

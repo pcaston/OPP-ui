@@ -240,13 +240,4 @@ export class OppStateLabelBadge extends LitElement {
       }
     `;
   }
-  constructor() {
-    super();
-    console.log("OPP-state-label-badge constructor");
-  }
-}
-declare global {
-  interface HTMLElementTagNameMap {
-    "opp-state-label-badge": OppStateLabelBadge;
-  }
 }

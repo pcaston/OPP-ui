@@ -13,7 +13,7 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-warning";
 
 import { fireEvent } from "../../../common/dom/fire_event";
@@ -102,7 +102,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
         <div id="light"></div>
         <div id="tooltip">
           <div class="icon-state">
-            <op-icon
+            <opp-icon
               class="light-icon"
               data-state="${stateObj.state}"
               .icon="${stateIcon(stateObj)}"
@@ -111,7 +111,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
                 color: this._computeColor(stateObj),
               })}"
               @click="${this._handleTap}"
-            ></op-icon>
+            ></opp-icon>
             <div class="brightness" @op-click="${this._handleTap}"></div>
             <div class="name">
               ${this._config.name || computeStateName(stateObj)}

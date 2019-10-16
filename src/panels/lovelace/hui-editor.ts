@@ -12,7 +12,7 @@ import "@polymer/paper-spinner/paper-spinner";
 import { struct } from "./common/structs/struct";
 import { Lovelace } from "./types";
 
-import "../../components/op-icon";
+import "../../components/opp-icon";
 import { opStyle } from "../../resources/styles";
 import "./components/hui-yaml-editor";
 // This is not a duplicate import, one is for types, one is for element.

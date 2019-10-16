@@ -28,7 +28,7 @@ import "../../layouts/op-app-layout";
 import "../../components/op-start-voice-button";
 import "../../components/op-paper-icon-button-arrow-next";
 import "../../components/op-paper-icon-button-arrow-prev";
-import "../../components/op-icon";
+import "../../components/opp-icon";
 import { loadModule, loadCSS, loadJS } from "../../common/dom/load_resource";
 import { subscribeNotifications } from "../../data/ws-notifications";
 import { debounce } from "../../common/util/debounce";
@@ -243,20 +243,20 @@ class HUIRoot extends LitElement {
                             : ""}
                           ${view.icon
                             ? html`
-                                <op-icon
+                                <opp-icon
                                   title="${view.title}"
                                   .icon="${view.icon}"
-                                ></op-icon>
+                                ></opp-icon>
                               `
                             : view.title || "Unnamed view"}
                           ${this._editMode
                             ? html`
-                                <op-icon
+                                <opp-icon
                                   title="Edit view"
                                   class="edit-icon view"
                                   icon="opp:pencil"
                                   @click="${this._editView}"
-                                ></op-icon>
+                                ></opp-icon>
                                 <op-paper-icon-button-arrow-next
                                   title="Move view right"
                                   class="edit-icon view"
@@ -339,7 +339,7 @@ class HUIRoot extends LitElement {
           position: absolute;
           height: 44px;
         }
-        #add-view op-icon {
+        #add-view opp-icon {
           background-color: var(--accent-color);
           border-radius: 5px;
           margin-top: 4px;

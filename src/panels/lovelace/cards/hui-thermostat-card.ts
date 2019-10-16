@@ -10,7 +10,7 @@ import { classMap } from "lit-html/directives/class-map";
 import "@polymer/paper-icon-button/paper-icon-button";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 import "../components/hui-warning";
 
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
@@ -332,12 +332,12 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       return html``;
     }
     return html`
-      <op-icon
+      <opp-icon
         class="${classMap({ "selected-icon": currentMode === mode })}"
         .mode="${mode}"
         .icon="${modeIcons[mode]}"
         @click="${this._handleModeClick}"
-      ></op-icon>
+      ></opp-icon>
     `;
   }
 
@@ -525,13 +525,13 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
         .modes {
           margin-top: 16px;
         }
-        .modes op-icon {
+        .modes opp-icon {
           color: var(--disabled-text-color);
           cursor: pointer;
           display: inline-block;
           margin: 0 10px;
         }
-        .modes op-icon.selected-icon {
+        .modes opp-icon.selected-icon {
           color: var(--mode-color);
         }
         .current-temperature {

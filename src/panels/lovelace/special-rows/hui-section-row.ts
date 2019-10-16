@@ -11,7 +11,7 @@ import {
 import { EntityRow, SectionConfig } from "../entity-rows/types";
 import { OpenPeerPower } from "../../../types";
 
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 
 @customElement("hui-section-row")
 class HuiSectionRow extends LitElement implements EntityRow {

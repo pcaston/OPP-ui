@@ -14,7 +14,7 @@ import "../../../../components/entity/state-badge";
 import "../../components/hui-theme-select-editor";
 import "../../components/hui-entity-editor";
 import "../../../../components/op-card";
-import "../../../../components/op-icon";
+import "../../../../components/opp-icon";
 
 import { struct } from "../../common/structs/struct";
 import { processEditorEntities } from "../process-editor-entities";

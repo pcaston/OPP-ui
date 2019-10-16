@@ -11,7 +11,7 @@ import {
 import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
+import "../../../components/opp-icon";
 
 import computeStateName from "../../../common/entity/compute_state_name";
 
@@ -100,12 +100,12 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
                 .value="${item}"
               >
                 <div>
-                  <op-icon
+                  <opp-icon
                     icon="${this.computeIcon(
                       item,
                       stateObj.attributes.battery
                     )}"
-                  ></op-icon>
+                  ></opp-icon>
                 </div>
                 <div
                   class="${stateObj.attributes.problem.indexOf(item) === -1
@@ -174,7 +174,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
         padding-bottom: 16px;
       }
 
-      op-icon {
+      opp-icon {
         color: var(--paper-item-icon-color);
         margin-bottom: 8px;
       }
