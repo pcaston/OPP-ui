@@ -16,7 +16,7 @@ import DialogMixin from "../mixins/dialog-mixin";
 /*
  * @appliesMixin DialogMixin
  */
-class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
+class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
@@ -203,4 +203,4 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
     this.notifyResize();
   }
 }
-customElements.define("op-more-info-dialog", OpMoreInfoDialog);
+customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
