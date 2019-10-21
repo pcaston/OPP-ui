@@ -1,6 +1,7 @@
-import { LitElement, html, property, customElement } from 'lit-element';
 import "@polymer/paper-dialog-behavior/paper-dialog-shared-styles";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../resources/op-style";
 
@@ -11,24 +12,14 @@ import computeStateDomain from "../common/entity/compute_state_domain";
 import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
-import { OpenPeerPower } from '../types';
 
 /*
  * @appliesMixin DialogMixin
  */
-@customElement("opp-more-info-dialog")
-export class OppMoreInfoDialog extends DialogMixin(LitElement) {
-  @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : Object, hasChanged: this._stateObjChanged() }) stateObj = this._computeStateObj(this.opp);
-  @property({ type : Boolean, hasChanged: this._largeChanged() }) large = false;
-  @property({ type : Object }) _dialogElement = {};
-  @property({ type : Object }) _registryInfo = {} || null;
-  @property({ type : String }) _page = null;
-  @property({ type : String }) dataDomain = this._computeDomain(this.stateObj);
-
-  protected render() {
+class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
+  static get template() {
     return html`
-      <style include="op-style-dialog paper-dialog-shared-styles">
+      <style include="opp-style-dialog paper-dialog-shared-styles">
         :host {
           font-size: 14px;
           width: 365px;
@@ -39,7 +30,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement) {
         more-info-settings {
           --more-info-header-background: var(--secondary-background-color);
           --more-info-header-color: var(--primary-text-color);
-          --op-more-info-app-toolbar-title: {
+          --opp-more-info-app-toolbar-title: {
             /* Design guideline states 24px, changed to 16 to align with state info */
             margin-left: 16px;
             line-height: 1.3em;
@@ -53,7 +44,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement) {
           }
         }
 
-        /* overrule the op-style-dialog max-height on small screens */
+        /* overrule the opp-style-dialog max-height on small screens */
         @media all and (max-width: 450px), all and (max-height: 500px) {
           more-info-controls,
           more-info-settings {
@@ -88,25 +79,55 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement) {
         }
       </style>
 
-      <template is="dom-if" if="${this._page}">
+      <template is="dom-if" if="[[!_page]]">
         <more-info-controls
           class="no-padding"
-          .opp="${this.opp}"
-          state-obj="${this.stateObj}"
-          dialog-element="${this._dialogElement}"
-          can-configure="${this._registryInfo}"
-          large="${this.large}"
+          opp="[[opp]]"
+          state-obj="[[stateObj]]"
+          dialog-element="[[_dialogElement]]"
+          can-configure="[[_registryInfo]]"
+          large="{{large}}"
         ></more-info-controls>
       </template>
-      <template is="dom-if" if='${this._equals(this._page, "settings")}'>
+      <template is="dom-if" if='[[_equals(_page, "settings")]]'>
         <more-info-settings
           class="no-padding"
-          .opp="${this.opp}"
-          state-obj="${this.stateObj}"
-          registry-info="${this._registryInfo}"
+          opp="[[opp]]"
+          state-obj="[[stateObj]]"
+          registry-info="{{_registryInfo}}"
         ></more-info-settings>
       </template>
     `;
+  }
+
+  static get properties() {
+    return {
+      opp: Object,
+      stateObj: {
+        type: Object,
+        computed: "_computeStateObj(opp)",
+        observer: "_stateObjChanged",
+      },
+
+      large: {
+        type: Boolean,
+        reflectToAttribute: true,
+        observer: "_largeChanged",
+      },
+
+      _dialogElement: Object,
+      _registryInfo: Object,
+
+      _page: {
+        type: String,
+        value: null,
+      },
+
+      dataDomain: {
+        computed: "_computeDomain(stateObj)",
+        reflectToAttribute: true,
+      },
+    };
   }
 
   static get observers() {
@@ -120,7 +141,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement) {
       this._page = ev.detail.page;
     });
   }
-
 
   _computeDomain(stateObj) {
     return stateObj ? computeStateDomain(stateObj) : "";
@@ -183,3 +203,4 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement) {
     this.notifyResize();
   }
 }
+customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
