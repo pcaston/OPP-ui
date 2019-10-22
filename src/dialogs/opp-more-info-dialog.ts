@@ -13,10 +13,16 @@ import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
 
+import { PaperDialogBehavior } from "@polymer/paper-dialog-behavior/paper-dialog-behavior";
+import { mixinBehaviors } from "@polymer/polymer/lib/legacy/class";
+import { EventsMixin } from "../mixins/events-mixin";
+import { dedupingMixin } from "@polymer/polymer/lib/utils/mixin";
+
 /*
  * @appliesMixin DialogMixin
  */
-class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
+
+class OppMoreInfoDialog extends PolymerElement {
   static get template() {
     return html`
       <style include="opp-style-dialog paper-dialog-shared-styles">
@@ -203,4 +209,6 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
     this.notifyResize();
   }
 }
+interface OppMoreInfoDialog extends EventsMixin, PaperDialogBehavior {}
+mixinBehaviors([EventsMixin, PaperDialogBehavior], OppMoreInfoDialog );
 customElements.define("opp-more-info-dialog", OppMoreInfoDialog);

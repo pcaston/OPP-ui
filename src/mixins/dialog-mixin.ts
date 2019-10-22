@@ -9,7 +9,7 @@ import { EventsMixin } from "./events-mixin";
  */
 export default dedupingMixin(
   (superClass) =>
-    class extends mixinBehaviors(
+    class X extends mixinBehaviors(
       [EventsMixin, PaperDialogBehavior],
       superClass
     ) {
@@ -23,3 +23,8 @@ export default dedupingMixin(
       }
     }
 );
+export interface X {
+  withBackdrop: {
+    type: Boolean
+  }
+}
