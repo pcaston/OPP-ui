@@ -11,7 +11,7 @@ import "./more-info/more-info-settings";
 import computeStateDomain from "../common/entity/compute_state_domain";
 import isComponentLoaded from "../common/config/is_component_loaded";
 
-import DialogMixin from "../mixins/dialog-mixin";
+import { X } from "../mixins/dialog-mixin";
 
 import { PaperDialogBehavior } from "@polymer/paper-dialog-behavior/paper-dialog-behavior";
 import { mixinBehaviors } from "@polymer/polymer/lib/legacy/class";
@@ -209,6 +209,5 @@ class OppMoreInfoDialog extends PolymerElement {
     this.notifyResize();
   }
 }
-interface OppMoreInfoDialog extends EventsMixin, PaperDialogBehavior {}
-mixinBehaviors([EventsMixin, PaperDialogBehavior], OppMoreInfoDialog );
+interface OppMoreInfoDialog extends X {}
 customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
