@@ -1,21 +1,11 @@
-<!--
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>My app</title>
+    <title>OPP ui</title>
     <meta name="generator" content="PWA Starter Kit">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="My App description">
+    <meta name="description" content="An application for energy monitoring and management at the nano grid level">
 
     <!--
       The `<base>` tag below is present to support two advanced deployment options:
@@ -37,12 +27,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="My App">
+    <meta name="application-name" content="OPP ui">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="My App">
+    <meta name="apple-mobile-web-app-title" content="OPP ui">
 
     <!-- Homescreen icons -->
     <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
@@ -60,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@username">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="my-app">
+    <meta property="og:site_name" content="OPP-ui">
     <meta property="og:image" content="images/manifest/icon-144x144.png" />
 
     <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
@@ -75,8 +65,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       }
 
-      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
-      // https://github.com/reactjs/redux/issues/2907
       window.process = { env: { NODE_ENV: 'production' } };
     </script>
 
@@ -104,13 +92,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
   </head>
   <body>
-    <my-app appTitle="my app"></my-app>
+    <opp-ui appTitle="OPP Home Manager" ></opp-ui>
     <noscript>
-      Please enable JavaScript to view this website.
+      Please enable JavaScript to view this page.
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <!-- Built with love using PWA Starter Kit -->
-    <script type="module" src="src/components/my-app.js"></script>
+    <script type="module" src="./src/entrypoints/core.js"></script>
+    <script type="module" src="src/components/OPP-ui.js"></script>
+    <script type="module" src="./build/opp-icons.js"></script>
   </body>
 </html>

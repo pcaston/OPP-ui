@@ -1,0 +1,55 @@
+import {
+  LitElement,
+  property,
+  customElement,
+  PropertyValues,
+  TemplateResult,
+  html,
+} from "lit-element";
+
+import "./hui-configurator-notification-item";
+import "./hui-persistent-notification-item";
+
+import { OpenPeerPower } from "../../../../types";
+import { OppNotification } from "./types";
+
+@customElement("hui-notification-item")
+export class HuiNotificationItem extends LitElement {
+  @property() public opp?: OpenPeerPower;
+
+  @property() public notification?: OppNotification;
+
+  protected shouldUpdate(changedProps: PropertyValues): boolean {
+    if (!this.opp || !this.notification || changedProps.has("notification")) {
+      return true;
+    }
+
+    return false;
+  }
+
+  protected render(): TemplateResult | void {
+    if (!this.opp || !this.notification) {
+      return html``;
+    }
+
+    return this.notification.entity_id
+      ? html`
+          <hui-configurator-notification-item
+            .opp="${this.opp}"
+            .notification="${this.notification}"
+          ></hui-configurator-notification-item>
+        `
+      : html`
+          <hui-persistent-notification-item
+            .opp="${this.opp}"
+            .notification="${this.notification}"
+          ></hui-persistent-notification-item>
+        `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "hui-notification-item": HuiNotificationItem;
+  }
+}

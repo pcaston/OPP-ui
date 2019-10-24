@@ -9,10 +9,13 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "experimentalDecorators": true
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "sourceMap": true
   },
   "include": [
     "src/**/*.ts"
   ],
-  "exclude": [],
+  "exclude": []
 }

@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "Open Peer Power Nano Grid",
+  "short_name": "OPP ui",
+  "description": "An application for energy monitoring and management at the nano grid level",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3f51b5",
