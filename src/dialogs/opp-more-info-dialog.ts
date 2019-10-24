@@ -21,7 +21,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   static get template() {
     debugger;
     return html`
-      <style include="opp-style-dialog paper-dialog-shared-styles">
+      <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
           font-size: 14px;
           width: 365px;
@@ -46,7 +46,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
           }
         }
 
-        /* overrule the opp-style-dialog max-height on small screens */
+        /* overrule the op-style-dialog max-height on small screens */
         @media all and (max-width: 450px), all and (max-height: 500px) {
           more-info-controls,
           more-info-settings {

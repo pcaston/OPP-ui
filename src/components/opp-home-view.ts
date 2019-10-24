@@ -1,5 +1,6 @@
 import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element';
+import { OppElement } from "../state/opp-element";
 
 // These are the elements needed by this element.
 import { OpenPeerPower } from "../types";
@@ -14,7 +15,7 @@ import { SharedStyles } from './shared-styles';
 import { ButtonSharedStyles } from './button-shared-styles';
 
 @customElement('opp-home-view')
-export class OppHomeView extends PageViewElement {
+export class OppHomeView extends OppElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states!: OppEntities;
