@@ -107,6 +107,7 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
   }
 
   _backTapped() {
+    debugger;
     this.fire("more-info-page", { page: null });
   }
 
