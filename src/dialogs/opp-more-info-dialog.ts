@@ -20,6 +20,7 @@ import DialogMixin from "../mixins/dialog-mixin";
 class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   static get template() {
     debugger;
+    console.log(opp-more-info-dialog.properties.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -122,7 +123,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
 
       _page: {
         type: String,
-        value: null,
+        value: "settings",
       },
 
       dataDomain: {

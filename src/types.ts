@@ -62,7 +62,6 @@ export interface CurrentUser {
   is_admin: boolean;
   name: string;
   credentials: Credential[];
-  mfa_modules: MFAModule[];
 }
 
 export interface Theme {
