@@ -57,7 +57,6 @@ export const EventsMixin = dedupingMixin(
         composed: boolean;
       }): Event {
         options = options || {};
-        debugger,
         return fireEvent(options.node || this, type, detail, options);
       }
     }

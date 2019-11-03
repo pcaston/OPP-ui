@@ -272,7 +272,14 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
+          debugger;
           this.opp.states = data.result;
+          this.opp.user = {
+            id: "paul",
+            is_owner: true,
+            is_admin: true,
+            name: "Paul"
+          };
           this.appliances = this._getAllAppliances();
           break;
         default:

@@ -1,11 +1,7 @@
 import "@polymer/paper-dialog-behavior/paper-dialog-shared-styles";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import {
-  LitElement,
-  html,
-  customElement,
-  property,
-} from "lit-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../resources/op-style";
 
@@ -16,30 +12,13 @@ import computeStateDomain from "../common/entity/compute_state_domain";
 import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
-import { OpenPeerPower } from '../types';
 
 /*
  * @appliesMixin DialogMixin
  */
 
-@customElement("opp-more-info-dialog")
-export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
-  @property() public opp?: OpenPeerPower;
-  @property() public stateObj: Object =
-  {
-    computed: "_computeStateObj(opp)",
-    observer: "_stateObjChanged",
-  };
-  @property() public large: Boolean = true;
-  @property() public _dialogElement: Object = {};
-  @property() public _registryInfo: Object = {};
-  @property() public _page: Object = {
-    type: String,
-    value: null,
-  };
-  @property() public dataDomain: String = this._computeDomain(this.stateObj);
-
-  render(){
+class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
+  static get template() {
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -101,20 +80,24 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
         }
       </style>
 
-      <more-info-controls
-        class="no-padding"
-        .opp="${this.opp}"
-        .state-obj="${this.stateObj}"
-        dialog-element="${this._dialogElement}"
-        can-configure="${this._registryInfo}"
-        large="${this.large}"
-      ></more-info-controls>
-      <more-info-settings
-        class="no-padding"
-        .opp="${this.opp}"
-        .state-obj="${this.stateObj}"
-        registry-info="${this._registryInfo}"
-      ></more-info-settings>
+      <template is="dom-if" if="[[!_page]]">
+        <more-info-controls
+          class="no-padding"
+          opp="[[opp]]"
+          state-obj="[[stateObj]]"
+          dialog-element="[[_dialogElement]]"
+          can-configure="[[_registryInfo]]"
+          large="{{large}}"
+        ></more-info-controls>
+      </template>
+      <template is="dom-if" if='[[_equals(_page, "settings")]]'>
+        <more-info-settings
+          class="no-padding"
+          opp="[[opp]]"
+          state-obj="[[stateObj]]"
+          registry-info="{{_registryInfo}}"
+        ></more-info-settings>
+      </template>
     `;
   }
 
@@ -156,7 +139,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
     super.ready();
     this._dialogElement = this;
     this.addEventListener("more-info-page", (ev) => {
-      debugger;
       this._page = ev.detail.page;
     });
   }
@@ -189,7 +171,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
     );
 
     if (
-      !isComponentLoaded(this.opp!, "config") ||
+      !isComponentLoaded(this.opp, "config") ||
       (oldVal && oldVal.entity_id === newVal.entity_id)
     ) {
       return;
@@ -222,3 +204,5 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
     this.notifyResize();
   }
 }
+
+customElements.define("opp-more-info-dialog", OppMoreInfoDialog)
