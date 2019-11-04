@@ -16,7 +16,7 @@ import DialogMixin from "../mixins/dialog-mixin";
 /*
  * @appliesMixin DialogMixin
  */
-
+// @ts-ignore
 class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   static get template() {
     return html`
@@ -139,6 +139,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
     super.ready();
     this._dialogElement = this;
     this.addEventListener("more-info-page", (ev) => {
+      debugger;
       this._page = ev.detail.page;
     });
   }
@@ -148,10 +149,12 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   }
 
   _computeStateObj(opp) {
+    debugger;
     return opp.states[opp.moreInfoEntityId] || null;
   }
 
   async _stateObjChanged(newVal, oldVal) {
+    debugger;
     if (!newVal) {
       this.setProperties({
         opened: false,
