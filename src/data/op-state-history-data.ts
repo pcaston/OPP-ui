@@ -184,9 +184,7 @@ class OpStateHistoryData extends PolymerElement {
         getRecentWithCache(
           this.opp,
           entityId,
-          cacheConfig,
-          localize,
-          'en'
+          cacheConfig
         ).then((stateHistory) => {
           this._setData(Object.assign({}, stateHistory));
         });
@@ -196,8 +194,6 @@ class OpStateHistoryData extends PolymerElement {
       this.opp,
       entityId,
       cacheConfig,
-      localize,
-      'en'
     );
   }
 }

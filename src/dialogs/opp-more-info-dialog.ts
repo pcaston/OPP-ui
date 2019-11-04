@@ -19,8 +19,6 @@ import DialogMixin from "../mixins/dialog-mixin";
 
 class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   static get template() {
-    debugger;
-    console.log(opp-more-info-dialog.properties.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -207,4 +205,4 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   }
 }
 
-customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
+customElements.define("opp-more-info-dialog", OppMoreInfoDialog)

@@ -61,7 +61,7 @@ export interface CurrentUser {
   is_owner: boolean;
   is_admin: boolean;
   name: string;
-  credentials: Credential[];
+  credentials?: Credential[];
 }
 
 export interface Theme {

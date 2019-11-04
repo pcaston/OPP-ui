@@ -199,6 +199,7 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
   }
 
   _gotoSettings() {
+    debugger;
     this.fire("more-info-page", { page: "settings" });
   }
 

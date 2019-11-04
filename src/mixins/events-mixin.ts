@@ -51,7 +51,11 @@ export const EventsMixin = dedupingMixin(
     *  `node` on which to fire the event (HTMLElement, defaults to `this`).
     * @return {Event} The new event that was fired.
     */
-      fire(type, detail, options) {
+      fire(type: string, detail?: any, options?:{
+        bubbles: boolean;
+        cancelable: boolean;
+        composed: boolean;
+      }): Event {
         options = options || {};
         return fireEvent(options.node || this, type, detail, options);
       }
