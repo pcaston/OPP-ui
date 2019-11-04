@@ -272,7 +272,6 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
-          debugger;
           this.opp.states = data.result;
           this.opp.user = {
             id: "paul",

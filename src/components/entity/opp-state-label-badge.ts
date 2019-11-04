@@ -78,7 +78,6 @@ export class OppStateLabelBadge extends LitElement {
     super.firstUpdated(changedProperties);
     this.addEventListener("click", (ev) => {
       ev.stopPropagation();
-      debugger;
       if (this.state) {
         fireEvent(this, "opp-more-info", { entityId: this.state.entity_id });
       }
