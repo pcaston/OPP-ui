@@ -191,7 +191,6 @@ export class OPPui extends LitElement {
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
@@ -203,8 +202,7 @@ export class OPPui extends LitElement {
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'opp'}" href="/opp">OPP</a>          
+          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>      
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
@@ -213,10 +211,9 @@ export class OPPui extends LitElement {
       <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
-        <opp-home-view appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
-        <open-peer-power appliances="${JSON.stringify(this.appliances)}" opp="${JSON.stringify(this.opp)}" class="page" ?active="${this._page === 'opp'}"></open-peer-power>
+        <opp-home-view .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login opp="${JSON.stringify(this.opp)}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login .opp="${this.opp}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -355,9 +352,6 @@ export class OPPui extends LitElement {
         break;
       case 'view_appliances':
         import('../components/opp-home-view');
-        break;
-      case 'opp':
-        import('../layouts/open-peer-power');
         break;
       case 'about':
         import('../components/about-page');

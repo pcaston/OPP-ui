@@ -121,7 +121,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
 
       _page: {
         type: String,
-        value: null,
+        value: "settings",
       },
 
       dataDomain: {
