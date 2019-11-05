@@ -1,5 +1,6 @@
 import {
   Constructor,
+  property,
 } from "lit-element";
 import { OpenPeerPower } from "../types";
 
@@ -17,6 +18,7 @@ export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
   class extends superClass {
     protected _pendingOpp: Partial<OpenPeerPower> = {};
     private __provideOpp: HTMLElement[] = [];
+    // @ts-ignore
     @property() protected opp!: OpenPeerPower;
 
     public provideOpp(el) {
@@ -25,7 +27,6 @@ export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
     }
 
     protected async _updateOpp(obj: Partial<OpenPeerPower>) {
-      debugger;
       if (!this.opp) {
         this._pendingOpp = { ...this._pendingOpp, ...obj };
         return;
