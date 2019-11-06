@@ -21,21 +21,28 @@ import { OpenPeerPower } from '../types';
 /*
  * @appliesMixin DialogMixin
  */
-
+// @ts-ignore
 @customElement("opp-more-info-dialog")
 export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property() public opp?: OpenPeerPower;
-  @property() public stateObj: Object =
+  @property() public stateObj: Object = this._computeStateObj(this.opp)
   {
-    computed: "_computeStateObj(opp)",
-    observer: "_stateObjChanged",
+    hasChanged(newVal, oldVal) {
+      if (!newVal) {
+        this.opened = false;
+        this._page = null;
+        this._registryInfo = null;
+        this.large = false;
+      }
+      return;
+    }
   };
   @property() public large: Boolean = true;
   @property() public _dialogElement: Object = {};
   @property() public _registryInfo: Object = {};
   @property() public _page: Object = {
     type: String,
-    value: null,
+    value: "settings",
   };
   @property() public dataDomain: String = this._computeDomain(this.stateObj);
 
@@ -108,44 +115,16 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
         dialog-element="${this._dialogElement}"
         can-configure="${this._registryInfo}"
         large="${this.large}"
+        ?active="${!this._page}"
       ></more-info-controls>
       <more-info-settings
         class="no-padding"
         .opp="${this.opp}"
         .state-obj="${this.stateObj}"
         registry-info="${this._registryInfo}"
+        ?active="${this._page === 'settings'}"
       ></more-info-settings>
     `;
-  }
-
-  static get properties() {
-    return {
-      opp: Object,
-      stateObj: {
-        type: Object,
-        computed: "_computeStateObj(opp)",
-        observer: "_stateObjChanged",
-      },
-
-      large: {
-        type: Boolean,
-        reflectToAttribute: true,
-        observer: "_largeChanged",
-      },
-
-      _dialogElement: Object,
-      _registryInfo: Object,
-
-      _page: {
-        type: String,
-        value: null,
-      },
-
-      dataDomain: {
-        computed: "_computeDomain(stateObj)",
-        reflectToAttribute: true,
-      },
-    };
   }
 
   static get observers() {

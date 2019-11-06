@@ -65,8 +65,7 @@ export class OppHomeView extends OppElement {
       <section>
         <h2>Discovered Appliances</h2>
 
-        <p>This is a simulation of a list of appliances.  
-          The server then notifies all client via their respective websockets. </p>
+        <p>This is a simulation of a list of appliances. </p>
         <p>This view, passes properties down to its child, <code>&lt;appliances&gt;</code>, which fires events back up whenever
         it needs to communicate changes.</p>
       </section>
