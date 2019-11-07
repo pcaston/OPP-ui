@@ -13,10 +13,9 @@ import "./more-info/more-info-controls";
 import "./more-info/more-info-settings";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
-import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
-import { OpenPeerPower } from '../types';
+import { OpenPeerPower, OppEntity } from '../types';
 
 /*
  * @appliesMixin DialogMixin
@@ -24,27 +23,16 @@ import { OpenPeerPower } from '../types';
 // @ts-ignore
 @customElement("opp-more-info-dialog")
 export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
-  @property() public opp?: OpenPeerPower;
-  @property() public stateObj: Object = this._computeStateObj(this.opp)
-  {
-    hasChanged(newVal, oldVal) {
-      if (!newVal) {
-        this.opened = false;
-        this._page = null;
-        this._registryInfo = null;
-        this.large = false;
-      }
-      return;
-    }
-  };
-  @property() public large: Boolean = true;
-  @property() public _dialogElement: Object = {};
-  @property() public _registryInfo: Object = {};
-  @property() public _page: Object = {
+  @property({type : Object}) public opp?: OpenPeerPower;
+  @property({type : Object}) public stateObj: OppEntity = this._computeStateObj(this.opp);
+  @property({type : Boolean}) public large = true;
+  @property({type : Object}) public _dialogElement = {};
+  @property({type : Object}) public _registryInfo = {};
+  @property({type : Object}) public _page = {
     type: String,
     value: "settings",
   };
-  @property() public dataDomain: String = this._computeDomain(this.stateObj);
+  @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
     return html`
@@ -122,7 +110,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
         .opp="${this.opp}"
         .state-obj="${this.stateObj}"
         registry-info="${this._registryInfo}"
-        ?active="${this._page === 'settings'}"
+        ?active="${this._equals(this._page, "settings")}"
       ></more-info-settings>
     `;
   }
@@ -130,12 +118,10 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   static get observers() {
     return ["_dialogOpenChanged(opened)"];
   }
-
-  ready() {
-    super.ready();
+  firstUpdated(changedProps) {
+    super.firstUpdated(changedProps);
     this._dialogElement = this;
     this.addEventListener("more-info-page", (ev) => {
-      debugger;
       this._page = ev.detail.page;
     });
   }
@@ -147,47 +133,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   _computeStateObj(opp) {
     return opp.states[opp.moreInfoEntityId] || null;
   }
-
-  requestAnimationFrame(() =>
-      
-  requestAnimationFrame(() => {
-      // allow dialog to render content before showing it so it will be
-      // positioned correctly.   
-      this.opened = true;    
-      })  
-    );
-
-    if (
-      !isComponentLoaded(this.opp!, "config") ||
-      (oldVal && oldVal.entity_id === newVal.entity_id)
-    ) {
-      return;
-    }
-
-    if (this.opp.user.is_admin) {
-      try {
-        const info = await this.opp.callWS({
-          type: "config/entity_registry/get",
-          entity_id: newVal.entity_id,
-        });
-        this._registryInfo = info;
-      } catch (err) {
-        this._registryInfo = null;
-      }
-    }
-  }
-
-  _dialogOpenChanged(newVal) {
-    if (!newVal && this.stateObj) {
-      this.fire("opp-more-info", { entityId: null });
-    }
-  }
-
   _equals(a, b) {
     return a === b;
-  }
-
-  _largeChanged() {
-    this.notifyResize();
   }
 }
