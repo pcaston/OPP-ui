@@ -22,7 +22,7 @@ import { OpenPeerPower, OppEntity } from '../types';
  */
 // @ts-ignore
 @customElement("opp-more-info-dialog")
-export class OppMoreInfoDialog extends LitElement  {
+export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : Object}) public opp?: OpenPeerPower;
   @property({type : Object}) public stateObj: OppEntity = this._computeStateObj(this.opp);
   @property({type : Boolean}) public large = true;
