@@ -1,7 +1,11 @@
 import "@polymer/paper-dialog-behavior/paper-dialog-shared-styles";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {
+  LitElement,
+  html,
+  customElement,
+  property,
+} from "lit-element";
 
 import "../resources/op-style";
 
@@ -9,16 +13,28 @@ import "./more-info/more-info-controls";
 import "./more-info/more-info-settings";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
-import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
+import { OpenPeerPower, OppEntity } from '../types';
 
 /*
  * @appliesMixin DialogMixin
  */
 // @ts-ignore
-class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
-  static get template() {
+@customElement("opp-more-info-dialog")
+export class OppMoreInfoDialog extends LitElement  {
+  @property({type : Object}) public opp?: OpenPeerPower;
+  @property({type : Object}) public stateObj: OppEntity = this._computeStateObj(this.opp);
+  @property({type : Boolean}) public large = true;
+  @property({type : Object}) public _dialogElement = {};
+  @property({type : Object}) public _registryInfo = {};
+  @property({type : Object}) public _page = {
+    type: String,
+    value: "settings",
+  };
+  @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
+
+  render(){
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -80,66 +96,32 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
         }
       </style>
 
-      <template is="dom-if" if="[[!_page]]">
-        <more-info-controls
-          class="no-padding"
-          opp="[[opp]]"
-          state-obj="[[stateObj]]"
-          dialog-element="[[_dialogElement]]"
-          can-configure="[[_registryInfo]]"
-          large="{{large}}"
-        ></more-info-controls>
-      </template>
-      <template is="dom-if" if='[[_equals(_page, "settings")]]'>
-        <more-info-settings
-          class="no-padding"
-          opp="[[opp]]"
-          state-obj="[[stateObj]]"
-          registry-info="{{_registryInfo}}"
-        ></more-info-settings>
-      </template>
+      <more-info-controls
+        class="no-padding"
+        .opp="${this.opp}"
+        .state-obj="${this.stateObj}"
+        dialog-element="${this._dialogElement}"
+        can-configure="${this._registryInfo}"
+        large="${this.large}"
+        ?active="${!this._page}"
+      ></more-info-controls>
+      <more-info-settings
+        class="no-padding"
+        .opp="${this.opp}"
+        .state-obj="${this.stateObj}"
+        registry-info="${this._registryInfo}"
+        ?active="${this._equals(this._page, "settings")}"
+      ></more-info-settings>
     `;
-  }
-
-  static get properties() {
-    return {
-      opp: Object,
-      stateObj: {
-        type: Object,
-        computed: "_computeStateObj(opp)",
-        observer: "_stateObjChanged",
-      },
-
-      large: {
-        type: Boolean,
-        reflectToAttribute: true,
-        observer: "_largeChanged",
-      },
-
-      _dialogElement: Object,
-      _registryInfo: Object,
-
-      _page: {
-        type: String,
-        value: "settings",
-      },
-
-      dataDomain: {
-        computed: "_computeDomain(stateObj)",
-        reflectToAttribute: true,
-      },
-    };
   }
 
   static get observers() {
     return ["_dialogOpenChanged(opened)"];
   }
-
-  ready() {
-    super.ready();
+  firstUpdated(changedProps) {
+    super.firstUpdated(changedProps);
     this._dialogElement = this;
     this.addEventListener("more-info-page", (ev) => {
-      debugger;
       this._page = ev.detail.page;
     });
   }
@@ -149,62 +131,9 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement)  {
   }
 
   _computeStateObj(opp) {
-    debugger;
     return opp.states[opp.moreInfoEntityId] || null;
   }
-
-  async _stateObjChanged(newVal, oldVal) {
-    if (!newVal) {
-      this.setProperties({
-        opened: false,
-        _page: null,
-        _registryInfo: null,
-        large: false,
-      });
-      return;
-    }
-
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        // allow dialog to render content before showing it so it will be
-        // positioned correctly.
-        this.opened = true;
-      })
-    );
-
-    if (
-      !isComponentLoaded(this.opp, "config") ||
-      (oldVal && oldVal.entity_id === newVal.entity_id)
-    ) {
-      return;
-    }
-
-    if (this.opp.user.is_admin) {
-      try {
-        const info = await this.opp.callWS({
-          type: "config/entity_registry/get",
-          entity_id: newVal.entity_id,
-        });
-        this._registryInfo = info;
-      } catch (err) {
-        this._registryInfo = null;
-      }
-    }
-  }
-
-  _dialogOpenChanged(newVal) {
-    if (!newVal && this.stateObj) {
-      this.fire("opp-more-info", { entityId: null });
-    }
-  }
-
   _equals(a, b) {
     return a === b;
   }
-
-  _largeChanged() {
-    this.notifyResize();
-  }
 }
-
-customElements.define("opp-more-info-dialog", OppMoreInfoDialog)
