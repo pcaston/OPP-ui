@@ -31,6 +31,5 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
         this.provideOpp(this._moreInfoEl);
       }
       this._updateOpp({ moreInfoEntityId: ev.detail.entityId });
-      this._moreInfoEl.setAttribute('opp', JSON.stringify(this.opp));
     }
   };

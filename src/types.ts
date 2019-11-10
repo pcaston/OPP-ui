@@ -1,11 +1,8 @@
 import {
-  OppEntities,
   OppConfig,
   Auth,
   Connection,
   MessageBase,
-  OppEntityBase,
-  OppEntityAttributeBase,
   OppServices,
 } from './open-peer-power-js-websocket/lib';
 import { LocalizeFunc } from "./common/translations/localize";
@@ -107,6 +104,34 @@ export interface Notification {
   title: string;
   status: "read" | "unread";
   created_at: string;
+}
+
+export type OppEntityBase = {
+  entity_id: string;
+  state: string;
+  last_changed: string;
+  last_updated: string;
+  attributes: OppEntityAttributeBase;
+  context: { id: string; user_id: string | null };
+};
+
+export type OppEntityAttributeBase = {
+  friendly_name?: string;
+  unit_of_measurement?: string;
+  icon?: string;
+  entity_picture?: string;
+  supported_features?: number;
+  hidden?: boolean;
+  assumed_state?: boolean;
+  device_class?: string;
+};
+
+export interface OppEntity extends OppEntityBase {
+  attributes: { [key: string]: any };
+};
+
+export interface OppEntities { 
+  [index: string]: OppEntity;
 }
 
 export interface OpenPeerPower {
