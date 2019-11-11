@@ -4,7 +4,7 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
 import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
-import { OpenPeerPower } from '../types';
+import { OpenPeerPower, OppEntities } from '../types';
 import "./opp-iconset-svg";
 
 // These are the elements needed by this element.
@@ -269,7 +269,7 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
-          this.opp.states = data.result;
+          this.opp.states = this._getAllEntities(data.result);
           this.opp.user = {
             id: "paul",
             is_owner: true,
@@ -380,24 +380,35 @@ export class OPPui extends LitElement {
   }
   protected _getAllAppliances(): Appliances {
     const APPLIANCE_LIST = [
-      {'appliance': {'id': 1, 'name': 'fridge', 'type': 'A'},
+      {'id': '1', 'name': 'fridge', 'type': 'A',
        'usage': {'value': 10.99},
-       'cost': {'currency': 'AUD', 'value': 3}
-      },
-      {'appliance': {'id': 2, 'name': 'dishwasher', 'type': 'B'},
+       'cost': {'currency': 'AUD', 'value': 3}}
+      ,
+      {'id': '2', 'name': 'dishwasher', 'type': 'B',
        'usage': {'value': 29.99},
-       'cost': {'currency': 'AUD', 'value': 4}
-      },
-      {'appliance': {'id': 3, 'name': 'aircon', 'type': 'C'},
+       'cost': {'currency': 'AUD', 'value': 4}}
+      ,
+      {'id': '3', 'name': 'aircon', 'type': 'C',
        'usage': {'value': 30.17},
-       'cost': {'currency': 'AUD', 'value': 5}
-      },
-      {'appliance': {'id': 4, 'name': 'Dryer', 'type': 'D'},
+       'cost': {'currency': 'AUD', 'value': 5}}
+      ,
+      {'id': '4', 'name': 'Dryer', 'type': 'D',
        'usage': {'value': 12.39},
-       'cost': {'currency': 'AUD', 'value': 7}
-      }
+       'cost': {'currency': 'AUD', 'value': 7}}
     ];
+    const appliances = APPLIANCE_LIST.reduce((obj, appliance) => {
+      obj[appliance.id] = appliance
+      return obj
+    }, {} as Appliances);
 
-    return APPLIANCE_LIST;
+    return appliances;
+  }
+  protected _getAllEntities(states): OppEntities {
+    const entities = states.reduce((obj, entity) => {
+      obj[entity.id] = entity
+      return obj
+    }, {} as OppEntities);
+
+    return entities;
   }
 }

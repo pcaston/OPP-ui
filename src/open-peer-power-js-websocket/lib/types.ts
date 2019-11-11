@@ -55,34 +55,6 @@ export type OppConfig = {
   config_source: string;
 };
 
-export type OppEntityBase = {
-  entity_id: string;
-  state: string;
-  last_changed: string;
-  last_updated: string;
-  attributes: OppEntityAttributeBase;
-  context: { id: string; user_id: string | null };
-};
-
-export type OppEntityAttributeBase = {
-  friendly_name?: string;
-  unit_of_measurement?: string;
-  icon?: string;
-  entity_picture?: string;
-  supported_features?: number;
-  hidden?: boolean;
-  assumed_state?: boolean;
-  device_class?: string;
-};
-
-export interface OppEntity extends OppEntityBase {
-  attributes: { [key: string]: any };
-};
-
-export interface OppEntities { 
-  [index: number]: OppEntity;
-}
-
 export type OppService = {
   description: string;
   fields: {

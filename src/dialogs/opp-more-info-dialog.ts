@@ -35,7 +35,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
-    stateObj = this._computeStateObj(this.opp);
+    this.stateObj = this._computeStateObj(this.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -132,6 +132,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   }
 
   _computeStateObj(opp) {
+    debugger;
     return opp.states[opp.moreInfoEntityId] || null;
   }
   _equals(a, b) {
