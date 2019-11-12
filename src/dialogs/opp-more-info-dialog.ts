@@ -116,9 +116,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
     `;
   }
 
-  static get observers() {
-    return ["_dialogOpenChanged(opened)"];
-  }
   firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     this._dialogElement = this;

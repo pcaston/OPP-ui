@@ -3,8 +3,7 @@ import { PageViewElement } from './page-view-element';
 import { OppElement } from "../state/opp-element";
 
 // These are the elements needed by this element.
-import { OpenPeerPower } from "../types";
-import { OppEntities } from "../open-peer-power-js-websocket/lib";
+import { OpenPeerPower, OppEntities} from "../types";
 import './appliance-list';
 import '../cards/opp-badges-card';
 import { Appliances } from './appliance-list';
