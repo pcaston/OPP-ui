@@ -24,7 +24,7 @@ import { OpenPeerPower, OppEntity } from '../types';
 @customElement("opp-more-info-dialog")
 export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : Object}) public opp?: OpenPeerPower;
-  @property({type : Object}) public stateObj: OppEntity;
+  @property({type : Object}) public stateObj!: OppEntity;
   @property({type : Boolean}) public large = true;
   @property({type : Object}) public _dialogElement = {};
   @property({type : Object}) public _registryInfo = {};
@@ -35,6 +35,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
+    debugger;
     this.stateObj = this._computeStateObj(this.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">

@@ -2,10 +2,10 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@material/mwc-button";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { LitElement, html, property, customElement } from 'lit-element';
 
 import { EventsMixin } from "../../mixins/events-mixin";
+import { OpenPeerPower, OppEntity } from '../../types';
 
 import computeStateName from "../../common/entity/compute_state_name";
 import computeDomain from "../../common/entity/compute_domain";
@@ -14,10 +14,20 @@ import { updateEntityRegistryEntry } from "../../data/entity_registry";
 import "../../components/op-paper-icon-button-arrow-prev";
 /*
  * @appliesMixin EventsMixin
- * @appliesMixin LocalizeMixin
  */
-class MoreInfoSettings extends EventsMixin(PolymerElement) {
-  static get template() {
+// @ts-ignore
+@customElement('more-info-settings')
+export class MoreInfoSettings extends EventsMixin(LitElement) {
+  @property({type: Object})
+  private opp: OpenPeerPower = {};
+  @property({type: Object})
+  private stateObj!: OppEntity;
+  @property({type: Object})
+  private registryInfo!;
+  @property({type: String}) private _name = "";
+  @property({type: String}) private _entityId = "";
+
+  protected render() {
     return html`
       <style>
         app-toolbar {
@@ -44,66 +54,38 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
 
       <app-toolbar>
         <op-paper-icon-button-arrow-prev
-          on-click="_backTapped"
+          @click="_backTapped"
         ></op-paper-icon-button-arrow-prev>
-        <div main-title="">[[_computeStateName(stateObj)]]</div>
-        <mwc-button on-click="_save" disabled="[[_computeInvalid(_entityId)]]"
-          >[[localize('ui.dialogs.more_info_settings.save')]]</mwc-button
+        <div main-title="">${this._computeStateName(this.stateObj)}</div>
+        <mwc-button @click="_save" disabled="${this._computeInvalid(this._entityId)}"
+          >Save</mwc-button
         >
       </app-toolbar>
 
       <div class="form">
         <paper-input
-          value="{{_name}}"
-          label="[[localize('ui.dialogs.more_info_settings.name')]]"
+          value="${this._name}"
+          label="Name"
         ></paper-input>
         <paper-input
-          value="{{_entityId}}"
-          label="[[localize('ui.dialogs.more_info_settings.entity_id')]]"
+          value="${this._entityId}"
+          label="Entity Id"
           error-message="Domain needs to stay the same"
-          invalid="[[_computeInvalid(_entityId)]]"
+          invalid="${this._computeInvalid(this._entityId)}"
         ></paper-input>
       </div>
     `;
   }
 
-  static get properties() {
-    return {
-      opp: Object,
-      stateObj: Object,
-
-      registryInfo: {
-        type: Object,
-        observer: "_registryInfoChanged",
-        notify: true,
-      },
-
-      _name: String,
-      _entityId: String,
-    };
-  }
-
   _computeStateName(stateObj) {
+    debugger;
     if (!stateObj) return "";
     return computeStateName(stateObj);
   }
 
   _computeInvalid(entityId) {
+    debugger;
     return computeDomain(this.stateObj.entity_id) !== computeDomain(entityId);
-  }
-
-  _registryInfoChanged(newVal) {
-    if (newVal) {
-      this.setProperties({
-        _name: newVal.name,
-        _entityId: newVal.entity_id,
-      });
-    } else {
-      this.setProperties({
-        _name: "",
-        _entityId: "",
-      });
-    }
   }
 
   _backTapped() {
@@ -133,4 +115,3 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
     }
   }
 }
-customElements.define("more-info-settings", MoreInfoSettings);
