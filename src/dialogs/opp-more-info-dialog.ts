@@ -35,7 +35,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
-    debugger;
     this.stateObj = this._computeStateObj(this.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
@@ -101,7 +100,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
       <more-info-controls
         class="no-padding"
         .opp="${this.opp}"
-        .state-obj="${this.stateObj}"
+        .stateObj="${this.stateObj}"
         dialog-element="${this._dialogElement}"
         can-configure="${this._registryInfo}"
         large="${this.large}"
@@ -110,8 +109,8 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
       <more-info-settings
         class="no-padding"
         .opp="${this.opp}"
-        .state-obj="${this.stateObj}"
-        registry-info="${this._registryInfo}"
+        .stateObj="${this.stateObj}"
+        .registryInfo="${this._registryInfo}"
         ?active="${this._equals(this._page, "settings")}"
       ></more-info-settings>
     `;
@@ -130,7 +129,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   }
 
   _computeStateObj(opp) {
-    debugger;
     return opp.states[opp.moreInfoEntityId] || null;
   }
   _equals(a, b) {

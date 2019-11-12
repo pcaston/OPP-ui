@@ -405,7 +405,7 @@ export class OPPui extends LitElement {
   }
   protected _getAllEntities(states): OppEntities {
     const entities = states.reduce((obj, entity) => {
-      obj[entity.id] = entity
+      obj[entity.entity_id] = entity
       return obj
     }, {} as OppEntities);
 
