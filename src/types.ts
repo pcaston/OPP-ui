@@ -1,6 +1,4 @@
 import {
-  OppConfig,
-  Auth,
   Connection,
   MessageBase,
   OppServices,
@@ -134,8 +132,28 @@ export interface OppEntities {
   [index: string]: OppEntity;
 }
 
+export type OppConfig = {
+  latitude: number;
+  longitude: number;
+  elevation: number;
+  unit_system: {
+    length: string;
+    mass: string;
+    volume: string;
+    temperature: string;
+  };
+  location_name: string;
+  time_zone: string;
+  components: string[];
+  config_dir: string;
+  whitelist_external_dirs: string[];
+  version: string;
+  config_source: string;
+};
+
 export interface OpenPeerPower {
   states?: OppEntities;
+  config: OppConfig;
   moreInfoEntityId?: string | null;
   user?: CurrentUser;
 }
