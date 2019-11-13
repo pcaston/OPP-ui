@@ -60,7 +60,7 @@ async def main():
             ))
 
         if msg['type'] == 'result' and msg['id'] == 2:
-            States = msg['result']
+            States = json.dumps(msg['result'])
             if os.path.exists(sName):
                 pass
             else:
@@ -71,11 +71,11 @@ async def main():
             ))
 
         if msg['type'] == 'result' and msg['id'] == 3:
-            Config = msg['result']
+            Config = json.dumps(msg['result'])
             if os.path.exists(cName):
                 pass
             else:
-                with open(sName, 'w') as h:
+                with open(cName, 'w') as h:
                     h.write(Config)
             break
 
