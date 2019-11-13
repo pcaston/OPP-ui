@@ -36,25 +36,6 @@ export type StateChangedEvent = OppEventBase & {
   };
 };
 
-export type OppConfig = {
-  latitude: number;
-  longitude: number;
-  elevation: number;
-  unit_system: {
-    length: string;
-    mass: string;
-    volume: string;
-    temperature: string;
-  };
-  location_name: string;
-  time_zone: string;
-  components: string[];
-  config_dir: string;
-  whitelist_external_dirs: string[];
-  version: string;
-  config_source: string;
-};
-
 export type OppService = {
   description: string;
   fields: {
