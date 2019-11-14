@@ -5,6 +5,7 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
+import { loadTokens, saveTokens } from "../common/auth/token_storage";
 import "./opp-iconset-svg";
 
 // These are the elements needed by this element.
@@ -236,6 +237,7 @@ export class OPPui extends LitElement {
     this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.wsp.onmessage = (event) => {
       let data = JSON.parse(event.data);
+      debugger;
       switch (data.type) {
         case 'auth_required':
           if (tokenCache.tokens) {
@@ -269,14 +271,25 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
-          this.opp.states = this._getAllEntities(data.result);
-          this.opp.user = {
-            id: "paul",
-            is_owner: true,
-            is_admin: true,
-            name: "Paul"
+          if (data.id == '1') {
+            this.opp.states = this._getAllEntities(data.result);
+            this.opp.user = {
+              id: "paul",
+              is_owner: true,
+              is_admin: true,
+              name: "Paul"
+            };
+            let fetchconfig = 
+            {
+              "id": "2",
+              "type": "get_config"
+            }
+            this.wsp!.send(JSON.stringify(fetchconfig));
+            this.appliances = this._getAllAppliances();
           };
-          this.appliances = this._getAllAppliances();
+          if (data.id == '2') {
+            this.opp.config = data.result;
+          };
           break;
         default:
           console.error(

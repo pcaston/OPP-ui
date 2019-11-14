@@ -12,9 +12,11 @@ chkpathw = 'C:\\Users\\s69171'
 
 if os.path.exists(chkpathw):
     fName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
     opp = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
 else:
     fName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
     opp = chkpath + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
 
 USERS = set()
@@ -23,10 +25,16 @@ with open(fName, 'r') as f:
     ACCESS_TOKEN = f.read()
 with open(opp, 'r') as f:
     OPP_TEXT = f.read()
+with open(cName, 'r') as f:
+    OPP_CONFIG = f.read()
 
 async def notify_state():
     if USERS:       # asyncio.wait doesn't accept an empty list
         await asyncio.wait([user.send(OPP_TEXT) for user in USERS])
+
+async def notify_config():
+    if USERS:       # asyncio.wait doesn't accept an empty list
+        await asyncio.wait([user.send(OPP_CONFIG) for user in USERS])
 
 async def register(websocket):
     USERS.add(websocket)
@@ -54,6 +62,8 @@ async def counter(websocket, path):
                 ))
             elif msg['type'] == 'get_states':
                 await notify_state()
+            elif msg['type'] == 'get_config':
+                await notify_config()
             else:
                 print("unsupported event: {}", msg)
         except websockets.ConnectionClosed:
