@@ -9,12 +9,18 @@ import asyncws
 import os
 import time
 
+chkpath = 'C:\\Users\\Paul'
+chkpathw = 'C:\\Users\\s69171'
 
 ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZmNlNDZmMjhlMDM0Njg1YWI3OTkxMWRjNTVhNzNkNCIsImlhdCI6MTU2NjAzNjcyNywiZXhwIjoxNTk3NTcyNzI3fQ.29NB-zX8nawoaWE03qpIfEoGHxFlz0m95AN8XYqV-kk'
-aName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-cName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\config.txt'
-sName = 'C:\\Users\\Paul\\AppData\\Roaming\\.openpeerpower\\states.txt'
-
+if os.path.exists(chkpathw):
+    aName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    sName = chkpathw + '\\Paul\\AppData\\Roaming\\.openpeerpower\\states.txt'
+else:
+    aName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    sName = chkpath + '\\Paul\\AppData\\Roaming\\.openpeerpower\\states.txt'
 
 async def main():
     """Simple WebSocket client """
