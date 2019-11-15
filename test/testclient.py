@@ -16,11 +16,11 @@ ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZmNlNDZmMjhlMDM
 if os.path.exists(chkpathw):
     aName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    sName = chkpathw + '\\Paul\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    sName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
 else:
     aName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    sName = chkpath + '\\Paul\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    sName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
 
 async def main():
     """Simple WebSocket client """
@@ -66,7 +66,7 @@ async def main():
             ))
 
         if msg['type'] == 'result' and msg['id'] == 2:
-            States = json.dumps(msg['result'])
+            States = json.dumps(msg)
             if os.path.exists(sName):
                 pass
             else:
@@ -77,7 +77,7 @@ async def main():
             ))
 
         if msg['type'] == 'result' and msg['id'] == 3:
-            Config = json.dumps(msg['result'])
+            Config = json.dumps(msg)
             if os.path.exists(cName):
                 pass
             else:

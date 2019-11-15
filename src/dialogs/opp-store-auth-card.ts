@@ -11,7 +11,6 @@ import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
 import { saveTokens } from "../common/auth/token_storage";
 import "../resources/op-style";
-import { AuthData } from "../open-peer-power-js-websocket/lib";
   
 @customElement("opp-store-auth-card")
   
