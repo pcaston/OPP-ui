@@ -5,7 +5,7 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
-import { loadTokens, saveTokens } from "../common/auth/token_storage";
+import { saveTokens } from "../common/auth/token_storage";
 import "./opp-iconset-svg";
 
 // These are the elements needed by this element.
@@ -254,6 +254,12 @@ export class OPPui extends LitElement {
             this._locationChanged(window.location);
           };
           break;
+        case 'auth_invalid':
+            saveTokens(null);
+            const newLocation = `/login`;
+            window.history.pushState({}, '', newLocation);
+            this._locationChanged(window.location);
+            break;
         case 'auth_ok':
           let fetchstate = 
           {
