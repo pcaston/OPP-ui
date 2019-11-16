@@ -237,7 +237,6 @@ export class OPPui extends LitElement {
     this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.wsp.onmessage = (event) => {
       let data = JSON.parse(event.data);
-      debugger;
       switch (data.type) {
         case 'auth_required':
           if (tokenCache.tokens) {
@@ -293,7 +292,7 @@ export class OPPui extends LitElement {
             this.wsp!.send(JSON.stringify(fetchconfig));
             this.appliances = this._getAllAppliances();
           };
-          if (data.id == '2') {
+          if (data.id == '3') {
             this.opp.config = data.result;
           };
           break;
