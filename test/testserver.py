@@ -11,30 +11,38 @@ chkpath = 'C:\\Users\\Paul'
 chkpathw = 'C:\\Users\\s69171'
 
 if os.path.exists(chkpathw):
-    fName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    opp = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+    token = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    services = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
 else:
-    fName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    opp = chkpath + '\\AppData\\Roaming\\.openpeerpower\\opp.txt'
+    token = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    services = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
 
 USERS = set()
 
-with open(fName, 'r') as f:
+with open(token, 'r') as f:
     ACCESS_TOKEN = f.read()
-with open(opp, 'r') as f:
-    OPP_TEXT = f.read()
-with open(cName, 'r') as f:
-    OPP_CONFIG = f.read()
+with open(states, 'r') as f:
+    STATES_TEXT = f.read()
+with open(config, 'r') as f:
+    CONFIG_TEXT = f.read()
+with open(services, 'r') as f:
+    SERVICES_TEXT = f.read()
 
-async def notify_state():
+async def notify_states():
     if USERS:       # asyncio.wait doesn't accept an empty list
-        await asyncio.wait([user.send(OPP_TEXT) for user in USERS])
+        await asyncio.wait([user.send(STATES_TEXT) for user in USERS])
 
 async def notify_config():
     if USERS:       # asyncio.wait doesn't accept an empty list
-        await asyncio.wait([user.send(OPP_CONFIG) for user in USERS])
+        await asyncio.wait([user.send(CONFIG_TEXT) for user in USERS])
+
+async def notify_services():
+    if USERS:       # asyncio.wait doesn't accept an empty list
+        await asyncio.wait([user.send(SERVICES_TEXT) for user in USERS])
 
 async def register(websocket):
     USERS.add(websocket)
@@ -61,9 +69,11 @@ async def counter(websocket, path):
                     }
                 ))
             elif msg['type'] == 'get_states':
-                await notify_state()
+                await notify_states()
             elif msg['type'] == 'get_config':
                 await notify_config()
+            elif msg['type'] == 'get_services':
+                await notify_services()
             else:
                 print("unsupported event: {}", msg)
         except websockets.ConnectionClosed:

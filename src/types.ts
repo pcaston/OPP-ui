@@ -153,7 +153,8 @@ export type OppConfig = {
 
 export interface OpenPeerPower {
   states?: OppEntities;
-  config: OppConfig;
+  services?: OppServices;
+  config?: OppConfig;
   moreInfoEntityId?: string | null;
   user?: CurrentUser;
 }
