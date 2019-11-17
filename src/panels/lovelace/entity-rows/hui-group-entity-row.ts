@@ -66,7 +66,6 @@ class HuiGroupEntityRow extends LitElement implements EntityRow {
           : html`
               <div>
                 ${computeStateDisplay(
-                  this.opp!.localize,
                   stateObj
                 )}
               </div>

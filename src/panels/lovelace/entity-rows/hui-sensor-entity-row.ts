@@ -71,7 +71,6 @@ class HuiSensorEntityRow extends LitElement implements EntityRow {
                 ></hui-timestamp-display>
               `
             : computeStateDisplay(
-                this.opp!.localize,
                 stateObj
               )}
         </div>

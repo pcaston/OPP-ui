@@ -78,18 +78,15 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
   }
 
   _computeStateName(stateObj) {
-    debugger;
     if (!stateObj) return "";
     return computeStateName(stateObj);
   }
 
   _computeInvalid(entityId) {
-    debugger;
     return computeDomain(this.stateObj.entity_id) !== computeDomain(entityId);
   }
 
   _backTapped() {
-    debugger;
     this.fire("more-info-page", { page: null });
   }
 

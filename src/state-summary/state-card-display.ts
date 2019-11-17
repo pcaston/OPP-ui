@@ -51,7 +51,7 @@ class StateCardDisplay extends PolymerElement {
 
       ${this.stateInfoTemplate}
       <div class$="[[computeClassNames(stateObj)]]">
-        [[computeStateDisplay(localize, stateObj, language)]]
+        [[computeStateDisplay(stateObj)]]
       </div>
     `;
   }
