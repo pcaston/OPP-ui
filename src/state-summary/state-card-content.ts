@@ -1,4 +1,5 @@
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { LitElement, property, customElement } from 'lit-element';
+import { OpenPeerPower, OppEntity } from '../types';
 
 import "./state-card-climate";
 import "./state-card-configurator";
@@ -20,35 +21,30 @@ import "./state-card-weblink";
 import stateCardType from "../common/entity/state_card_type";
 import dynamicContentUpdater from "../common/dom/dynamic_content_updater";
 
-class StateCardContent extends PolymerElement {
-  static get properties() {
-    return {
-      opp: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+@customElement("state-card-content")
+// @ts-ignore
+class StateCardContent extends LitElement {
+  @property({type: Object})
+  private opp: OpenPeerPower = {};
+  @property({type: Object})
+  private stateObj!: OppEntity;
+  @property({type: Boolean})
+  private inDialog = false;
 
-  static get observers() {
-    return ["inputChanged(opp, inDialog, stateObj)"];
-  }
-
-  inputChanged(opp, inDialog, stateObj) {
-    let stateCard;
-    if (!stateObj || !opp) return;
-    if (stateObj.attributes && "custom_ui_state_card" in stateObj.attributes) {
-      stateCard = stateObj.attributes.custom_ui_state_card;
-    } else {
-      stateCard = "state-card-" + stateCardType(opp, stateObj);
+  update(changedProperties) {
+    super.update(changedProperties);
+    if (changedProperties.has('opp') || changedProperties.has('stateObj')) {
+      let stateCard : String;
+      if (this.stateObj.attributes && "custom_ui_state_card" in this.stateObj.attributes) {
+        stateCard = this.stateObj.attributes.custom_ui_state_card;
+      } else {
+        stateCard = "state-card-" + stateCardType(this.opp, this.stateObj);
+      }
+      dynamicContentUpdater(this, stateCard.toUpperCase(), {
+        opp: this.opp,
+        stateObj: this.stateObj,
+        inDialog: this.inDialog,
+      });
     }
-    dynamicContentUpdater(this, stateCard.toUpperCase(), {
-      opp: opp,
-      stateObj: stateObj,
-      inDialog: inDialog,
-    });
-  }
+  };
 }
-customElements.define("state-card-content", StateCardContent);

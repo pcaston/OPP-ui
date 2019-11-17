@@ -47,8 +47,6 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
     cacheKey: null,
     hoursToShow: 24,
   };
-  @property({type: Boolean})
-  private rtl = false;
 
   protected render() {
     this.domain = this._computeDomain(this.stateObj);
@@ -105,7 +103,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
         </div>
         <paper-icon-button
           icon="opp:settings"
-          @click="_gotoSettings"
+          @click=${this._gotoSettings}
           ?active=${this.canConfigure}
         ></paper-icon-button>
       </app-toolbar>
@@ -123,7 +121,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
           filter-type="recent-entity"
           entity-id="${this.stateObj.entity_id}"
           data="${this._stateHistory}"
-          is-loading="{{_stateHistoryLoading}}"
+          is-loading="${this._stateHistoryLoading}"
           cache-config="${this._cacheConfig}"
           ?active=${this._computeShowHistoryComponent(this.opp, this.stateObj)}
         ></op-state-history-data>
