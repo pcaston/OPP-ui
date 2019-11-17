@@ -7,7 +7,6 @@ import "../components/op-card";
 import "../components/opp-icon";
 
 import { EventsMixin } from "../mixins/events-mixin";
-import { computeRTL } from "../common/util/compute_rtl";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -249,7 +248,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
+        computed: false,
       },
     };
   }
@@ -372,8 +371,5 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
     return date.toLocaleTimeString(this.opp.language, { hour: "numeric" });
   }
 
-  _computeRTL(opp) {
-    return computeRTL(opp);
-  }
 }
 customElements.define("op-weather-card", OpWeatherCard);

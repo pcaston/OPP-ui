@@ -1,4 +1,3 @@
-import { computeRTL } from "../common/util/compute_rtl";
 import "../components/op-toast";
 import { LitElement, query, property, TemplateResult, html } from "lit-element";
 import { OpenPeerPower } from "../types";
@@ -16,7 +15,7 @@ class NotificationManager extends LitElement {
 
   public showDialog({ message }: ShowToastParams) {
     const toast = this._toast;
-    toast.setAttribute("dir", computeRTL(this.opp) ? "rtl" : "ltr");
+    toast.setAttribute("dir", "ltr");
     toast.show(message);
   }
 

@@ -15,7 +15,6 @@ import "../../../components/opp-icon";
 import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";
-import { computeRTL } from "../../../common/util/compute_rtl";
 import { EntitiesCardEntityConfig } from "../cards/types";
 
 class HuiGenericEntityRow extends LitElement {
@@ -79,7 +78,7 @@ class HuiGenericEntityRow extends LitElement {
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
     if (changedProps.has("opp")) {
-      this.toggleAttribute("rtl", computeRTL(this.opp!));
+      this.toggleAttribute("rtl", false);
     }
   }
 

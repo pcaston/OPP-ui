@@ -23,8 +23,6 @@ import { computeCardSize } from "./common/compute-card-size";
 import { showEditCardDialog } from "./editor/card-editor/show-edit-card-dialog";
 import { HuiErrorCard } from "./cards/hui-error-card";
 
-import { computeRTL } from "../../common/util/compute_rtl";
-
 let editCodeLoaded = false;
 
 // Find column with < 5 entities, else column with lowest count
@@ -103,7 +101,7 @@ export class HUIView extends LitElement {
               )}"
               @click="${this._addCard}"
               class="${classMap({
-                rtl: computeRTL(this.opp!),
+                rtl: "ltr",
               })}"
             ></paper-fab>
           `
