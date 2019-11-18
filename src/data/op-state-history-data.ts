@@ -9,7 +9,7 @@ import {
 
 import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
-import { any } from "bluebird";
+import { any } from '../../node_modules/@types/bluebird';
 
 /*
  * @appliesMixin LocalizeMixin
@@ -52,12 +52,9 @@ import { any } from "bluebird";
   cacheConfig(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  localize(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
-    throw new Error("Method not implemented.");
-  }
 
   oppChanged(newOpp, oldOpp) {
-    if (!oldOpp && !this._madeFirstCall) {
+    if (!oldOpp && !this.__madeFirstCall) {
       this.filterChangedDebouncer(
         this.filterType,
         this.entityId,
@@ -91,17 +88,14 @@ import { any } from "bluebird";
     if (cacheConfig && !cacheConfig.cacheKey) {
       return;
     }
-    if (!localize) {
-      return;
-    }
-    this._madeFirstCall = true;
+    this.__madeFirstCall = true;
     let data;
 
     if (filterType === "date") {
       if (!startTime || !endTime) return;
 
       data = fetchDate(this.opp, startTime, endTime).then((dateHistory) =>
-        computeHistory(this.opp, dateHistory, localize, 'en')
+        computeHistory(this.opp, dateHistory)
       );
     } else if (filterType === "recent-entity") {
       if (!entityId) return;
@@ -109,8 +103,6 @@ import { any } from "bluebird";
         data = this.getRecentWithCacheRefresh(
           entityId,
           cacheConfig,
-          localize,
-          'en'
         );
       } else {
         data = getRecent(
@@ -118,8 +110,6 @@ import { any } from "bluebird";
           entityId,
           startTime,
           endTime,
-          localize,
-          'en'
         );
       }
     } else {
@@ -139,7 +129,7 @@ import { any } from "bluebird";
     throw new Error("Method not implemented.");
   }
 
-  getRecentWithCacheRefresh(entityId, cacheConfig, localize, 'en') {
+  getRecentWithCacheRefresh(entityId, cacheConfig) {
     if (this._refreshTimeoutId) {
       window.clearInterval(this._refreshTimeoutId);
       this._refreshTimeoutId = null;
