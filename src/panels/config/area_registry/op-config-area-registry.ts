@@ -27,7 +27,6 @@ import {
   loadAreaRegistryDetailDialog,
 } from "./show-dialog-area-registry-detail";
 import { classMap } from "lit-html/directives/class-map";
-import { computeRTL } from "../../../common/util/compute_rtl";
 import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 
 class HaConfigAreaRegistry extends LitElement {
@@ -108,7 +107,7 @@ class HaConfigAreaRegistry extends LitElement {
         )}"
         @click=${this._createArea}
         class="${classMap({
-          rtl: computeRTL(this.opp),
+          rtl: false,
         })}"
       ></paper-fab>
     `;

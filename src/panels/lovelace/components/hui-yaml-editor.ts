@@ -5,7 +5,6 @@ import "codemirror/mode/yaml/yaml";
 import codeMirrorCSS from "codemirror/lib/codemirror.css";
 import { OpenPeerPower } from "../../../types";
 import { fireEvent } from "../../../common/dom/fire_event";
-import { computeRTL } from "../../../common/util/compute_rtl";
 import { customElement } from "lit-element";
 
 declare global {
@@ -103,7 +102,7 @@ export class HuiYamlEditor extends HTMLElement {
             "Shift-Tab": "indentLess",
           },
           gutters:
-            this._opp && computeRTL(this._opp!)
+            this._opp && false
               ? ["rtl-gutter", "CodeMirror-linenumbers"]
               : [],
         }
@@ -126,7 +125,7 @@ export class HuiYamlEditor extends HTMLElement {
 
     this.codemirror
       .getWrapperElement()
-      .classList.toggle("rtl", computeRTL(this._opp!));
+      .classList.toggle("rtl", false);
   }
 }
 

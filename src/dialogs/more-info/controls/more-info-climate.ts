@@ -16,7 +16,6 @@ import featureClassNames from "../../../common/entity/feature_class_names";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
 
 /*
  * @appliesMixin EventsMixin
@@ -314,7 +313,7 @@ class MoreInfoClimate extends EventsMixin(PolymerElement) {
       rtl: {
         type: String,
         value: "ltr",
-        computed: "_computeRTLDirection(opp)",
+        computed: false,
       },
     };
   }
@@ -524,9 +523,6 @@ class MoreInfoClimate extends EventsMixin(PolymerElement) {
     return localize(`state_attributes.climate.fan_mode.${mode}`) || mode;
   }
 
-  _computeRTLDirection(opp) {
-    return computeRTLDirection(opp);
-  }
 }
 
 customElements.define("more-info-climate", MoreInfoClimate);

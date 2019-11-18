@@ -13,7 +13,6 @@ import "../components/hui-generic-entity-row";
 import "../../../components/op-slider";
 import "../components/hui-warning";
 
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
 import { EntityRow, EntityConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
 import { setValue } from "../../../data/input_text";
@@ -80,7 +79,7 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
             ? html`
                 <div class="flex">
                   <op-slider
-                    .dir="${computeRTLDirection(this.opp!)}"
+                    .dir="ltr"
                     .step="${Number(stateObj.attributes.step)}"
                     .min="${Number(stateObj.attributes.min)}"
                     .max="${Number(stateObj.attributes.max)}"

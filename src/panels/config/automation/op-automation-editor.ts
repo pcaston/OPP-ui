@@ -26,7 +26,6 @@ import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { AutomationEntity, AutomationConfig } from "../../../data/automation";
 import { navigate } from "../../../common/navigate";
-import { computeRTL } from "../../../common/util/compute_rtl";
 
 function AutomationEditor(mountEl, props, mergeEl) {
   return render(h(Automation, props), mountEl, mergeEl);
@@ -97,7 +96,7 @@ class HaAutomationEditor extends LitElement {
           <div
             id="root"
             class="${classMap({
-              rtl: computeRTL(this.opp),
+              rtl: false,
             })}"
           ></div>
         </div>
@@ -111,7 +110,7 @@ class HaAutomationEditor extends LitElement {
           )}"
           @click=${this._saveAutomation}
           class="${classMap({
-            rtl: computeRTL(this.opp),
+            rtl: false,
           })}"
         ></paper-fab>
       </op-app-layout>

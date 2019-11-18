@@ -1,8 +1,8 @@
 import computeStateName from "../common/entity/compute_state_name";
 import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateDisplay from "../common/entity/compute_state_display";
-import { OppEntity } from "../open-peer-power-js-websocket/lib";
-import { OpenPeerPower } from "../types";
+import {  } from "../open-peer-power-js-websocket/lib";
+import { OpenPeerPower, OppEntity } from "../types";
 import { LocalizeFunc } from "../common/translations/localize";
 
 const DOMAINS_USE_LAST_UPDATED = ["climate", "water_heater"];
@@ -91,7 +91,6 @@ const equalState = (obj1: LineChartState, obj2: LineChartState) =>
     ));
 
 const processTimelineEntity = (
-  localize: LocalizeFunc,
   states: OppEntity[]
 ): TimelineEntity => {
   const data: TimelineState[] = [];
@@ -102,7 +101,7 @@ const processTimelineEntity = (
     }
 
     data.push({
-      state_localize: computeStateDisplay(localize, state),
+      state_localize: computeStateDisplay(state),
       state: state.state,
       last_changed: state.last_changed,
     });

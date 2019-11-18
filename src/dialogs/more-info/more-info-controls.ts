@@ -1,8 +1,8 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { LitElement, html, property, customElement } from 'lit-element';
+import { OpenPeerPower, OppEntity } from '../../types';
 
 import "../../components/state-history-charts";
 import "../../data/op-state-history-data";
@@ -16,14 +16,40 @@ import computeStateDomain from "../../common/entity/compute_state_domain";
 import isComponentLoaded from "../../common/config/is_component_loaded";
 import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
 import { EventsMixin } from "../../mixins/events-mixin";
-import { computeRTL } from "../../common/util/compute_rtl";
 
 const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoControls extends EventsMixin(PolymerElement) {
-  static get template() {
+// @ts-ignore
+@customElement('more-info-controls')
+// @ts-ignore
+ class MoreInfoControls extends EventsMixin(LitElement) {
+  @property({type: Object})
+  private opp: OpenPeerPower = {};
+  @property({type: Object})
+  private stateObj!: OppEntity;
+  @property({type: Object})
+  private dialogElement!: OppEntity;
+  @property({type: Boolean})
+  private canConfigure!: OppEntity;
+  @property({type: String})
+  private domain = "";
+  @property({type: Object})
+  private _stateHistory = {};
+  @property({type: Object})
+  private _stateHistoryLoading = {};
+  @property({type: Boolean})
+  private large = false;
+  @property({type: Object})
+  private _cacheConfig = {
+    refresh: 60,
+    cacheKey: null,
+    hoursToShow: 24,
+  };
+
+  protected render() {
+    this.domain = this._computeDomain(this.stateObj);
     return html`
       <style include="op-style-dialog">
         app-toolbar {
@@ -55,8 +81,9 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
         paper-dialog-scrollable {
           padding-bottom: 16px;
         }
-
-        :host([domain="camera"]) paper-dialog-scrollable {
+        
+       
+        :host([${this.domain}="camera"]) paper-dialog-scrollable {
           margin: 0 -24px -21px;
         }
 
@@ -71,94 +98,47 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
           icon="opp:close"
           dialog-dismiss=""
         ></paper-icon-button>
-        <div class="main-title" main-title="" on-click="enlarge">
-          [[_computeStateName(stateObj)]]
+        <div class="main-title" main-title="" @click="enlarge">
+          ${this._computeStateName(this.stateObj)}
         </div>
-        <template is="dom-if" if="[[canConfigure]]">
-          <paper-icon-button
-            icon="opp:settings"
-            on-click="_gotoSettings"
-          ></paper-icon-button>
-        </template>
+        <paper-icon-button
+          icon="opp:settings"
+          @click=${this._gotoSettings}
+          ?active=${this.canConfigure}
+        ></paper-icon-button>
       </app-toolbar>
 
-      <template is="dom-if" if="[[_computeShowStateInfo(stateObj)]]" restamp="">
-        <state-card-content
-          state-obj="[[stateObj]]"
-          opp="[[opp]]"
-          in-dialog=""
-        ></state-card-content>
-      </template>
-      <paper-dialog-scrollable dialog-element="[[dialogElement]]">
-        <template
-          is="dom-if"
-          if="[[_computeShowHistoryComponent(opp, stateObj)]]"
-          restamp=""
-        >
-          <op-state-history-data
-            opp="[[opp]]"
-            filter-type="recent-entity"
-            entity-id="[[stateObj.entity_id]]"
-            data="{{_stateHistory}}"
-            is-loading="{{_stateHistoryLoading}}"
-            cache-config="[[_cacheConfig]]"
-          ></op-state-history-data>
-          <state-history-charts
-            opp="[[opp]]"
-            history-data="[[_stateHistory]]"
-            is-loading-data="[[_stateHistoryLoading]]"
-            up-to-now
-          ></state-history-charts>
-        </template>
+      <state-card-content
+        .state-obj="${this.stateObj}"
+        .opp="${this.opp}"
+        in-dialog=""
+        ?active=${this._computeShowStateInfo(this.stateObj)}
+      ></state-card-content>
+
+      <paper-dialog-scrollable dialog-element="${this.dialogElement}">
+        <op-state-history-data
+          .opp="${this.opp}"
+          filter-type="recent-entity"
+          entity-id="${this.stateObj.entity_id}"
+          data="${this._stateHistory}"
+          is-loading="${this._stateHistoryLoading}"
+          cache-config="${this._cacheConfig}"
+          ?active=${this._computeShowHistoryComponent(this.opp, this.stateObj)}
+        ></op-state-history-data>
+        <state-history-charts
+          .opp="${this.opp}"
+          history-data="${this._stateHistory}"
+          is-loading-data="${this._stateHistoryLoading}"
+          up-to-now
+          ?active=${this._computeShowHistoryComponent(this.opp, this.stateObj)}
+        ></state-history-charts>
+
         <more-info-content
-          state-obj="[[stateObj]]"
-          opp="[[opp]]"
+          .state-obj="${this.stateObj}"
+          .opp="${this.opp}"
         ></more-info-content>
       </paper-dialog-scrollable>
     `;
-  }
-
-  static get properties() {
-    return {
-      opp: Object,
-
-      stateObj: {
-        type: Object,
-        observer: "_stateObjChanged",
-      },
-
-      dialogElement: Object,
-      canConfigure: Boolean,
-
-      domain: {
-        type: String,
-        reflectToAttribute: true,
-        computed: "_computeDomain(stateObj)",
-      },
-
-      _stateHistory: Object,
-      _stateHistoryLoading: Boolean,
-
-      large: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      },
-
-      _cacheConfig: {
-        type: Object,
-        value: {
-          refresh: 60,
-          cacheKey: null,
-          hoursToShow: 24,
-        },
-      },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
-    };
   }
 
   enlarge() {
@@ -199,12 +179,7 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
   }
 
   _gotoSettings() {
-    debugger;
     this.fire("more-info-page", { page: "settings" });
   }
 
-  _computeRTL(opp) {
-    return computeRTL(opp);
-  }
 }
-customElements.define("more-info-controls", MoreInfoControls);

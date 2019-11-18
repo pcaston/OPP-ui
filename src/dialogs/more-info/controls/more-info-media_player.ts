@@ -13,7 +13,6 @@ import OppMediaPlayerEntity from "../../../util/opp-media-player-model";
 import attributeClassNames from "../../../common/entity/attribute_class_names";
 import isComponentLoaded from "../../../common/config/is_component_loaded";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -233,7 +232,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
 
       rtl: {
         type: String,
-        computed: "_computeRTLDirection(opp)",
+        computed: false,
       },
     };
   }
@@ -416,9 +415,6 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
     this.$.ttsInput.focus();
   }
 
-  _computeRTLDirection(opp) {
-    return computeRTLDirection(opp);
-  }
 }
 
 customElements.define("more-info-media_player", MoreInfoMediaPlayer);

@@ -6,7 +6,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "./entity/op-chart-base";
 
 import formatDateTime from "../common/datetime/format_date_time";
-import { computeRTL } from "../common/util/compute_rtl";
 
 class StateHistoryChartTimeline extends PolymerElement {
   static get template() {
@@ -28,7 +27,7 @@ class StateHistoryChartTimeline extends PolymerElement {
       <op-chart-base
         data="[[chartData]]"
         rendered="{{rendered}}"
-        rtl="{{rtl}}"
+        rtl=false
       ></op-chart-base>
     `;
   }
@@ -53,7 +52,7 @@ class StateHistoryChartTimeline extends PolymerElement {
       },
       rtl: {
         reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
+        computed: false,
       },
     };
   }
@@ -194,7 +193,7 @@ class StateHistoryChartTimeline extends PolymerElement {
               afterSetDimensions: (yaxe) => {
                 yaxe.maxWidth = yaxe.chart.width * 0.18;
               },
-              position: this._computeRTL ? "right" : "left",
+              position: "left",
             },
           ],
         },
@@ -211,9 +210,6 @@ class StateHistoryChartTimeline extends PolymerElement {
     this.chartData = chartOptions;
   }
 
-  _computeRTL(opp) {
-    return computeRTL(opp);
-  }
 }
 customElements.define(
   "state-history-chart-timeline",

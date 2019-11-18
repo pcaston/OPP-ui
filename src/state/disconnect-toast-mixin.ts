@@ -1,7 +1,6 @@
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { OpToast } from "../components/op-toast";
-import { computeRTL } from "../common/util/compute_rtl";
 
 export default (superClass: Constructor<LitElement & OppBaseEl>) =>
   class extends superClass {
@@ -28,7 +27,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
         this._discToast = el;
         this.shadowRoot!.appendChild(el as any);
       }
-      this._discToast.dir = computeRTL(this.opp!);
+      this._discToast.dir = "ltr";
       this._discToast.text = this.opp!.localize(
         "ui.notification_toast.connection_lost"
       );

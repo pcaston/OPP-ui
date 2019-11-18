@@ -26,11 +26,7 @@ export default function relativeTime(
   for (let i = 0; i < tests.length; i++) {
     if (delta < tests[i]) {
       delta = Math.floor(delta);
-      timeDesc = localize(
-        `ui.components.relative_time.duration.${langKey[i]}`,
-        "count",
-        delta
-      );
+      timeDesc = "relative_time.duration.${langKey[i]} count ${delta}"
       break;
     }
 
@@ -39,14 +35,11 @@ export default function relativeTime(
 
   if (timeDesc === undefined) {
     delta = Math.floor(delta);
-    timeDesc = localize(
-      "ui.components.relative_time.duration.week",
-      "count",
-      delta
-    );
+    debugger;
+    timeDesc = "relative_time.duration.week count ${delta}"
   }
 
   return options.includeTense === false
     ? timeDesc
-    : localize(`ui.components.relative_time.${tense}`, "time", timeDesc);
+    : "ui.components.relative_time.${tense} time ${timeDesc}";
 }

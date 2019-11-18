@@ -237,7 +237,6 @@ export class OPPui extends LitElement {
     this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.wsp.onmessage = (event) => {
       let data = JSON.parse(event.data);
-      debugger;
       switch (data.type) {
         case 'auth_required':
           if (tokenCache.tokens) {
@@ -263,7 +262,7 @@ export class OPPui extends LitElement {
         case 'auth_ok':
           let fetchstate = 
           {
-            "id": "1",
+            "id": "2",
             "type": "get_states"
           }
           this.wsp!.send(JSON.stringify(fetchstate));
@@ -277,7 +276,7 @@ export class OPPui extends LitElement {
           };
           break;
         case 'result':
-          if (data.id == '1') {
+          if (data.id == '2') {
             this.opp.states = this._getAllEntities(data.result);
             this.opp.user = {
               id: "paul",
@@ -293,8 +292,17 @@ export class OPPui extends LitElement {
             this.wsp!.send(JSON.stringify(fetchconfig));
             this.appliances = this._getAllAppliances();
           };
-          if (data.id == '2') {
+          if (data.id == '3') {
             this.opp.config = data.result;
+            let fetchservices = 
+            {
+              "id": "3",
+              "type": "get_services"
+            }
+            this.wsp!.send(JSON.stringify(fetchservices));
+          }
+          if (data.id == '4') {
+              this.opp.services = data.result;
           };
           break;
         default:

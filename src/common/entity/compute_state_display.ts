@@ -1,12 +1,10 @@
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import computeStateDomain from "./compute_state_domain";
 import formatDateTime from "../datetime/format_date_time";
 import formatDate from "../datetime/format_date";
 import formatTime from "../datetime/format_time";
-import { LocalizeFunc } from "../translations/localize";
 
 export default (
-  localize: LocalizeFunc,
   stateObj: OppEntity,
 ): string => {
   let display: string | undefined;
@@ -15,13 +13,12 @@ export default (
   if (domain === "binary_sensor") {
     // Try device class translation, then default binary sensor translation
     if (stateObj.attributes.device_class) {
-      display = localize(
-        `state.${domain}.${stateObj.attributes.device_class}.${stateObj.state}`
-      );
+      display =
+        `${domain}.${stateObj.attributes.device_class}.${stateObj.state}`;
     }
 
     if (!display) {
-      display = localize(`state.${domain}.default.${stateObj.state}`);
+      display = `${domain}.${stateObj.state}`;
     }
   } else if (
     stateObj.attributes.unit_of_measurement &&
@@ -61,23 +58,19 @@ export default (
     }
   } else if (domain === "zwave") {
     if (["initializing", "dead"].includes(stateObj.state)) {
-      display = localize(
-        `state.zwave.query_stage.${stateObj.state}`,
-        "query_stage",
-        stateObj.attributes.query_stage
-      );
+      display = "${stateObj.state} query_stage stateObj.attributes.query_stage";
     } else {
-      display = localize(`state.zwave.default.${stateObj.state}`);
-    }
+      display = "state.zwave.default ${stateObj.state}";
+        }
   } else {
-    display = localize(`state.${domain}.${stateObj.state}`);
+    display = "state.${domain}.${stateObj.state}";
   }
 
   // Fall back to default, component backend translation, or raw state if nothing else matches.
   if (!display) {
     display =
-      localize(`state.default.${stateObj.state}`) ||
-      localize(`component.${domain}.state.${stateObj.state}`) ||
+      "state.default.${stateObj.state}" ||
+      "component.${domain}.state.${stateObj.state}" ||
       stateObj.state;
   }
 

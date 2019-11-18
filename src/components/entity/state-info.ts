@@ -4,7 +4,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../op-relative-time";
 import "./state-badge";
 import computeStateName from "../../common/entity/compute_state_name";
-import { computeRTL } from "../../common/util/compute_rtl";
 
 class StateInfo extends PolymerElement {
   static get template() {
@@ -101,17 +100,13 @@ class StateInfo extends PolymerElement {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "computeRTL(opp)",
+        computed: false,
       },
     };
   }
 
   computeStateName(stateObj) {
     return computeStateName(stateObj);
-  }
-
-  computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 

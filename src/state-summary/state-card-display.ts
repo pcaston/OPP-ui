@@ -6,7 +6,6 @@ import "../components/entity/state-info";
 
 import computeStateDisplay from "../common/entity/compute_state_display";
 import attributeClassNames from "../common/entity/attribute_class_names";
-import { computeRTL } from "../common/util/compute_rtl";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -51,7 +50,7 @@ class StateCardDisplay extends PolymerElement {
 
       ${this.stateInfoTemplate}
       <div class$="[[computeClassNames(stateObj)]]">
-        [[computeStateDisplay(localize, stateObj, language)]]
+        [[computeStateDisplay(stateObj)]]
       </div>
     `;
   }
@@ -77,7 +76,7 @@ class StateCardDisplay extends PolymerElement {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
+        computed: false,
       },
     };
   }
@@ -92,10 +91,6 @@ class StateCardDisplay extends PolymerElement {
       attributeClassNames(stateObj, ["unit_of_measurement"]),
     ];
     return classes.join(" ");
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 customElements.define("state-card-display", StateCardDisplay);

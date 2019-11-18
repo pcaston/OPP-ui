@@ -27,10 +27,8 @@ class MoreInfoSun extends PolymerElement {
         </div>
       </template>
       <div class="data-entry layout justified horizontal">
-        <div class="key">
-          [[localize('ui.dialogs.more_info_control.sun.elevation')]]
-        </div>
-        <div class="value">[[stateObj.attributes.elevation]]</div>
+        <div class="key">elevation</div>
+        <div class="value">elevation</div>
       </div>
     `;
   }
@@ -65,9 +63,9 @@ class MoreInfoSun extends PolymerElement {
 
   itemCaption(type) {
     if (type === "ris") {
-      return this.localize("ui.dialogs.more_info_control.sun.rising");
+      return "Rising";
     }
-    return this.localize("ui.dialogs.more_info_control.sun.setting");
+    return "Setting";
   }
 
   itemDate(type) {
@@ -75,7 +73,7 @@ class MoreInfoSun extends PolymerElement {
   }
 
   itemValue(type) {
-    return formatTime(this.itemDate(type), this.opp.language);
+    return formatTime(this.itemDate(type), "en");
   }
 }
 

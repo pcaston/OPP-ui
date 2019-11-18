@@ -14,8 +14,6 @@ import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 import "../../../layouts/opp-subpage";
 
-import { computeRTL } from "../../../common/util/compute_rtl";
-
 import "../../../components/op-card";
 
 import "../op-config-section";
@@ -89,7 +87,7 @@ class HaScriptPicker extends LitElement {
             ?is-wide=${this.isWide}
             icon="opp:plus"
             title="Add Script"
-            ?rtl=${computeRTL(this.opp)}
+            ?rtl=false
           ></paper-fab>
         </a>
       </opp-subpage>

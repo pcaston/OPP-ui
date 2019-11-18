@@ -1,92 +1,59 @@
 import { timeOut } from "@polymer/polymer/lib/utils/async";
 import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { OpenPeerPower } from '../types';
+import {
+  LitElement,
+  customElement,
+  property,
+} from "lit-element";
 
 import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
+import { any } from "bluebird";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpStateHistoryData extends PolymerElement {
-  _refreshTimeoutId: any;
-  _madeFirstCall: any;
-  _debounceFilterChanged: Debouncer;
-  opp: any;
-  static get properties() {
-    return {
-      opp: {
-        type: Object,
-        observer: "oppChanged",
-      },
-
-      filterType: String,
-
-      cacheConfig: Object,
-
-      startTime: Date,
-      endTime: Date,
-
-      entityId: String,
-
-      isLoading: {
-        type: Boolean,
-        value: true,
-        readOnly: true,
-        notify: true,
-      },
-
-      data: {
-        type: Object,
-        value: null,
-        readOnly: true,
-        notify: true,
-      },
-    };
-  }
+// @ts-ignore
+@customElement('op-state-history-data')
+// @ts-ignore
+ class OpStateHistoryData extends LitElement {
+  @property({type: Object})
+  private opp: OpenPeerPower = {};
+  @property({type: any})
+  private _refreshTimeoutId;
+  @property({type: any})
+  private __madeFirstCall;
+  @property({type: class})
+  private _debounceFilterChanged!: Debouncer;
+  @property({type: Boolean)
+  private isLoading = true;
+  @property({type: Object})
+  private data = null;
 
   static get observers() {
     return [
-      "filterChangedDebouncer(filterType, entityId, startTime, endTime, cacheConfig, localize)",
+      "filterChangedDebouncer(filterType, entityId, startTime, endTime, cacheConfig)",
     ];
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.filterChangedDebouncer(
-      this.filterType,
-      this.entityId,
-      this.startTime,
-      this.endTime,
-      this.cacheConfig,
-      this.localize
-    );
-  }
-  filterType(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  filterType(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  entityId(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  entityId(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  startTime(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  startTime(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  endTime(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  endTime(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  cacheConfig(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  cacheConfig(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
   }
-  localize(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any, localize: any) {
+  localize(filterType: any, entityId: any, startTime: any, endTime: any, cacheConfig: any) {
     throw new Error("Method not implemented.");
-  }
-
-  disconnectedCallback() {
-    if (this._refreshTimeoutId) {
-      window.clearInterval(this._refreshTimeoutId);
-      this._refreshTimeoutId = null;
-    }
-    super.disconnectedCallback();
   }
 
   oppChanged(newOpp, oldOpp) {
@@ -97,7 +64,6 @@ class OpStateHistoryData extends PolymerElement {
         this.startTime,
         this.endTime,
         this.cacheConfig,
-        this.localize
       );
     }
   }
@@ -118,7 +84,6 @@ class OpStateHistoryData extends PolymerElement {
     startTime,
     endTime,
     cacheConfig,
-    localize
   ) {
     if (!this.opp) {
       return;
@@ -197,4 +162,3 @@ class OpStateHistoryData extends PolymerElement {
     );
   }
 }
-customElements.define("op-state-history-data", OpStateHistoryData);

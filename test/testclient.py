@@ -3,6 +3,7 @@
 # Copyright (c) 2017-2018, Fabian Affolter <fabian@affolter-engineering.ch>
 # Released under the ASL 2.0 license. See LICENSE.md file for details.
 #
+
 import asyncio
 import json
 import asyncws
@@ -17,10 +18,12 @@ if os.path.exists(chkpathw):
     aName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
     sName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    vName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
 else:
     aName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
     sName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    vName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
 
 async def main():
     """Simple WebSocket client """
@@ -83,6 +86,17 @@ async def main():
             else:
                 with open(cName, 'w') as h:
                     h.write(Config)
+            await websocket.send(json.dumps(
+            {'id': 4, 'type': 'get_services'}
+            ))
+
+        if msg['type'] == 'result' and msg['id'] == 4:
+            Services = json.dumps(msg)
+            if os.path.exists(vName):
+                pass
+            else:
+                with open(vName, 'w') as h:
+                    h.write(Services)
             break
 
         print(message)
