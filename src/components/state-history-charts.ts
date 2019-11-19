@@ -1,12 +1,27 @@
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {
+  LitElement,
+  html,
+  TemplateResult,
+  property,
+  customElement
+} from "lit-element";
 
 import "./state-history-chart-line";
 import "./state-history-chart-timeline";
+import { OpenPeerPower } from '../types';
 
-class StateHistoryCharts extends PolymerElement {
-  static get template() {
+@customElement('state-history-charts')
+export class StateHistoryCharts extends LitElement {
+  @property({type : Object}) public opp?: OpenPeerPower;
+  @property({type : Object}) public historyData = null;
+  @property({type : Object}) public names = {};
+  @property({type : Boolean}) public isLoadingData = false;
+  @property({type : Object}) public endTime = {};
+  @property({type : Boolean}) public upToNow = false;
+  @property({type : Boolean}) public noSingle = false;
+
+  protected render(): TemplateResult | void {
     return html`
       <style>
         :host {
@@ -20,68 +35,40 @@ class StateHistoryCharts extends PolymerElement {
           color: var(--secondary-text-color);
         }
       </style>
-      <template
-        is="dom-if"
-        class="info"
-        if="[[_computeIsLoading(isLoadingData)]]"
-      >
-        <div class="info">
-          [[localize('ui.components.history_charts.loading_history')]]
-        </div>
-      </template>
+      <div class="info" ?active="${this._computeIsLoading(this.isLoadingData)}">
+        history
+      </div>
 
-      <template
-        is="dom-if"
-        class="info"
-        if="[[_computeIsEmpty(isLoadingData, historyData)]]"
-      >
-        <div class="info">
-          [[localize('ui.components.history_charts.no_history_found')]]
-        </div>
-      </template>
+      <div class="info" ?active="${this._computeIsEmpty(this.isLoadingData, this.historyData)}">
+        no history found
+      </div>
 
-      <template is="dom-if" if="[[historyData.timeline.length]]">
-        <state-history-chart-timeline
-          opp="[[opp]]"
-          data="[[historyData.timeline]]"
-          end-time="[[_computeEndTime(endTime, upToNow, historyData)]]"
-          no-single="[[noSingle]]"
-          names="[[names]]"
-        ></state-history-chart-timeline>
-      </template>
+      <state-history-chart-timeline
+          .opp="${this.opp}"
+          data="${this.historyData!.timeline}"
+          end-time="${this._computeEndTime(this.endTime, this.upToNow, this.historyData)}"
+          no-single="${this.noSingle}"
+          names="${this.names}"
+          ?active="${this.historyData!.timeline.length}"
+      ></state-history-chart-timeline>
 
-      <template is="dom-repeat" items="[[historyData.line]]">
-        <state-history-chart-line
-          opp="[[opp]]"
-          unit="[[item.unit]]"
-          data="[[item.data]]"
-          identifier="[[item.identifier]]"
-          is-single-device="[[_computeIsSingleLineChart(item.data, noSingle)]]"
-          end-time="[[_computeEndTime(endTime, upToNow, historyData)]]"
-          names="[[names]]"
-        ></state-history-chart-line>
-      </template>
+      ${Object.keys(this.historyData!.line).map((key, item) => {
+        return html`
+          <div>
+            <state-history-chart-line
+              .opp="${this.opp}"
+              unit="${item.unit}"
+              data="${item.data}"
+              identifier="${item.identifier}"
+              is-single-device="${this._computeIsSingleLineChart(item.data, this.noSingle)}"
+              end-time="${this._computeEndTime(this.endTime, this.upToNow, this.historyData)}"
+              names="${this.names}"
+            ></state-history-chart-line>
+          </div>
+        `;
+      })
+      };
     `;
-  }
-
-  static get properties() {
-    return {
-      opp: Object,
-      historyData: {
-        type: Object,
-        value: null,
-      },
-      names: Object,
-
-      isLoadingData: Boolean,
-
-      endTime: {
-        type: Object,
-      },
-
-      upToNow: Boolean,
-      noSingle: Boolean,
-    };
   }
 
   _computeIsSingleLineChart(data, noSingle) {
@@ -107,4 +94,3 @@ class StateHistoryCharts extends PolymerElement {
     return upToNow ? new Date() : endTime;
   }
 }
-customElements.define("state-history-charts", StateHistoryCharts);
