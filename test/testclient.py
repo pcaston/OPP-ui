@@ -43,7 +43,7 @@ async def main():
                 ))
             else:
                 await websocket.send(json.dumps(
-                { 'type': 'register', 'client_id': 'http://127.0.0.1:8081', 'name': 'Paul', 'username': 'paul','password': 'Boswald0'}
+                { 'type': 'login', 'client_id': 'http://127.0.0.1:8081', 'name': 'Paul', 'username': 'paul','password': 'Boswald0'}
                 ))
         
         if msg['type'] == 'auth_ok':
