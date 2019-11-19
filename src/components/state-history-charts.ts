@@ -22,6 +22,7 @@ export class StateHistoryCharts extends LitElement {
   @property({type : Boolean}) public noSingle = false;
 
   protected render(): TemplateResult | void {
+    debugger;
     return html`
       <style>
         :host {

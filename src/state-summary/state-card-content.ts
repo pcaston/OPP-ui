@@ -33,6 +33,7 @@ class StateCardContent extends LitElement {
 
   update(changedProperties) {
     super.update(changedProperties);
+    debugger;
     if (changedProperties.has('opp') || changedProperties.has('stateObj')) {
       let stateCard : String;
       if (this.stateObj.attributes && "custom_ui_state_card" in this.stateObj.attributes) {

@@ -9,7 +9,7 @@ import {
 
 import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
-import { any } from '../../node_modules/@types/bluebird';
+import { any } from 'bluebird';
 
 /*
  * @appliesMixin LocalizeMixin
@@ -18,20 +18,14 @@ import { any } from '../../node_modules/@types/bluebird';
 @customElement('op-state-history-data')
 // @ts-ignore
  class OpStateHistoryData extends LitElement {
-  @property({type: Object})
-  private opp: OpenPeerPower = {};
-  @property({type: any})
-  private _refreshTimeoutId;
-  @property({type: any})
-  private __madeFirstCall;
-  @property({type: class})
-  private _debounceFilterChanged!: Debouncer;
-  @property({type: Boolean)
-  private isLoading = true;
-  @property({type: Object})
-  private data = null;
+  @property({type: Object}) private opp: OpenPeerPower = {};
+  @property({type: any}) private _refreshTimeoutId;
+  @property({type: any}) private __madeFirstCall;
+  @property({type: Debouncer}) private _debounceFilterChanged!: Debouncer;
+  @property({type: Object}) public data!: object;
 
   static get observers() {
+    debugger;
     return [
       "filterChangedDebouncer(filterType, entityId, startTime, endTime, cacheConfig)",
     ];
@@ -89,23 +83,21 @@ import { any } from '../../node_modules/@types/bluebird';
       return;
     }
     this.__madeFirstCall = true;
-    let data;
-
     if (filterType === "date") {
       if (!startTime || !endTime) return;
 
-      data = fetchDate(this.opp, startTime, endTime).then((dateHistory) =>
+      this.data = fetchDate(this.opp, startTime, endTime).then((dateHistory) =>
         computeHistory(this.opp, dateHistory)
       );
     } else if (filterType === "recent-entity") {
       if (!entityId) return;
       if (cacheConfig) {
-        data = this.getRecentWithCacheRefresh(
+        this.data = this.getRecentWithCacheRefresh(
           entityId,
           cacheConfig,
         );
       } else {
-        data = getRecent(
+        this.data = getRecent(
           this.opp,
           entityId,
           startTime,
