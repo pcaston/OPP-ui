@@ -37,7 +37,7 @@ class MoreInfoCover extends PolymerElement {
       <div class$="[[computeClassNames(stateObj)]]">
         <div class="current_position">
           <op-labeled-slider
-            caption="[[localize('ui.card.cover.position')]]"
+            caption="[['ui.card.cover.position']]"
             pin=""
             value="{{coverPositionSliderValue}}"
             disabled="[[!entityObj.supportsSetPosition]]"
@@ -47,7 +47,7 @@ class MoreInfoCover extends PolymerElement {
 
         <div class="tilt">
           <op-labeled-slider
-            caption="[[localize('ui.card.cover.tilt_position')]]"
+            caption="[['ui.card.cover.tilt_position']]"
             pin=""
             extra=""
             value="{{coverTiltPositionSliderValue}}"

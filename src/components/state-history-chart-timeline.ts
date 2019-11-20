@@ -58,7 +58,7 @@ class StateHistoryChartTimeline extends PolymerElement {
   }
 
   static get observers() {
-    return ["dataChanged(data, endTime, localize, language)"];
+    return ["dataChanged(data, endTime)"];
   }
 
   connectedCallback() {
@@ -144,11 +144,9 @@ class StateHistoryChartTimeline extends PolymerElement {
           dataRow.push([prevLastChanged, newLastChanged, locState, prevState]);
 
           prevState = newState;
-          locState = state.state_localize;
           prevLastChanged = newLastChanged;
         } else if (prevState === null) {
           prevState = newState;
-          locState = state.state_localize;
           prevLastChanged = new Date(state.last_changed);
         }
       });

@@ -48,7 +48,7 @@ class MoreInfoWeather extends PolymerElement {
       <div class="flex">
         <iron-icon icon="opp:thermometer"></iron-icon>
         <div class="main">
-          [[localize('ui.card.weather.attributes.temperature')]]
+          [['ui.card.weather.attributes.temperature']]
         </div>
         <div>
           [[stateObj.attributes.temperature]] [[getUnit('temperature')]]
@@ -58,7 +58,7 @@ class MoreInfoWeather extends PolymerElement {
         <div class="flex">
           <iron-icon icon="opp:gauge"></iron-icon>
           <div class="main">
-            [[localize('ui.card.weather.attributes.air_pressure')]]
+            [['ui.card.weather.attributes.air_pressure']]
           </div>
           <div>
             [[stateObj.attributes.pressure]] [[getUnit('air_pressure')]]
@@ -69,7 +69,7 @@ class MoreInfoWeather extends PolymerElement {
         <div class="flex">
           <iron-icon icon="opp:water-percent"></iron-icon>
           <div class="main">
-            [[localize('ui.card.weather.attributes.humidity')]]
+            [['ui.card.weather.attributes.humidity']]
           </div>
           <div>[[stateObj.attributes.humidity]] %</div>
         </div>
@@ -78,11 +78,11 @@ class MoreInfoWeather extends PolymerElement {
         <div class="flex">
           <iron-icon icon="opp:weather-windy"></iron-icon>
           <div class="main">
-            [[localize('ui.card.weather.attributes.wind_speed')]]
+            [['ui.card.weather.attributes.wind_speed']]
           </div>
           <div>
             [[getWind(stateObj.attributes.wind_speed,
-            stateObj.attributes.wind_bearing, localize)]]
+            stateObj.attributes.wind_bearing)]]
           </div>
         </div>
       </template>
@@ -90,14 +90,14 @@ class MoreInfoWeather extends PolymerElement {
         <div class="flex">
           <iron-icon icon="opp:eye"></iron-icon>
           <div class="main">
-            [[localize('ui.card.weather.attributes.visibility')]]
+            [['ui.card.weather.attributes.visibility']]
           </div>
           <div>[[stateObj.attributes.visibility]] [[getUnit('length')]]</div>
         </div>
       </template>
 
       <template is="dom-if" if="[[stateObj.attributes.forecast]]">
-        <div class="section">[[localize('ui.card.weather.forecast')]]:</div>
+        <div class="section">[['ui.card.weather.forecast']]:</div>
         <template is="dom-repeat" items="[[stateObj.attributes.forecast]]">
           <div class="flex">
             <template is="dom-if" if="[[_showValue(item.condition)]]">
@@ -210,12 +210,12 @@ class MoreInfoWeather extends PolymerElement {
     return degree;
   }
 
-  getWind(speed, bearing, localize) {
+  getWind(speed, bearing) {
     if (bearing != null) {
       const cardinalDirection = this.windBearingToText(bearing);
-      return `${speed} ${this.getUnit("length")}/h (${localize(
+      return `${speed} ${this.getUnit("length")}/h (${
         `ui.card.weather.cardinal_direction.${cardinalDirection.toLowerCase()}`
-      ) || cardinalDirection})`;
+      ) || cardinalDirection}`;
     }
     return `${speed} ${this.getUnit("length")}/h`;
   }

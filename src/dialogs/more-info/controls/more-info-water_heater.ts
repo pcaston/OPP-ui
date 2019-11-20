@@ -72,7 +72,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
         <div class="container-temperature">
           <div class$="[[stateObj.attributes.operation_mode]]">
             <div hidden$="[[!supportsTemperatureControls(stateObj)]]">
-              [[localize('ui.card.water_heater.target_temperature')]]
+              [['ui.card.water_heater.target_temperature']]
             </div>
             <template is="dom-if" if="[[supportsTemperature(stateObj)]]">
               <op-water_heater-control
@@ -94,7 +94,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
               <op-paper-dropdown-menu
                 label-float=""
                 dynamic-align=""
-                label="[[localize('ui.card.water_heater.operation')]]"
+                label="[['ui.card.water_heater.operation']]"
               >
                 <paper-listbox
                   slot="dropdown-content"
@@ -107,7 +107,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
                     items="[[stateObj.attributes.operation_list]]"
                   >
                     <paper-item item-name$="[[item]]"
-                      >[[_localizeOperationMode(localize, item)]]</paper-item
+                      >[[item]]</paper-item
                     >
                   </template>
                 </paper-listbox>
@@ -120,7 +120,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
           <div class="container-away_mode">
             <div class="center horizontal layout single-row">
               <div class="flex">
-                [[localize('ui.card.water_heater.away_mode')]]
+                [['ui.card.water_heater.away_mode']]
               </div>
               <paper-toggle-button
                 checked="[[awayToggleChecked]]"
@@ -243,10 +243,6 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
     this.opp.callService("water_heater", service, data).then(() => {
       this.stateObjChanged(this.stateObj);
     });
-  }
-
-  _localizeOperationMode(localize, mode) {
-    return localize(`state.water_heater.${mode}`) || mode;
   }
 }
 

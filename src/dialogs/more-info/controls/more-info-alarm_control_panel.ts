@@ -40,7 +40,7 @@ class MoreInfoAlarmControlPanel extends
 
       <template is="dom-if" if="[[_codeFormat]]">
         <paper-input
-          label="[[localize('ui.card.alarm_control_panel.code')]]"
+          label="[['ui.card.alarm_control_panel.code']]"
           value="{{_enteredCode}}"
           type="password"
           disabled="[[!_inputEnabled]]"
@@ -128,7 +128,7 @@ class MoreInfoAlarmControlPanel extends
                 disabled="[[!_inputEnabled]]"
                 raised
               >
-                [[localize('ui.card.alarm_control_panel.clear_code')]]
+                [['ui.card.alarm_control_panel.clear_code']]
               </mwc-button>
             </div>
           </div>
@@ -144,7 +144,7 @@ class MoreInfoAlarmControlPanel extends
             data-service="alarm_disarm"
             disabled="[[!_codeValid]]"
           >
-            [[localize('ui.card.alarm_control_panel.disarm')]]
+            [['ui.card.alarm_control_panel.disarm']]
           </mwc-button>
         </template>
         <template is="dom-if" if="[[_armVisible]]">
@@ -154,7 +154,7 @@ class MoreInfoAlarmControlPanel extends
             data-service="alarm_arm_home"
             disabled="[[!_codeValid]]"
           >
-            [[localize('ui.card.alarm_control_panel.arm_home')]]
+            [['ui.card.alarm_control_panel.arm_home']]
           </mwc-button>
           <mwc-button
             raised
@@ -162,7 +162,7 @@ class MoreInfoAlarmControlPanel extends
             data-service="alarm_arm_away"
             disabled="[[!_codeValid]]"
           >
-            [[localize('ui.card.alarm_control_panel.arm_away')]]
+            [['ui.card.alarm_control_panel.arm_away']]
           </mwc-button>
         </template>
       </div>

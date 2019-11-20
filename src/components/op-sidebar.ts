@@ -101,7 +101,7 @@ class OpSidebar extends LitElement {
         >
           <paper-icon-item>
             <opp-icon slot="item-icon" icon="opp:apps"></opp-icon>
-            <span class="item-text">${opp.localize("panel.states")}</span>
+            <span class="item-text">"panel.states"</span>
           </paper-icon-item>
         </a>
 
@@ -115,8 +115,7 @@ class OpSidebar extends LitElement {
               <paper-icon-item>
                 <opp-icon slot="item-icon" .icon="${panel.icon}"></opp-icon>
                 <span class="item-text"
-                  >${opp.localize(`panel.${panel.title}`) || panel.title}</span
-                >
+                  >`panel.${panel.title}` || panel.title}</span>
               </paper-icon-item>
             </a>
           `
@@ -134,9 +133,7 @@ class OpSidebar extends LitElement {
                     icon="opp:cellphone-settings-variant"
                   ></opp-icon>
                   <span class="item-text"
-                    >${opp.localize(
-                      "ui.sidebar.external_app_configuration"
-                    )}</span
+                    >"ui.sidebar.external_app_configuration"</span
                   >
                 </paper-icon-item>
               </a>
@@ -147,7 +144,7 @@ class OpSidebar extends LitElement {
               <paper-icon-item @click=${this._handleLogOut} class="logout">
                 <opp-icon slot="item-icon" icon="opp:exit-to-app"></opp-icon>
                 <span class="item-text"
-                  >${opp.localize("ui.sidebar.log_out")}</span
+                  >"ui.sidebar.log_out"</span
                 >
               </paper-icon-item>
             `
@@ -160,36 +157,36 @@ class OpSidebar extends LitElement {
               <div class="divider"></div>
 
               <div class="subheader">
-                ${opp.localize("ui.sidebar.developer_tools")}
+                "ui.sidebar.developer_tools"
               </div>
 
               <div class="dev-tools">
                 <a href="/dev-service" tabindex="-1">
                   <paper-icon-button
                     icon="opp:remote"
-                    alt="${opp.localize("panel.dev-services")}"
-                    title="${opp.localize("panel.dev-services")}"
+                    alt=panel.dev-services"
+                    title=panel.dev-services"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-state" tabindex="-1">
                   <paper-icon-button
                     icon="opp:code-tags"
-                    alt="${opp.localize("panel.dev-states")}"
-                    title="${opp.localize("panel.dev-states")}"
+                    alt="panel.dev-states"
+                    title="panel.dev-states"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-event" tabindex="-1">
                   <paper-icon-button
                     icon="opp:radio-tower"
-                    alt="${opp.localize("panel.dev-events")}"
-                    title="${opp.localize("panel.dev-events")}"
+                    alt="panel.dev-events"
+                    title="panel.dev-events"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-template" tabindex="-1">
                   <paper-icon-button
                     icon="opp:file-xml"
-                    alt="${opp.localize("panel.dev-templates")}"
-                    title="${opp.localize("panel.dev-templates")}"
+                    alt="panel.dev-templates"
+                    title="panel.dev-templates"
                   ></paper-icon-button>
                 </a>
                 ${isComponentLoaded(opp, "mqtt")
@@ -197,8 +194,8 @@ class OpSidebar extends LitElement {
                       <a href="/dev-mqtt" tabindex="-1">
                         <paper-icon-button
                           icon="opp:altimeter"
-                          alt="${opp.localize("panel.dev-mqtt")}"
-                          title="${opp.localize("panel.dev-mqtt")}"
+                          alt="panel.dev-mqtt"
+                          title="panel.dev-mqtt"
                         ></paper-icon-button>
                       </a>
                     `
@@ -206,8 +203,8 @@ class OpSidebar extends LitElement {
                 <a href="/dev-info" tabindex="-1">
                   <paper-icon-button
                     icon="opp:information-outline"
-                    alt="${opp.localize("panel.dev-info")}"
-                    title="${opp.localize("panel.dev-info")}"
+                    alt="panel.dev-info"
+                    title="panel.dev-info"
                   ></paper-icon-button>
                 </a>
               </div>
@@ -234,7 +231,6 @@ class OpSidebar extends LitElement {
       opp.panelUrl !== oldOpp.panelUrl ||
       opp.config.components !== oldOpp.config.components ||
       opp.user !== oldOpp.user ||
-      opp.localize !== oldOpp.localize
     );
   }
 

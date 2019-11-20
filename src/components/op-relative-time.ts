@@ -54,9 +54,9 @@ class OpRelativeTime extends PolymerElement {
   updateRelative() {
     const root = dom(this);
     if (!this.parsedDateTime) {
-      root.innerHTML = this.localize("ui.components.relative_time.never");
+      root.innerHTML = "ui.components.relative_time.never";
     } else {
-      root.innerHTML = relativeTime(this.parsedDateTime, this.localize);
+      root.innerHTML = relativeTime(this.parsedDateTime;
     }
   }
 }

@@ -172,7 +172,7 @@ class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
 
         <div class="caption">
           [[_computeStateName(stateObj)]]
-          <div class="title">[[computePrimaryText(localize, playerObj)]]</div>
+          <div class="title">[[computePrimaryText(playerObj)]]</div>
           [[playerObj.secondaryTitle]]<br />
         </div>
       </div>
@@ -340,11 +340,11 @@ class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
     return new OppMediaPlayerEntity(opp, stateObj);
   }
 
-  computePrimaryText(localize, playerObj) {
+  computePrimaryText(playerObj) {
     return (
       playerObj.primaryTitle ||
-      localize(`state.media_player.${playerObj.stateObj.state}`) ||
-      localize(`state.default.${playerObj.stateObj.state}`) ||
+      `state media_player ${playerObj.stateObj.state}` ||
+      `state.default ${playerObj.stateObj.state}` ||
       playerObj.stateObj.state
     );
   }

@@ -70,10 +70,8 @@ class OpVacuumState extends PolymerElement {
 
   _computeLabel(state, interceptable) {
     return interceptable
-      ? this.localize(
-          `ui.card.vacuum.actions.${STATES_INTERCEPTABLE[state].action}`
-        )
-      : this.localize(`state.vacuum.${state}`);
+      ? `ui.card.vacuum.actions.${STATES_INTERCEPTABLE[state].action}`
+      : `state.vacuum.${state}`;
   }
 
   _callService(ev) {

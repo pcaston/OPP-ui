@@ -60,7 +60,7 @@ class OpCameraCard extends EventsMixin(PolymerElement) {
       <div class="caption">
         [[_computeStateName(stateObj)]]
         <template is="dom-if" if="[[!imageLoaded]]">
-          ([[localize('ui.card.camera.not_available')]])
+          ([['camera notavailable')]])
         </template>
       </div>
     `;

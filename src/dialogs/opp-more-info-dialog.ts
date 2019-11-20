@@ -35,6 +35,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
+    debugger;
     this.stateObj = this._computeStateObj(this.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
