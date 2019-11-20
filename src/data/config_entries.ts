@@ -1,7 +1,6 @@
 import { OpenPeerPower } from "../types";
 import { createCollection } from "../open-peer-power-js-websocket/lib";
 import { debounce } from "../common/util/debounce";
-import { LocalizeFunc } from "../common/translations/localize";
 
 export interface DataEntryFlowProgressedEvent {
   type: "data_entry_flow_progressed";
@@ -144,18 +143,17 @@ export const getConfigEntries = (opp: OpenPeerPower) =>
   opp.callApi<ConfigEntry[]>("GET", "config/config_entries/entry");
 
 export const localizeConfigFlowTitle = (
-  localize: LocalizeFunc,
   flow: ConfigFlowProgress
 ) => {
   const placeholders = flow.context.title_placeholders || {};
   const placeholderKeys = Object.keys(placeholders);
   if (placeholderKeys.length === 0) {
-    return localize(`component.${flow.handler}.config.title`);
+    return `${flow.handler} config title`;
   }
   const args: string[] = [];
   placeholderKeys.forEach((key) => {
     args.push(key);
     args.push(placeholders[key]);
   });
-  return localize(`component.${flow.handler}.config.flow_title`, ...args);
+  return `component ${flow.handler} flow_title`;
 };

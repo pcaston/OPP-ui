@@ -67,7 +67,6 @@ const computePanels = (opp: OpenPeerPower) => {
 };
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpSidebar extends LitElement {
   @property() public opp?: OpenPeerPower;

@@ -4,7 +4,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class MoreInfoWeather extends PolymerElement {
   static get template() {

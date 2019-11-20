@@ -6,7 +6,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class StateCardConfigurator extends PolymerElement {
   static get template() {

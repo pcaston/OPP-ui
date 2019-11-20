@@ -6,7 +6,6 @@ import "../components/entity/state-info";
 import OppMediaPlayerEntity from "../util/opp-media-player-model";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class StateCardMediaPlayer extends PolymerElement {
   static get template() {

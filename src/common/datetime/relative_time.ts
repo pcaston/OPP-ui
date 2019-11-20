@@ -1,5 +1,3 @@
-import { LocalizeFunc } from "../translations/localize";
-
 /**
  * Calculate a string representing a date object as relative time from now.
  *
@@ -10,7 +8,6 @@ const langKey = ["second", "minute", "hour", "day"];
 
 export default function relativeTime(
   dateObj: Date,
-  localize: LocalizeFunc,
   options: {
     compareTime?: Date;
     includeTense?: boolean;

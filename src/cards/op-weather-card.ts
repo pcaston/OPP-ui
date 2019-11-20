@@ -9,7 +9,6 @@ import "../components/opp-icon";
 import { EventsMixin } from "../mixins/events-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpWeatherCard extends EventsMixin(PolymerElement) {
   static get template() {

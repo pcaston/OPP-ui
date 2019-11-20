@@ -8,7 +8,6 @@ import computeStateDisplay from "../common/entity/compute_state_display";
 import attributeClassNames from "../common/entity/attribute_class_names";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class StateCardDisplay extends PolymerElement {
   static get template() {

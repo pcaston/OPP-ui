@@ -2,7 +2,6 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpClimateState extends PolymerElement {
   static get template() {

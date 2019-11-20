@@ -9,7 +9,6 @@ import computeStateName from "../common/entity/compute_state_name";
 import computeObjectId from "../common/entity/compute_object_id";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class HaPersistentNotificationCard extends PolymerElement {
   static get template() {

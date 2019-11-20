@@ -23,7 +23,6 @@ import {
 } from "../data/config_entries";
 import { compare } from "../common/string/compare";
 import "./integration-badge";
-import { LocalizeFunc } from "../common/translations/localize";
 import { debounce } from "../common/util/debounce";
 import { fireEvent } from "../common/dom/fire_event";
 import { onboardIntegrationStep } from "../data/onboarding";
@@ -32,7 +31,7 @@ import { genClientId } from "../open-peer-power-js-websocket/lib";
 @customElement("onboarding-integrations")
 class OnboardingIntegrations extends LitElement {
   @property() public opp!: OpenPeerPower;
-  @property() public onboardingLocalize!: LocalizeFunc;
+
   @property() private _entries?: ConfigEntry[];
   @property() private _discovered?: ConfigFlowProgress[];
   private _unsubEvents?: () => void;

@@ -12,7 +12,6 @@ import { getRecent, getRecentWithCache } from "./cached-history";
 import { any } from 'bluebird';
 
 /*
- * @appliesMixin LocalizeMixin
  */
 // @ts-ignore
 @customElement('op-state-history-data')

@@ -30,7 +30,6 @@ const STATES_INTERCEPTABLE = {
 };
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpVacuumState extends PolymerElement {
   static get template() {

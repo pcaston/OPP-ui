@@ -19,7 +19,6 @@ import { EventsMixin } from "../../../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
- * @appliesMixin LocalizeMixin
  */
 class MoreInfoClimate extends EventsMixin(PolymerElement) {
   static get template() {

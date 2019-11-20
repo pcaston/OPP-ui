@@ -3,7 +3,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpWaterHeaterState extends PolymerElement {
   static get template() {

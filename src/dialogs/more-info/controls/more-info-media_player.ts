@@ -15,7 +15,6 @@ import isComponentLoaded from "../../../common/config/is_component_loaded";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
 class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {

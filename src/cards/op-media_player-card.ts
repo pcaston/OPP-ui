@@ -12,8 +12,7 @@ import computeStateName from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
- * @appliesMixin EventsMixin
+ *  * @appliesMixin EventsMixin
  */
 class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
   static get template() {

@@ -3,7 +3,6 @@ import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateDisplay from "../common/entity/compute_state_display";
 import {  } from "../open-peer-power-js-websocket/lib";
 import { OpenPeerPower, OppEntity } from "../types";
-import { LocalizeFunc } from "../common/translations/localize";
 
 const DOMAINS_USE_LAST_UPDATED = ["climate", "water_heater"];
 const LINE_ATTRIBUTES_TO_KEEP = [

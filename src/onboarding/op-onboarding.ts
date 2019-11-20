@@ -11,7 +11,6 @@ import {
   genClientId,
   Auth,
 } from "../open-peer-power-js-websocket/lib";
-import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import {
   OnboardingStep,
   ValidOnboardingStep,

@@ -7,7 +7,6 @@ import "../components/entity/op-entity-toggle";
 import "../components/entity/state-info";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class StateCardScript extends PolymerElement {
   static get template() {

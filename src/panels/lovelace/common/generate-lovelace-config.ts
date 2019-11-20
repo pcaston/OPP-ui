@@ -15,7 +15,6 @@ import computeStateDomain from "../../../common/entity/compute_state_domain";
 import computeDomain from "../../../common/entity/compute_domain";
 
 import { EntityRowConfig, WeblinkConfig } from "../entity-rows/types";
-import { LocalizeFunc } from "../../../common/translations/localize";
 import { EntitiesCardConfig } from "../cards/types";
 import {
   subscribeAreaRegistry,
@@ -207,7 +206,6 @@ const generateDefaultViewConfig = (
   const splittedByAreas = splitByAreas(registries, states);
 
   const config = generateViewConfig(
-    opp.localize,
     path,
     title,
     icon,
@@ -232,7 +230,6 @@ const generateDefaultViewConfig = (
 };
 
 const generateViewConfig = (
-  localize: LocalizeFunc,
   path: string,
   title: string | undefined,
   icon: string | undefined,
@@ -295,7 +292,7 @@ const generateViewConfig = (
             (entityId): [string, OppEntity] => [entityId, entities[entityId]]
           ),
           {
-            title: localize(`domain.${domain}`),
+            title: `domain.${domain}`,
           }
         )
       );
@@ -317,7 +314,6 @@ const generateViewConfig = (
 
 export const generateLovelaceConfig = async (
   opp: OpenPeerPower,
-  localize: LocalizeFunc
 ): Promise<LovelaceConfig> => {
   const viewEntities = extractViews(opp.states);
 
@@ -331,7 +327,6 @@ export const generateLovelaceConfig = async (
     });
 
     return generateViewConfig(
-      localize,
       computeObjectId(viewEntity.entity_id),
       computeStateName(viewEntity),
       viewEntity.attributes.icon,

@@ -157,9 +157,6 @@ export class OppStateLabelBadge extends LitElement {
       state.state === "unavailable" ||
       ["device_tracker", "alarm_control_panel", "person"].includes(domain)
     ) {
-      // Localize the state with a special state_badge namespace, which has variations of
-      // the state translations that are truncated to fit within the badge label. Translations
-      // are only added for device_tracker, alarm_control_panel and person.
       return (
         `state_badge.${domain}.${state.state}` ||
         `state_badge.default.${state.state}` ||

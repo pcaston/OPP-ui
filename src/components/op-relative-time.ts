@@ -4,7 +4,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import relativeTime from "../common/datetime/relative_time";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpRelativeTime extends PolymerElement {
   static get properties() {

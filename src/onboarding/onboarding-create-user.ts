@@ -11,15 +11,10 @@ import {
   TemplateResult,
 } from "lit-element";
 import { genClientId } from "../open-peer-power-js-websocket/lib";
-import { onboardUserStep } from "../data/onboarding";
 import { PolymerChangedEvent } from "../polymer-types";
-import { LocalizeFunc } from "../common/translations/localize";
-import { fireEvent } from "../common/dom/fire_event";
-import { loadTokens, saveTokens } from "../common/auth/token_storage";
 
 @customElement("onboarding-create-user")
 class OnboardingCreateUser extends LitElement {
-  @property() public localize!: LocalizeFunc;
 
   @property() private _name = "";
   @property() private _username = "";

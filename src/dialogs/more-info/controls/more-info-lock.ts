@@ -6,7 +6,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/op-attributes";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class MoreInfoLock extends PolymerElement {
   static get template() {

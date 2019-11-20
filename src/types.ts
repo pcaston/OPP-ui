@@ -3,7 +3,6 @@ import {
   MessageBase,
   OppServices,
 } from './open-peer-power-js-websocket/lib';
-import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
 
 declare global {
@@ -228,9 +227,4 @@ export interface PanelElement extends HTMLElement {
   narrow?: boolean;
   route?: Route | null;
   panel?: PanelInfo;
-}
-
-export interface LocalizeMixin {
-  opp?: OpenPeerPower;
-  localize: LocalizeFunc;
 }

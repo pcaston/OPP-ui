@@ -3,13 +3,11 @@ import "@polymer/paper-input/paper-input";
 
 import JSONTextArea from "../json_textarea";
 import { onChangeEvent } from "../../../../common/preact/event";
-import { LocalizeFunc } from "../../../../common/translations/localize";
 import { EventAction } from "../../../../data/script";
 
 interface Props {
   index: number;
   action: EventAction;
-  localize: LocalizeFunc;
   onChange: (index: number, action: EventAction) => void;
 }
 
