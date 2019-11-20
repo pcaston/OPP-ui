@@ -1,7 +1,12 @@
 import { supportsFeature } from "../common/entity/supports-feature";
+import { OpenPeerPower, OppEntity } from '../types'
 
 export default class MediaPlayerEntity {
-  constructor(opp, stateObj) {
+  opp: OpenPeerPower;
+  stateObj: OppEntity;
+  _attr: OppEntity["attributes"];
+  _feat: OppEntity["attributes"]["supported_features"];
+  constructor(opp: OpenPeerPower, stateObj: OppEntity) {
     this.opp = opp;
     this.stateObj = stateObj;
     this._attr = stateObj.attributes;

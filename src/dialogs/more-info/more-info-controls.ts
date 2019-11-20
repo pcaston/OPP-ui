@@ -50,6 +50,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 
   protected render() {
     this.domain = this._computeDomain(this.stateObj);
+    debugger;
     return html`
       <style include="op-style-dialog">
         app-toolbar {
