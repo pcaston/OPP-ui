@@ -1,0 +1,183 @@
+import "@polymer/app-layout/app-header/app-header";
+import "@polymer/app-layout/app-toolbar/app-toolbar";
+import "@polymer/paper-fab/paper-fab";
+import "@polymer/paper-icon-button/paper-icon-button";
+import "@polymer/paper-item/paper-item-body";
+import "@polymer/paper-item/paper-item";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+
+import "../../../components/op-card";
+import "../../../components/op-paper-icon-button-arrow-prev";
+import "../../../layouts/op-app-layout";
+
+import "../op-config-section";
+
+import "../../../components/op-icon-next";
+
+import NavigateMixin from "../../../mixins/navigate-mixin";
+import computeStateName from "../../../common/entity/compute_state_name";
+import { computeRTL } from "../../../common/util/compute_rtl";
+
+/*
+ * @appliesMixin LocalizeMixin
+ * @appliesMixin NavigateMixin
+ */
+class OpAutomationPicker extends NavigateMixin(PolymerElement) {
+  static get template() {
+    return html`
+      <style include="op-style">
+        :host {
+          display: block;
+        }
+
+        op-card {
+          overflow: hidden;
+        }
+
+        paper-item {
+          cursor: pointer;
+        }
+
+        paper-fab {
+          position: fixed;
+          bottom: 16px;
+          right: 16px;
+          z-index: 1;
+        }
+
+        paper-fab[is-wide] {
+          bottom: 24px;
+          right: 24px;
+        }
+
+        paper-fab[rtl] {
+          right: auto;
+          left: 16px;
+        }
+
+        paper-fab[rtl][is-wide] {
+          bottom: 24px;
+          right: auto;
+          left: 24px;
+        }
+
+        a {
+          color: var(--primary-color);
+        }
+      </style>
+
+      <op-app-layout has-scrolling-region="">
+        <app-header slot="header" fixed="">
+          <app-toolbar>
+            <op-paper-icon-button-arrow-prev on-click="_backTapped">
+            </op-paper-icon-button-arrow-prev>
+            <div main-title="">
+              [['ui.panel.config.automation.caption']]
+            </div>
+          </app-toolbar>
+        </app-header>
+
+        <op-config-section is-wide="[[isWide]]">
+          <div slot="header">
+            [['ui.panel.config.automation.picker.header']]
+          </div>
+          <div slot="introduction">
+            [['ui.panel.config.automation.picker.introduction']]
+            <p>
+              <a
+                href="https://home-assistant.io/docs/automation/editor/"
+                target="_blank"
+              >
+                [['ui.panel.config.automation.picker.learn_more']]
+              </a>
+            </p>
+          </div>
+
+          <op-card
+            heading="[['ui.panel.config.automation.picker.pick_automation']]"
+          >
+            <template is="dom-if" if="[[!automations.length]]">
+              <div class="card-content">
+                <p>
+                  [['ui.panel.config.automation.picker.no_automations']]
+                </p>
+              </div>
+            </template>
+            <template is="dom-repeat" items="[[automations]]" as="automation">
+              <paper-item>
+                <paper-item-body two-line="" on-click="automationTapped">
+                  <div>[[computeName(automation)]]</div>
+                  <div secondary="">[[computeDescription(automation)]]</div>
+                </paper-item-body>
+                <op-icon-next></op-icon-next>
+              </paper-item>
+            </template>
+          </op-card>
+        </op-config-section>
+
+        <paper-fab
+          slot="fab"
+          is-wide$="[[isWide]]"
+          icon="opp:plus"
+          title="[['ui.panel.config.automation.picker.add_automation']]"
+          on-click="addAutomation"
+          rtl$="[[rtl]]"
+        ></paper-fab>
+      </op-app-layout>
+    `;
+  }
+
+  static get properties() {
+    return {
+      opp: {
+        type: Object,
+      },
+
+      automations: {
+        type: Array,
+      },
+
+      isWide: {
+        type: Boolean,
+      },
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
+    };
+  }
+
+  automationTapped(ev) {
+    this.navigate(
+      "/config/automation/edit/" +
+        this.automations[ev.model.index].attributes.id
+    );
+  }
+
+  addAutomation() {
+    this.navigate("/config/automation/new");
+  }
+
+  computeName(automation) {
+    return computeStateName(automation);
+  }
+
+  // Still thinking of something to add here.
+  // eslint-disable-next-line
+  computeDescription(automation) {
+    return "";
+  }
+
+  _backTapped() {
+    history.back();
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
+  }
+}
+
+customElements.define("op-automation-picker", OpAutomationPicker);
