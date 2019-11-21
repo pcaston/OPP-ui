@@ -54,9 +54,8 @@ class LovelaceFullConfigEditor extends LitElement {
               @click="${this._closeEditor}"
             ></paper-icon-button>
             <div main-title>
-              ${this.opp!.localize(
-                "ui.panel.lovelace.editor.raw_editor.header"
-              )}
+              "ui.panel.lovelace.editor.raw_editor.header"
+              }
             </div>
             <div
               class="save-button
@@ -65,17 +64,13 @@ class LovelaceFullConfigEditor extends LitElement {
               })}"
             >
               ${this._changed
-                ? this.opp!.localize(
-                    "ui.panel.lovelace.editor.raw_editor.unsaved_changes"
-                  )
-                : this.opp!.localize(
-                    "ui.panel.lovelace.editor.raw_editor.saved"
-                  )}
+                ? "ui.panel.lovelace.editor.raw_editor.unsaved_changes"
+                : "ui.panel.lovelace.editor.raw_editor.saved"
+                }
             </div>
             <mwc-button raised @click="${this._handleSave}"
-              >${this.opp!.localize(
-                "ui.panel.lovelace.editor.raw_editor.save"
-              )}</mwc-button
+              >"ui.panel.lovelace.editor.raw_editor.save"
+              }</mwc-button
             >
           </app-toolbar>
         </app-header>

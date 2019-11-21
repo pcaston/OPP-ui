@@ -96,9 +96,7 @@ export class HUIView extends LitElement {
             <paper-fab
               elevated="2"
               icon="opp:plus"
-              title="${this.opp!.localize(
-                "ui.panel.lovelace.editor.edit_card.add"
-              )}"
+              title="ui.panel.lovelace.editor.edit_card.add"
               @click="${this._addCard}"
               class="${classMap({
                 rtl: "ltr",

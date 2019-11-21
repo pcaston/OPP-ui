@@ -43,7 +43,7 @@ class StateCardMediaPlayer extends PolymerElement {
         ${this.stateInfoTemplate}
         <div class="state">
           <div class="main-text" take-height$="[[!playerObj.secondaryTitle]]">
-            [[computePrimaryText(localize, playerObj)]]
+            [[computePrimaryText(playerObj)]]
           </div>
           <div class="secondary-text">[[playerObj.secondaryTitle]]</div>
         </div>
@@ -80,11 +80,11 @@ class StateCardMediaPlayer extends PolymerElement {
     return new OppMediaPlayerEntity(opp, stateObj);
   }
 
-  computePrimaryText(localize, playerObj) {
+  computePrimaryText(playerObj) {
     return (
       playerObj.primaryTitle ||
-      localize(`state.media_player.${playerObj.stateObj.state}`) ||
-      localize(`state.default.${playerObj.stateObj.state}`) ||
+      `state.media_player.${playerObj.stateObj.state}` ||
+      `state.default.${playerObj.stateObj.state}` ||
       playerObj.stateObj.state
     );
   }

@@ -25,13 +25,13 @@ class StateCardLock extends PolymerElement {
           on-click="_callService"
           data-service="unlock"
           hidden$="[[!isLocked]]"
-          >[[localize('ui.card.lock.unlock')]]</mwc-button
+          >[[ui.card.lock.unlock']]</mwc-button
         >
         <mwc-button
           on-click="_callService"
           data-service="lock"
           hidden$="[[isLocked]]"
-          >[[localize('ui.card.lock.lock')]]</mwc-button
+          >[['ui.card.lock.lock']]</mwc-button
         >
       </div>
     `;

@@ -127,7 +127,7 @@ class HUIRoot extends LitElement {
                   ></paper-icon-button>
                   <div main-title>
                     ${this.config.title ||
-                      this.opp!.localize("ui.panel.lovelace.editor.header")}
+                      "ui.panel.lovelace.editor.header"}
                     <paper-icon-button
                       icon="opp:pencil"
                       class="edit-icon"
@@ -153,9 +153,8 @@ class HUIRoot extends LitElement {
                       slot="dropdown-content"
                     >
                       <paper-item @click="${this.lovelace!.enableFullEditMode}"
-                        >${this.opp!.localize(
-                          "ui.panel.lovelace.editor.menu.raw_editor"
-                        )}</paper-item
+                        >"ui.panel.lovelace.editor.menu.raw_editor"
+                        }</paper-item
                       >
                     </paper-listbox>
                   </paper-menu-button>
@@ -190,26 +189,22 @@ class HUIRoot extends LitElement {
                       ${this._yamlMode
                         ? html`
                             <paper-item @click="${this._handleRefresh}"
-                              >${this.opp!.localize(
-                                "ui.panel.lovelace.menu.refresh"
-                              )}</paper-item
+                              >"ui.panel.lovelace.menu.refresh"
+                              }</paper-item
                             >
                           `
                         : ""}
                       <paper-item @click="${this._handleUnusedEntities}"
-                        >${this.opp!.localize(
-                          "ui.panel.lovelace.menu.unused_entities"
-                        )}</paper-item
+                        >"ui.panel.lovelace.menu.unused_entities"
+                        }</paper-item
                       >
                       <paper-item @click="${this._editModeEnable}"
-                        >${this.opp!.localize(
-                          "ui.panel.lovelace.menu.configure_ui"
-                        )}</paper-item
+                        >"ui.panel.lovelace.menu.configure_ui"
+                        }</paper-item
                       >
                       <paper-item @click="${this._handleHelp}"
-                        >${this.opp!.localize(
-                          "ui.panel.lovelace.menu.help"
-                        )}</paper-item
+                        >"ui.panel.lovelace.menu.help"
+                        }</paper-item
                       >
                     </paper-listbox>
                   </paper-menu-button>
@@ -274,9 +269,7 @@ class HUIRoot extends LitElement {
                           <paper-icon-button
                             id="add-view"
                             @click="${this._addView}"
-                            title="${this.opp!.localize(
-                              "ui.panel.lovelace.editor.edit_view.add"
-                            )}"
+                            title="ui.panel.lovelace.editor.edit_view.add"
                             icon="opp:plus"
                           ></paper-icon-button>
                         `

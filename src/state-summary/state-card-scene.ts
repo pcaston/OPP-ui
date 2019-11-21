@@ -22,7 +22,7 @@ class StateCardScene extends PolymerElement {
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
         <mwc-button on-click="activateScene"
-          >[[localize('ui.card.scene.activate')]]</mwc-button
+          >[['ui.card.scene.activate']]</mwc-button
         >
       </div>
     `;

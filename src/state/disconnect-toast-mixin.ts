@@ -28,9 +28,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
         this.shadowRoot!.appendChild(el as any);
       }
       this._discToast.dir = "ltr";
-      this._discToast.text = this.opp!.localize(
-        "ui.notification_toast.connection_lost"
-      );
+      this._discToast.text = "ui.notification_toast.connection_lost";
       this._discToast.opened = true;
     }
   };
