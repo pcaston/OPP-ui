@@ -38,17 +38,13 @@ class ConfigCoreForm extends LitElement {
 
     return html`
       <op-card
-        .header=${this.opp.localize(
-          "ui.panel.config.core.section.core.form.heading"
-        )}
+        .header="ui.panel.config.core.section.core.form.heading"
       >
         <div class="card-content">
           ${!isStorage
             ? html`
                 <p>
-                  ${this.opp.localize(
-                    "ui.panel.config.core.section.core.core_config.edit_requires_storage"
-                  )}
+                  "ui.panel.config.core.section.core.core_config.edit_requires_storage"
                 </p>
               `
             : ""}
@@ -56,9 +52,7 @@ class ConfigCoreForm extends LitElement {
           <div class="row">
             <paper-input
               class="flex"
-              .label=${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.latitude"
-              )}
+              .label="ui.panel.config.core.section.core.core_config.latitude"
               name="latitude"
               .disabled=${disabled}
               .value=${this._latitudeValue}
@@ -66,9 +60,7 @@ class ConfigCoreForm extends LitElement {
             ></paper-input>
             <paper-input
               class="flex"
-              .label=${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.longitude"
-              )}
+              .label="ui.panel.config.core.section.core.core_config.longitude"
               name="longitude"
               .disabled=${disabled}
               .value=${this._longitudeValue}
@@ -78,16 +70,12 @@ class ConfigCoreForm extends LitElement {
 
           <div class="row">
             <div class="flex">
-              ${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.time_zone"
-              )}
+              "ui.panel.config.core.section.core.core_config.time_zone"
             </div>
 
             <paper-input
               class="flex"
-              .label=${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.time_zone"
-              )}
+              .label="ui.panel.config.core.section.core.core_config.time_zone"
               name="timeZone"
               list="timezones"
               .disabled=${disabled}
@@ -97,16 +85,12 @@ class ConfigCoreForm extends LitElement {
           </div>
           <div class="row">
             <div class="flex">
-              ${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.elevation"
-              )}
+              "ui.panel.config.core.section.core.core_config.elevation"
             </div>
 
             <paper-input
               class="flex"
-              .label=${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.elevation"
-              )}
+              .label="ui.panel.config.core.section.core.core_config.elevation"
               name="elevation"
               type="number"
               .disabled=${disabled}
@@ -114,38 +98,26 @@ class ConfigCoreForm extends LitElement {
               @value-changed=${this._handleChange}
             >
               <span slot="suffix">
-                ${this.opp.localize(
-                  "ui.panel.config.core.section.core.core_config.elevation_meters"
-                )}
+                "ui.panel.config.core.section.core.core_config.elevation_meters"
               </span>
             </paper-input>
           </div>
 
           <div class="row">
             <div class="flex">
-              ${this.opp.localize(
-                "ui.panel.config.core.section.core.core_config.unit_system"
-              )}
+              "ui.panel.config.core.section.core.core_config.unit_system"
             </div>
             <paper-radio-group class="flex" .selected=${this._unitSystemValue}>
               <paper-radio-button name="metric" .disabled=${disabled}>
-                ${this.opp.localize(
-                  "ui.panel.config.core.section.core.core_config.unit_system_metric"
-                )}
+                "ui.panel.config.core.section.core.core_config.unit_system_metric"
                 <div class="secondary">
-                  ${this.opp.localize(
-                    "ui.panel.config.core.section.core.core_config.metric_example"
-                  )}
+                  "ui.panel.config.core.section.core.core_config.metric_example"
                 </div>
               </paper-radio-button>
               <paper-radio-button name="imperial" .disabled=${disabled}>
-                ${this.opp.localize(
-                  "ui.panel.config.core.section.core.core_config.unit_system_imperial"
-                )}
+                "ui.panel.config.core.section.core.core_config.unit_system_imperial"
                 <div class="secondary">
-                  ${this.opp.localize(
-                    "ui.panel.config.core.section.core.core_config.imperial_example"
-                  )}
+                  "ui.panel.config.core.section.core.core_config.imperial_example"
                 </div>
               </paper-radio-button>
             </paper-radio-group>
@@ -153,9 +125,7 @@ class ConfigCoreForm extends LitElement {
         </div>
         <div class="card-actions">
           <mwc-button @click=${this._save} .disabled=${disabled}>
-            ${this.opp.localize(
-              "ui.panel.config.core.section.core.core_config.save_button"
-            )}
+            "ui.panel.config.core.section.core.core_config.save_button"
           </mwc-button>
         </div>
       </op-card>

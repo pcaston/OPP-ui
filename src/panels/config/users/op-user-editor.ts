@@ -46,7 +46,7 @@ class HaUserEditor extends LitElement {
 
     return html`
       <opp-subpage
-        .header=${opp.localize("ui.panel.config.users.editor.caption")}
+        .header="ui.panel.config.users.editor.caption"
       >
         <op-card .header=${this._name}>
           <table class="card-content">
@@ -70,7 +70,7 @@ class HaUserEditor extends LitElement {
                   ${GROUPS.map(
                     (groupId) => html`
                       <option value=${groupId}>
-                        ${opp.localize(`groups.${groupId}`)}
+                        `groups.${groupId}`
                       </option>
                     `
                   )}
@@ -102,14 +102,14 @@ class HaUserEditor extends LitElement {
 
           <div class="card-actions">
             <mwc-button @click=${this._handleRenameUser}>
-              ${opp.localize("ui.panel.config.users.editor.rename_user")}
+              "ui.panel.config.users.editor.rename_user"
             </mwc-button>
             <mwc-button
               class="warning"
               @click=${this._deleteUser}
               .disabled=${user.system_generated}
             >
-              ${opp.localize("ui.panel.config.users.editor.delete_user")}
+              "ui.panel.config.users.editor.delete_user"
             </mwc-button>
             ${user.system_generated
               ? html`

@@ -34,17 +34,13 @@ class ConfigNameForm extends LitElement {
           ${!isStorage
             ? html`
                 <p>
-                  ${this.opp.localize(
-                    "ui.panel.config.core.section.core.core_config.edit_requires_storage"
-                  )}
+                  "ui.panel.config.core.section.core.core_config.edit_requires_storage"
                 </p>
               `
             : ""}
           <paper-input
             class="flex"
-            .label=${this.opp.localize(
-              "ui.panel.config.core.section.core.core_config.location_name"
-            )}
+            .label="ui.panel.config.core.section.core.core_config.location_name"
             name="name"
             .disabled=${disabled}
             .value=${this._nameValue}
@@ -53,9 +49,7 @@ class ConfigNameForm extends LitElement {
         </div>
         <div class="card-actions">
           <mwc-button @click=${this._save} .disabled=${disabled}>
-            ${this.opp.localize(
-              "ui.panel.config.core.section.core.core_config.save_button"
-            )}
+            "ui.panel.config.core.section.core.core_config.save_button"
           </mwc-button>
         </div>
       </op-card>

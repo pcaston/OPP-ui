@@ -26,20 +26,16 @@ export class HuiConfiguratorNotificationItem extends LitElement {
 
     return html`
       <hui-notification-item-template>
-        <span slot="header">${this.opp.localize("domain.configurator")}</span>
+        <span slot="header">"domain.configurator"</span>
 
         <div>
-          ${this.opp.localize(
-            "ui.notification_drawer.click_to_configure",
-            "entity",
-            this.notification.attributes.friendly_name
-          )}
+          "ui.notification_drawer.click_to_configure entity ${this.notification.attributes.friendly_name}"
         </div>
 
         <mwc-button slot="actions" @click="${this._handleClick}"
-          >${this.opp.localize(
+          >
             `state.configurator.${this.notification.state}`
-          )}</mwc-button
+          }</mwc-button
         >
       </hui-notification-item-template>
     `;

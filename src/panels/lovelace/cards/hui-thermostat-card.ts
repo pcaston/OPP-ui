@@ -99,13 +99,9 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this._config.entity
-          )}</hui-warning
-        >
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
+        </hui-warning
       `;
     }
 
@@ -146,9 +142,9 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
             </div>
             <div class="climate-info">
             <div id="set-temperature"></div>
-            <div class="current-mode">${this.opp!.localize(
+            <div class="current-mode">
               `state.climate.${stateObj.state}`
-            )}</div>
+            }</div>
             <div class="modes">
               ${(stateObj.attributes.operation_list || []).map((modeItem) =>
                 this._renderIcon(modeItem, mode)

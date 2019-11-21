@@ -115,11 +115,7 @@ class ZHADeviceCard extends LitElement {
                 <div class="info">
                   <div class="model">${this.device!.model}</div>
                   <div class="manuf">
-                    ${this.opp!.localize(
-                      "ui.panel.config.integrations.config_entry.manuf",
-                      "manufacturer",
-                      this.device!.manufacturer
-                    )}
+                    "config_entry.manuf manufacturer ${this.device!.manufacturer}"
                   </div>
                 </div>
               `
@@ -170,16 +166,12 @@ class ZHADeviceCard extends LitElement {
             type="string"
             @change="${this._saveCustomName}"
             .value="${this._userGivenName}"
-            placeholder="${this.opp!.localize(
-              "ui.panel.config.zha.device_card.device_name_placeholder"
-            )}"
+            placeholder="ui.panel.config.zha.device_card.device_name_placeholder"
           ></paper-input>
         </div>
         <div class="node-picker">
           <paper-dropdown-menu
-            label="${this.opp!.localize(
-              "ui.panel.config.zha.device_card.area_picker_label"
-            )}"
+            label="ui.panel.config.zha.device_card.area_picker_label"
             class="flex"
           >
             <paper-listbox
@@ -188,9 +180,7 @@ class ZHADeviceCard extends LitElement {
               @iron-select="${this._selectedAreaChanged}"
             >
               <paper-item>
-                ${this.opp!.localize(
-                  "ui.panel.config.integrations.config_entry.no_area"
-                )}
+                "ui.panel.config.integrations.config_entry.no_area"
               </paper-item>
 
               ${this._areas.map(
@@ -211,9 +201,7 @@ class ZHADeviceCard extends LitElement {
                   ${this.showHelp
                     ? html`
                         <div class="help-text">
-                          ${this.opp!.localize(
-                            "ui.panel.config.zha.services.reconfigure"
-                          )}
+                          "ui.panel.config.zha.services.reconfigure"
                         </div>
                       `
                     : ""}
@@ -228,9 +216,7 @@ class ZHADeviceCard extends LitElement {
                   ${this.showHelp
                     ? html`
                         <div class="help-text">
-                          ${this.opp!.localize(
-                            "ui.panel.config.zha.services.remove"
-                          )}
+                          "ui.panel.config.zha.services.remove"
                         </div>
                       `
                     : ""}

@@ -34,7 +34,7 @@ class HaScriptPicker extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage
-        .header=${this.opp.localize("ui.panel.config.script.caption")}
+        .header="ui.panel.config.script.caption"
       >
         <op-config-section .isWide=${this.isWide}>
           <div slot="header">Script Editor</div>

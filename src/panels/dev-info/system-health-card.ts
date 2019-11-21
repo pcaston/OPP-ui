@@ -72,7 +72,7 @@ class SystemHealthCard extends LitElement {
         if (domain !== "openpeerpower") {
           sections.push(
             html`
-              <h3>${this.opp.localize(`domain.${domain}`) || domain}</h3>
+              <h3>`domain.${domain}` || domain}</h3>
             `
           );
         }

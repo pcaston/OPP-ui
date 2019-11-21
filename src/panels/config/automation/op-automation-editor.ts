@@ -80,9 +80,7 @@ class HaAutomationEditor extends LitElement {
             <div main-title>
               ${this.automation
                 ? computeStateName(this.automation)
-                : this.opp.localize(
-                    "ui.panel.config.automation.editor.default_name"
-                  )}
+                : "ui.panel.config.automation.editor.default_name"
             </div>
           </app-toolbar>
         </app-header>
@@ -105,9 +103,7 @@ class HaAutomationEditor extends LitElement {
           ?is-wide="${this.isWide}"
           ?dirty="${this._dirty}"
           icon="opp:content-save"
-          .title="${this.opp.localize(
-            "ui.panel.config.automation.editor.save"
-          )}"
+          .title="ui.panel.config.automation.editor.save"
           @click=${this._saveAutomation}
           class="${classMap({
             rtl: false,
@@ -151,9 +147,7 @@ class HaAutomationEditor extends LitElement {
     if (changedProps.has("creatingNew") && this.creatingNew && this.opp) {
       this._dirty = false;
       this._config = {
-        alias: this.opp.localize(
-          "ui.panel.config.automation.editor.default_name"
-        ),
+        alias: "ui.panel.config.automation.editor.default_name",
         trigger: [{ platform: "state" }],
         condition: [],
         action: [{ service: "" }],
@@ -168,7 +162,6 @@ class HaAutomationEditor extends LitElement {
           onChange: this._configChanged,
           isWide: this.isWide,
           opp: this.opp,
-          localize: this.opp.localize,
         },
         this._rendered
       );
@@ -189,9 +182,7 @@ class HaAutomationEditor extends LitElement {
   private _backTapped(): void {
     if (
       this._dirty &&
-      !confirm(
-        this.opp!.localize("ui.panel.config.automation.editor.unsaved_confirm")
-      )
+      !confirm("ui.panel.config.automation.editor.unsaved_confirm")
     ) {
       return;
     }

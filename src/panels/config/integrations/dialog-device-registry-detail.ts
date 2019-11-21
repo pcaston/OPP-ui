@@ -85,7 +85,7 @@ class DialogDeviceRegistryDetail extends LitElement {
             <paper-input
               .value=${this._nameByUser}
               @value-changed=${this._nameChanged}
-              .label=${this.opp.localize("ui.dialogs.more_info_settings.name")}
+              .label="ui.dialogs.more_info_settings.name"
               .placeholder=${device.name || ""}
               .disabled=${this._submitting}
             ></paper-input>
@@ -97,9 +97,7 @@ class DialogDeviceRegistryDetail extends LitElement {
                   @iron-select="${this._areaIndexChanged}"
                 >
                   <paper-item>
-                    ${this.opp.localize(
-                      "ui.panel.config.integrations.config_entry.no_area"
-                    )}
+                    "ui.panel.config.integrations.config_entry.no_area"
                   </paper-item>
                   ${this._renderAreas()}
                 </paper-listbox>
@@ -109,9 +107,7 @@ class DialogDeviceRegistryDetail extends LitElement {
         </paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._updateEntry}">
-            ${this.opp.localize(
-              "ui.panel.config.entity_registry.editor.update"
-            )}
+            "ui.panel.config.entity_registry.editor.update"
           </mwc-button>
         </div>
       </op-paper-dialog>

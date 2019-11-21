@@ -89,18 +89,14 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
             class="addButton"
             @click="${this._addItem}"
             icon="opp:plus"
-            .title="${this.opp!.localize(
-              "ui.panel.lovelace.cards.shopping-list.add_item"
-            )}"
+            .title="ui.panel.lovelace.cards.shopping-list.add_item"
           >
           </opp-icon>
           <paper-item-body>
             <paper-input
               no-label-float
               class="addBox"
-              placeholder="${this.opp!.localize(
-                "ui.panel.lovelace.cards.shopping-list.add_item"
-              )}"
+              placeholder="ui.panel.lovelace.cards.shopping-list.add_item"
               @keydown="${this._addKeyPress}"
             ></paper-input>
           </paper-item-body>
@@ -135,17 +131,13 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
               <div class="divider"></div>
               <div class="checked">
                 <span class="label">
-                  ${this.opp!.localize(
-                    "ui.panel.lovelace.cards.shopping-list.checked_items"
-                  )}
+                  "ui.panel.lovelace.cards.shopping-list.checked_items"
                 </span>
                 <opp-icon
                   class="clearall"
                   @click="${this._clearItems}"
                   icon="opp:notification-clear-all"
-                  .title="${this.opp!.localize(
-                    "ui.panel.lovelace.cards.shopping-list.clear_items"
-                  )}"
+                  .title="ui.panel.lovelace.cards.shopping-list.clear_items"
                 >
                 </opp-icon>
               </div>

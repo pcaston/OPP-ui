@@ -78,20 +78,14 @@ class DialogPersonDetail extends LitElement {
               @value-changed=${this._userChanged}
             ></op-user-picker>
             <p>
-              ${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_intro"
-              )}
+              "ui.panel.config.person.detail.device_tracker_intro"
             </p>
             <op-entities-picker
               .opp=${this.opp}
               .value=${this._deviceTrackers}
               domain-filter="device_tracker"
-              .pickedEntityLabel=${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_picked"
-              )}
-              .pickEntityLabel=${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_pick"
-              )}
+              .pickedEntityLabel="ui.panel.config.person.detail.device_tracker_picked"
+              .pickEntityLabel="ui.panel.config.person.detail.device_tracker_pick"
               @value-changed=${this._deviceTrackersChanged}
             ></op-entities-picker>
           </div>

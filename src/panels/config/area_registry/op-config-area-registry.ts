@@ -50,25 +50,19 @@ class HaConfigAreaRegistry extends LitElement {
     }
     return html`
       <opp-subpage
-        header="${this.opp.localize("ui.panel.config.area_registry.caption")}"
+        header="ui.panel.config.area_registry.caption"
       >
         <op-config-section .isWide=${this.isWide}>
           <span slot="header">
-            ${this.opp.localize("ui.panel.config.area_registry.picker.header")}
+            "ui.panel.config.area_registry.picker.header"
           </span>
           <span slot="introduction">
-            ${this.opp.localize(
-              "ui.panel.config.area_registry.picker.introduction"
-            )}
+            ui.panel.config.area_registry.picker.introduction"
             <p>
-              ${this.opp.localize(
-                "ui.panel.config.area_registry.picker.introduction2"
-              )}
+              "ui.panel.config.area_registry.picker.introduction2"
             </p>
             <a href="/config/integrations/dashboard">
-              ${this.opp.localize(
-                "ui.panel.config.area_registry.picker.integrations_page"
-              )}
+              "ui.panel.config.area_registry.picker.integrations_page"
             </a>
           </span>
           <op-card>
@@ -84,13 +78,9 @@ class HaConfigAreaRegistry extends LitElement {
             ${this._areas.length === 0
               ? html`
                   <div class="empty">
-                    ${this.opp.localize(
-                      "ui.panel.config.area_registry.no_areas"
-                    )}
+                    "ui.panel.config.area_registry.no_areas"
                     <mwc-button @click=${this._createArea}>
-                      ${this.opp.localize(
-                        "ui.panel.config.area_registry.create_area"
-                      )}
+                      "ui.panel.config.area_registry.create_area"
                     </mwc-button>
                   </div>
                 `
@@ -102,9 +92,7 @@ class HaConfigAreaRegistry extends LitElement {
       <paper-fab
         ?is-wide=${this.isWide}
         icon="opp:plus"
-        title="${this.opp.localize(
-          "ui.panel.config.area_registry.create_area"
-        )}"
+        title="ui.panel.config.area_registry.create_area"
         @click=${this._createArea}
         class="${classMap({
           rtl: false,

@@ -169,11 +169,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label=${this.opp!.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            entityConf.entity
-          )}
+          label="ui.panel.lovelace.warning.entity_not_found entity ${entityConf.entity}"
         ></hui-warning-element>
       `;
     }

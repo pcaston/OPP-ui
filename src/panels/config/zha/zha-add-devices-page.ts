@@ -53,9 +53,7 @@ class ZHAAddDevicesPage extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage
-        header="${this.opp!.localize(
-          "ui.panel.config.zha.add_device_page.header"
-        )}"
+        header="ui.panel.config.zha.add_device_page.header"
       >
         ${this._active
           ? html`
@@ -64,9 +62,7 @@ class ZHAAddDevicesPage extends LitElement {
                   ?active="${this._active}"
                   alt="Searching"
                 ></paper-spinner>
-                ${this.opp!.localize(
-                  "ui.panel.config.zha.add_device_page.spinner"
-                )}
+                "ui.panel.config.zha.add_device_page.spinner"
               </h2>
             `
           : html`
@@ -102,9 +98,7 @@ class ZHAAddDevicesPage extends LitElement {
             ? html`
                 <div class="discovery-text">
                   <h4>
-                    ${this.opp!.localize(
-                      "ui.panel.config.zha.add_device_page.discovery_text"
-                    )}
+                    "ui.panel.config.zha.add_device_page.discovery_text"
                   </h4>
                 </div>
               `

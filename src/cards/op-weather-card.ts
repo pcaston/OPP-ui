@@ -191,7 +191,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                   <span class="measurand">
                     [[getWindSpeed(stateObj.attributes.wind_speed)]]
                   </span>
-                  [[getWindBearing(stateObj.attributes.wind_bearing, localize)]]
+                  [[getWindBearing(stateObj.attributes.wind_bearing)]]
                 </div>
               </template>
             </div>

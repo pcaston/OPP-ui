@@ -53,29 +53,19 @@ class HaConfigEntityRegistry extends LitElement {
     }
     return html`
       <opp-subpage
-        header="${this.opp.localize(
-          "ui.panel.config.entity_registry.caption"
-        )}"
+        header="ui.panel.config.entity_registry.caption"
       >
         <op-config-section .isWide=${this.isWide}>
           <span slot="header">
-            ${this.opp.localize(
-              "ui.panel.config.entity_registry.picker.header"
-            )}
+            "ui.panel.config.entity_registry.picker.header"
           </span>
           <span slot="introduction">
-            ${this.opp.localize(
-              "ui.panel.config.entity_registry.picker.introduction"
-            )}
+            "ui.panel.config.entity_registry.picker.introduction"
             <p>
-              ${this.opp.localize(
-                "ui.panel.config.entity_registry.picker.introduction2"
-              )}
+              "ui.panel.config.entity_registry.picker.introduction2"
             </p>
             <a href="/config/integrations">
-              ${this.opp.localize(
-                "ui.panel.config.entity_registry.picker.integrations_page"
-              )}
+              "ui.panel.config.entity_registry.picker.integrations_page"
             </a>
           </span>
           <op-card>
@@ -92,9 +82,7 @@ class HaConfigEntityRegistry extends LitElement {
                   <paper-item-body two-line>
                     <div class="name">
                       ${computeEntityRegistryName(this.opp!, entry) ||
-                        this.opp!.localize(
-                          "ui.panel.config.entity_registry.picker.unavailable"
-                        )}
+                        "ui.panel.config.entity_registry.picker.unavailable"
                     </div>
                     <div class="secondary entity-id">
                       ${entry.entity_id}

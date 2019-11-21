@@ -64,12 +64,9 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this._config.entity
-          )}</hui-warning
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
+        </hui-warning
         >
       `;
     }

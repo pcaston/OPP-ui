@@ -50,9 +50,8 @@ export class HuiPersistentNotificationItem extends LitElement {
         </div>
 
         <mwc-button slot="actions" @click="${this._handleDismiss}"
-          >${this.opp.localize(
-            "ui.card.persistent_notification.dismiss"
-          )}</mwc-button
+          >"ui.card.persistent_notification.dismiss"
+          </mwc-button
         >
       </hui-notification-item-template>
     `;

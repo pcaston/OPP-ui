@@ -34,13 +34,9 @@ class HuiGenericEntityRow extends LitElement {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this.config.entity
-          )}</hui-warning
-        >
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
+        </hui-warning
       `;
     }
 

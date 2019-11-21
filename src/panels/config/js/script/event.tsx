@@ -31,22 +31,17 @@ export default class EventActionForm extends Component<Props> {
   public render() {
     const {
       action: { event, event_data },
-      localize,
     } = this.props;
     return (
       <div>
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.actions.type.event.event"
-          )}
+          label="ui.panel.config.automation.editor.actions.type.event.event"
           name="event"
           value={event}
           onvalue-changed={this.onChange}
         />
         <JSONTextArea
-          label={localize(
-            "ui.panel.config.automation.editor.actions.type.event.service_data"
-          )}
+          "ui.panel.config.automation.editor.actions.type.event.service_data"
           value={event_data}
           onChange={this.serviceDataChanged}
         />
