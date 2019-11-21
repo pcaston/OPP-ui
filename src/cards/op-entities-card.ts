@@ -86,7 +86,7 @@ class OpEntitiesCard extends EventsMixin(PolymerElement) {
       groupEntity: Object,
       title: {
         type: String,
-        computed: "computeTitle(states, groupEntity, localize)",
+        computed: "computeTitle(states, groupEntity)",
       },
     };
   }
@@ -98,13 +98,13 @@ class OpEntitiesCard extends EventsMixin(PolymerElement) {
     this.entityTapped = this.entityTapped.bind(this);
   }
 
-  computeTitle(states, groupEntity, localize) {
+  computeTitle(states, groupEntity) {
     if (groupEntity) {
       return computeStateName(groupEntity).trim();
     }
     const domain = computeStateDomain(states[0]);
     return (
-      (localize && localize(`domain.${domain}`)) || domain.replace(/_/g, " ")
+      (`domain.${domain}`) || domain.replace(/_/g, " ")
     );
   }
 

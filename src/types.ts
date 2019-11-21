@@ -156,6 +156,11 @@ export interface OpenPeerPower {
   config?: OppConfig;
   moreInfoEntityId?: string | null;
   user?: CurrentUser;
+  callService: (
+    domain: string,
+    service: string,
+    serviceData?: { [key: string]: any }
+  ) => Promise<void>;
 }
 
 export type ClimateEntity = OppEntityBase & {

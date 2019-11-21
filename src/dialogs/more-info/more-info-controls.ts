@@ -26,7 +26,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 // @ts-ignore
  class MoreInfoControls extends EventsMixin(LitElement) {
   @property({type: Object})
-  private opp: OpenPeerPower = {};
+  private opp!: OpenPeerPower;
   @property({type: Object})
   private stateObj!: OppEntity;
   @property({type: Object})

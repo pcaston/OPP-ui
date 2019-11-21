@@ -15,7 +15,6 @@ import {
   fetchConfigFlow,
 } from "../../data/config_entries";
 import { OpenPeerPower } from "../../types";
-import { localizeKey } from "../../common/translations/localize";
 import { fireEvent } from "../../common/dom/fire_event";
 import { configFlowContentStyles } from "./styles";
 
@@ -28,26 +27,19 @@ class StepFlowExternal extends LitElement {
   private step!: ConfigFlowStepExternal;
 
   protected render(): TemplateResult | void {
-    const localize = this.opp.localize;
     const step = this.step;
 
-    const description = localizeKey(
-      localize,
+    const description = 
       `component.${step.handler}.config.${step.step_id}.description`,
-      step.description_placeholders
-    );
+      step.description_placeholders;
 
     return html`
       <h2>
-        ${localize(
           `component.${step.handler}.config.step.${step.step_id}.title`
-        )}
       </h2>
       <div class="content">
         <p>
-          ${localize(
             "ui.panel.config.integrations.config_flow.external_step.description"
-          )}
         </p>
         ${description
           ? html`
@@ -57,9 +49,7 @@ class StepFlowExternal extends LitElement {
         <div class="open-button">
           <a href=${this.step.url} target="_blank">
             <mwc-button raised>
-              ${localize(
                 "ui.panel.config.integrations.config_flow.external_step.open_site"
-              )}
             </mwc-button>
           </a>
         </div>

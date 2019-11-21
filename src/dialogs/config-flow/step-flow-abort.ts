@@ -10,7 +10,6 @@ import "@material/mwc-button";
 
 import { ConfigFlowStepAbort } from "../../data/config_entries";
 import { OpenPeerPower } from "../../types";
-import { localizeKey } from "../../common/translations/localize";
 import { fireEvent } from "../../common/dom/fire_event";
 import { configFlowContentStyles } from "./styles";
 
@@ -23,14 +22,12 @@ class StepFlowAbort extends LitElement {
   private step!: ConfigFlowStepAbort;
 
   protected render(): TemplateResult | void {
-    const localize = this.opp.localize;
     const step = this.step;
 
-    const description = localizeKey(
-      localize,
+    const description = 
       `component.${step.handler}.config.abort.${step.reason}`,
       step.description_placeholders
-    );
+    ;
 
     return html`
       <h2>Aborted</h2>

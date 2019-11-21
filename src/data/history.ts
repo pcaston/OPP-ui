@@ -32,7 +32,6 @@ export interface LineChartUnit {
 }
 
 export interface TimelineState {
-  state_localize: string;
   state: string;
   last_changed: string;
 }
@@ -100,7 +99,6 @@ const processTimelineEntity = (
     }
 
     data.push({
-      state_localize: computeStateDisplay(state),
       state: state.state,
       last_changed: state.last_changed,
     });
@@ -203,7 +201,7 @@ export const computeHistory = (
 
     if (!unit) {
       timelineDevices.push(
-        processTimelineEntity(localize, stateInfo)
+        processTimelineEntity(stateInfo)
       );
     } else if (unit in lineChartDevices) {
       lineChartDevices[unit].push(stateInfo);

@@ -93,8 +93,8 @@ class ConfigFlowDialog extends LitElement {
           this._handlers = (await getConfigFlowHandlers(this.opp)).sort(
             (handlerA, handlerB) =>
               caseInsensitiveCompare(
-                this.opp.localize(`component.${handlerA}.config.title`),
-                this.opp.localize(`component.${handlerB}.config.title`)
+                `component.${handlerA}.config.title`,
+                `component.${handlerB}.config.title`
               )
           );
         } finally {

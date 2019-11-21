@@ -15,7 +15,7 @@ class MoreInfoUpdater extends PolymerElement {
           class="link"
           href="https://www.open-peer-power.io/docs/installation/updating/"
           target="_blank"
-          >[[localize('ui.dialogs.more_info_control.updater.title')]]</a
+          >[['ui.dialogs.more_info_control.updater.title']]</a
         >
       </div>
     `;

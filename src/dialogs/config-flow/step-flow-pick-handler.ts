@@ -21,14 +21,14 @@ class StepFlowPickHandler extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <h2>${this.opp.localize("ui.panel.config.integrations.new")}</h2>
+      <h2>"ui.panel.config.integrations.new"</h2>
       <div>
         ${this.handlers.map(
           (handler) =>
             html`
               <paper-item @click=${this._handlerPicked} .handler=${handler}>
                 <paper-item-body>
-                  ${this.opp.localize(`component.${handler}.config.title`)}
+                  `component.${handler}.config.title`
                 </paper-item-body>
                 <opp-icon-next></opp-icon-next>
               </paper-item>

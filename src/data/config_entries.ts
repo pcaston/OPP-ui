@@ -142,7 +142,7 @@ export const subscribeConfigFlowInProgress = (
 export const getConfigEntries = (opp: OpenPeerPower) =>
   opp.callApi<ConfigEntry[]>("GET", "config/config_entries/entry");
 
-export const localizeConfigFlowTitle = (
+export const ConfigFlowTitle = (
   flow: ConfigFlowProgress
 ) => {
   const placeholders = flow.context.title_placeholders || {};

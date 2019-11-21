@@ -134,7 +134,6 @@ export const provideOpp = (
     panelUrl: "lovelace",
 
     resources: null as any,
-    localize: () => "",
 
     translationMetadata: translationMetadata as any,
     dockedSidebar: false,

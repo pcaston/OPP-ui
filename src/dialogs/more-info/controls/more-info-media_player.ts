@@ -151,7 +151,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
             class="flex source-input"
             dynamic-align=""
             label-float=""
-            label="[[localize('ui.card.media_player.source')]]"
+            label="[['ui.card.media_player.source']]"
           >
             <paper-listbox
               slot="dropdown-content"
@@ -173,7 +173,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
               class="flex source-input"
               dynamic-align
               label-float
-              label="[[localize('ui.card.media_player.sound_mode')]]"
+              label="[['ui.card.media_player.sound_mode']]"
             >
               <paper-listbox
                 slot="dropdown-content"
@@ -195,7 +195,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
         >
           <paper-input
             id="ttsInput"
-            label="[[localize('ui.card.media_player.text_to_speak')]]"
+            label="[['ui.card.media_player.text_to_speak']]"
             class="flex"
             value="{{ttsMessage}}"
             on-keydown="ttsCheckForEnter"

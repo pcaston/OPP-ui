@@ -19,7 +19,6 @@ import {
   getConfigEntries,
   ConfigEntry,
   ConfigFlowProgress,
-  localizeConfigFlowTitle,
 } from "../data/config_entries";
 import { compare } from "../common/string/compare";
 import "./integration-badge";
@@ -59,12 +58,12 @@ class OnboardingIntegrations extends LitElement {
     if (!this._entries || !this._discovered) {
       return html``;
     }
-    // Render discovered and existing entries together sorted by localized title.
+    // Render discovered and existing entries together sorted by title.
     const entries: Array<[string, TemplateResult]> = this._entries.map(
       (entry) => {
-        const title = this.opp.localize(
+        const title = 
           `component.${entry.domain}.config.title`
-        );
+        ;
         return [
           title,
           html`
@@ -78,7 +77,7 @@ class OnboardingIntegrations extends LitElement {
     );
     const discovered: Array<[string, TemplateResult]> = this._discovered.map(
       (flow) => {
-        const title = localizeConfigFlowTitle(this.opp.localize, flow);
+        const title = flow;
         return [
           title,
           html`

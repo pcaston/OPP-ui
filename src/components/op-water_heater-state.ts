@@ -30,13 +30,13 @@ class OpWaterHeaterState extends PolymerElement {
       </style>
 
       <div class="target">
-        <span class="state-label"> [[_localizeState(stateObj.state)]] </span>
+        <span class="state-label"> [[stateObj.state]] </span>
         [[computeTarget(opp, stateObj)]]
       </div>
 
       <template is="dom-if" if="[[currentStatus]]">
         <div class="current">
-          [[localize('ui.card.water_heater.currently')]]: [[currentStatus]]
+          [['ui.card.water_heater.currently']]: [[currentStatus]]
         </div>
       </template>
     `;
@@ -67,10 +67,6 @@ class OpWaterHeaterState extends PolymerElement {
     }
 
     return "";
-  }
-
-  _localizeState(state) {
-    return this.localize(`state.water_heater.${state}`) || state;
   }
 }
 customElements.define("op-water_heater-state", OpWaterHeaterState);

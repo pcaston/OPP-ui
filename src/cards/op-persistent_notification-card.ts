@@ -44,7 +44,7 @@ class HaPersistentNotificationCard extends PolymerElement {
       <op-card header="[[computeTitle(stateObj)]]">
         <op-markdown content="[[stateObj.attributes.message]]"></op-markdown>
         <mwc-button on-click="dismissTap"
-          >[[localize('ui.card.persistent_notification.dismiss')]]</mwc-button
+          >[['ui card persistent_notification dismiss']]</mwc-button
         >
       </op-card>
     `;

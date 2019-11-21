@@ -49,7 +49,7 @@ export const getRecent = (
   }
 
   const prom = fetchRecent(opp, entityId, startTime, endTime).then(
-    (stateHistory) => computeHistory(opp, stateHistory, localize),
+    (stateHistory) => computeHistory(opp, stateHistory),
     (err) => {
       delete RECENT_CACHE[entityId];
       throw err;

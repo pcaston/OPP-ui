@@ -46,7 +46,7 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
           <op-paper-dropdown-menu
             label-float=""
             dynamic-align=""
-            label="[[localize('ui.card.fan.speed')]]"
+            label="[['ui.card.fan.speed']]"
           >
             <paper-listbox
               slot="dropdown-content"
@@ -66,7 +66,7 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
 
         <div class="container-oscillating">
           <div class="center horizontal layout single-row">
-            <div class="flex">[[localize('ui.card.fan.oscillate')]]</div>
+            <div class="flex">[['ui.card.fan.oscillate']]</div>
             <paper-toggle-button
               checked="[[oscillationToggleChecked]]"
               on-change="oscillationToggleChanged"
@@ -77,7 +77,7 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
 
         <div class="container-direction">
           <div class="direction">
-            <div>[[localize('ui.card.fan.direction')]]</div>
+            <div>[['ui.card.fan.direction']]</div>
             <paper-icon-button
               icon="opp:rotate-left"
               on-click="onDirectionLeft"

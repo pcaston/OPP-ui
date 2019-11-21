@@ -19,7 +19,7 @@ class MoreInfoAutomation extends PolymerElement {
       </style>
 
       <div class="flex">
-        <div>[[localize('ui.card.automation.last_triggered')]]:</div>
+        <div>[['ui.card.automation.last_triggered']]:</div>
         <op-relative-time
           opp="[[opp]]"
           datetime="[[stateObj.attributes.last_triggered]]"
@@ -28,7 +28,7 @@ class MoreInfoAutomation extends PolymerElement {
 
       <div class="actions">
         <mwc-button on-click="handleTriggerTapped">
-          [[localize('ui.card.automation.trigger')]]
+          [['ui.card.automation.trigger']]
         </mwc-button>
       </div>
     `;

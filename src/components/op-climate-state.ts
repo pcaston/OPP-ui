@@ -35,14 +35,14 @@ class OpClimateState extends PolymerElement {
 
       <div class="target">
         <template is="dom-if" if="[[_hasKnownState(stateObj.state)]]">
-          <span class="state-label"> [[_localizeState(stateObj.state)]] </span>
+          <span class="state-label"> [[stateObj.state]] </span>
         </template>
         <div class="unit">[[computeTarget(opp, stateObj)]]</div>
       </div>
 
       <template is="dom-if" if="[[currentStatus]]">
         <div class="current">
-          [[localize('ui.card.climate.currently')]]:
+          [['ui.card.climate.currently']]:
           <div class="unit">[[currentStatus]]</div>
         </div>
       </template>
@@ -106,10 +106,6 @@ class OpClimateState extends PolymerElement {
 
   _hasKnownState(state) {
     return state !== "unknown";
-  }
-
-  _localizeState(state) {
-    return this.localize(`state.climate.${state}`) || state;
   }
 }
 customElements.define("op-climate-state", OpClimateState);
