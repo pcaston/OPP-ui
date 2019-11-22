@@ -52,13 +52,9 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this._config.entity
-          )}</hui-warning
-        >
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
+        </hui-warning>
       `;
     }
 
@@ -71,8 +67,8 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
         ${OFF_STATES.includes(stateObj.state)
           ? html`
               <div>
-                ${this.opp!.localize(`state.media_player.${stateObj.state}`) ||
-                  this.opp!.localize(`state.default.${stateObj.state}`) ||
+                `state.media_player.${stateObj.state}` ||
+                  `state.default.${stateObj.state}` ||
                   stateObj.state}
               </div>
             `

@@ -22,7 +22,7 @@ class StateCardConfigurator extends PolymerElement {
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
         <mwc-button hidden$="[[inDialog]]"
-          >[[_localizeState(stateObj.state)]]</mwc-button
+          >[[stateObj.state]]</mwc-button
         >
       </div>
 
@@ -52,10 +52,6 @@ class StateCardConfigurator extends PolymerElement {
         value: false,
       },
     };
-  }
-
-  _localizeState(state) {
-    return this.localize(`state.configurator.${state}`);
   }
 }
 customElements.define("state-card-configurator", StateCardConfigurator);

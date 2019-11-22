@@ -34,7 +34,7 @@ class StateCardScript extends PolymerElement {
         </template>
         <template is="dom-if" if="[[!stateObj.attributes.can_cancel]]">
           <mwc-button on-click="fireScript"
-            >[[localize('ui.card.script.execute')]]</mwc-button
+            >[['ui.card.script.execute']]</mwc-button
           >
         </template>
       </div>

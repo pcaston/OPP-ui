@@ -43,13 +43,9 @@ class HuiSceneEntityRow extends LitElement implements EntityRow {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this._config.entity
-          )}</hui-warning
-        >
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
+        </hui-warning>
       `;
     }
 
@@ -64,7 +60,7 @@ class HuiSceneEntityRow extends LitElement implements EntityRow {
             `
           : html`
               <mwc-button @click="${this._callService}">
-                ${this.opp!.localize("ui.card.scene.activate")}
+                "ui.card.scene.activate"}
               </mwc-button>
             `}
       </hui-generic-entity-row>

@@ -126,7 +126,7 @@ class LovelacePanel extends LitElement {
   }
 
   private async _regenerateConfig() {
-    const conf = await generateLovelaceConfig(this.opp!, this.opp!.localize);
+    const conf = await generateLovelaceConfig(this.opp!);
     this._setLovelaceConfig(conf, "generated");
   }
 
@@ -164,7 +164,7 @@ class LovelacePanel extends LitElement {
         this._errorMsg = err.message;
         return;
       }
-      conf = await generateLovelaceConfig(this.opp!, this.opp!.localize);
+      conf = await generateLovelaceConfig(this.opp!);
       confMode = "generated";
     }
 

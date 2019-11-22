@@ -42,13 +42,9 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
 
     if (!stateObj) {
       return html`
-        <hui-warning
-          >${this.opp.localize(
-            "ui.panel.lovelace.warning.entity_not_found",
-            "entity",
-            this._config.entity
-          )}</hui-warning
-        >
+        <hui-warning>
+          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
+        </hui-warning>
       `;
     }
 
@@ -56,8 +52,8 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
       <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <mwc-button @click="${this._callService}">
           ${stateObj.state === "locked"
-            ? this.opp!.localize("ui.card.lock.unlock")
-            : this.opp!.localize("ui.card.lock.lock")}
+            ? "ui.card.lock.unlock"
+            : "ui.card.lock.lock"}
         </mwc-button>
       </hui-generic-entity-row>
     `;
