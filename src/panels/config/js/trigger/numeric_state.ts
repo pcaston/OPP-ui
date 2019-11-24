@@ -22,7 +22,7 @@ export default class NumericStateTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, opp, localize }) {
+  render({ trigger, opp }) {
     const { value_template, entity_id, below, above } = trigger;
     let trgFor = trigger.for;
 
@@ -45,34 +45,34 @@ export default class NumericStateTrigger extends Component {
           allowCustomEntity
         />
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.numeric_state.above"
-          )}
+          }
           name="above"
           value={above}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.numeric_state.below"
-          )}
+          }
           name="below"
           value={below}
           onvalue-changed={this.onChange}
         />
         <op-textarea
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.numeric_state.value_template"
-          )}
+          }
           name="value_template"
           value={value_template}
           onvalue-changed={this.onChange}
           dir="ltr"
         />
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.state.for"
-          )}
+          }
           name="for"
           value={trgFor}
           onvalue-changed={this.onChange}

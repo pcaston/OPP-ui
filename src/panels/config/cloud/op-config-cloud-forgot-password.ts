@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
 import "../../../components/buttons/op-progress-button";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
@@ -44,7 +44,7 @@ class HaConfigCloudForgotPassword extends EventsMixin(PolymerElement) {
           display: none;
         }
       </style>
-      <hass-subpage header="Forgot Password">
+      <opp-subpage header="Forgot Password">
         <div class="content">
           <op-card header="Forgot your password">
             <div class="card-content">
@@ -72,13 +72,13 @@ class HaConfigCloudForgotPassword extends EventsMixin(PolymerElement) {
             </div>
           </op-card>
         </div>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       email: {
         type: String,
         notify: true,
@@ -117,7 +117,7 @@ class HaConfigCloudForgotPassword extends EventsMixin(PolymerElement) {
 
     this._requestInProgress = true;
 
-    this.hass
+    this.opp
       .callApi("post", "cloud/forgot_password", {
         email: this.email,
       })

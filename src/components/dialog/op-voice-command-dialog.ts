@@ -51,7 +51,7 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
           color: var(--primary-text-color);
         }
 
-        .message.hass {
+        .message.opp {
           margin-right: 24px;
           float: left;
           border-bottom-left-radius: 0px;
@@ -128,7 +128,7 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
         </template>
         <div class="icon" hidden$="[[results]]">
           <paper-icon-button
-            icon="hass:text-to-speech"
+            icon="opp:text-to-speech"
             on-click="startListening"
           ></paper-icon-button>
         </div>
@@ -138,7 +138,7 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       results: {
         type: Object,
         value: null,
@@ -148,7 +148,7 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
       _conversation: {
         type: Array,
         value: function() {
-          return [{ who: "hass", text: "How can I help?" }];
+          return [{ who: "opp", text: "How can I help?" }];
         },
         observer: "_scrollMessagesBottom",
       },
@@ -192,10 +192,10 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
       this.results = null;
       this.push("_conversation", { who: "user", text: text });
 
-      this.hass.callApi("post", "conversation/process", { text: text }).then(
+      this.opp.callApi("post", "conversation/process", { text: text }).then(
         function(response) {
           this.push("_conversation", {
-            who: "hass",
+            who: "opp",
             text: response.speech.plain.speech,
           });
         }.bind(this),

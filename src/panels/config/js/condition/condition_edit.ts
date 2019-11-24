@@ -39,18 +39,17 @@ export default class ConditionRow extends Component {
     }
   }
 
-  render({ index, condition, onChange, opp, localize }) {
+  render({ index, condition, onChange, opp }) {
     const Comp = TYPES[condition.condition];
     const selected = OPTIONS.indexOf(condition.condition);
 
     if (!Comp) {
       return (
         <div>
-          {localize(
-            "ui.panel.config.automation.editor.conditions.unsupported_condition",
+          {"ui.panel.config.automation.editor.conditions.unsupported_condition",
             "condition",
             condition.condition
-          )}
+          }
           <pre>{JSON.stringify(condition, null, 2)}</pre>
         </div>
       );
@@ -59,9 +58,8 @@ export default class ConditionRow extends Component {
     return (
       <div>
         <paper-dropdown-menu-light
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type_select"
-          )}
+          label={"ui.panel.config.automation.editor.conditions.type_select"
+          }
           no-animations
         >
           <paper-listbox
@@ -71,9 +69,8 @@ export default class ConditionRow extends Component {
           >
             {OPTIONS.map((opt) => (
               <paper-item condition={opt}>
-                {localize(
-                  `ui.panel.config.automation.editor.conditions.type.${opt}.label`
-                )}
+                {`ui.panel.config.automation.editor.conditions.type.${opt}.label`
+                }
               </paper-item>
             ))}
           </paper-listbox>
@@ -83,7 +80,6 @@ export default class ConditionRow extends Component {
           condition={condition}
           onChange={onChange}
           opp={opp}
-          localize={localize}
         />
       </div>
     );

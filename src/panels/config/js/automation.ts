@@ -40,7 +40,7 @@ export default class Automation extends Component {
     this.props.onChange(Object.assign({}, this.props.automation, { action }));
   }
 
-  render({ automation, isWide, opp, localize }) {
+  render({ automation, isWide, opp }) {
     const { alias, trigger, condition, action } = automation;
 
     return (
@@ -48,12 +48,12 @@ export default class Automation extends Component {
         <op-config-section is-wide={isWide}>
           <span slot="header">{alias}</span>
           <span slot="introduction">
-            {localize("ui.panel.config.automation.editor.introduction")}
+            {"ui.panel.config.automation.editor.introduction"}
           </span>
           <op-card>
             <div class="card-content">
               <paper-input
-                label={localize("ui.panel.config.automation.editor.alias")}
+                label={"ui.panel.config.automation.editor.alias"}
                 name="alias"
                 value={alias}
                 onvalue-changed={this.onChange}
@@ -64,80 +64,72 @@ export default class Automation extends Component {
 
         <op-config-section is-wide={isWide}>
           <span slot="header">
-            {localize("ui.panel.config.automation.editor.triggers.header")}
+            {"ui.panel.config.automation.editor.triggers.header"}
           </span>
           <span slot="introduction">
             <p>
-              {localize(
-                "ui.panel.config.automation.editor.triggers.introduction"
-              )}
+              {"ui.panel.config.automation.editor.triggers.introduction"
+              }
             </p>
             <a
               href="https://open-peer-power.io/docs/automation/trigger/"
               target="_blank"
             >
-              {localize(
-                "ui.panel.config.automation.editor.triggers.learn_more"
-              )}
+              {"ui.panel.config.automation.editor.triggers.learn_more"
+              }
             </a>
           </span>
           <Trigger
             trigger={trigger}
             onChange={this.triggerChanged}
             opp={opp}
-            localize={localize}
           />
         </op-config-section>
 
         <op-config-section is-wide={isWide}>
           <span slot="header">
-            {localize("ui.panel.config.automation.editor.conditions.header")}
+            {"ui.panel.config.automation.editor.conditions.header"}
           </span>
           <span slot="introduction">
             <p>
-              {localize(
-                "ui.panel.config.automation.editor.conditions.introduction"
-              )}
+              {"ui.panel.config.automation.editor.conditions.introduction"
+              }
             </p>
             <a
               href="https://open-peer-power.io/docs/scripts/conditions/"
               target="_blank"
             >
-              {localize(
-                "ui.panel.config.automation.editor.conditions.learn_more"
-              )}
+              {"ui.panel.config.automation.editor.conditions.learn_more"
+              }
             </a>
           </span>
           <Condition
             condition={condition || []}
             onChange={this.conditionChanged}
             opp={opp}
-            localize={localize}
           />
         </op-config-section>
 
         <op-config-section is-wide={isWide}>
           <span slot="header">
-            {localize("ui.panel.config.automation.editor.actions.header")}
+            {"ui.panel.config.automation.editor.actions.header"}
           </span>
           <span slot="introduction">
             <p>
-              {localize(
-                "ui.panel.config.automation.editor.actions.introduction"
-              )}
+              {"ui.panel.config.automation.editor.actions.introduction"
+              }
             </p>
             <a
               href="https://open-peer-power.io/docs/automation/action/"
               target="_blank"
             >
-              {localize("ui.panel.config.automation.editor.actions.learn_more")}
+              {"ui.panel.config.automation.editor.actions.learn_more"}
             </a>
           </span>
           <Script
             script={action}
             onChange={this.actionChanged}
             opp={opp}
-            localize={localize}
           />
         </op-config-section>
       </div>

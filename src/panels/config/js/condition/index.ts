@@ -32,7 +32,7 @@ export default class Condition extends Component {
     this.props.onChange(condition);
   }
 
-  render({ condition, opp, localize }) {
+  render({ condition, opp }) {
     return (
       <div class="triggers">
         {condition.map((cnd, idx) => (
@@ -41,13 +41,12 @@ export default class Condition extends Component {
             condition={cnd}
             onChange={this.conditionChanged}
             opp={opp}
-            localize={localize}
           />
         ))}
         <op-card>
           <div class="card-actions add-card">
             <mwc-button onTap={this.addCondition}>
-              {localize("ui.panel.config.automation.editor.conditions.add")}
+              {"ui.panel.config.automation.editor.conditions.add"}
             </mwc-button>
           </div>
         </op-card>

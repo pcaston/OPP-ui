@@ -18,7 +18,7 @@ export default class TriggerRow extends Component {
     // eslint-disable-next-line
     if (
       confirm(
-        this.props.localize(
+        this.props(
           "ui.panel.config.automation.editor.triggers.delete_confirm"
         )
       )
@@ -44,12 +44,12 @@ export default class TriggerRow extends Component {
               />
               <paper-listbox slot="dropdown-content">
                 <paper-item disabled>
-                  {props.localize(
+                  {props(
                     "ui.panel.config.automation.editor.triggers.duplicate"
                   )}
                 </paper-item>
                 <paper-item onTap={this.onDelete}>
-                  {props.localize(
+                  {props(
                     "ui.panel.config.automation.editor.triggers.delete"
                   )}
                 </paper-item>

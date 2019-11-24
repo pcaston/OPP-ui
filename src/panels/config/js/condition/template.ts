@@ -10,15 +10,15 @@ export default class TemplateCondition extends Component {
     this.onChange = onChangeEvent.bind(this, "condition");
   }
 
-  render({ condition, localize }) {
+  render({ condition }) {
     /* eslint-disable camelcase */
     const { value_template } = condition;
     return (
       <div>
         <op-textarea
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.conditions.type.template.value_template"
-          )}
+          }
           name="value_template"
           value={value_template}
           onvalue-changed={this.onChange}

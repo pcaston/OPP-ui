@@ -10,14 +10,13 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
 import "../../../components/entity/op-state-icon";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import "../../../components/op-icon-next";
 
 import { computeRTL } from "../../../common/util/compute_rtl";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
 import {
   loadConfigFlowDialog,
@@ -26,11 +25,10 @@ import {
 import { localizeConfigFlowTitle } from "../../../data/config_entries";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaConfigManagerDashboard extends LocalizeMixin(
-  EventsMixin(PolymerElement)
+class OpConfigManagerDashboard extends 
+  EventsMixin(PolymerElement
 ) {
   static get template() {
     return html`
@@ -77,22 +75,22 @@ class HaConfigManagerDashboard extends LocalizeMixin(
         }
       </style>
 
-      <hass-subpage
-        header="[[localize('ui.panel.config.integrations.caption')]]"
+      <opp-subpage
+        header="[['ui.panel.config.integrations.caption']]"
       >
         <template is="dom-if" if="[[progress.length]]">
           <op-config-section>
             <span slot="header"
-              >[[localize('ui.panel.config.integrations.discovered')]]</span
+              >[['ui.panel.config.integrations.discovered']]</span
             >
             <op-card>
               <template is="dom-repeat" items="[[progress]]">
                 <div class="config-entry-row">
                   <paper-item-body>
-                    [[_computeActiveFlowTitle(localize, item)]]
+                    [[_computeActiveFlowTitle(item)]]
                   </paper-item-body>
                   <mwc-button on-click="_continueFlow"
-                    >[[localize('ui.panel.config.integrations.configure')]]</mwc-button
+                    >[['ui.panel.config.integrations.configure']]</mwc-button
                   >
                 </div>
               </template>
@@ -102,13 +100,13 @@ class HaConfigManagerDashboard extends LocalizeMixin(
 
         <op-config-section class="configured">
           <span slot="header"
-            >[[localize('ui.panel.config.integrations.configured')]]</span
+            >[['ui.panel.config.integrations.configured']]</span
           >
           <op-card>
             <template is="dom-if" if="[[!entries.length]]">
               <div class="config-entry-row">
                 <paper-item-body two-line>
-                  <div>[[localize('ui.panel.config.integrations.none')]]</div>
+                  <div>[['ui.panel.config.integrations.none']]</div>
                 </paper-item-body>
               </div>
             </template>
@@ -117,13 +115,13 @@ class HaConfigManagerDashboard extends LocalizeMixin(
                 <paper-item>
                   <paper-item-body two-line>
                     <div>
-                      [[_computeIntegrationTitle(localize, item.domain)]]:
+                      [[_computeIntegrationTitle(item.domain)]]:
                       [[item.title]]
                     </div>
                     <div secondary>
                       <template
                         is="dom-repeat"
-                        items="[[_computeConfigEntryEntities(hass, item, entities)]]"
+                        items="[[_computeConfigEntryEntities(opp, item, entities)]]"
                       >
                         <span>
                           <op-state-icon
@@ -145,19 +143,19 @@ class HaConfigManagerDashboard extends LocalizeMixin(
         </op-config-section>
 
         <paper-fab
-          icon="hass:plus"
-          title="[[localize('ui.panel.config.integrations.new')]]"
+          icon="opp:plus"
+          title="[['ui.panel.config.integrations.new']]"
           on-click="_createFlow"
           is-wide$="[[isWide]]"
           rtl$="[[rtl]]"
         ></paper-fab>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
 
       /**
@@ -181,7 +179,7 @@ class HaConfigManagerDashboard extends LocalizeMixin(
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -193,26 +191,26 @@ class HaConfigManagerDashboard extends LocalizeMixin(
 
   _createFlow() {
     showConfigFlowDialog(this, {
-      dialogClosedCallback: () => this.fire("hass-reload-entries"),
+      dialogClosedCallback: () => this.fire("opp-reload-entries"),
     });
   }
 
   _continueFlow(ev) {
     showConfigFlowDialog(this, {
       continueFlowId: ev.model.item.flow_id,
-      dialogClosedCallback: () => this.fire("hass-reload-entries"),
+      dialogClosedCallback: () => this.fire("opp-reload-entries"),
     });
   }
 
-  _computeIntegrationTitle(localize, integration) {
-    return localize(`component.${integration}.config.title`);
+  _computeIntegrationTitle(integration) {
+    return `component.${integration}.config.title`;
   }
 
-  _computeActiveFlowTitle(localize, flow) {
-    return localizeConfigFlowTitle(localize, flow);
+  _computeActiveFlowTitle(flow) {
+    return localizeConfigFlowTitle(flow);
   }
 
-  _computeConfigEntryEntities(hass, configEntry, entities) {
+  _computeConfigEntryEntities(opp, configEntry, entities) {
     if (!entities) {
       return [];
     }
@@ -220,9 +218,9 @@ class HaConfigManagerDashboard extends LocalizeMixin(
     entities.forEach((entity) => {
       if (
         entity.config_entry_id === configEntry.entry_id &&
-        entity.entity_id in hass.states
+        entity.entity_id in opp.states
       ) {
-        states.push(hass.states[entity.entity_id]);
+        states.push(opp.states[entity.entity_id]);
       }
     });
     return states;
@@ -233,12 +231,12 @@ class HaConfigManagerDashboard extends LocalizeMixin(
   }
 
   _handleMoreInfo(ev) {
-    this.fire("hass-more-info", { entityId: ev.model.item.entity_id });
+    this.fire("opp-more-info", { entityId: ev.model.item.entity_id });
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 
-customElements.define("op-config-entries-dashboard", HaConfigManagerDashboard);
+customElements.define("op-config-entries-dashboard", OpConfigManagerDashboard);

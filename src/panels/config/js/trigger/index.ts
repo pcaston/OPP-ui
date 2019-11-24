@@ -33,7 +33,7 @@ export default class Trigger extends Component {
     this.props.onChange(trigger);
   }
 
-  render({ trigger, opp, localize }) {
+  render({ trigger, opp }) {
     return (
       <div class="triggers">
         {trigger.map((trg, idx) => (
@@ -42,13 +42,12 @@ export default class Trigger extends Component {
             trigger={trg}
             onChange={this.triggerChanged}
             opp={opp}
-            localize={localize}
           />
         ))}
         <op-card>
           <div class="card-actions add-card">
             <mwc-button onTap={this.addTrigger}>
-              {localize("ui.panel.config.automation.editor.triggers.add")}
+              {"ui.panel.config.automation.editor.triggers.add"}
             </mwc-button>
           </div>
         </op-card>

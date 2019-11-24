@@ -9,13 +9,11 @@ import "./op-entity-marker";
 
 import computeStateDomain from "../../common/entity/compute_state_domain";
 import computeStateName from "../../common/entity/compute_state_name";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
 
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaPanelMap extends LocalizeMixin(PolymerElement) {
+class HaPanelMap extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -28,7 +26,7 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
 
       <app-toolbar>
         <op-menu-button></op-menu-button>
-        <div main-title>[[localize('panel.map')]]</div>
+        <div main-title>[['panel.map']]</div>
       </app-toolbar>
 
       <div id="map"></div>

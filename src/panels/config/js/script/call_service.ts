@@ -25,7 +25,7 @@ export default class CallServiceAction extends Component {
     );
   }
 
-  render({ action, opp, localize }) {
+  render({ action, opp }) {
     const { service, data } = action;
 
     return (
@@ -36,9 +36,9 @@ export default class CallServiceAction extends Component {
           onChange={this.serviceChanged}
         />
         <JSONTextArea
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.actions.type.service.service_data"
-          )}
+          }
           value={data}
           onChange={this.serviceDataChanged}
         />

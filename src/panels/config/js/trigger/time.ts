@@ -12,14 +12,14 @@ export default class TimeTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, localize }) {
+  render({ trigger }) {
     const { at } = trigger;
     return (
       <div>
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.time.at"
-          )}
+          }
           name="at"
           value={at}
           onvalue-changed={this.onChange}

@@ -31,7 +31,7 @@ class HaConfigScript extends PolymerElement {
 
       <template is="dom-if" if="[[!showEditor]]">
         <op-script-picker
-          hass="[[hass]]"
+          opp="[[opp]]"
           scripts="[[scripts]]"
           is-wide="[[isWide]]"
         ></op-script-picker>
@@ -39,7 +39,7 @@ class HaConfigScript extends PolymerElement {
 
       <template is="dom-if" if="[[showEditor]]" restamp="">
         <op-script-editor
-          hass="[[hass]]"
+          opp="[[opp]]"
           script="[[script]]"
           is-wide="[[isWide]]"
           creating-new="[[_creatingNew]]"
@@ -50,7 +50,7 @@ class HaConfigScript extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       route: Object,
       isWide: Boolean,
       _routeData: Object,
@@ -60,7 +60,7 @@ class HaConfigScript extends PolymerElement {
 
       scripts: {
         type: Array,
-        computed: "computeScripts(hass)",
+        computed: "computeScripts(opp)",
       },
 
       script: {
@@ -87,11 +87,11 @@ class HaConfigScript extends PolymerElement {
     return null;
   }
 
-  computeScripts(hass) {
+  computeScripts(opp) {
     var scripts = [];
 
-    Object.keys(hass.states).forEach(function(key) {
-      var entity = hass.states[key];
+    Object.keys(opp.states).forEach(function(key) {
+      var entity = opp.states[key];
 
       if (computeStateDomain(entity) === "script") {
         scripts.push(entity);

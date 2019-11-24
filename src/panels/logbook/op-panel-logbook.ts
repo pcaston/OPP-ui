@@ -17,13 +17,11 @@ import "./op-logbook-data";
 import "./op-logbook";
 
 import formatDate from "../../common/datetime/format_date";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
+class HaPanelLogbook extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -90,7 +88,7 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[[localize('panel.logbook')]]</div>
+            <div main-title>[['panel.logbook')]</div>
             <paper-icon-button
               icon="opp:refresh"
               on-click="refreshLogbook"
@@ -103,21 +101,21 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
           <paper-spinner
             active="[[isLoading]]"
             hidden$="[[!isLoading]]"
-            alt="[[localize('ui.common.loading')]]"
+            alt="[['ui.common.loading']]"
           ></paper-spinner>
 
           <div class="flex layout horizontal wrap">
             <vaadin-date-picker
               id="picker"
               value="{{_currentDate}}"
-              label="[[localize('ui.panel.logbook.showing_entries')]]"
+              label="[['ui.panel.logbook.showing_entries']]"
               disabled="[[isLoading]]"
               required
             ></vaadin-date-picker>
 
             <paper-dropdown-menu
               label-float
-              label="[[localize('ui.panel.logbook.period')]]"
+              label="[['ui.panel.logbook.period']]"
               disabled="[[isLoading]]"
             >
               <paper-listbox
@@ -125,13 +123,13 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
                 selected="{{_periodIndex}}"
               >
                 <paper-item
-                  >[[localize('ui.duration.day', 'count', 1)]]</paper-item
+                  >[['ui.duration.day', 'count', 1]]</paper-item
                 >
                 <paper-item
-                  >[[localize('ui.duration.day', 'count', 3)]]</paper-item
+                  >[['ui.duration.day', 'count', 3)]</paper-item
                 >
                 <paper-item
-                  >[[localize('ui.duration.week', 'count', 1)]]</paper-item
+                  >[['ui.duration.week', 'count', 1)]</paper-item
                 >
               </paper-listbox>
             </paper-dropdown-menu>
@@ -139,7 +137,7 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
             <op-entity-picker
               opp="[[opp]]"
               value="{{_entityId}}"
-              label="[[localize('ui.components.entity.entity-picker.entity')]]"
+              label="[['ui.components.entity.entity-picker.entity']]"
               disabled="[[isLoading]]"
               on-change="_entityPicked"
             ></op-entity-picker>

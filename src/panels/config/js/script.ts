@@ -26,7 +26,7 @@ export default class ScriptEditor extends Component {
     this.props.onChange(Object.assign({}, this.props.script, { sequence }));
   }
 
-  render({ script, isWide, opp, localize }) {
+  render({ script, isWide, opp }) {
     const { alias, sequence } = script;
 
     return (
@@ -62,7 +62,6 @@ export default class ScriptEditor extends Component {
             script={sequence}
             onChange={this.sequenceChanged}
             opp={opp}
-            localize={localize}
           />
         </op-config-section>
       </div>

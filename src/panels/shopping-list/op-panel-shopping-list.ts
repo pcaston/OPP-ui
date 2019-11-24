@@ -15,12 +15,10 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
 import "../../components/op-start-voice-button";
-import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
+class HaPanelShoppingList extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -71,7 +69,7 @@ class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[[localize('panel.shopping_list')]]</div>
+            <div main-title>[['panel.shopping_list']]</div>
             <op-start-voice-button
               opp="[[opp]]"
               can-listen="{{canListen}}"
@@ -87,7 +85,7 @@ class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
               ></paper-icon-button>
               <paper-listbox slot="dropdown-content">
                 <paper-item on-click="_clearCompleted"
-                  >[[localize('ui.panel.shopping-list.clear_completed')]]</paper-item
+                  >[['ui.panel.shopping-list.clear_completed']]</paper-item
                 >
               </paper-listbox>
             </paper-menu-button>
@@ -105,7 +103,7 @@ class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
               <paper-item-body>
                 <paper-input
                   id="addBox"
-                  placeholder="[[localize('ui.panel.shopping-list.add_item')]]"
+                  placeholder="[['ui.panel.shopping-list.add_item']]"
                   on-keydown="_addKeyPress"
                   no-label-float
                 ></paper-input>
@@ -132,7 +130,7 @@ class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
             </template>
           </paper-card>
           <div class="tip" hidden$="[[!canListen]]">
-            [[localize('ui.panel.shopping-list.microphone_tip')]]
+            [['ui.panel.shopping-list.microphone_tip']]
           </div>
         </div>
       </app-header-layout>

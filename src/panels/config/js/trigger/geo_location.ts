@@ -29,23 +29,23 @@ export default class GeolocationTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, opp, localize }) {
+  render({ trigger, opp }) {
     const { source, zone, event } = trigger;
 
     return (
       <div>
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.geo_location.source"
-          )}
+          }
           name="source"
           value={source}
           onvalue-changed={this.onChange}
         />
         <op-entity-picker
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.geo_location.zone"
-          )}
+          }
           value={zone}
           onChange={this.zonePicked}
           opp={opp}
@@ -53,9 +53,9 @@ export default class GeolocationTrigger extends Component {
           domainFilter="zone"
         />
         <label id="eventlabel">
-          {localize(
+          {
             "ui.panel.config.automation.editor.triggers.type.geo_location.event"
-          )}
+          }
         </label>
         <paper-radio-group
           selected={event}
@@ -63,14 +63,14 @@ export default class GeolocationTrigger extends Component {
           onpaper-radio-group-changed={this.radioGroupPicked}
         >
           <paper-radio-button name="enter">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.geo_location.enter"
-            )}
+            }
           </paper-radio-button>
           <paper-radio-button name="leave">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.geo_location.leave"
-            )}
+            }
           </paper-radio-button>
         </paper-radio-group>
       </div>

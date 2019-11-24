@@ -24,24 +24,23 @@ export default class WaitAction extends Component {
     );
   }
 
-  render({ action, localize }) {
+  render({ action }) {
     /* eslint-disable camelcase */
     const { wait_template, timeout } = action;
     return (
       <div>
         <op-textarea
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.actions.type.wait_template.wait_template"
-          )}
+          }
           name="wait_template"
           value={wait_template}
           onvalue-changed={this.onTemplateChange}
           dir="ltr"
         />
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.actions.type.wait_template.timeout"
-          )}
+          label={"ui.panel.config.automation.editor.actions.type.wait_template.timeout"
+          }
           name="timeout"
           value={timeout}
           onvalue-changed={this.onChange}

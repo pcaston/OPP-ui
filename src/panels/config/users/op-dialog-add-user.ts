@@ -6,12 +6,9 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/dialog/op-paper-dialog";
 import "../../../resources/op-style";
 
-import LocalizeMixin from "../../../mixins/localize-mixin";
-
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
+class HaDialogAddUser extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -31,14 +28,14 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
         opened="{{_opened}}"
         on-opened-changed="_openedChanged"
       >
-        <h2>[[localize('ui.panel.config.users.add_user.caption')]]</h2>
+        <h2>[['ui.panel.config.users.add_user.caption']]</h2>
         <div>
           <template is="dom-if" if="[[_errorMsg]]">
             <div class="error">[[_errorMsg]]</div>
           </template>
           <paper-input
             class="name"
-            label="[[localize('ui.panel.config.users.add_user.name')]]"
+            label="[['ui.panel.config.users.add_user.name']]"
             value="{{_name}}"
             required
             auto-validate
@@ -48,7 +45,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
           ></paper-input>
           <paper-input
             class="username"
-            label="[[localize('ui.panel.config.users.add_user.username')]]"
+            label="[['ui.panel.config.users.add_user.username']]"
             value="{{_username}}"
             required
             auto-validate
@@ -56,7 +53,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
             error-message="Required"
           ></paper-input>
           <paper-input
-            label="[[localize('ui.panel.config.users.add_user.password')]]"
+            label="[['ui.panel.config.users.add_user.password']]"
             type="password"
             value="{{_password}}"
             required
@@ -72,7 +69,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
           </template>
           <template is="dom-if" if="[[!_loading]]">
             <mwc-button on-click="_createUser"
-              >[[localize('ui.panel.config.users.add_user.create')]]</mwc-button
+              >[['ui.panel.config.users.add_user.create']]</mwc-button
             >
           </template>
         </div>
@@ -82,7 +79,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      _hass: Object,
+      _opp: Object,
       _dialogClosedCallback: Function,
 
       _loading: {
@@ -113,8 +110,8 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
     });
   }
 
-  showDialog({ hass, dialogClosedCallback }) {
-    this.hass = hass;
+  showDialog({ opp, dialogClosedCallback }) {
+    this.opp = opp;
     this._dialogClosedCallback = dialogClosedCallback;
     this._loading = false;
     this._opened = true;
@@ -141,7 +138,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
     let userId;
 
     try {
-      const userResponse = await this.hass.callWS({
+      const userResponse = await this.opp.callWS({
         type: "config/auth/create",
         name: this._name,
       });
@@ -153,7 +150,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
     }
 
     try {
-      await this.hass.callWS({
+      await this.opp.callWS({
         type: "config/auth_provider/openPeerPower/create",
         user_id: userId,
         username: this._username,
@@ -162,7 +159,7 @@ class HaDialogAddUser extends LocalizeMixin(PolymerElement) {
     } catch (err) {
       this._loading = false;
       this._errorMsg = err.code;
-      await this.hass.callWS({
+      await this.opp.callWS({
         type: "config/auth/delete",
         user_id: userId,
       });

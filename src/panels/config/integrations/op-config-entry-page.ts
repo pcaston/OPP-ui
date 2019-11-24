@@ -1,7 +1,7 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 
 import "../../../components/entity/state-badge";
 import { compare } from "../../../common/string/compare";
@@ -9,11 +9,10 @@ import { compare } from "../../../common/string/compare";
 import "./op-device-card";
 import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 class HaConfigEntryPage extends NavigateMixin(
-  EventsMixin(LocalizeMixin(PolymerElement))
+  EventsMixin(PolymerElement)
 ) {
   static get template() {
     return html`
@@ -33,10 +32,10 @@ class HaConfigEntryPage extends NavigateMixin(
           padding: 8px;
         }
       </style>
-      <hass-subpage header="[[configEntry.title]]">
+      <opp-subpage header="[[configEntry.title]]">
         <paper-icon-button
           slot="toolbar-icon"
-          icon="hass:delete"
+          icon="opp:delete"
           on-click="_removeEntry"
         ></paper-icon-button>
         <div class="content">
@@ -45,13 +44,13 @@ class HaConfigEntryPage extends NavigateMixin(
             if="[[_computeIsEmpty(_configEntryDevices, _noDeviceEntities)]]"
           >
             <p>
-              [[localize('ui.panel.config.integrations.config_entry.no_devices')]]
+              [['ui.panel.config.integrations.config_entry.no_devices']]
             </p>
           </template>
           <template is="dom-repeat" items="[[_configEntryDevices]]" as="device">
             <op-device-card
               class="card"
-              hass="[[hass]]"
+              opp="[[opp]]"
               areas="[[areas]]"
               devices="[[devices]]"
               device="[[device]]"
@@ -62,20 +61,20 @@ class HaConfigEntryPage extends NavigateMixin(
           <template is="dom-if" if="[[_noDeviceEntities.length]]">
             <op-ce-entities-card
               class="card"
-              heading="[[localize('ui.panel.config.integrations.config_entry.no_device')]]"
+              heading="[['ui.panel.config.integrations.config_entry.no_device']]"
               entities="[[_noDeviceEntities]]"
-              hass="[[hass]]"
+              opp="[[opp]]"
               narrow="[[narrow]]"
             ></op-ce-entities-card>
           </template>
         </div>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       narrow: Boolean,
       configEntry: {
@@ -144,24 +143,20 @@ class HaConfigEntryPage extends NavigateMixin(
   _removeEntry() {
     if (
       !confirm(
-        this.localize(
-          "ui.panel.config.integrations.config_entry.delete_confirm"
-        )
+        "ui.panel.config.integrations.config_entry.delete_confirm"
       )
     )
       return;
 
     const entryId = this.configEntry.entry_id;
 
-    this.hass
+    this.opp
       .callApi("delete", `config/config_entries/entry/${entryId}`)
       .then((result) => {
-        this.fire("hass-reload-entries");
+        this.fire("opp-reload-entries");
         if (result.require_restart) {
           alert(
-            this.localize(
-              "ui.panel.config.integrations.config_entry.restart_confirm"
-            )
+            "ui.panel.config.integrations.config_entry.restart_confirm"
           );
         }
         this.navigate("/config/integrations/dashboard", true);

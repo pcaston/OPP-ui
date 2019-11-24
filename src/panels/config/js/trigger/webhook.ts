@@ -10,14 +10,14 @@ export default class WebhookTrigger extends Component {
     this.onChange = onChangeEvent.bind(this, "trigger");
   }
 
-  render({ trigger, localize }) {
+  render({ trigger }) {
     const { webhook_id: webhookId } = trigger;
     return (
       <div>
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.webhook.webhook_id"
-          )}
+          }
           name="webhook_id"
           value={webhookId}
           onvalue-changed={this.onChange}

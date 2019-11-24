@@ -22,7 +22,7 @@ import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
 
-export type HaEntityPickerEntityFilterFunc = (entityId: OppEntity) => boolean;
+export type OpEntityPickerEntityFilterFunc = (entityId: OppEntity) => boolean;
 
 const rowRenderer = (
   root: HTMLElement,
@@ -61,7 +61,7 @@ class OpEntityPicker extends LitElement {
   @property() public label?: string;
   @property() public value?: string;
   @property({ attribute: "domain-filter" }) public domainFilter?: string;
-  @property() public entityFilter?: HaEntityPickerEntityFilterFunc;
+  @property() public entityFilter?: OpEntityPickerEntityFilterFunc;
   @property({ type: Boolean }) private _opened?: boolean;
   @property() private _opp?: OpenPeerPower;
 

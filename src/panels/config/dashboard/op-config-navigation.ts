@@ -5,7 +5,6 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import NavigateMixin from "../../../mixins/navigate-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 
 import isComponentLoaded from "../../../common/config/is_component_loaded";
 
@@ -14,10 +13,9 @@ import "../../../components/op-icon-next";
 
 const CORE_PAGES = ["core", "customize", "entity_registry", "area_registry"];
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  */
-class HaConfigNavigation extends LocalizeMixin(NavigateMixin(PolymerElement)) {
+class OpConfigNavigation extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex">
@@ -33,8 +31,8 @@ class HaConfigNavigation extends LocalizeMixin(NavigateMixin(PolymerElement)) {
           <template is="dom-if" if="[[_computeLoaded(opp, item)]]">
             <paper-item on-click="_navigate">
               <paper-item-body two-line="">
-                [[_computeCaption(item, localize)]]
-                <div secondary="">[[_computeDescription(item, localize)]]</div>
+                [[_computeCaption(item)]]
+                <div secondary="">[[_computeDescription(item)]]</div>
               </paper-item-body>
               <op-icon-next></op-icon-next>
             </paper-item>
@@ -71,12 +69,12 @@ class HaConfigNavigation extends LocalizeMixin(NavigateMixin(PolymerElement)) {
     return CORE_PAGES.includes(page) || isComponentLoaded(opp, page);
   }
 
-  _computeCaption(page, localize) {
-    return localize(`ui.panel.config.${page}.caption`);
+  _computeCaption(page) {
+    return `ui.panel.config.${page}.caption`;
   }
 
-  _computeDescription(page, localize) {
-    return localize(`ui.panel.config.${page}.description`);
+  _computeDescription(page) {
+    return `ui.panel.config.${page}.description`;
   }
 
   _navigate(ev) {
@@ -84,4 +82,4 @@ class HaConfigNavigation extends LocalizeMixin(NavigateMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-config-navigation", HaConfigNavigation);
+customElements.define("op-config-navigation", OpConfigNavigation);

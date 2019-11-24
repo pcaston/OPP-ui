@@ -10,7 +10,7 @@ import computeObjectId from "../common/entity/compute_object_id";
 
 /*
  */
-class HaPersistentNotificationCard extends PolymerElement {
+class OpPersistentNotificationCard extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -70,5 +70,5 @@ class HaPersistentNotificationCard extends PolymerElement {
 }
 customElements.define(
   "op-persistent_notification-card",
-  HaPersistentNotificationCard
+  OpPersistentNotificationCard
 );

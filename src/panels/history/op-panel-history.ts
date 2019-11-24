@@ -17,13 +17,12 @@ import "../../resources/op-date-picker-style";
 import "../../resources/op-style";
 
 import formatDate from "../../common/datetime/format_date";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
- * @appliesMixin LocalizeMixin
+
  */
-class HaPanelHistory extends LocalizeMixin(PolymerElement) {
+class HaPanelHistory extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -66,7 +65,7 @@ class HaPanelHistory extends LocalizeMixin(PolymerElement) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[[localize('panel.history')]]</div>
+            <div main-title>[['panel.history']]</div>
           </app-toolbar>
         </app-header>
 
@@ -75,14 +74,14 @@ class HaPanelHistory extends LocalizeMixin(PolymerElement) {
             <vaadin-date-picker
               id="picker"
               value="{{_currentDate}}"
-              label="[[localize('ui.panel.history.showing_entries')]]"
+              label="[['ui.panel.history.showing_entries']]"
               disabled="[[isLoadingData]]"
               required
             ></vaadin-date-picker>
 
             <paper-dropdown-menu
               label-float
-              label="[[localize('ui.panel.history.period')]]"
+              label="[['ui.panel.history.period']]"
               disabled="[[isLoadingData]]"
             >
               <paper-listbox
@@ -90,13 +89,13 @@ class HaPanelHistory extends LocalizeMixin(PolymerElement) {
                 selected="{{_periodIndex}}"
               >
                 <paper-item
-                  >[[localize('ui.duration.day', 'count', 1)]]</paper-item
+                  >[['ui.duration.day', 'count', 1)]</paper-item
                 >
                 <paper-item
-                  >[[localize('ui.duration.day', 'count', 3)]]</paper-item
+                  >[['ui.duration.day', 'count', 3]]</paper-item
                 >
                 <paper-item
-                  >[[localize('ui.duration.week', 'count', 1)]]</paper-item
+                  >[['ui.duration.week', 'count', 1]]</paper-item
                 >
               </paper-listbox>
             </paper-dropdown-menu>

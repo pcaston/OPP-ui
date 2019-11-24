@@ -1,6 +1,6 @@
 import { fireEvent } from "../../common/dom/fire_event";
 
-export interface HaConfigFlowParams {
+export interface OpConfigFlowParams {
   continueFlowId?: string;
   dialogClosedCallback: (params: { flowFinished: boolean }) => void;
 }
@@ -10,7 +10,7 @@ export const loadConfigFlowDialog = () =>
 
 export const showConfigFlowDialog = (
   element: HTMLElement,
-  dialogParams: HaConfigFlowParams
+  dialogParams: OpConfigFlowParams
 ): void => {
   fireEvent(element, "show-dialog", {
     dialogTag: "dialog-config-flow",

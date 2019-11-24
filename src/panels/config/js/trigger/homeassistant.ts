@@ -17,14 +17,14 @@ export default class HassTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, localize }) {
+  render({ trigger }) {
     const { event } = trigger;
     return (
       <div>
         <label id="eventlabel">
-          {localize(
+          {
             "ui.panel.config.automation.editor.triggers.type.openPeerPower.event"
-          )}
+          }
         </label>
         <paper-radio-group
           selected={event}
@@ -32,14 +32,14 @@ export default class HassTrigger extends Component {
           onpaper-radio-group-changed={this.radioGroupPicked}
         >
           <paper-radio-button name="start">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.openPeerPower.start"
-            )}
+            }
           </paper-radio-button>
           <paper-radio-button name="shutdown">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.openPeerPower.shutdown"
-            )}
+            }
           </paper-radio-button>
         </paper-radio-group>
       </div>

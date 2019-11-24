@@ -18,9 +18,7 @@ export default class Action extends Component {
     // eslint-disable-next-line
     if (
       confirm(
-        this.props.localize(
-          "ui.panel.config.automation.editor.actions.delete_confirm"
-        )
+        "ui.panel.config.automation.editor.actions.delete_confirm"
       )
     ) {
       this.props.onChange(this.props.index, null);
@@ -44,12 +42,12 @@ export default class Action extends Component {
               />
               <paper-listbox slot="dropdown-content">
                 <paper-item disabled>
-                  {props.localize(
+                  {props(
                     "ui.panel.config.automation.editor.actions.duplicate"
                   )}
                 </paper-item>
                 <paper-item onTap={this.onDelete}>
-                  {props.localize(
+                  {props(
                     "ui.panel.config.automation.editor.actions.delete"
                   )}
                 </paper-item>
