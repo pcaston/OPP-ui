@@ -135,7 +135,7 @@ class OpDialogShowAudioMessage extends PolymerElement {
   }
 
   openDeleteDialog() {
-    if (this.("ui.panel.mailbox.delete_prompt")) {
+    if ("ui.panel.mailbox.delete_prompt") {
       this.deleteSelected();
     }
   }
