@@ -19,7 +19,7 @@ let registeredDialog = false;
  * @appliesMixin NavigateMixin
  * @appliesMixin EventsMixin
  */
-class HaUserPicker extends EventsMixin(
+class OpUserPicker extends EventsMixin(
   NavigateMixin(PolymerElement)
 ) {
   static get template() {
@@ -141,4 +141,4 @@ class HaUserPicker extends EventsMixin(
   }
 }
 
-customElements.define("op-config-user-picker", HaUserPicker);
+customElements.define("op-config-user-picker", OpUserPicker);

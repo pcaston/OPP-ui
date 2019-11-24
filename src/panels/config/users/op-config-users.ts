@@ -14,7 +14,7 @@ import { fetchUsers } from "../../../data/user";
 /*
  * @appliesMixin NavigateMixin
  */
-class HaConfigUsers extends NavigateMixin(PolymerElement) {
+class OpConfigUsers extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <app-route
@@ -99,4 +99,4 @@ class HaConfigUsers extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-users", HaConfigUsers);
+customElements.define("op-config-users", OpConfigUsers);

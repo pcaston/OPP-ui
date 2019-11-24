@@ -24,7 +24,7 @@ import "./op-push-notifications-row";
 /*
  * @appliesMixin EventsMixin
  */
-class HaPanelProfile extends EventsMixin(PolymerElement) {
+class OpPanelProfile extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -141,4 +141,4 @@ class HaPanelProfile extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-panel-profile", HaPanelProfile);
+customElements.define("op-panel-profile", OpPanelProfile);

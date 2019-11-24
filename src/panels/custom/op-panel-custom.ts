@@ -8,11 +8,11 @@ import { navigate } from "../../common/navigate";
 
 declare global {
   interface Window {
-    customPanel: HaPanelCustom | undefined;
+    customPanel: OpPanelCustom | undefined;
   }
 }
 
-export class HaPanelCustom extends UpdatingElement {
+export class OpPanelCustom extends UpdatingElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow!: boolean;
   @property() public route!: Route;
@@ -131,4 +131,4 @@ It will have access to all data in Open Peer Power.
   }
 }
 
-customElements.define("op-panel-custom", HaPanelCustom);
+customElements.define("op-panel-custom", OpPanelCustom);

@@ -8,7 +8,7 @@ import "./op-script-picker";
 import computeStateName from "../../../common/entity/compute_state_name";
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 
-class HaConfigScript extends PolymerElement {
+class OpConfigScript extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -117,4 +117,4 @@ class HaConfigScript extends PolymerElement {
   }
 }
 
-customElements.define("op-config-script", HaConfigScript);
+customElements.define("op-config-script", OpConfigScript);

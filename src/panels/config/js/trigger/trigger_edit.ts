@@ -6,7 +6,7 @@ import "@polymer/paper-listbox/paper-listbox";
 
 import EventTrigger from "./event";
 import GeolocationTrigger from "./geo_location";
-import HassTrigger from "./openPeerPower";
+import OppTrigger from "./openPeerPower";
 import MQTTTrigger from "./mqtt";
 import NumericStateTrigger from "./numeric_state";
 import TimePatternTrigger from "./time_pattern";
@@ -21,7 +21,7 @@ const TYPES = {
   event: EventTrigger,
   state: StateTrigger,
   geo_location: GeolocationTrigger,
-  openPeerPower: HassTrigger,
+  openPeerPower: OppTrigger,
   mqtt: MQTTTrigger,
   numeric_state: NumericStateTrigger,
   sun: SunTrigger,

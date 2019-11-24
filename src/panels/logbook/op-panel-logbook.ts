@@ -21,7 +21,7 @@ import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
  */
-class HaPanelLogbook extends PolymerElement {
+class OpPanelLogbook extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -247,4 +247,4 @@ class HaPanelLogbook extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-logbook", HaPanelLogbook);
+customElements.define("op-panel-logbook", OpPanelLogbook);

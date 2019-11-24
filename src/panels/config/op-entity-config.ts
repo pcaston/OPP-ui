@@ -9,7 +9,7 @@ import "../../components/op-card";
 
 import computeStateName from "../../common/entity/compute_state_name";
 
-class HaEntityConfig extends PolymerElement {
+class OpEntityConfig extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -213,4 +213,4 @@ class HaEntityConfig extends PolymerElement {
   }
 }
 
-customElements.define("op-entity-config", HaEntityConfig);
+customElements.define("op-entity-config", OpEntityConfig);

@@ -13,7 +13,7 @@ import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
 
 /*
  */
-class HaPanelMap extends PolymerElement {
+class OpPanelMap extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -205,4 +205,4 @@ class HaPanelMap extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-map", HaPanelMap);
+customElements.define("op-panel-map", OpPanelMap);

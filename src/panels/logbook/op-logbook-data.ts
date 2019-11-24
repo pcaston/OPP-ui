@@ -3,7 +3,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 const DATA_CACHE = {};
 const ALL_ENTITIES = "*";
 
-class HaLogbookData extends PolymerElement {
+class OpLogbookData extends PolymerElement {
   static get properties() {
     return {
       opp: {
@@ -116,4 +116,4 @@ class HaLogbookData extends PolymerElement {
   }
 }
 
-customElements.define("op-logbook-data", HaLogbookData);
+customElements.define("op-logbook-data", OpLogbookData);

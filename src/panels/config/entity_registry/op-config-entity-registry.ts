@@ -32,7 +32,7 @@ import {
 import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 import { compare } from "../../../common/string/compare";
 
-class HaConfigEntityRegistry extends LitElement {
+class OpConfigEntityRegistry extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _entities?: EntityRegistryEntry[];
@@ -169,4 +169,4 @@ Deleting an entry will not remove the entity from Open Peer Power. To do this, y
   }
 }
 
-customElements.define("op-config-entity-registry", HaConfigEntityRegistry);
+customElements.define("op-config-entity-registry", OpConfigEntityRegistry);

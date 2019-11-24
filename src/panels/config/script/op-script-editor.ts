@@ -25,7 +25,7 @@ function ScriptEditor(mountEl, props, mergeEl) {
 /*
  * @appliesMixin NavigateMixin
  */
-class HaScriptEditor extends NavigateMixin(PolymerElement) {
+class OpScriptEditor extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -298,4 +298,4 @@ class HaScriptEditor extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-script-editor", HaScriptEditor);
+customElements.define("op-script-editor", OpScriptEditor);

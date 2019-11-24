@@ -29,7 +29,7 @@ import {
 } from "./show-dialog-person-detail";
 import { User, fetchUsers } from "../../../data/user";
 
-class HaConfigPerson extends LitElement {
+class OpConfigPerson extends LitElement {
   public opp?: OpenPeerPower;
   public isWide?: boolean;
   private _storageItems?: Person[];
@@ -236,4 +236,4 @@ All devices belonging to this person will become unassigned.`)
   }
 }
 
-customElements.define("op-config-person", HaConfigPerson);
+customElements.define("op-config-person", OpConfigPerson);

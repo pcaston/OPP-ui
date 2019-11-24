@@ -34,7 +34,7 @@ import { EventsMixin } from "../../../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaConfigZwave extends EventsMixin(PolymerElement) {
+class OpConfigZwave extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style op-form-style">
@@ -671,4 +671,4 @@ class HaConfigZwave extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-zwave", HaConfigZwave);
+customElements.define("op-config-zwave", OpConfigZwave);

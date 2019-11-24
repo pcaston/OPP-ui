@@ -8,7 +8,7 @@ import "../../../resources/op-style";
 
 /*
  */
-class HaDialogAddUser extends PolymerElement {
+class OpDialogAddUser extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -195,4 +195,4 @@ class HaDialogAddUser extends PolymerElement {
   }
 }
 
-customElements.define("op-dialog-add-user", HaDialogAddUser);
+customElements.define("op-dialog-add-user", OpDialogAddUser);

@@ -13,7 +13,7 @@ import "../../../components/paper-time-input.js";
 import { PaperTimeInput } from "../../../components/paper-time-input.js";
 import "../../../components/op-date-input";
 // tslint:disable-next-line:no-duplicate-imports
-import { HaDateInput } from "../../../components/op-date-input";
+import { OpDateInput } from "../../../components/op-date-input";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
@@ -94,7 +94,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
     return this.shadowRoot!.querySelector("paper-time-input")!;
   }
 
-  private get _dateInputEl(): HaDateInput {
+  private get _dateInputEl(): OpDateInput {
     return this.shadowRoot!.querySelector("op-date-input")!;
   }
 

@@ -5,7 +5,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../components/op-menu-button";
 import "../../resources/op-style";
 
-class HaPanelIframe extends PolymerElement {
+class OpPanelIframe extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -39,4 +39,4 @@ class HaPanelIframe extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-iframe", HaPanelIframe);
+customElements.define("op-panel-iframe", OpPanelIframe);

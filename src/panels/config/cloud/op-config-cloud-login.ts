@@ -84,7 +84,7 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
                 <a href="https://www.nabucasa.com" target="_blank"
                   >Nabu&nbsp;Casa,&nbsp;Inc</a
                 >, a company founded by the founders of Home Assistant and
-                Hass.io.
+                Opp.io.
               </p>
               <p>
                 Home Assistant Cloud is a subscription service with a free one

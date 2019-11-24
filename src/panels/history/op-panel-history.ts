@@ -22,7 +22,7 @@ import { computeRTL } from "../../common/util/compute_rtl";
 /*
 
  */
-class HaPanelHistory extends PolymerElement {
+class OpPanelHistory extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -207,4 +207,4 @@ class HaPanelHistory extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-history", HaPanelHistory);
+customElements.define("op-panel-history", OpPanelHistory);

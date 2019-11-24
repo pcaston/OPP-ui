@@ -3,7 +3,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../states/op-panel-states";
 
-class HaPanelKiosk extends PolymerElement {
+class OpPanelKiosk extends PolymerElement {
   static get template() {
     return html`
       <op-panel-states
@@ -24,4 +24,4 @@ class HaPanelKiosk extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-kiosk", HaPanelKiosk);
+customElements.define("op-panel-kiosk", OpPanelKiosk);

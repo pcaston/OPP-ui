@@ -21,7 +21,7 @@ let registeredDialog = false;
 
 /*
  */
-class HaPanelMailbox extends EventsMixin(PolymerElement) {
+class OpPanelMailbox extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -245,4 +245,4 @@ class HaPanelMailbox extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-panel-mailbox", HaPanelMailbox);
+customElements.define("op-panel-mailbox", OpPanelMailbox);

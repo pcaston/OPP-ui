@@ -8,7 +8,7 @@ import "../../components/dialog/op-paper-dialog";
 
 /*
  */
-class HaDialogShowAudioMessage extends PolymerElement {
+class OpDialogShowAudioMessage extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -180,4 +180,4 @@ class HaDialogShowAudioMessage extends PolymerElement {
     }
   }
 }
-customElements.define("op-dialog-show-audio-message", HaDialogShowAudioMessage);
+customElements.define("op-dialog-show-audio-message", OpDialogShowAudioMessage);

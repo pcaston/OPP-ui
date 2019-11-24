@@ -66,7 +66,7 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
               <li>Easy integration with webhook-based apps like OwnTracks</li>
             </ul>
             <p>
-              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Home Assistant and Hass.io.
+              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Home Assistant and Opp.io.
             </p>
 
             <p>

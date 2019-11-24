@@ -26,7 +26,7 @@ import { showToast } from "../../../util/toast";
 import { repeat } from "lit-html/directives/repeat";
 
 @customElement("op-script-picker")
-class HaScriptPicker extends LitElement {
+class OpScriptPicker extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public scripts!: OppEntity[];
   @property() public isWide!: boolean;
@@ -169,6 +169,6 @@ class HaScriptPicker extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-script-picker": HaScriptPicker;
+    "op-script-picker": OpScriptPicker;
   }
 }

@@ -14,7 +14,7 @@ import "../../resources/op-style";
 import "../../util/app-localstorage-document";
 
 const ERROR_SENTINEL = {};
-class HaPanelDevService extends PolymerElement {
+class OpPanelDevService extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -111,7 +111,7 @@ class HaPanelDevService extends PolymerElement {
               opp="[[opp]]"
               value="{{domainService}}"
             ></op-service-picker>
-            <template is="dom-if" if="[[_computeHasEntity(_attributes)]]">
+            <template is="dom-if" if="[[_computeOpsEntity(_attributes)]]">
               <op-entity-picker
                 opp="[[opp]]"
                 value="[[_computeEntityValue(parsedJSON)]]"
@@ -304,4 +304,4 @@ class HaPanelDevService extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-dev-service", HaPanelDevService);
+customElements.define("op-panel-dev-service", OpPanelDevService);

@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import "@polymer/paper-radio-button/paper-radio-button";
 import "@polymer/paper-radio-group/paper-radio-group";
 
-export default class HassTrigger extends Component {
+export default class OpssTrigger extends Component {
   constructor() {
     super();
 
@@ -47,6 +47,6 @@ export default class HassTrigger extends Component {
   }
 }
 
-HassTrigger.defaultConfig = {
+OpssTrigger.defaultConfig = {
   event: "start",
 };

@@ -10,7 +10,7 @@ import NavigateMixin from "../../../mixins/navigate-mixin";
 import { compare } from "../../../common/string/compare";
 import { subscribeAreaRegistry } from "../../../data/area_registry";
 
-class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
+class OpConfigIntegrations extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <app-route
@@ -158,4 +158,4 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-integrations", HaConfigIntegrations);
+customElements.define("op-config-integrations", OpConfigIntegrations);

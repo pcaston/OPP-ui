@@ -2,7 +2,7 @@ import "@polymer/paper-input/paper-input";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-class HaCustomizeString extends PolymerElement {
+class OpCustomizeString extends PolymerElement {
   static get template() {
     return html`
       <paper-input
@@ -27,4 +27,4 @@ class HaCustomizeString extends PolymerElement {
     return item.description + (item.type === "json" ? " (JSON formatted)" : "");
   }
 }
-customElements.define("op-customize-string", HaCustomizeString);
+customElements.define("op-customize-string", OpCustomizeString);

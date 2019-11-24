@@ -12,7 +12,7 @@ import { computeRTL } from "../../common/util/compute_rtl";
 /*
  * @appliesMixin EventsMixin
  */
-class HaLogbook extends EventsMixin(PolymerElement) {
+class OpLogbook extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex"></style>

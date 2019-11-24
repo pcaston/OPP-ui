@@ -11,7 +11,7 @@ import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
-class HaConfigEntryPage extends NavigateMixin(
+class OpConfigEntryPage extends NavigateMixin(
   EventsMixin(PolymerElement)
 ) {
   static get template() {
@@ -164,4 +164,4 @@ class HaConfigEntryPage extends NavigateMixin(
   }
 }
 
-customElements.define("op-config-entry-page", HaConfigEntryPage);
+customElements.define("op-config-entry-page", OpConfigEntryPage);
