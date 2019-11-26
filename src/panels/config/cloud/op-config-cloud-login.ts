@@ -9,7 +9,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
 import "../../../components/buttons/op-progress-button";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 
 import "../op-config-section";
@@ -68,7 +68,7 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
           color: var(--secondary-text-color);
         }
       </style>
-      <hass-subpage header="Cloud Login">
+      <opp-subpage header="Cloud Login">
         <div class="content">
           <op-config-section is-wide="[[isWide]]">
             <span slot="header">Home Assistant Cloud</span>
@@ -84,7 +84,7 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
                 <a href="https://www.nabucasa.com" target="_blank"
                   >Nabu&nbsp;Casa,&nbsp;Inc</a
                 >, a company founded by the founders of Home Assistant and
-                Hass.io.
+                Opp.io.
               </p>
               <p>
                 Home Assistant Cloud is a subscription service with a free one
@@ -100,7 +100,7 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
             <op-card hidden$="[[!flashMessage]]">
               <div class="card-content flash-msg">
                 [[flashMessage]]
-                <paper-icon-button icon="hass:close" on-click="_dismissFlash"
+                <paper-icon-button icon="opp:close" on-click="_dismissFlash"
                   >Dismiss</paper-icon-button
                 >
                 <paper-ripple id="flashRipple" noink=""></paper-ripple>
@@ -154,13 +154,13 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
             </op-card>
           </op-config-section>
         </div>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       email: {
         type: String,
@@ -232,7 +232,7 @@ class HaConfigCloudLogin extends NavigateMixin(EventsMixin(PolymerElement)) {
 
     this._requestInProgress = true;
 
-    this.hass
+    this.opp
       .callApi("post", "cloud/login", {
         email: this.email,
         password: this._password,

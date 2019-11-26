@@ -10,7 +10,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
 import "../../../components/entity/op-state-icon";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import "../../../components/op-icon-next";
 
@@ -27,7 +27,9 @@ import { localizeConfigFlowTitle } from "../../../data/config_entries";
 /*
  * @appliesMixin EventsMixin
  */
-class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
+class OpConfigManagerDashboard extends 
+  EventsMixin(PolymerElement
+) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -73,7 +75,7 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
         }
       </style>
 
-      <hass-subpage
+      <opp-subpage
         header="[['ui.panel.config.integrations.caption']]"
       >
         <template is="dom-if" if="[[progress.length]]">
@@ -119,7 +121,7 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
                     <div secondary>
                       <template
                         is="dom-repeat"
-                        items="[[_computeConfigEntryEntities(hass, item, entities)]]"
+                        items="[[_computeConfigEntryEntities(opp, item, entities)]]"
                       >
                         <span>
                           <op-state-icon
@@ -141,19 +143,19 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
         </op-config-section>
 
         <paper-fab
-          icon="hass:plus"
+          icon="opp:plus"
           title="[['ui.panel.config.integrations.new']]"
           on-click="_createFlow"
           is-wide$="[[isWide]]"
           rtl$="[[rtl]]"
         ></paper-fab>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
 
       /**
@@ -177,7 +179,7 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -189,14 +191,14 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
 
   _createFlow() {
     showConfigFlowDialog(this, {
-      dialogClosedCallback: () => this.fire("hass-reload-entries"),
+      dialogClosedCallback: () => this.fire("opp-reload-entries"),
     });
   }
 
   _continueFlow(ev) {
     showConfigFlowDialog(this, {
       continueFlowId: ev.model.item.flow_id,
-      dialogClosedCallback: () => this.fire("hass-reload-entries"),
+      dialogClosedCallback: () => this.fire("opp-reload-entries"),
     });
   }
 
@@ -208,7 +210,7 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
     return localizeConfigFlowTitle(flow);
   }
 
-  _computeConfigEntryEntities(hass, configEntry, entities) {
+  _computeConfigEntryEntities(opp, configEntry, entities) {
     if (!entities) {
       return [];
     }
@@ -216,7 +218,7 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
     entities.forEach((entity) => {
       if (
         entity.config_entry_id === configEntry.entry_id &&
-        entity.entity_id in hass.states
+        entity.entity_id in opp.states
       ) {
         states.push(opp.states[entity.entity_id]);
       }
@@ -229,12 +231,12 @@ class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
   }
 
   _handleMoreInfo(ev) {
-    this.fire("hass-more-info", { entityId: ev.model.item.entity_id });
+    this.fire("opp-more-info", { entityId: ev.model.item.entity_id });
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 
-customElements.define("op-config-entries-dashboard", HaConfigManagerDashboard);
+customElements.define("op-config-entries-dashboard", OpConfigManagerDashboard);

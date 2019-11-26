@@ -7,7 +7,7 @@ import { EventsMixin } from "../../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaEntityMarker extends EventsMixin(PolymerElement) {
+class OpEntityMarker extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-positioning"></style>
@@ -84,4 +84,4 @@ class HaEntityMarker extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-entity-marker", HaEntityMarker);
+customElements.define("op-entity-marker", OpEntityMarker);

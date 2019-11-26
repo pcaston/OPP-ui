@@ -15,7 +15,7 @@ import isValidEntityId from "../../common/entity/valid_entity_id";
 import "./op-entity-picker";
 // Not a duplicate, type import
 // tslint:disable-next-line
-import { HaEntityPickerEntityFilterFunc } from "./op-entity-picker";
+import { OpEntityPickerEntityFilterFunc } from "./op-entity-picker";
 import { OppEntity } from "../../open-peer-power-js-websocket/lib";
 
 @customElement("op-entities-picker")
@@ -61,7 +61,7 @@ class OpEntitiesPickerLight extends LitElement {
     `;
   }
 
-  private _entityFilter: HaEntityPickerEntityFilterFunc = (
+  private _entityFilter: OpEntityPickerEntityFilterFunc = (
     stateObj: OppEntity
   ) => !this.value || !this.value.includes(stateObj.entity_id);
 

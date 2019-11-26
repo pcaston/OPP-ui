@@ -11,7 +11,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../components/op-menu-button";
 import "../../resources/op-style";
 
-class HaPanelDevTemplate extends PolymerElement {
+class OpPanelDevTemplate extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style iron-flex iron-positioning"></style>
@@ -207,4 +207,4 @@ For loop example:
   }
 }
 
-customElements.define("op-panel-dev-template", HaPanelDevTemplate);
+customElements.define("op-panel-dev-template", OpPanelDevTemplate);

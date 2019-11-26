@@ -6,12 +6,9 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../resources/op-style";
 import "../../components/dialog/op-paper-dialog";
 
-import LocalizeMixin from "../../mixins/localize-mixin";
-
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
+class OpDialogShowAudioMessage extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -52,7 +49,7 @@ class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
         on-opened-changed="_openedChanged"
       >
         <h2>
-          [[localize('ui.panel.mailbox.playback_title')]]
+          [['ui.panel.mailbox.playback_title']]
           <div class="icon">
             <template is="dom-if" if="[[_loading]]">
               <paper-spinner active></paper-spinner>
@@ -138,7 +135,7 @@ class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
   }
 
   openDeleteDialog() {
-    if (confirm(this.localize("ui.panel.mailbox.delete_prompt"))) {
+    if ("ui.panel.mailbox.delete_prompt") {
       this.deleteSelected();
     }
   }
@@ -183,4 +180,4 @@ class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
     }
   }
 }
-customElements.define("op-dialog-show-audio-message", HaDialogShowAudioMessage);
+customElements.define("op-dialog-show-audio-message", OpDialogShowAudioMessage);

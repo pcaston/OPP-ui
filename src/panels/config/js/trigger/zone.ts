@@ -43,14 +43,13 @@ export default class ZoneTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, opp, localize }) {
+  render({ trigger, opp }) {
     const { entity_id, zone, event } = trigger;
     return (
       <div>
         <op-entity-picker
-          label={localize(
-            "ui.panel.config.automation.editor.triggers.type.zone.entity"
-          )}
+          label={"ui.panel.config.automation.editor.triggers.type.zone.entity"
+          }
           value={entity_id}
           onChange={this.entityPicked}
           opp={opp}
@@ -58,9 +57,9 @@ export default class ZoneTrigger extends Component {
           entityFilter={zoneAndLocationFilter}
         />
         <op-entity-picker
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.zone.zone"
-          )}
+          }
           value={zone}
           onChange={this.zonePicked}
           opp={opp}
@@ -68,9 +67,9 @@ export default class ZoneTrigger extends Component {
           domainFilter="zone"
         />
         <label id="eventlabel">
-          {localize(
+          {
             "ui.panel.config.automation.editor.triggers.type.zone.event"
-          )}
+          }
         </label>
         <paper-radio-group
           selected={event}
@@ -78,14 +77,14 @@ export default class ZoneTrigger extends Component {
           onpaper-radio-group-changed={this.radioGroupPicked}
         >
           <paper-radio-button name="enter">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.zone.enter"
-            )}
+            }
           </paper-radio-button>
           <paper-radio-button name="leave">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.zone.leave"
-            )}
+            }
           </paper-radio-button>
         </paper-radio-group>
       </div>

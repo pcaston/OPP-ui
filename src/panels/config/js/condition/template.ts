@@ -16,7 +16,9 @@ export default class TemplateCondition extends Component {
     return (
       <div>
         <op-textarea
-          label="ui.panel.config.automation.editor.conditions.type.template.value_template"
+          label={
+            "ui.panel.config.automation.editor.conditions.type.template.value_template"
+          }
           name="value_template"
           value={value_template}
           onvalue-changed={this.onChange}

@@ -369,7 +369,7 @@ class OpSidebar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-sidebar": HaSidebar;
+    "op-sidebar": OpSidebar;
   }
 }
 

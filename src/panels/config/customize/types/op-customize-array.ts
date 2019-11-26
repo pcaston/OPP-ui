@@ -9,7 +9,7 @@ import { EventsMixin } from "../../../../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaCustomizeArray extends EventsMixin(PolymerElement) {
+class OpCustomizeArray extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -60,4 +60,4 @@ class HaCustomizeArray extends EventsMixin(PolymerElement) {
     return options.indexOf(item.value);
   }
 }
-customElements.define("op-customize-array", HaCustomizeArray);
+customElements.define("op-customize-array", OpCustomizeArray);

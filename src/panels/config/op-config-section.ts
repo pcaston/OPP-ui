@@ -3,7 +3,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../resources/op-style";
 
-class HaConfigSection extends PolymerElement {
+class OpConfigSection extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -95,4 +95,4 @@ class HaConfigSection extends PolymerElement {
   }
 }
 
-customElements.define("op-config-section", HaConfigSection);
+customElements.define("op-config-section", OpConfigSection);

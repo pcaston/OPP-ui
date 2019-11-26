@@ -16,7 +16,7 @@ import { EventsMixin } from "../../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class HaPanelDevState extends EventsMixin(PolymerElement) {
+class OpPanelDevState extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">

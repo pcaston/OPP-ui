@@ -203,7 +203,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       if (!stateObj.attributes.unit_of_measurement) {
         return html`
           <hui-warning
-            >Entity: ${this._config.entity} - Has no Unit of Measurement and
+            >Entity: ${this._config.entity} - Ops no Unit of Measurement and
             therefore can not display a line graph.</hui-warning
           >
         `;

@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
 import "../../../components/buttons/op-progress-button";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
@@ -48,7 +48,7 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
         display: none;
       }
     </style>
-    <hass-subpage header="Register Account">
+    <opp-subpage header="Register Account">
       <div class="content">
         <op-config-section is-wide="[[isWide]]">
           <span slot="header">Start your free trial</span>
@@ -66,7 +66,7 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
               <li>Easy integration with webhook-based apps like OwnTracks</li>
             </ul>
             <p>
-              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Home Assistant and Hass.io.
+              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Home Assistant and Opp.io.
             </p>
 
             <p>
@@ -93,13 +93,13 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
           </op-card>
         </op-config-section>
       </div>
-    </hass-subpage>
+    </opp-subpage>
 `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       email: {
         type: String,
@@ -161,7 +161,7 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
 
     this._requestInProgress = true;
 
-    this.hass
+    this.opp
       .callApi("post", "cloud/register", {
         email: this.email,
         password: this._password,
@@ -189,7 +189,7 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
       return;
     }
 
-    this.hass
+    this.opp
       .callApi("post", "cloud/resend_confirm", {
         email: this.email,
       })

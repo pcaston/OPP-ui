@@ -15,7 +15,7 @@ const CORE_PAGES = ["core", "customize", "entity_registry", "area_registry"];
 /*
  * @appliesMixin NavigateMixin
  */
-class HaConfigNavigation extends NavigateMixin(PolymerElement) {
+class OpConfigNavigation extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex">
@@ -82,4 +82,4 @@ class HaConfigNavigation extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-navigation", HaConfigNavigation);
+customElements.define("op-config-navigation", OpConfigNavigation);

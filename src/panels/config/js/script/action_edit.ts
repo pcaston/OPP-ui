@@ -45,7 +45,7 @@ export default class Action extends Component {
     }
   }
 
-  render({ index, action, onChange, opp, localize }) {
+  render({ index, action, onChange, opp }) {
     const type = getType(action);
     const Comp = type && TYPES[type];
     const selected = OPTIONS.indexOf(type);
@@ -53,11 +53,10 @@ export default class Action extends Component {
     if (!Comp) {
       return (
         <div>
-          {localize(
-            "ui.panel.config.automation.editor.actions.unsupported_action",
+          { "ui.panel.config.automation.editor.actions.unsupported_action",
             "action",
             type
-          )}
+          }
           <pre>{JSON.stringify(action, null, 2)}</pre>
         </div>
       );
@@ -65,9 +64,8 @@ export default class Action extends Component {
     return (
       <div>
         <paper-dropdown-menu-light
-          label={localize(
             "ui.panel.config.automation.editor.actions.type_select"
-          )}
+          }
           no-animations
         >
           <paper-listbox
@@ -77,9 +75,8 @@ export default class Action extends Component {
           >
             {OPTIONS.map((opt) => (
               <paper-item action={opt}>
-                {localize(
-                  `ui.panel.config.automation.editor.actions.type.${opt}.label`
-                )}
+                { `ui.panel.config.automation.editor.actions.type.${opt}.label`
+                }
               </paper-item>
             ))}
           </paper-listbox>
@@ -89,7 +86,6 @@ export default class Action extends Component {
           action={action}
           onChange={onChange}
           opp={opp}
-          localize={localize}
         />
       </div>
     );

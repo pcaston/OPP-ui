@@ -26,7 +26,7 @@ export default class SunCondition extends Component {
     this.props.onChange(this.props.index, condition);
   }
 
-  render({ condition  }) {
+  render({ condition }) {
     /* eslint-disable camelcase */
     const { after, after_offset, before, before_offset } = condition;
     return (
@@ -64,7 +64,9 @@ export default class SunCondition extends Component {
         />
 
         <label id="afterlabel">
-          "ui.panel.config.automation.editor.conditions.type.sun.after"
+          {
+            "ui.panel.config.automation.editor.conditions.type.sun.after"
+          }
         </label>
         <paper-radio-group
           allow-empty-selection
@@ -73,15 +75,21 @@ export default class SunCondition extends Component {
           onpaper-radio-group-changed={this.afterPicked}
         >
           <paper-radio-button name="sunrise">
-            "ui.panel.config.automation.editor.conditions.type.sun.sunrise"
+            {
+              "ui.panel.config.automation.editor.conditions.type.sun.sunrise"
+            }
           </paper-radio-button>
           <paper-radio-button name="sunset">
-            "ui.panel.config.automation.editor.conditions.type.sun.sunset"
+            {
+              "ui.panel.config.automation.editor.conditions.type.sun.sunset"
+            }
           </paper-radio-button>
         </paper-radio-group>
 
         <paper-input
-          label="ui.panel.config.automation.editor.conditions.type.sun.after_offset"
+          label={
+            "ui.panel.config.automation.editor.conditions.type.sun.after_offset"
+          }
           name="after_offset"
           value={after_offset}
           onvalue-changed={this.onChange}

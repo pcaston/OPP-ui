@@ -14,7 +14,7 @@ import { fetchUsers } from "../../../data/user";
 /*
  * @appliesMixin NavigateMixin
  */
-class HaConfigUsers extends NavigateMixin(PolymerElement) {
+class OpConfigUsers extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <app-route
@@ -25,7 +25,7 @@ class HaConfigUsers extends NavigateMixin(PolymerElement) {
 
       <template is="dom-if" if='[[_equals(_routeData.user, "picker")]]'>
         <op-config-user-picker
-          hass="[[hass]]"
+          opp="[[opp]]"
           users="[[_users]]"
         ></op-config-user-picker>
       </template>
@@ -35,7 +35,7 @@ class HaConfigUsers extends NavigateMixin(PolymerElement) {
         restamp
       >
         <op-user-editor
-          hass="[[hass]]"
+          opp="[[opp]]"
           user="[[_computeUser(_users, _routeData.user)]]"
         ></op-user-editor>
       </template>
@@ -44,7 +44,7 @@ class HaConfigUsers extends NavigateMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       route: {
         type: Object,
         observer: "_checkRoute",
@@ -95,8 +95,8 @@ class HaConfigUsers extends NavigateMixin(PolymerElement) {
   }
 
   async _loadData() {
-    this._users = await fetchUsers(this.hass);
+    this._users = await fetchUsers(this.opp);
   }
 }
 
-customElements.define("op-config-users", HaConfigUsers);
+customElements.define("op-config-users", OpConfigUsers);

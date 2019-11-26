@@ -32,14 +32,14 @@ export default class ZoneCondition extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ condition, opp, localize }) {
+  render({ condition, opp }) {
     const { entity_id, zone } = condition;
     return (
       <div>
         <op-entity-picker
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.conditions.type.zone.entity"
-          )}
+          }
           value={entity_id}
           onChange={this.entityPicked}
           opp={opp}
@@ -47,9 +47,9 @@ export default class ZoneCondition extends Component {
           entityFilter={zoneAndLocationFilter}
         />
         <op-entity-picker
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.conditions.type.zone.zone"
-          )}
+          }
           value={zone}
           onChange={this.zonePicked}
           opp={opp}

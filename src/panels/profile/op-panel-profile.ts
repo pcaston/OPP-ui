@@ -10,9 +10,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
 import "../../resources/op-style";
-
 import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
 
 import "./op-change-password-card";
 import "./op-mfa-modules-card";
@@ -25,9 +23,8 @@ import "./op-push-notifications-row";
 
 /*
  * @appliesMixin EventsMixin
- * @appliesMixin LocalizeMixin
  */
-class HaPanelProfile extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class OpPanelProfile extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -53,17 +50,17 @@ class HaPanelProfile extends EventsMixin(LocalizeMixin(PolymerElement)) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[[localize('panel.profile')]]</div>
+            <div main-title>[['panel.profile']]</div>
           </app-toolbar>
         </app-header>
 
         <div class="content">
           <paper-card heading="[[opp.user.name]]">
             <div class="card-content">
-              [[localize('ui.panel.profile.current_user', 'fullName',
-              opp.user.name)]]
+              [['ui.panel.profile.current_user', 'fullName',
+              opp.user.name]]
               <template is="dom-if" if="[[opp.user.is_owner]]"
-                >[[localize('ui.panel.profile.is_owner')]]</template
+                >[['ui.panel.profile.is_owner']]</template
               >
             </div>
 
@@ -84,7 +81,7 @@ class HaPanelProfile extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
             <div class="card-actions">
               <mwc-button class="warning" on-click="_handleLogOut"
-                >[[localize('ui.panel.profile.logout')]]</mwc-button
+                >[['ui.panel.profile.logout']]</mwc-button
               >
             </div>
           </paper-card>
@@ -144,4 +141,4 @@ class HaPanelProfile extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-panel-profile", HaPanelProfile);
+customElements.define("op-panel-profile", OpPanelProfile);

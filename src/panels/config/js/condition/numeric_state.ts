@@ -21,7 +21,11 @@ export default class NumericStateCondition extends Component {
   }
 
   /* eslint-disable camelcase */
+<<<<<<< HEAD
   render({ condition, opp  }) {
+=======
+  render({ condition, opp }) {
+>>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
     const { value_template, entity_id, below, above } = condition;
     return (
       <div>

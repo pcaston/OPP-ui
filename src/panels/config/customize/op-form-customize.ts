@@ -9,7 +9,7 @@ import "./op-form-customize-attributes";
 
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 
-class HaFormCustomize extends PolymerElement {
+class OpFormCustomize extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex op-style op-form-style">
@@ -339,4 +339,4 @@ class HaFormCustomize extends PolymerElement {
     );
   }
 }
-customElements.define("op-form-customize", HaFormCustomize);
+customElements.define("op-form-customize", OpFormCustomize);

@@ -18,7 +18,7 @@ import sortByName from "../../../common/entity/states_sort_by_name";
 
 /*
  */
-class HaConfigCustomize extends PolymerElement {
+class OpConfigCustomize extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style"></style>
@@ -94,4 +94,4 @@ class HaConfigCustomize extends PolymerElement {
       .sort(sortByName);
   }
 }
-customElements.define("op-config-customize", HaConfigCustomize);
+customElements.define("op-config-customize", OpConfigCustomize);

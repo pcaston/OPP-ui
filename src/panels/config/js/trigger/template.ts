@@ -11,15 +11,15 @@ export default class TemplateTrigger extends Component {
     this.onChange = onChangeEvent.bind(this, "trigger");
   }
 
-  render({ trigger, localize }) {
+  render({ trigger }) {
     /* eslint-disable camelcase */
     const { value_template } = trigger;
     return (
       <div>
         <op-textarea
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.template.value_template"
-          )}
+          }
           name="value_template"
           value={value_template}
           onvalue-changed={this.onChange}

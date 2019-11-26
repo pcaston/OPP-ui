@@ -21,7 +21,7 @@ import "./system-health-card";
 const JS_VERSION = __BUILD__;
 const OPT_IN_PANEL = "states";
 
-class HaPanelDevInfo extends LitElement {
+class OpPanelDevInfo extends LitElement {
   public opp?: OpenPeerPower;
 
   static get properties(): PropertyDeclarations {

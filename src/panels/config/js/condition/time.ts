@@ -16,13 +16,17 @@ export default class TimeCondition extends Component {
     return (
       <div>
         <paper-input
-          label="ui.panel.config.automation.editor.conditions.type.time.after"
+          label={
+            "ui.panel.config.automation.editor.conditions.type.time.after"
+          }
           name="after"
           value={after}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label="ui.panel.config.automation.editor.conditions.type.time.before"
+          label={
+            "ui.panel.config.automation.editor.conditions.type.time.before"
+          }
           name="before"
           value={before}
           onvalue-changed={this.onChange}

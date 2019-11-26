@@ -68,7 +68,8 @@ export default class Automation extends Component {
           </span>
           <span slot="introduction">
             <p>
-              {"ui.panel.config.automation.editor.triggers.introduction"}
+              {"ui.panel.config.automation.editor.triggers.introduction"
+              }
             </p>
             <a
               href="https://open-peer-power.io/docs/automation/trigger/"

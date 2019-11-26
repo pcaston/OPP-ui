@@ -30,13 +30,11 @@ import sortByName from "../../../common/entity/states_sort_by_name";
 import computeStateName from "../../../common/entity/compute_state_name";
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaConfigZwave extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpConfigZwave extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style op-form-style">
@@ -90,7 +88,7 @@ class HaConfigZwave extends LocalizeMixin(EventsMixin(PolymerElement)) {
               on-click="_backTapped"
             ></op-paper-icon-button-arrow-prev>
             <div main-title="">
-              [[localize('ui.panel.config.zwave.caption')]]
+              [['ui.panel.config.zwave.caption']]
             </div>
           </app-toolbar>
         </app-header>
@@ -673,4 +671,4 @@ class HaConfigZwave extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-config-zwave", HaConfigZwave);
+customElements.define("op-config-zwave", OpConfigZwave);

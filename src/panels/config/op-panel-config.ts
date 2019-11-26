@@ -7,7 +7,7 @@ import { listenMediaQuery } from "../../common/dom/media_query";
 import { OppRouterPage, RouterOptions } from "../../layouts/opp-router-page";
 
 @customElement("op-panel-config")
-class HaPanelConfig extends OppRouterPage {
+class OpPanelConfig extends OppRouterPage {
   @property() public opp!: OpenPeerPower;
   @property() public _wideSidebar: boolean = false;
   @property() public _wide: boolean = false;
@@ -138,6 +138,6 @@ class HaPanelConfig extends OppRouterPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-panel-config": HaPanelConfig;
+    "op-panel-config": OpPanelConfig;
   }
 }

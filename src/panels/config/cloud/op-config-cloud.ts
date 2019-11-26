@@ -33,7 +33,7 @@ class HaConfigCloud extends NavigateMixin(PolymerElement) {
         restamp=""
       >
         <op-config-cloud-account
-          hass="[[hass]]"
+          opp="[[opp]]"
           cloud-status="[[cloudStatus]]"
           is-wide="[[isWide]]"
         ></op-config-cloud-account>
@@ -46,7 +46,7 @@ class HaConfigCloud extends NavigateMixin(PolymerElement) {
       >
         <op-config-cloud-login
           page-name="login"
-          hass="[[hass]]"
+          opp="[[opp]]"
           is-wide="[[isWide]]"
           email="{{_loginEmail}}"
           flash-message="{{_flashMessage}}"
@@ -60,7 +60,7 @@ class HaConfigCloud extends NavigateMixin(PolymerElement) {
       >
         <op-config-cloud-register
           page-name="register"
-          hass="[[hass]]"
+          opp="[[opp]]"
           is-wide="[[isWide]]"
           email="{{_loginEmail}}"
         ></op-config-cloud-register>
@@ -73,7 +73,7 @@ class HaConfigCloud extends NavigateMixin(PolymerElement) {
       >
         <op-config-cloud-forgot-password
           page-name="forgot-password"
-          hass="[[hass]]"
+          opp="[[opp]]"
           email="{{_loginEmail}}"
         ></op-config-cloud-forgot-password>
       </template>
@@ -82,7 +82,7 @@ class HaConfigCloud extends NavigateMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       loadingAccount: {
         type: Boolean,

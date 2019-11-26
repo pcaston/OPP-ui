@@ -23,7 +23,7 @@ import { OpenPeerPower } from "../../../types";
 import { sortZHADevices } from "./functions";
 import { ZHAClusterSelectedParams, ZHADeviceSelectedParams } from "./types";
 
-export class HaConfigZha extends LitElement {
+export class OpConfigZha extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _selectedDevice?: ZHADevice;
@@ -111,8 +111,8 @@ export class HaConfigZha extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-config-zha": HaConfigZha;
+    "op-config-zha": OpConfigZha;
   }
 }
 
-customElements.define("op-config-zha", HaConfigZha);
+customElements.define("op-config-zha", OpConfigZha);

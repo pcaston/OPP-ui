@@ -6,7 +6,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/ha-card";
 import "../../../components/buttons/ha-call-api-button";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../resources/ha-style";
 
 import "../ha-config-section";
@@ -25,7 +25,7 @@ let registeredWebhookDialog = false;
 /*
  * @appliesMixin EventsMixin
  */
-class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
+class OpConfigCloudAccount extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -65,7 +65,7 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
           color: var(--primary-color);
         }
       </style>
-      <hass-subpage header="Home Assistant Cloud">
+      <opp-subpage header="Home Assistant Cloud">
         <div class="content">
           <ha-config-section is-wide="[[isWide]]">
             <span slot="header">Home Assistant Cloud</span>
@@ -120,33 +120,33 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
             </div>
 
             <cloud-remote-pref
-              hass="[[hass]]"
+              opp="[[opp]]"
               cloud-status="[[cloudStatus]]"
             ></cloud-remote-pref>
 
             <cloud-alexa-pref
-              hass="[[hass]]"
+              opp="[[opp]]"
               cloud-status="[[cloudStatus]]"
             ></cloud-alexa-pref>
 
             <cloud-google-pref
-              hass="[[hass]]"
+              opp="[[opp]]"
               cloud-status="[[cloudStatus]]"
             ></cloud-google-pref>
 
             <cloud-webhooks
-              hass="[[hass]]"
+              opp="[[opp]]"
               cloud-status="[[cloudStatus]]"
             ></cloud-webhooks>
           </ha-config-section>
         </div>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       cloudStatus: Object,
       _subscription: {
@@ -180,7 +180,7 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
   }
 
   async _fetchSubscriptionInfo() {
-    this._subscription = await fetchCloudSubscriptionInfo(this.hass);
+    this._subscription = await fetchCloudSubscriptionInfo(this.opp);
     if (
       this._subscription.provider &&
       this.cloudStatus &&
@@ -191,7 +191,7 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
   }
 
   handleLogout() {
-    this.hass
+    this.opp
       .callApi("post", "cloud/logout")
       .then(() => this.fire("ha-refresh-cloud-status"));
   }
@@ -208,7 +208,7 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
         "{periodEnd}",
         formatDateTime(
           new Date(subInfo.plan_renewal_date * 1000),
-          this.hass.language
+          this.opp.language
         )
       );
     }
@@ -217,4 +217,4 @@ class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("ha-config-cloud-account", HaConfigCloudAccount);
+customElements.define("op-config-cloud-account", OpConfigCloudAccount);

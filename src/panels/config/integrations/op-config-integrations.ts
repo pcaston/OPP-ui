@@ -10,7 +10,7 @@ import NavigateMixin from "../../../mixins/navigate-mixin";
 import { compare } from "../../../common/string/compare";
 import { subscribeAreaRegistry } from "../../../data/area_registry";
 
-class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
+class OpConfigIntegrations extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <app-route
@@ -22,7 +22,7 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
 
       <template is="dom-if" if="[[_configEntry]]">
         <op-config-entry-page
-          hass="[[hass]]"
+          opp="[[opp]]"
           config-entry="[[_configEntry]]"
           areas="[[_areas]]"
           entries="[[_entries]]"
@@ -33,7 +33,7 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
       </template>
       <template is="dom-if" if="[[!_configEntry]]">
         <op-config-entries-dashboard
-          hass="[[hass]]"
+          opp="[[opp]]"
           entries="[[_entries]]"
           entities="[[_entities]]"
           handlers="[[_handlers]]"
@@ -45,7 +45,7 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       narrow: Boolean,
       route: Object,
@@ -90,17 +90,17 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
 
   ready() {
     super.ready();
-    this.addEventListener("hass-reload-entries", () => this._loadData());
+    this.addEventListener("opp-reload-entries", () => this._loadData());
   }
 
   connectedCallback() {
     super.connectedCallback();
     this._loadData();
-    this._unsubAreas = subscribeAreaRegistry(this.hass, (areas) => {
+    this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
       this._areas = areas;
     });
 
-    this.hass.connection
+    this.opp.connection
       .subscribeEvents(() => {
         this._debouncer = Debouncer.debounce(
           this._debouncer,
@@ -120,29 +120,29 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
   }
 
   _loadData() {
-    this.hass.callApi("get", "config/config_entries/entry").then((entries) => {
+    this.opp.callApi("get", "config/config_entries/entry").then((entries) => {
       this._entries = entries.sort((conf1, conf2) =>
         compare(conf1.title, conf2.title)
       );
     });
 
-    this.hass.callApi("get", "config/config_entries/flow").then((progress) => {
+    this.opp.callApi("get", "config/config_entries/flow").then((progress) => {
       this._progress = progress;
     });
 
-    this.hass
+    this.opp
       .callApi("get", "config/config_entries/flow_handlers")
       .then((handlers) => {
         this._handlers = handlers;
       });
 
-    this.hass
+    this.opp
       .callWS({ type: "config/entity_registry/list" })
       .then((entities) => {
         this._entities = entities;
       });
 
-    this.hass
+    this.opp
       .callWS({ type: "config/device_registry/list" })
       .then((devices) => {
         this._devices = devices;
@@ -158,4 +158,4 @@ class HaConfigIntegrations extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-integrations", HaConfigIntegrations);
+customElements.define("op-config-integrations", OpConfigIntegrations);

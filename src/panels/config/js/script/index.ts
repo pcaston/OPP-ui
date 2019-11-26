@@ -32,7 +32,7 @@ export default class Script extends Component {
     this.props.onChange(script);
   }
 
-  render({ script, opp, localize }) {
+  render({ script, opp }) {
     return (
       <div class="script">
         {script.map((act, idx) => (
@@ -41,13 +41,12 @@ export default class Script extends Component {
             action={act}
             onChange={this.actionChanged}
             opp={opp}
-            localize={localize}
           />
         ))}
         <op-card>
           <div class="card-actions add-card">
             <mwc-button onTap={this.addAction}>
-              {localize("ui.panel.config.automation.editor.actions.add")}
+              {"ui.panel.config.automation.editor.actions.add"}
             </mwc-button>
           </div>
         </op-card>

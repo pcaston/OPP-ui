@@ -4,7 +4,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-card";
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
 import "../../../components/entity/state-badge";
@@ -13,7 +13,7 @@ import { computeEntityRegistryName } from "../../../data/entity_registry";
 /*
  * @appliesMixin EventsMixin
  */
-class HaCeEntitiesCard extends EventsMixin(PolymerElement) {
+class OpConfigNavigation extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -31,11 +31,11 @@ class HaCeEntitiesCard extends EventsMixin(PolymerElement) {
         <template is="dom-repeat" items="[[entities]]" as="entity">
           <paper-icon-item on-click="_openMoreInfo">
             <state-badge
-              state-obj="[[_computeStateObj(entity, hass)]]"
+              state-obj="[[_computeStateObj(entity, opp)]]"
               slot="item-icon"
             ></state-badge>
             <paper-item-body>
-              <div class="name">[[_computeEntityName(entity, hass)]]</div>
+              <div class="name">[[_computeEntityName(entity, opp)]]</div>
               <div class="secondary entity-id">[[entity.entity_id]]</div>
             </paper-item-body>
           </paper-icon-item>
@@ -48,23 +48,25 @@ class HaCeEntitiesCard extends EventsMixin(PolymerElement) {
     return {
       heading: String,
       entities: Array,
-      hass: Object,
+      opp: Object,
     };
   }
 
-  _computeStateObj(entity, hass) {
-    return hass.states[entity.entity_id];
+  _computeStateObj(entity, opp) {
+    return opp.states[entity.entity_id];
   }
 
-  _computeEntityName(entity, hass) {
+  _computeEntityName(entity, opp) {
     return (
-      computeEntityRegistryName(hass, entityui.panel.config.integrations.config_entry.entity_unavailable`
+      computeEntityRegistryName(opp, entity) ||
+      `ui.panel.config.integrations.config_entry.entity_unavailable"
+      `
     );
   }
 
   _openMoreInfo(ev) {
-    this.fire("hass-more-info", { entityId: ev.model.entity.entity_id });
+    this.fire("opp-more-info", { entityId: ev.model.entity.entity_id });
   }
 }
 
-customElements.define("op-ce-entities-card", HaCeEntitiesCard);
+customElements.define("op-ce-entities-card", OpConfigNavigation);

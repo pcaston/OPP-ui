@@ -18,7 +18,7 @@ import "../../components/op-start-voice-button";
 
 /*
  */
-class HaPanelShoppingList extends PolymerElement {
+class OpPanelShoppingList extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -225,4 +225,4 @@ class HaPanelShoppingList extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-shopping-list", HaPanelShoppingList);
+customElements.define("op-panel-shopping-list", OpPanelShoppingList);

@@ -39,14 +39,22 @@ export default class ConditionRow extends Component {
     }
   }
 
+<<<<<<< HEAD
   render({ index, condition, onChange, opp  }) {
+=======
+  render({ index, condition, onChange, opp }) {
+>>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
     const Comp = TYPES[condition.condition];
     const selected = OPTIONS.indexOf(condition.condition);
 
     if (!Comp) {
       return (
         <div>
+<<<<<<< HEAD
           { "ui.panel.config.automation.editor.conditions.unsupported_condition",
+=======
+          {"ui.panel.config.automation.editor.conditions.unsupported_condition",
+>>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
             "condition",
             condition.condition
           }
@@ -58,8 +66,7 @@ export default class ConditionRow extends Component {
     return (
       <div>
         <paper-dropdown-menu-light
-          label={
-            "ui.panel.config.automation.editor.conditions.type_select"
+          label={"ui.panel.config.automation.editor.conditions.type_select"
           }
           no-animations
         >

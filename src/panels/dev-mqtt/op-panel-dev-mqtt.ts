@@ -12,7 +12,7 @@ import "../../components/op-menu-button";
 import "../../resources/op-style";
 import "../../util/app-localstorage-document";
 
-class HaPanelDevMqtt extends PolymerElement {
+class OpPanelDevMqtt extends PolymerElement {
   static get template() {
     return html`
       <style include="op-style">
@@ -90,4 +90,4 @@ class HaPanelDevMqtt extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-dev-mqtt", HaPanelDevMqtt);
+customElements.define("op-panel-dev-mqtt", OpPanelDevMqtt);

@@ -1,7 +1,7 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 
 import "../../../components/entity/state-badge";
 import { compare } from "../../../common/string/compare";
@@ -11,7 +11,11 @@ import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
+<<<<<<< HEAD
 class HaConfigEntryPage extends NavigateMixin(
+=======
+class OpConfigEntryPage extends NavigateMixin(
+>>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
   EventsMixin(PolymerElement)
 ) {
   static get template() {
@@ -32,10 +36,10 @@ class HaConfigEntryPage extends NavigateMixin(
           padding: 8px;
         }
       </style>
-      <hass-subpage header="[[configEntry.title]]">
+      <opp-subpage header="[[configEntry.title]]">
         <paper-icon-button
           slot="toolbar-icon"
-          icon="hass:delete"
+          icon="opp:delete"
           on-click="_removeEntry"
         ></paper-icon-button>
         <div class="content">
@@ -50,7 +54,7 @@ class HaConfigEntryPage extends NavigateMixin(
           <template is="dom-repeat" items="[[_configEntryDevices]]" as="device">
             <op-device-card
               class="card"
-              hass="[[hass]]"
+              opp="[[opp]]"
               areas="[[areas]]"
               devices="[[devices]]"
               device="[[device]]"
@@ -63,18 +67,18 @@ class HaConfigEntryPage extends NavigateMixin(
               class="card"
               heading="[['ui.panel.config.integrations.config_entry.no_device']]"
               entities="[[_noDeviceEntities]]"
-              hass="[[hass]]"
+              opp="[[opp]]"
               narrow="[[narrow]]"
             ></op-ce-entities-card>
           </template>
         </div>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       isWide: Boolean,
       narrow: Boolean,
       configEntry: {
@@ -150,10 +154,10 @@ class HaConfigEntryPage extends NavigateMixin(
 
     const entryId = this.configEntry.entry_id;
 
-    this.hass
+    this.opp
       .callApi("delete", `config/config_entries/entry/${entryId}`)
       .then((result) => {
-        this.fire("hass-reload-entries");
+        this.fire("opp-reload-entries");
         if (result.require_restart) {
           alert(
             "ui.panel.config.integrations.config_entry.restart_confirm"
@@ -164,4 +168,4 @@ class HaConfigEntryPage extends NavigateMixin(
   }
 }
 
-customElements.define("op-config-entry-page", HaConfigEntryPage);
+customElements.define("op-config-entry-page", OpConfigEntryPage);

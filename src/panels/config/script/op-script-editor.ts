@@ -15,7 +15,6 @@ import unmountPreact from "../../../common/preact/unmount";
 import computeObjectId from "../../../common/entity/compute_object_id";
 import computeStateName from "../../../common/entity/compute_state_name";
 import NavigateMixin from "../../../mixins/navigate-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 
 import { computeRTL } from "../../../common/util/compute_rtl";
 
@@ -24,10 +23,9 @@ function ScriptEditor(mountEl, props, mergeEl) {
 }
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  */
-class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
+class OpScriptEditor extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -112,7 +110,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
           slot="fab"
           is-wide$="[[isWide]]"
           dirty$="[[dirty]]"
-          icon="hass:content-save"
+          icon="opp:content-save"
           title="Save"
           on-click="saveScript"
           rtl$="[[rtl]]"
@@ -123,7 +121,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: {
+      opp: {
         type: Object,
       },
 
@@ -170,7 +168,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -199,14 +197,14 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
 
   scriptChanged(newVal, oldVal) {
     if (!newVal) return;
-    if (!this.hass) {
+    if (!this.opp) {
       setTimeout(() => this.scriptChanged(newVal, oldVal), 0);
       return;
     }
     if (oldVal && oldVal.entity_id === newVal.entity_id) {
       return;
     }
-    this.hass
+    this.opp
       .callApi(
         "get",
         "config/script/config/" + computeObjectId(newVal.entity_id)
@@ -255,7 +253,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
   }
 
   _updateComponent() {
-    if (this._renderScheduled || !this.hass || !this.config) return;
+    if (this._renderScheduled || !this.opp || !this.config) return;
     this._renderScheduled = true;
     Promise.resolve().then(() => {
       this._rendered = ScriptEditor(
@@ -264,8 +262,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
           script: this.config,
           onChange: this.configChanged,
           isWide: this.isWide,
-          hass: this.hass,
-          localize: this.localize,
+          opp: this.opp
         },
         this._rendered
       );
@@ -277,7 +274,7 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
     var id = this.creatingNew
       ? "" + Date.now()
       : computeObjectId(this.script.entity_id);
-    this.hass.callApi("post", "config/script/config/" + id, this.config).then(
+    this.opp.callApi("post", "config/script/config/" + id, this.config).then(
       () => {
         this.dirty = false;
 
@@ -296,9 +293,9 @@ class HaScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
     return script && computeStateName(script);
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 
-customElements.define("op-script-editor", HaScriptEditor);
+customElements.define("op-script-editor", OpScriptEditor);

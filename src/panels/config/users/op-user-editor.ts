@@ -33,7 +33,7 @@ declare global {
 const GROUPS = [SYSTEM_GROUP_ID_USER, SYSTEM_GROUP_ID_ADMIN];
 
 @customElement("op-user-editor")
-class HaUserEditor extends LitElement {
+class OpUserEditor extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public user?: User;
 
@@ -204,6 +204,6 @@ class HaUserEditor extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-user-editor": HaUserEditor;
+    "op-user-editor": OpUserEditor;
   }
 }

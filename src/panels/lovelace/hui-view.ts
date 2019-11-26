@@ -9,7 +9,7 @@ import {
 import "../../components/entity/op-state-label-badge";
 // This one is for types
 // tslint:disable-next-line
-import { HaStateLabelBadge } from "../../components/entity/op-state-label-badge";
+import { OpStateLabelBadge } from "../../components/entity/op-state-label-badge";
 
 import applyThemesOnElement from "../../common/dom/apply_themes_on_element";
 
@@ -49,7 +49,7 @@ export class HUIView extends LitElement {
   public columns?: number;
   public index?: number;
   private _cards: Array<LovelaceCard | HuiErrorCard>;
-  private _badges: Array<{ element: HaStateLabelBadge; entityId: string }>;
+  private _badges: Array<{ element: OpStateLabelBadge; entityId: string }>;
 
   static get properties(): PropertyDeclarations {
     return {

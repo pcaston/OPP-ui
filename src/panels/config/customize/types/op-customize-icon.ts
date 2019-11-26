@@ -3,7 +3,7 @@ import "@polymer/paper-input/paper-input";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-class HaCustomizeIcon extends PolymerElement {
+class OpCustomizeIcon extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -36,4 +36,4 @@ class HaCustomizeIcon extends PolymerElement {
     };
   }
 }
-customElements.define("op-customize-icon", HaCustomizeIcon);
+customElements.define("op-customize-icon", OpCustomizeIcon);

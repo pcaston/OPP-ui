@@ -19,7 +19,7 @@ import NavigateMixin from "../../../mixins/navigate-mixin";
 
 /*
  */
-class HaConfigDashboard extends NavigateMixin(PolymerElement) {
+class OpConfigCustomize extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="iron-flex op-style">
@@ -56,7 +56,7 @@ class HaConfigDashboard extends NavigateMixin(PolymerElement) {
                     [['ui.panel.config.cloud.caption']]
                     <template is="dom-if" if="[[cloudStatus.logged_in]]">
                       <div secondary="">
-                        [['ui.panel.config.cloud.description_login', 'email', cloudStatus.email)]]
+                        [['ui.panel.config.cloud.description_login', 'email', cloudStatus.email]]
                       </div>
                     </template>
                     <template is="dom-if" if="[[!cloudStatus.logged_in]]">
@@ -117,4 +117,4 @@ class HaConfigDashboard extends NavigateMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-config-dashboard", HaConfigDashboard);
+customElements.define("op-config-dashboard", OpConfigCustomize);

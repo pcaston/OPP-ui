@@ -4,11 +4,10 @@ import "@polymer/paper-item/paper-item-body";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../layouts/hass-subpage";
+import "../../../layouts/opp-subpage";
 import "../../../components/op-icon-next";
 import "../../../components/op-card";
 
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
@@ -17,12 +16,11 @@ import { computeRTL } from "../../../common/util/compute_rtl";
 let registeredDialog = false;
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  * @appliesMixin EventsMixin
  */
-class HaUserPicker extends EventsMixin(
-  NavigateMixin(LocalizeMixin(PolymerElement))
+class OpUserPicker extends EventsMixin(
+  NavigateMixin(PolymerElement)
 ) {
   static get template() {
     return html`
@@ -58,7 +56,7 @@ class HaUserPicker extends EventsMixin(
         }
       </style>
 
-      <hass-subpage header="[[localize('ui.panel.config.users.picker.title')]]">
+      <opp-subpage header="[['ui.panel.config.users.picker.title']]">
         <op-card>
           <template is="dom-repeat" items="[[users]]" as="user">
             <a href="[[_computeUrl(user)]]">
@@ -66,7 +64,7 @@ class HaUserPicker extends EventsMixin(
                 <paper-item-body two-line>
                   <div>[[_withDefault(user.name, 'Unnamed User')]]</div>
                   <div secondary="">
-                    [[_computeGroup(localize, user)]]
+                    [[_computeGroup( user)]]
                     <template is="dom-if" if="[[user.system_generated]]">
                       - System Generated
                     </template>
@@ -80,24 +78,24 @@ class HaUserPicker extends EventsMixin(
 
         <paper-fab
           is-wide$="[[isWide]]"
-          icon="hass:plus"
-          title="[[localize('ui.panel.config.users.picker.add_user')]]"
+          icon="opp:plus"
+          title="[['ui.panel.config.users.picker.add_user']]"
           on-click="_addUser"
           rtl$="[[rtl]]"
         ></paper-fab>
-      </hass-subpage>
+      </opp-subpage>
     `;
   }
 
   static get properties() {
     return {
-      hass: Object,
+      opp: Object,
       users: Array,
 
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -124,17 +122,17 @@ class HaUserPicker extends EventsMixin(
     return `/config/users/${user.id}`;
   }
 
-  _computeGroup(localize, user) {
-    return localize(`groups.${user.group_ids[0]}`);
+  _computeGroup(user) {
+    return `groups.${user.group_ids[0]}`;
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 
   _addUser() {
     this.fire("show-add-user", {
-      hass: this.hass,
+      opp: this.opp,
       dialogClosedCallback: async ({ userId }) => {
         this.fire("reload-users");
         if (userId) this.navigate(`/config/users/${userId}`);
@@ -143,4 +141,4 @@ class HaUserPicker extends EventsMixin(
   }
 }
 
-customElements.define("op-config-user-picker", HaUserPicker);
+customElements.define("op-config-user-picker", OpUserPicker);

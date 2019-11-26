@@ -12,30 +12,30 @@ export default class TimePatternTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, localize }) {
+  render({ trigger  }) {
     const { hours, minutes, seconds } = trigger;
     return (
       <div>
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.time_pattern.hours"
-          )}
+          }
           name="hours"
           value={hours}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.time_pattern.minutes"
-          )}
+          }
           name="minutes"
           value={minutes}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.time_pattern.seconds"
-          )}
+          }
           name="seconds"
           value={seconds}
           onvalue-changed={this.onChange}

@@ -6,7 +6,7 @@ import "@polymer/paper-listbox/paper-listbox";
 
 import EventTrigger from "./event";
 import GeolocationTrigger from "./geo_location";
-import HassTrigger from "./openPeerPower";
+import OppTrigger from "./openPeerPower";
 import MQTTTrigger from "./mqtt";
 import NumericStateTrigger from "./numeric_state";
 import TimePatternTrigger from "./time_pattern";
@@ -21,7 +21,7 @@ const TYPES = {
   event: EventTrigger,
   state: StateTrigger,
   geo_location: GeolocationTrigger,
-  openPeerPower: HassTrigger,
+  openPeerPower: OppTrigger,
   mqtt: MQTTTrigger,
   numeric_state: NumericStateTrigger,
   sun: SunTrigger,
@@ -52,18 +52,18 @@ export default class TriggerEdit extends Component {
     }
   }
 
-  render({ index, trigger, onChange, opp, localize }) {
+  render({ index, trigger, onChange, opp }) {
     const Comp = TYPES[trigger.platform];
     const selected = OPTIONS.indexOf(trigger.platform);
 
     if (!Comp) {
       return (
         <div>
-          {localize(
+          {
             "ui.panel.config.automation.editor.triggers.unsupported_platform",
             "platform",
             trigger.platform
-          )}
+          }
           <pre>{JSON.stringify(trigger, null, 2)}</pre>
         </div>
       );
@@ -71,9 +71,9 @@ export default class TriggerEdit extends Component {
     return (
       <div>
         <paper-dropdown-menu-light
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type_select"
-          )}
+          }
           no-animations
         >
           <paper-listbox
@@ -83,9 +83,8 @@ export default class TriggerEdit extends Component {
           >
             {OPTIONS.map((opt) => (
               <paper-item platform={opt}>
-                {localize(
-                  `ui.panel.config.automation.editor.triggers.type.${opt}.label`
-                )}
+                {`ui.panel.config.automation.editor.triggers.type.${opt}.label`
+                }
               </paper-item>
             ))}
           </paper-listbox>
@@ -95,7 +94,6 @@ export default class TriggerEdit extends Component {
           trigger={trigger}
           onChange={onChange}
           opp={opp}
-          localize={localize}
         />
       </div>
     );

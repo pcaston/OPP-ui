@@ -22,14 +22,14 @@ export default class SunTrigger extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ trigger, localize }) {
+  render({ trigger }) {
     const { offset, event } = trigger;
     return (
       <div>
         <label id="eventlabel">
-          {localize(
+          {
             "ui.panel.config.automation.editor.triggers.type.sun.event"
-          )}
+          }
         </label>
         <paper-radio-group
           selected={event}
@@ -37,21 +37,21 @@ export default class SunTrigger extends Component {
           onpaper-radio-group-changed={this.radioGroupPicked}
         >
           <paper-radio-button name="sunrise">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.sun.sunrise"
-            )}
+            }
           </paper-radio-button>
           <paper-radio-button name="sunset">
-            {localize(
+            {
               "ui.panel.config.automation.editor.triggers.type.sun.sunset"
-            )}
+            }
           </paper-radio-button>
         </paper-radio-group>
 
         <paper-input
-          label={localize(
+          label={
             "ui.panel.config.automation.editor.triggers.type.sun.offset"
-          )}
+          }
           name="offset"
           value={offset}
           onvalue-changed={this.onChange}
