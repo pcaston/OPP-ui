@@ -7,15 +7,13 @@ import "../../../components/op-card";
 import "../../../layouts/hass-subpage";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixIn from "../../../mixins/localize-mixin";
 import "../../../components/entity/state-badge";
 import { computeEntityRegistryName } from "../../../data/entity_registry";
 
 /*
- * @appliesMixin LocalizeMixIn
  * @appliesMixin EventsMixin
  */
-class HaCeEntitiesCard extends LocalizeMixIn(EventsMixin(PolymerElement)) {
+class HaCeEntitiesCard extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -60,10 +58,7 @@ class HaCeEntitiesCard extends LocalizeMixIn(EventsMixin(PolymerElement)) {
 
   _computeEntityName(entity, hass) {
     return (
-      computeEntityRegistryName(hass, entity) ||
-      `(${this.localize(
-        "ui.panel.config.integrations.config_entry.entity_unavailable"
-      )})`
+      computeEntityRegistryName(hass, entityui.panel.config.integrations.config_entry.entity_unavailable`
     );
   }
 

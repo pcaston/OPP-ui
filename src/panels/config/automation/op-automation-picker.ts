@@ -20,7 +20,6 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import { computeRTL } from "../../../common/util/compute_rtl";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  */
 class OpAutomationPicker extends NavigateMixin(PolymerElement) {

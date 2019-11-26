@@ -17,7 +17,6 @@ import "../../../components/op-icon-next";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
 import {
   loadConfigFlowDialog,
@@ -26,12 +25,9 @@ import {
 import { localizeConfigFlowTitle } from "../../../data/config_entries";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaConfigManagerDashboard extends LocalizeMixin(
-  EventsMixin(PolymerElement)
-) {
+class HaConfigManagerDashboard extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -78,21 +74,21 @@ class HaConfigManagerDashboard extends LocalizeMixin(
       </style>
 
       <hass-subpage
-        header="[[localize('ui.panel.config.integrations.caption')]]"
+        header="[['ui.panel.config.integrations.caption']]"
       >
         <template is="dom-if" if="[[progress.length]]">
           <op-config-section>
             <span slot="header"
-              >[[localize('ui.panel.config.integrations.discovered')]]</span
+              >[['ui.panel.config.integrations.discovered']]</span
             >
             <op-card>
               <template is="dom-repeat" items="[[progress]]">
                 <div class="config-entry-row">
                   <paper-item-body>
-                    [[_computeActiveFlowTitle(localize, item)]]
+                    [[_computeActiveFlowTitle(item)]]
                   </paper-item-body>
                   <mwc-button on-click="_continueFlow"
-                    >[[localize('ui.panel.config.integrations.configure')]]</mwc-button
+                    >[['ui.panel.config.integrations.configure']]</mwc-button
                   >
                 </div>
               </template>
@@ -102,13 +98,13 @@ class HaConfigManagerDashboard extends LocalizeMixin(
 
         <op-config-section class="configured">
           <span slot="header"
-            >[[localize('ui.panel.config.integrations.configured')]]</span
+            >[['ui.panel.config.integrations.configured']]</span
           >
           <op-card>
             <template is="dom-if" if="[[!entries.length]]">
               <div class="config-entry-row">
                 <paper-item-body two-line>
-                  <div>[[localize('ui.panel.config.integrations.none')]]</div>
+                  <div>[['ui.panel.config.integrations.none']]</div>
                 </paper-item-body>
               </div>
             </template>
@@ -117,7 +113,7 @@ class HaConfigManagerDashboard extends LocalizeMixin(
                 <paper-item>
                   <paper-item-body two-line>
                     <div>
-                      [[_computeIntegrationTitle(localize, item.domain)]]:
+                      [[_computeIntegrationTitle(item.domain)]]:
                       [[item.title]]
                     </div>
                     <div secondary>
@@ -146,7 +142,7 @@ class HaConfigManagerDashboard extends LocalizeMixin(
 
         <paper-fab
           icon="hass:plus"
-          title="[[localize('ui.panel.config.integrations.new')]]"
+          title="[['ui.panel.config.integrations.new']]"
           on-click="_createFlow"
           is-wide$="[[isWide]]"
           rtl$="[[rtl]]"
@@ -204,12 +200,12 @@ class HaConfigManagerDashboard extends LocalizeMixin(
     });
   }
 
-  _computeIntegrationTitle(localize, integration) {
-    return localize(`component.${integration}.config.title`);
+  _computeIntegrationTitle(integration) {
+    return `component.${integration}.config.title`;
   }
 
-  _computeActiveFlowTitle(localize, flow) {
-    return localizeConfigFlowTitle(localize, flow);
+  _computeActiveFlowTitle(flow) {
+    return localizeConfigFlowTitle(flow);
   }
 
   _computeConfigEntryEntities(hass, configEntry, entities) {
@@ -222,7 +218,7 @@ class HaConfigManagerDashboard extends LocalizeMixin(
         entity.config_entry_id === configEntry.entry_id &&
         entity.entity_id in hass.states
       ) {
-        states.push(hass.states[entity.entity_id]);
+        states.push(opp.states[entity.entity_id]);
       }
     });
     return states;

@@ -18,9 +18,7 @@ export default class ConditionRow extends Component {
     // eslint-disable-next-line
     if (
       confirm(
-        this.props.localize(
           "ui.panel.config.automation.editor.conditions.delete_confirm"
-        )
       )
     ) {
       this.props.onChange(this.props.index, null);
@@ -44,14 +42,12 @@ export default class ConditionRow extends Component {
               />
               <paper-listbox slot="dropdown-content">
                 <paper-item disabled>
-                  {props.localize(
-                    "ui.panel.config.automation.editor.conditions.duplicate"
-                  )}
+                  {"ui.panel.config.automation.editor.conditions.duplicate"
+                  }
                 </paper-item>
                 <paper-item onTap={this.onDelete}>
-                  {props.localize(
-                    "ui.panel.config.automation.editor.conditions.delete"
-                  )}
+                  {"ui.panel.config.automation.editor.conditions.delete"
+                  }
                 </paper-item>
               </paper-listbox>
             </paper-menu-button>

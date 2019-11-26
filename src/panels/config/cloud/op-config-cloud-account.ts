@@ -14,7 +14,6 @@ import "./cloud-webhooks";
 
 import formatDateTime from "../../../common/datetime/format_date_time";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { fetchCloudSubscriptionInfo } from "../../../data/cloud";
 import "./cloud-alexa-pref";
@@ -25,9 +24,8 @@ let registeredWebhookDialog = false;
 
 /*
  * @appliesMixin EventsMixin
- * @appliesMixin LocalizeMixin
  */
-class HaConfigCloudAccount extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class HaConfigCloudAccount extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">

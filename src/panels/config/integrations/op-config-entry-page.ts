@@ -9,11 +9,10 @@ import { compare } from "../../../common/string/compare";
 import "./op-device-card";
 import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 class HaConfigEntryPage extends NavigateMixin(
-  EventsMixin(LocalizeMixin(PolymerElement))
+  EventsMixin(PolymerElement)
 ) {
   static get template() {
     return html`
@@ -45,7 +44,7 @@ class HaConfigEntryPage extends NavigateMixin(
             if="[[_computeIsEmpty(_configEntryDevices, _noDeviceEntities)]]"
           >
             <p>
-              [[localize('ui.panel.config.integrations.config_entry.no_devices')]]
+              [['ui.panel.config.integrations.config_entry.no_devices']]
             </p>
           </template>
           <template is="dom-repeat" items="[[_configEntryDevices]]" as="device">
@@ -62,7 +61,7 @@ class HaConfigEntryPage extends NavigateMixin(
           <template is="dom-if" if="[[_noDeviceEntities.length]]">
             <op-ce-entities-card
               class="card"
-              heading="[[localize('ui.panel.config.integrations.config_entry.no_device')]]"
+              heading="[['ui.panel.config.integrations.config_entry.no_device']]"
               entities="[[_noDeviceEntities]]"
               hass="[[hass]]"
               narrow="[[narrow]]"
@@ -144,9 +143,7 @@ class HaConfigEntryPage extends NavigateMixin(
   _removeEntry() {
     if (
       !confirm(
-        this.localize(
-          "ui.panel.config.integrations.config_entry.delete_confirm"
-        )
+        "ui.panel.config.integrations.config_entry.delete_confirm"
       )
     )
       return;
@@ -159,9 +156,7 @@ class HaConfigEntryPage extends NavigateMixin(
         this.fire("hass-reload-entries");
         if (result.require_restart) {
           alert(
-            this.localize(
-              "ui.panel.config.integrations.config_entry.restart_confirm"
-            )
+            "ui.panel.config.integrations.config_entry.restart_confirm"
           );
         }
         this.navigate("/config/integrations/dashboard", true);

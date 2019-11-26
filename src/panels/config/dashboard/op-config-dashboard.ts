@@ -15,13 +15,11 @@ import "../op-config-section";
 import "./op-config-navigation";
 
 import isComponentLoaded from "../../../common/config/is_component_loaded";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 /*
- * @appliesMixin LocalizeMixin
  */
-class HaConfigDashboard extends NavigateMixin(LocalizeMixin(PolymerElement)) {
+class HaConfigDashboard extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="iron-flex op-style">
@@ -41,29 +39,29 @@ class HaConfigDashboard extends NavigateMixin(LocalizeMixin(PolymerElement)) {
       <app-header slot="header" fixed="">
         <app-toolbar>
           <op-menu-button></op-menu-button>
-          <div main-title="">[[localize('panel.config')]]</div>
+          <div main-title="">[['panel.config']]</div>
         </app-toolbar>
       </app-header>
 
       <div class="content">
         <op-config-section is-wide="[[isWide]]">
-          <span slot="header">[[localize('ui.panel.config.header')]]</span>
-          <span slot="introduction">[[localize('ui.panel.config.introduction')]]</span>
+          <span slot="header">[['ui.panel.config.header']]</span>
+          <span slot="introduction">[['ui.panel.config.introduction']]</span>
 
           <template is="dom-if" if="[[computeIsLoaded(opp, 'cloud')]]">
             <op-card>
               <a href='/config/cloud' tabindex="-1">
                 <paper-item>
                   <paper-item-body two-line="">
-                    [[localize('ui.panel.config.cloud.caption')]]
+                    [['ui.panel.config.cloud.caption']]
                     <template is="dom-if" if="[[cloudStatus.logged_in]]">
                       <div secondary="">
-                        [[localize('ui.panel.config.cloud.description_login', 'email', cloudStatus.email)]]
+                        [['ui.panel.config.cloud.description_login', 'email', cloudStatus.email)]]
                       </div>
                     </template>
                     <template is="dom-if" if="[[!cloudStatus.logged_in]]">
                       <div secondary="">
-                        [[localize('ui.panel.config.cloud.description_features')]]
+                        [['ui.panel.config.cloud.description_features']]
                       </div>
                     </template>
                   </paper-item-body>
@@ -77,9 +75,9 @@ class HaConfigDashboard extends NavigateMixin(LocalizeMixin(PolymerElement)) {
             <a href='/config/integrations/dashboard' tabindex="-1">
               <paper-item>
                 <paper-item-body two-line>
-                  [[localize('ui.panel.config.integrations.caption')]]
+                  [['ui.panel.config.integrations.caption']]
                   <div secondary>
-                    [[localize('ui.panel.config.integrations.description')]]
+                    [['ui.panel.config.integrations.description']]
                   </div>
                 </paper-item-body>
                 <op-icon-next></op-icon-next>
@@ -89,9 +87,9 @@ class HaConfigDashboard extends NavigateMixin(LocalizeMixin(PolymerElement)) {
             <a href='/config/users' tabindex="-1">
               <paper-item>
                 <paper-item-body two-line>
-                  [[localize('ui.panel.config.users.caption')]]
+                  [['ui.panel.config.users.caption']]
                   <div secondary>
-                    [[localize('ui.panel.config.users.description')]]
+                    [['ui.panel.config.users.description']]
                   </div>
                 </paper-item-body>
                 <op-icon-next></op-icon-next>

@@ -10,7 +10,6 @@ import "../../../components/op-card";
 import "../../../layouts/hass-subpage";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
 import "../../../components/entity/state-badge";
 import { compare } from "../../../common/string/compare";
@@ -25,7 +24,7 @@ function computeEntityName(hass, entity) {
 /*
  * @appliesMixin EventsMixin
  */
-class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class HaDeviceCard extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -64,13 +63,13 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
       <op-card header="[[device.name]]">
         <div class="card-content">
           <!--
-            <h1>[[configEntry.title]] ([[_computeIntegrationTitle(localize, configEntry.domain)]])</h1>
+            <h1>[[configEntry.title]] ([[_computeIntegrationTitle(configEntry.domain)]])</h1>
           -->
           <div class="info">
             <div class="model">[[device.model]]</div>
             <div class="manuf">
-              [[localize('ui.panel.config.integrations.config_entry.manuf',
-              'manufacturer', device.manufacturer)]]
+              [['ui.panel.config.integrations.config_entry.manuf',
+              'manufacturer', device.manufacturer]]
             </div>
             <div class="area">
               <paper-dropdown-menu
@@ -82,7 +81,7 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
                   selected="[[_computeSelectedArea(areas, device)]]"
                 >
                   <paper-item>
-                    [[localize('ui.panel.config.integrations.config_entry.no_area')]]
+                    [['ui.panel.config.integrations.config_entry.no_area']]
                   </paper-item>
                   <template is="dom-repeat" items="[[areas]]">
                     <paper-item area="[[item]]">[[item.name]]</paper-item>
@@ -93,7 +92,7 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
           </div>
           <template is="dom-if" if="[[device.hub_device_id]]">
             <div class="extra-info">
-              [[localize('ui.panel.config.integrations.config_entry.hub')]]
+              [['ui.panel.config.integrations.config_entry.hub']]
               <span class="hub"
                 >[[_computeDeviceName(devices, device.hub_device_id)]]</span
               >
@@ -101,8 +100,8 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
           </template>
           <template is="dom-if" if="[[device.sw_version]]">
             <div class="extra-info">
-              [[localize('ui.panel.config.integrations.config_entry.firmware',
-              'version', device.sw_version)]]
+              [['ui.panel.config.integrations.config_entry.firmware',
+              'version', device.sw_version]]
             </div>
           </template>
         </div>
@@ -205,9 +204,7 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
   _computeEntityName(entity, hass) {
     return (
       computeEntityName(hass, entity) ||
-      `(${this.localize(
-        "ui.panel.config.integrations.config_entry.entity_unavailable"
-      )})`
+      `("ui.panel.config.integrations.config_entry.entity_unavailable")`
     );
   }
 
@@ -215,13 +212,11 @@ class HaDeviceCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
     const device = devices.find((dev) => dev.id === deviceId);
     return device
       ? device.name
-      : `(${this.localize(
-          "ui.panel.config.integrations.config_entry.device_unavailable"
-        )})`;
+      : `"ui.panel.config.integrations.config_entry.device_unavailable"`;
   }
 
   _openMoreInfo(ev) {
-    this.fire("hass-more-info", { entityId: ev.model.entity.entity_id });
+    this.fire("opp-more-info", { entityId: ev.model.entity.entity_id });
   }
 }
 

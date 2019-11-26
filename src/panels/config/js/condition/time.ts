@@ -11,22 +11,18 @@ export default class TimeCondition extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ condition, localize }) {
+  render({ condition }) {
     const { after, before } = condition;
     return (
       <div>
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type.time.after"
-          )}
+          label="ui.panel.config.automation.editor.conditions.type.time.after"
           name="after"
           value={after}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type.time.before"
-          )}
+          label="ui.panel.config.automation.editor.conditions.type.time.before"
           name="before"
           value={before}
           onvalue-changed={this.onChange}

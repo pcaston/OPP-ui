@@ -21,7 +21,7 @@ export default class NumericStateCondition extends Component {
   }
 
   /* eslint-disable camelcase */
-  render({ condition, opp, localize }) {
+  render({ condition, opp  }) {
     const { value_template, entity_id, below, above } = condition;
     return (
       <div>
@@ -32,25 +32,22 @@ export default class NumericStateCondition extends Component {
           allowCustomEntity
         />
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type.numeric_state.above"
-          )}
+          label={ "ui.panel.config.automation.editor.conditions.type.numeric_state.above"
+          }
           name="above"
           value={above}
           onvalue-changed={this.onChange}
         />
         <paper-input
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type.numeric_state.below"
-          )}
+          label={ "ui.panel.config.automation.editor.conditions.type.numeric_state.below"
+          }
           name="below"
           value={below}
           onvalue-changed={this.onChange}
         />
         <op-textarea
-          label={localize(
-            "ui.panel.config.automation.editor.conditions.type.numeric_state.value_template"
-          )}
+          label={"ui.panel.config.automation.editor.conditions.type.numeric_state.value_template"
+          }
           name="value_template"
           value={value_template}
           onvalue-changed={this.onChange}
