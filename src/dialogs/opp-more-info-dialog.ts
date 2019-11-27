@@ -14,7 +14,7 @@ import "./more-info/more-info-settings";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
 
-//import DialogMixin from "../mixins/dialog-mixin";
+import DialogMixin from "../mixins/dialog-mixin";
 import { OpenPeerPower, OppEntity } from '../types';
 
 /*
@@ -22,7 +22,7 @@ import { OpenPeerPower, OppEntity } from '../types';
  */
 // @ts-ignore
 @customElement("opp-more-info-dialog")
-export class OppMoreInfoDialog extends LitElement  {
+export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : Object}) public opp?: OpenPeerPower;
   @property({type : Object}) public stateObj!: OppEntity;
   @property({type : Boolean}) public large = true;
