@@ -1,6 +1,8 @@
 import { Constructor, LitElement } from "lit-element";
 
 import { OppBaseEl } from "./opp-base-mixin";
+//import "../dialogs/opp-more-info-dialog";
+
 
 declare global {
   // for fire event
@@ -18,14 +20,12 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);
       this.addEventListener("opp-more-info", (e) => this._handleMoreInfo(e));
-
-      // Load it once we are having the initial rendering done.
-      import("../dialogs/opp-more-info-dialog");
     }
 
     private async _handleMoreInfo(ev) {
       debugger;
       if (!this._moreInfoEl) {
+        import("../dialogs/opp-more-info-dialog");
         this._moreInfoEl = document.createElement("opp-more-info-dialog");
         this.shadowRoot!.appendChild(this._moreInfoEl);
         this.provideOpp(this._moreInfoEl);

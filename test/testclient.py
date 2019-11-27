@@ -52,22 +52,15 @@ async def main():
                 {'id': 2, 'type': 'get_states'}
                 ))
             else:
-                await websocket.send(json.dumps(
-                {"id": 1, "type": "auth/long_lived_access_token", "client_name": "paul", "client_icon": '', "lifespan": 365}
-            #{'id': 2, 'type': 'subscribe_events', 'event_type': 'state_changed'}
-            ))
-
-        if msg['type'] == 'result' and msg['id'] == 1:
-            ACCESS_TOKEN = msg['result']
-            if os.path.exists(aName):
-                pass
-            else:
+                ACCESS_TOKEN = msg['access_token']
                 with open(aName, 'w') as f:
                     f.write(ACCESS_TOKEN)
-            await websocket.send(json.dumps(
-            {'id': 2, 'type': 'get_states'}
-            ))
-
+                await websocket.send(json.dumps(
+                    {'id': 2, 'type': 'get_states'}
+                ))
+            #await websocket.send(json.dumps(
+            #{"id": 1, "type": "auth/long_lived_access_token", "client_name": "paul", "client_icon": '', "lifespan": 365}
+            #{'id': 2, 'type': 'subscribe_events', 'event_type': 'state_changed'}
         if msg['type'] == 'result' and msg['id'] == 2:
             States = json.dumps(msg)
             if os.path.exists(sName):
