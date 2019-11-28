@@ -1,5 +1,6 @@
 import "@polymer/iron-icon/iron-icon";
 import { OpenPeerPower, OppEntities} from "../../../types";
+
 import {
   LitElement,
   css,
@@ -98,9 +99,8 @@ export class MoreInfoWeather extends LitElement {
           ${this.stateObj.attributes.temperature} ${this.getUnit('temperature')}
         </div>
       </div>
-      <div class="flex"
-        ?active="${this._showValue(this.stateObj.attributes.pressure)}"
-      >
+      if (${this._showValue(this.stateObj.attributes.pressure)}) {
+        <div class="flex">
         <iron-icon icon="opp:gauge"></iron-icon>
         <div class="main">
           'ui.card.weather.attributes.air_pressure'
@@ -109,6 +109,8 @@ export class MoreInfoWeather extends LitElement {
           ${this.stateObj.attributes.pressure} ${this.getUnit('air_pressure')}
         </div>
       </div>
+      }
+
       <div class="flex"
         ?active="${this._showValue(this.stateObj.attributes.humidity)}"
       >
@@ -163,11 +165,13 @@ export class MoreInfoWeather extends LitElement {
                 ${this.item.templow} ${this.getUnit('temperature')}
               </div>
 
-            <div class="temp">
-              ${item.temperature} ${this.getUnit('temperature')}
-            </div>
+              <div class="temp">
+                ${item.temperature} ${this.getUnit('temperature')}
+              </div>
           </div>
-      </div>
+        </div>
+        `;
+        )};
       <div class="attribution"
         ?active="${this.stateObj.attributes.attribution}"
       >${this.stateObj.attributes.attribution}</div>
