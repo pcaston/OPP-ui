@@ -2,7 +2,7 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 import "../components/entity/opp-state-label-badge";
 import { OpenPeerPower } from '../types';
-import { OppEntities, OppEntity} from "../open-peer-power-js-websocket/lib";
+import { OppEntities, OppEntity} from "../types";
 
 @customElement("opp-badges-card")
 export class OppBadgesCard extends LitElement {

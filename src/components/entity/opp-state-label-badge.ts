@@ -9,7 +9,7 @@ import {
   property,
 } from "lit-element";
 
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import { classMap } from "lit-html/directives/class-map";
 import { fireEvent } from "../../common/dom/fire_event";
 import { OpenPeerPower } from "../../types";

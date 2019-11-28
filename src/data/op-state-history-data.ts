@@ -9,7 +9,7 @@ import {
 
 import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
-import { any } from 'bluebird';
+//import { any } from 'bluebird';
 
 /*
  */
