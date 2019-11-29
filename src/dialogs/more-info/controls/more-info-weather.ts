@@ -99,40 +99,47 @@ export class MoreInfoWeather extends LitElement {
           ${this.stateObj.attributes.temperature} ${this.getUnit('temperature')}
         </div>
       </div>
-      if (${this._showValue(this.stateObj.attributes.pressure)}) {
+      `;
+
+      this._showValue(this.stateObj.attributes.pressure)?
+        html`
+          <div class="flex">
+            <iron-icon icon="opp:gauge"></iron-icon>
+            <div class="main">
+              'ui.card.weather.attributes.air_pressure'
+            </div>
+            <div>
+              ${this.stateObj.attributes.pressure} ${this.getUnit('air_pressure')}
+            </div>
+          </div>
+        ` : ''
+
+      if (this._showValue(this.stateObj.attributes.humidity))
+        return html`
         <div class="flex">
-        <iron-icon icon="opp:gauge"></iron-icon>
-        <div class="main">
-          'ui.card.weather.attributes.air_pressure'
+          <iron-icon icon="opp:water-percent"></iron-icon>
+          <div class="main">
+            'ui.card.weather.attributes.humidity'
+          </div>
+          <div>${this.stateObj.attributes.humidity} %</div>
         </div>
-        <div>
-          ${this.stateObj.attributes.pressure} ${this.getUnit('air_pressure')}
-        </div>
-      </div>
+        `;
       }
-
-      <div class="flex"
-        ?active="${this._showValue(this.stateObj.attributes.humidity)}"
-      >
-        <iron-icon icon="opp:water-percent"></iron-icon>
-        <div class="main">
-          'ui.card.weather.attributes.humidity'
+      
+      if (this._showValue(this.stateObj.attributes.wind_speed))
+        return html`
+        <div class="flex">
+          <iron-icon icon="opp:weather-windy"></iron-icon>
+          <div class="main">
+            'ui.card.weather.attributes.wind_speed'
+          </div>
+          <div>
+            ${this.getWind(this.stateObj.attributes.wind_speed,
+            this.stateObj.attributes.wind_bearing)}
+          </div>
         </div>
-        <div>${this.stateObj.attributes.humidity} %</div>
-      </div>
-
-      <div class="flex"
-        ?active="${this._showValue(this.stateObj.attributes.wind_speed)}"
-      >
-        <iron-icon icon="opp:weather-windy"></iron-icon>
-        <div class="main">
-          'ui.card.weather.attributes.wind_speed'
-        </div>
-        <div>
-          ${this.getWind(this.stateObj.attributes.wind_speed,
-          this.stateObj.attributes.wind_bearing)}
-        </div>
-      </div>
+        `;
+      }
 
       <div class="flex"
         ?active="${this._showValue(this.stateObj.attributes.visibility)}"
