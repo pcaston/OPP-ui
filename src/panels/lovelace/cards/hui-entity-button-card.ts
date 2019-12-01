@@ -8,7 +8,7 @@ import {
   customElement,
   property,
 } from "lit-element";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../types";
 import { styleMap } from "lit-html/directives/style-map";
 import "@material/mwc-ripple";
 

@@ -22,7 +22,7 @@ export class StateHistoryCharts extends LitElement {
   @property({type : Boolean}) public noSingle = false;
 
   protected render(): TemplateResult | void {
-    debugger;
+    console.log('state history charts');
     return html`
       <style>
         :host {
@@ -36,22 +36,32 @@ export class StateHistoryCharts extends LitElement {
           color: var(--secondary-text-color);
         }
       </style>
-      <div class="info" ?active="${this._computeIsLoading(this.isLoadingData)}">
-        history
-      </div>
+      $${this._computeIsLoading(this.isLoadingData)?
+        html`
+          <div class="info">
+            history
+          </div>
+        ` : ``
+      }
 
-      <div class="info" ?active="${this._computeIsEmpty(this.isLoadingData, this.historyData)}">
-        no history found
-      </div>
-
-      <state-history-chart-timeline
-          .opp="${this.opp}"
-          data="${this.historyData!.timeline}"
-          end-time="${this._computeEndTime(this.endTime, this.upToNow, this.historyData)}"
-          no-single="${this.noSingle}"
-          names="${this.names}"
-          ?active="${this.historyData!.timeline.length}"
-      ></state-history-chart-timeline>
+      $${this._computeIsLoading(this.isLoadingData)?
+        html`
+        <div class="info">
+          no history found
+        </div>
+        ` : ``
+      }
+      $${this.historyData!.timeline.length?
+        html`
+        <state-history-chart-timeline
+            .opp="${this.opp}"
+            data="${this.historyData!.timeline}"
+            end-time="${this._computeEndTime(this.endTime, this.upToNow, this.historyData)}"
+            no-single="${this.noSingle}"
+            names="${this.names}"
+        ></state-history-chart-timeline>
+      ` : ``
+      }
 
       ${Object.keys(this.historyData!.line).map((key, item) => {
         return html`

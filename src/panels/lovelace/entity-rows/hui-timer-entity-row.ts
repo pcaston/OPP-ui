@@ -15,7 +15,7 @@ import secondsToDuration from "../../../common/datetime/seconds_to_duration";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityConfig } from "./types";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 
 @customElement("hui-timer-entity-row")

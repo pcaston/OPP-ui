@@ -1,4 +1,4 @@
-import { OppEntities, OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntities, OppEntity } from "../../../types";
 
 import computeDomain from "../../../common/entity/compute_domain";
 

@@ -1,4 +1,4 @@
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import durationToSeconds from "../datetime/duration_to_seconds";
 
 export default function timerTimeRemaining(stateObj: OppEntity) {

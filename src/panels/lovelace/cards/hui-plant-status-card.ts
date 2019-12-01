@@ -8,7 +8,7 @@ import {
   customElement,
   PropertyValues,
 } from "lit-element";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../types";
 
 import "../../../components/op-card";
 import "../../../components/opp-icon";

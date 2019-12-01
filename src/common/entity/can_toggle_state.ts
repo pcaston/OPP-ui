@@ -1,4 +1,4 @@
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import canToggleDomain from "./can_toggle_domain";
 import computeStateDomain from "./compute_state_domain";
 import { OpenPeerPower } from "../../types";

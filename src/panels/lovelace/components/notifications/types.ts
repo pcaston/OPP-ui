@@ -1,4 +1,4 @@
-import { OppEntity } from "../../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../../types";
 
 export declare type OppNotification = OppEntity & {
   notification_id?: string;

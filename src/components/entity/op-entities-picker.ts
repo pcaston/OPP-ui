@@ -16,7 +16,7 @@ import "./op-entity-picker";
 // Not a duplicate, type import
 // tslint:disable-next-line
 import { OpEntityPickerEntityFilterFunc } from "./op-entity-picker";
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 
 @customElement("op-entities-picker")
 class OpEntitiesPickerLight extends LitElement {

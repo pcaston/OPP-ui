@@ -28,6 +28,7 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
   @property({type: String}) private _entityId = "";
 
   protected render() {
+    console.log('more info settings');
     return html`
       <style>
         app-toolbar {

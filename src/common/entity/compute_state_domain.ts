@@ -1,4 +1,4 @@
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import computeDomain from "./compute_domain";
 
 export default function computeStateDomain(stateObj: OppEntity) {

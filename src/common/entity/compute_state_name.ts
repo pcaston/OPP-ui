@@ -1,4 +1,4 @@
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import computeObjectId from "./compute_object_id";
 
 export default (stateObj: OppEntity): string =>

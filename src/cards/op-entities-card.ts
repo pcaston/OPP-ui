@@ -4,7 +4,6 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/op-entity-toggle";
 import "../components/op-card";
-import "../state-summary/state-card-content";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateName from "../common/entity/compute_state_name";
@@ -66,13 +65,6 @@ class OpEntitiesCard extends EventsMixin(PolymerElement) {
             items="[[states]]"
             on-dom-change="addTapEvents"
           >
-            <div class$="[[computeStateClass(item)]]">
-              <state-card-content
-                opp="[[opp]]"
-                class="state-card"
-                state-obj="[[item]]"
-              ></state-card-content>
-            </div>
           </template>
         </div>
       </op-card>

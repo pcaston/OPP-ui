@@ -6,7 +6,6 @@ import { OpenPeerPower, OppEntity } from '../../types';
 
 import "../../components/state-history-charts";
 import "../../resources/op-style";
-import "../../state-summary/state-card-content";
 
 import "./controls/more-info-content";
 
@@ -22,8 +21,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
  */
 // @ts-ignore
 @customElement('more-info-controls')
-// @ts-ignore
- class MoreInfoControls extends EventsMixin(LitElement) {
+export class MoreInfoControls extends EventsMixin(LitElement) {
   @property({type: Object})
   private opp!: OpenPeerPower;
   @property({type: Object})
@@ -49,7 +47,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 
   protected render() {
     this.domain = this._computeDomain(this.stateObj);
-    debugger;
+    console.log('more info controls');
     return html`
       <style include="op-style-dialog">
         app-toolbar {
@@ -59,11 +57,6 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 
         app-toolbar [main-title] {
           @apply --op-more-info-app-toolbar-title;
-        }
-
-        state-card-content {
-          display: block;
-          padding: 16px;
         }
 
         state-history-charts {
@@ -101,28 +94,28 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
         <div class="main-title" main-title="" @click="enlarge">
           ${this._computeStateName(this.stateObj)}
         </div>
-        <paper-icon-button
-          icon="opp:settings"
-          @click=${this._gotoSettings}
-          ?active=${this.canConfigure}
-        ></paper-icon-button>
+        ${this.canConfigure?
+        html`
+          <paper-icon-button
+            icon="opp:settings"
+            @click=${this._gotoSettings}
+          ></paper-icon-button>
+          ` : ``
+        }
+
       </app-toolbar>
 
-      <state-card-content
-        .state-obj="${this.stateObj}"
-        .opp="${this.opp}"
-        in-dialog=""
-        ?active=${this._computeShowStateInfo(this.stateObj)}
-      ></state-card-content>
-
       <paper-dialog-scrollable dialog-element="${this.dialogElement}">
-        <state-history-charts
-          .opp="${this.opp}"
-          history-data="${this._stateHistory}"
-          is-loading-data="${this._stateHistoryLoading}"
-          up-to-now
-          ?active=${this._computeShowHistoryComponent(this.opp, this.stateObj)}
-        ></state-history-charts>
+        ${this._computeShowHistoryComponent(this.opp, this.stateObj)?
+          html`
+          <state-history-charts
+            .opp="${this.opp}"
+            history-data="${this._stateHistory}"
+            is-loading-data="${this._stateHistoryLoading}"
+            up-to-now
+          ></state-history-charts>
+          ` : ``
+        }
 
         <more-info-content
           .state-obj="${this.stateObj}"

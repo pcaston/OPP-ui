@@ -11,7 +11,7 @@ import {
 import "../opp-icon";
 import computeStateDomain from "../../common/entity/compute_state_domain";
 import stateIcon from "../../common/entity/state_icon";
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
 import { OppIcon } from "../opp-icon";

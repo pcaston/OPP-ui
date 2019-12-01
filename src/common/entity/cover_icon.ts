@@ -1,5 +1,5 @@
 /** Return an icon representing a cover state. */
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import domainIcon from "./domain_icon";
 
 export default function coverIcon(state: OppEntity): string {

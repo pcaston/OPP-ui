@@ -35,7 +35,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   render(){
-    debugger;
+    console.log('more info dialog');
     this.stateObj = this._computeStateObj(this.opp);
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
@@ -98,22 +98,28 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
         }
       </style>
 
-      <more-info-controls
-        class="no-padding"
-        .opp="${this.opp}"
-        .stateObj="${this.stateObj}"
-        dialog-element="${this._dialogElement}"
-        can-configure="${this._registryInfo}"
-        large="${this.large}"
-        ?active="${!this._page}"
-      ></more-info-controls>
-      <more-info-settings
-        class="no-padding"
-        .opp="${this.opp}"
-        .stateObj="${this.stateObj}"
-        .registryInfo="${this._registryInfo}"
-        ?active="${this._equals(this._page, "settings")}"
-      ></more-info-settings>
+      ${!this._page?
+        html`
+        <more-info-controls
+          class="no-padding"
+          .opp="${this.opp}"
+          .stateObj="${this.stateObj}"
+          dialog-element="${this._dialogElement}"
+          can-configure="${this._registryInfo}"
+          large="${this.large}"
+        ></more-info-controls>
+      ` : ''
+      }
+      ${!this._equals(this._page, "settings")?
+        html`
+        <more-info-settings
+          class="no-padding"
+          .opp="${this.opp}"
+          .stateObj="${this.stateObj}"
+          .registryInfo="${this._registryInfo}"
+        ></more-info-settings>
+      ` : ''
+      }
     `;
   }
 

@@ -4,7 +4,7 @@ import {
   LovelaceCardConfig,
   LovelaceViewConfig,
 } from "../../../data/lovelace";
-import { OppEntity, OppEntities } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity, OppEntities } from "../../../types";
 
 import extractViews from "../../../common/entity/extract_views";
 import getViewEntities from "../../../common/entity/get_view_entities";
