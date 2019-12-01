@@ -5,7 +5,6 @@ import { LitElement, html, property, customElement } from 'lit-element';
 import { OpenPeerPower, OppEntity } from '../../types';
 
 import "../../components/state-history-charts";
-import "../../data/op-state-history-data";
 import "../../resources/op-style";
 import "../../state-summary/state-card-content";
 
@@ -117,15 +116,6 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
       ></state-card-content>
 
       <paper-dialog-scrollable dialog-element="${this.dialogElement}">
-        <op-state-history-data
-          .opp="${this.opp}"
-          filter-type="recent-entity"
-          entity-id="${this.stateObj.entity_id}"
-          data="${this._stateHistory}"
-          is-loading="${this._stateHistoryLoading}"
-          cache-config="${this._cacheConfig}"
-          ?active=${this._computeShowHistoryComponent(this.opp, this.stateObj)}
-        ></op-state-history-data>
         <state-history-charts
           .opp="${this.opp}"
           history-data="${this._stateHistory}"
