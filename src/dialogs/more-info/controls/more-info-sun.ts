@@ -1,5 +1,5 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { OpenPeerPower, OppEntities} from "../../../types";
+import { OpenPeerPower, SunEntity} from "../../../types";
 import {
   LitElement,
   css,
@@ -16,7 +16,7 @@ import formatTime from "../../../common/datetime/format_time";
 @customElement("more-info-sun")
 export class MoreInfoSun extends LitElement {
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : Array }) stateObj!: OppEntities;
+  @property({ type : Array }) stateObj!: SunEntity;
   @property({ type : Object }) risingDate = this.computeRising(this.stateObj);
   @property({ type : Object }) settingDate = this.computeSetting(this.stateObj);
   static get styles() {
@@ -28,22 +28,23 @@ export class MoreInfoSun extends LitElement {
   }
 
   protected render(): TemplateResult | void  {
+    const items: string[] = this.computeOrder(this.risingDate, this.settingDate);
     return html`
-      ${Object.keys(this.computeOrder(risingDate, settingDate)).map((key) => {
-        const item: String = items[key];
+      ${Object.keys(items).map((key) => {
+        const item: string = items[key];
         return html`
           <div class="data-entry layout justified horizontal">
             <div class="key">
-              <span>${this..itemCaption(item)}</span>
+              <span>${this.itemCaption(item)}</span>
                 <op-relative-time
-                  opp="${this.opp}"
-                  datetime-obj="${this.itemDate(item)}"
+                  .opp="${this.opp}"
+                  .datetime-obj="${this.itemDate(item)}"
                 ></op-relative-time>
               </div>
             <div class="value">${this.itemValue(item)}</div>
           </div>
         `;
-      })
+      )}
       <div class="data-entry layout justified horizontal">
         <div class="key">elevation</div>
         <div class="value">elevation</div>
@@ -51,30 +52,30 @@ export class MoreInfoSun extends LitElement {
     `;
   }
 
-  computeRising(stateObj) {
+  computeRising(stateObj: SunEntity) {
     return new Date(stateObj.attributes.next_rising);
   }
 
-  computeSetting(stateObj) {
+  computeSetting(stateObj: SunEntity) {
     return new Date(stateObj.attributes.next_setting);
   }
 
-  computeOrder(risingDate, settingDate) {
+  computeOrder(risingDate: object, settingDate: object) {
     return risingDate > settingDate ? ["set", "ris"] : ["ris", "set"];
   }
 
-  itemCaption(type) {
+  itemCaption(type: string) {
     if (type === "ris") {
       return "Rising";
     }
     return "Setting";
   }
 
-  itemDate(type) {
+  itemDate(type: string) {
     return type === "ris" ? this.risingDate : this.settingDate;
   }
 
-  itemValue(type) {
+  itemValue(type: string) {
     return formatTime(this.itemDate(type), "en");
   }
 }
