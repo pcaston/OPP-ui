@@ -2,8 +2,6 @@ import { dom } from "@polymer/polymer/lib/legacy/polymer.dom";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../state-summary/state-card-content";
-
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 import dynamicContentUpdater from "../../../common/dom/dynamic_content_updater";
 
@@ -21,14 +19,6 @@ class MoreInfoGroup extends PolymerElement {
       </style>
 
       <div id="groupedControlDetails"></div>
-      <template is="dom-repeat" items="[[states]]" as="state">
-        <div class="child-card">
-          <state-card-content
-            state-obj="[[state]]"
-            opp="[[opp]]"
-          ></state-card-content>
-        </div>
-      </template>
     `;
   }
 

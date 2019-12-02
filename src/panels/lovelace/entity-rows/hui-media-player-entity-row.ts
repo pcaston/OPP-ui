@@ -15,7 +15,7 @@ import "../components/hui-warning";
 
 import { EntityRow, EntityConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../types";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 import {
   SUPPORTS_PLAY,

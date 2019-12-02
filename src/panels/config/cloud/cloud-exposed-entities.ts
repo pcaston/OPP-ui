@@ -7,7 +7,7 @@ import {
 } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 import "@polymer/paper-tooltip/paper-tooltip";
-import { OppEntityBase } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntityBase } from "../../../types";
 import "../../../components/entity/op-state-icon";
 
 import { fireEvent } from "../../../common/dom/fire_event";

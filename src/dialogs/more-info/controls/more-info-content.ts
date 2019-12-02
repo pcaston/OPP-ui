@@ -3,7 +3,7 @@ import {
   PropertyValues,
   UpdatingElement,
 } from "lit-element";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../types";
 
 import "./more-info-alarm_control_panel";
 import "./more-info-automation";
@@ -12,18 +12,18 @@ import "./more-info-climate";
 import "./more-info-configurator";
 import "./more-info-cover";
 import "./more-info-default";
-import "./more-info-fan";
+//import "./more-info-fan";
 import "./more-info-group";
 import "./more-info-history_graph";
 import "./more-info-input_datetime";
-import "./more-info-light";
-import "./more-info-lock";
-import "./more-info-media_player";
+//import "./more-info-light";
+//import "./more-info-lock";
+//import "./more-info-media_player";
 import "./more-info-script";
 import "./more-info-sun";
 import "./more-info-updater";
-import "./more-info-vacuum";
-import "./more-info-water_heater";
+//import "./more-info-vacuum";
+//import "./more-info-water_heater";
 import "./more-info-weather";
 
 import stateMoreInfoType from "../../../common/entity/state_more_info_type";

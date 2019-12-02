@@ -99,35 +99,34 @@ export class MoreInfoWeather extends LitElement {
           ${this.stateObj.attributes.temperature} ${this.getUnit('temperature')}
         </div>
       </div>
-      `;
-
-      this._showValue(this.stateObj.attributes.pressure)?
+      ${this._showValue(this.stateObj.attributes.pressure)?
         html`
-          <div class="flex">
-            <iron-icon icon="opp:gauge"></iron-icon>
-            <div class="main">
-              'ui.card.weather.attributes.air_pressure'
-            </div>
-            <div>
-              ${this.stateObj.attributes.pressure} ${this.getUnit('air_pressure')}
-            </div>
+        <div class="flex">
+          <iron-icon icon="opp:gauge"></iron-icon>
+          <div class="main">
+            'ui.card.weather.attributes.air_pressure'
           </div>
+          <div>
+            ${this.stateObj.attributes.pressure} ${this.getUnit('air_pressure')}
+          </div>
+        </div>
         ` : ''
-
-      if (this._showValue(this.stateObj.attributes.humidity))
-        return html`
+      }
+      ${this._showValue(this.stateObj.attributes.pressure)?
+        html`
         <div class="flex">
           <iron-icon icon="opp:water-percent"></iron-icon>
           <div class="main">
             'ui.card.weather.attributes.humidity'
           </div>
-          <div>${this.stateObj.attributes.humidity} %</div>
+          <div>
+            "${this.stateObj.attributes.humidity} %"
+          </div>
         </div>
-        `;
+        ` : ''
       }
-      
-      if (this._showValue(this.stateObj.attributes.wind_speed))
-        return html`
+      ${this._showValue(this.stateObj.attributes.wind_speed)?
+        html`
         <div class="flex">
           <iron-icon icon="opp:weather-windy"></iron-icon>
           <div class="main">
@@ -138,50 +137,60 @@ export class MoreInfoWeather extends LitElement {
             this.stateObj.attributes.wind_bearing)}
           </div>
         </div>
-        `;
+        ` : ''
       }
 
-      <div class="flex"
-        ?active="${this._showValue(this.stateObj.attributes.visibility)}"
-      >
-        <iron-icon icon="opp:eye"></iron-icon>
-        <div class="main">
-          'ui.card.weather.attributes.visibility'
-        </div>
-        <div>${this.stateObj.attributes.visibility} ${this.getUnit('length')}</div>
-      </div>
+      ${this._showValue(this.stateObj.attributes.visibility)?
+        html`
+          <div class="flex">
+            <iron-icon icon="opp:eye"></iron-icon>
+            <div class="main">
+              'ui.card.weather.attributes.visibility'
+            </div>
+            <div>${this.stateObj.attributes.visibility} ${this.getUnit('length')}</div>
+          </div>
+          ` : ``
+      }
 
-      <div class="flex"
-      ?active="${this.stateObj.attributes.forecast}"
-      >
-        <div class="section">'ui.card.weather.forecast'</div>
+      ${this.stateObj.attributes.forecast?
+        html`
+        <div class="section">[[localize('ui.card.weather.forecast')]]:</div>
+
         ${Object.keys(this.stateObj!.attributes.forecast).map((key) => {
           const item: forecast = this.stateObj!.attributes.forecast[key];
           return html`
           <div class="flex">
-              <iron-icon
-                icon="${this.getWeatherIcon(item.condition)}"
-                ?active="${this._showValue(this._showValue(item.condition))}"
-              ></iron-icon>
-              <div class="main">${this._showValue(item.templow)}</div>
+            ${this._showValue(item.condition)?
+            html`
+              <iron-icon icon="[[getWeatherIcon(item.condition)]]"></iron-icon>
+            ` : ``
+            }
 
-              <div class="main"
-                ?active="${this._showValue(this._showValue(item.templow))}"
-              >${this.computeDate(item.datetime)}</div>
+            ${this._showValue(item.templow)?
+            html`
+              <div class="main">[[computeDateTime(item.datetime)]]</div>
+              ` : ``
+            }
+
+            ${this._showValue(item.templow)?
+            html`
+              <div class="main">[[computeDate(item.datetime)]]</div>
               <div class="templow">
-                ${this.item.templow} ${this.getUnit('temperature')}
+                [[item.templow]] [[getUnit('temperature')]]
               </div>
+              ` : ``
+            }
 
-              <div class="temp">
-                ${item.temperature} ${this.getUnit('temperature')}
-              </div>
+            <div class="temp">
+              [[item.temperature]] [[getUnit('temperature')]]
+            </div>
           </div>
-        </div>
-        `;
-        )};
-      <div class="attribution"
-        ?active="${this.stateObj.attributes.attribution}"
-      >${this.stateObj.attributes.attribution}</div>
+          `;
+          })
+
+        }
+        ` : ``
+      }
     `;
   };
 
@@ -229,7 +238,7 @@ export class MoreInfoWeather extends LitElement {
       const cardinalDirection = this.windBearingToText(bearing);
       return `${speed} ${this.getUnit("length")}/h (${
         `ui.card.weather.cardinal_direction.${cardinalDirection.toLowerCase()}`
-      ) || cardinalDirection}`;
+       || cardinalDirection}`;
     }
     return `${speed} ${this.getUnit("length")}/h`;
   }

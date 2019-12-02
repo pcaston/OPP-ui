@@ -9,6 +9,7 @@ import formatDateTime from "../common/datetime/format_date_time";
 
 class StateHistoryChartTimeline extends PolymerElement {
   static get template() {
+    console.log('state history chart line');
     return html`
       <style>
         :host {

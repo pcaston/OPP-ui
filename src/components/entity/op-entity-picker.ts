@@ -18,7 +18,7 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
 

@@ -1,5 +1,5 @@
 /** Return an icon representing a sensor state. */
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import { UNIT_C, UNIT_F } from "../const";
 import domainIcon from "./domain_icon";
 

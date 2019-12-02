@@ -12,7 +12,6 @@ import "@vaadin/vaadin-date-picker/vaadin-date-picker";
 
 import "../../components/op-menu-button";
 import "../../components/state-history-charts";
-import "../../data/op-state-history-data";
 import "../../resources/op-date-picker-style";
 import "../../resources/op-style";
 
@@ -52,15 +51,6 @@ class OpPanelHistory extends PolymerElement {
           cursor: pointer;
         }
       </style>
-
-      <op-state-history-data
-        opp="[[opp]]"
-        filter-type="[[_filterType]]"
-        start-time="[[_computeStartTime(_currentDate)]]"
-        end-time="[[endTime]]"
-        data="{{stateHistory}}"
-        is-loading="{{isLoadingData}}"
-      ></op-state-history-data>
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>

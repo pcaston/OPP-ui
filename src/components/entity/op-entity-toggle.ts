@@ -13,7 +13,7 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../types";
 import { forwardHaptic } from "../../data/haptics";
 
 const isOn = (stateObj?: OppEntity) =>
