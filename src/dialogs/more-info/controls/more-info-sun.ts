@@ -1,52 +1,54 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { OpenPeerPower, OppEntities} from "../../../types";
+import {
+  LitElement,
+  css,
+  html,
+  property,
+  customElement,
+  TemplateResult,
+} from "lit-element";
 
 import "../../../components/op-relative-time";
 
 import formatTime from "../../../common/datetime/format_time";
 
-class MoreInfoSun extends PolymerElement {
-  static get template() {
-    return html`
+@customElement("more-info-sun")
+export class MoreInfoSun extends LitElement {
+  @property({ type : Object }) opp!: OpenPeerPower;
+  @property({ type : Array }) stateObj!: OppEntities;
+  @property({ type : Object }) risingDate = this.computeRising(this.stateObj);
+  @property({ type : Object }) settingDate = this.computeSetting(this.stateObj);
+  static get styles() {
+    return [
+      css`
       <style include="iron-flex iron-flex-alignment"></style>
+      `
+    ];
+  }
 
-      <template
-        is="dom-repeat"
-        items="[[computeOrder(risingDate, settingDate)]]"
-      >
-        <div class="data-entry layout justified horizontal">
-          <div class="key">
-            <span>[[itemCaption(item)]]</span>
-            <op-relative-time
-              opp="[[opp]]"
-              datetime-obj="[[itemDate(item)]]"
-            ></op-relative-time>
+  protected render(): TemplateResult | void  {
+    return html`
+      ${Object.keys(this.computeOrder(risingDate, settingDate)).map((key) => {
+        const item: String = items[key];
+        return html`
+          <div class="data-entry layout justified horizontal">
+            <div class="key">
+              <span>${this..itemCaption(item)}</span>
+                <op-relative-time
+                  opp="${this.opp}"
+                  datetime-obj="${this.itemDate(item)}"
+                ></op-relative-time>
+              </div>
+            <div class="value">${this.itemValue(item)}</div>
           </div>
-          <div class="value">[[itemValue(item)]]</div>
-        </div>
-      </template>
+        `;
+      })
       <div class="data-entry layout justified horizontal">
         <div class="key">elevation</div>
         <div class="value">elevation</div>
       </div>
     `;
-  }
-
-  static get properties() {
-    return {
-      opp: Object,
-      stateObj: Object,
-      risingDate: {
-        type: Object,
-        computed: "computeRising(stateObj)",
-      },
-
-      settingDate: {
-        type: Object,
-        computed: "computeSetting(stateObj)",
-      },
-    };
   }
 
   computeRising(stateObj) {
@@ -76,5 +78,3 @@ class MoreInfoSun extends PolymerElement {
     return formatTime(this.itemDate(type), "en");
   }
 }
-
-customElements.define("more-info-sun", MoreInfoSun);
