@@ -197,6 +197,20 @@ export type LightEntity = OppEntityBase & {
   };
 };
 
+export type SunEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
+    next_dawn: string;
+    next_dusk: string;
+    next_midnight: string;
+    next_noon: string;
+    next_rising: string;
+    next_setting: string;
+    elevation: number;
+    azimuth: number;
+    friendly_name: string;
+  };
+};
+
 export type GroupEntity = OppEntityBase & {
   attributes: OppEntityAttributeBase & {
     entity_id: string[];
