@@ -75,7 +75,6 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
           padding-bottom: 16px;
         }
         
-       
         :host([${this.domain}="camera"]) paper-dialog-scrollable {
           margin: 0 -24px -21px;
         }
@@ -143,11 +142,11 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
     );
   }
 
-  _computeDomain(stateObj) {
+  _computeDomain(stateObj: OppEntity) {
     return stateObj ? computeStateDomain(stateObj) : "";
   }
 
-  _computeStateName(stateObj) {
+  _computeStateName(stateObj: OppEntity) {
     return stateObj ? computeStateName(stateObj) : "";
   }
 
@@ -166,5 +165,4 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
   _gotoSettings() {
     this.fire("more-info-page", { page: "settings" });
   }
-
 }
