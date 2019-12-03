@@ -28,6 +28,7 @@ export class MoreInfoSun extends LitElement {
   }
 
   protected render(): TemplateResult | void  {
+    debugger;
     const items: string[] = this.computeOrder(this.risingDate, this.settingDate);
     return html`
       ${Object.keys(items).map((key) => {
