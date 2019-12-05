@@ -133,7 +133,6 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
   }
 
   _computeShowHistoryComponent(opp, stateObj) {
-    debugger;
     return (
       opp &&
       stateObj &&

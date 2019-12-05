@@ -47,7 +47,8 @@ export class MoreInfoSun extends LitElement {
             <div class="value">${this.itemValue(item)}</div>
           </div>
         `;
-      )}
+        })
+      }
       <div class="data-entry layout justified horizontal">
         <div class="key">elevation</div>
         <div class="value">elevation</div>

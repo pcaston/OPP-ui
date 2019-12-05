@@ -102,7 +102,6 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
     protected render() {
       console.log('more info dialog');
       this.stateObj = this._computeStateObj(this.opp);
-      debugger;
       return html`
       ${this._page?
         html`
