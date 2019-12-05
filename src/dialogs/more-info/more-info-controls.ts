@@ -7,7 +7,7 @@ import { OpenPeerPower, OppEntity } from '../../types';
 import "../../components/state-history-charts";
 import "../../resources/op-style";
 
-import "./controls/more-info-content";
+import "./controls/more-info-sun";
 
 import computeStateName from "../../common/entity/compute_state_name";
 import computeStateDomain from "../../common/entity/compute_state_domain";
@@ -116,10 +116,10 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
           ` : ``
         }
 
-        <more-info-content
-          .state-obj="${this.stateObj}"
+        <more-info-sun
+          .stateObj="${this.stateObj}"
           .opp="${this.opp}"
-        ></more-info-content>
+        ></more-info-sun>
       </paper-dialog-scrollable>
     `;
   }

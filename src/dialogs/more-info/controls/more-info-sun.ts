@@ -17,8 +17,8 @@ import formatTime from "../../../common/datetime/format_time";
 export class MoreInfoSun extends LitElement {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) stateObj!: SunEntity;
-  @property({ type : Object }) risingDate = this.computeRising(this.stateObj);
-  @property({ type : Object }) settingDate = this.computeSetting(this.stateObj);
+  @property({ type : Object }) risingDate!: object;
+  @property({ type : Object }) settingDate!: object;
   static get styles() {
     return [
       css`
@@ -29,6 +29,8 @@ export class MoreInfoSun extends LitElement {
 
   protected render(): TemplateResult | void  {
     debugger;
+    this.risingDate = this.computeRising(this.stateObj);
+    this.settingDate = this.computeSetting(this.stateObj);
     const items: string[] = this.computeOrder(this.risingDate, this.settingDate);
     return html`
       ${Object.keys(items).map((key) => {
