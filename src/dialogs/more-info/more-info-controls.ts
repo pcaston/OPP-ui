@@ -103,7 +103,7 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
         }
 
       </app-toolbar>
-
+      <p>Show somthing in More info Controls</p>
       <paper-dialog-scrollable dialog-element="${this.dialogElement}">
         ${this._computeShowHistoryComponent(this.opp, this.stateObj)?
           html`

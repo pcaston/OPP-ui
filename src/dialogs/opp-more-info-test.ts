@@ -15,24 +15,20 @@ import "./more-info/more-info-settings";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
 
-import DialogMixin from "../mixins/dialog-mixin";
 import { OpenPeerPower, OppEntity } from '../types';
 
 /*
  * @appliesMixin DialogMixin
  */
 // @ts-ignore
-@customElement("opp-more-info-dialog")
-export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
+@customElement("opp-more-info-test")
+export class OppMoreInfoDialog extends LitElement  {
   @property({type : Object}) public opp?: OpenPeerPower;
   @property({type : Object}) public stateObj!: OppEntity;
   @property({type : Boolean}) public large = true;
   @property({type : Object}) public _dialogElement = {};
   @property({type : Object}) public _registryInfo = {};
-  @property({type : Object}) public _page = {
-    type: String,
-    value: "ettings",
-  };
+  @property({type : Object}) public _page;
   @property({type : String }) public dataDomain = this._computeDomain(this.stateObj);
 
   static get styles() {
@@ -101,7 +97,7 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
       ];
     }
     protected render() {
-      console.log('more info dialog');
+      console.log('more info test');
       this.stateObj = this._computeStateObj(this.opp);
       return html`
       ${this._page?
@@ -110,8 +106,8 @@ export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
           class="no-padding"
           .opp="${this.opp}"
           .stateObj="${this.stateObj}"
-          .dialogElement="${this._dialogElement}"
-          .canConfigure="${this._registryInfo}"
+          .dialog-element="${this._dialogElement}"
+          .can-configure="${this._registryInfo}"
           .large="${this.large}"
         ></more-info-controls>
       ` : html`<p>Not much happening</p>`
