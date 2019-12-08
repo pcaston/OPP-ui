@@ -14,6 +14,7 @@ import "./more-info/more-info-controls";
 import "./more-info/more-info-settings";
 
 import computeStateDomain from "../common/entity/compute_state_domain";
+import DialogMixin from "../mixins/dialog-mixin-t";
 
 import { OpenPeerPower, OppEntity } from '../types';
 
@@ -22,7 +23,7 @@ import { OpenPeerPower, OppEntity } from '../types';
  */
 // @ts-ignore
 @customElement("opp-more-info-test")
-export class OppMoreInfoDialog extends LitElement  {
+export class OppMoreInfoDialog extends DialogMixin(LitElement)  {
   @property({type : Object}) public opp?: OpenPeerPower;
   @property({type : Object}) public stateObj!: OppEntity;
   @property({type : Boolean}) public large = true;
@@ -106,8 +107,8 @@ export class OppMoreInfoDialog extends LitElement  {
           class="no-padding"
           .opp="${this.opp}"
           .stateObj="${this.stateObj}"
-          .dialog-element="${this._dialogElement}"
-          .can-configure="${this._registryInfo}"
+          .dialogElement="${this._dialogElement}"
+          .canConfigure="${this._registryInfo}"
           .large="${this.large}"
         ></more-info-controls>
       ` : html`<p>Not much happening</p>`

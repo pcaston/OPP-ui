@@ -7,7 +7,6 @@ import relativeTime from "../common/datetime/relative_time";
  */
 class OpRelativeTime extends PolymerElement {
   static get properties() {
-    debugger;
     return {
       opp: Object,
       datetime: {
@@ -26,7 +25,6 @@ class OpRelativeTime extends PolymerElement {
 
   constructor() {
     super();
-    debugger;
     this.updateRelative = this.updateRelative.bind(this);
   }
 

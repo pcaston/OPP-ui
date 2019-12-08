@@ -33,6 +33,9 @@ export class MoreInfoSun extends LitElement {
     this.settingDate = this.computeSetting(this.stateObj);
     const items: string[] = this.computeOrder(this.risingDate, this.settingDate);
     return html`
+      <div>
+        <p>Show something!</p>
+      </div>
       ${Object.keys(items).map((key) => {
         const item: string = items[key];
         return html`
