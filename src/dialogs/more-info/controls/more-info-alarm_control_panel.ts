@@ -4,11 +4,8 @@ import "@polymer/paper-input/paper-input";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import { EventsMixin } from "../../../mixins/events-mixin";
-
-class MoreInfoAlarmControlPanel extends 
-  EventsMixin(PolymerElement)
-  {
+import { fireEvent } from "../../../common/dom/fire_event";
+class MoreInfoAlarmControlPanel extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -30,8 +27,9 @@ class MoreInfoAlarmControlPanel extends
           width: 80px;
         }
         .actions mwc-button {
-          min-width: 160px;
-          margin-bottom: 16px;
+          flex: 1 0 50%;
+          margin: 0 4px 16px;
+          max-width: 200px;
         }
         mwc-button.disarm {
           color: var(--google-red-500);
@@ -138,7 +136,7 @@ class MoreInfoAlarmControlPanel extends
       <div class="layout horizontal center-justified actions">
         <template is="dom-if" if="[[_disarmVisible]]">
           <mwc-button
-            raised
+            outlined
             class="disarm"
             on-click="_callService"
             data-service="alarm_disarm"
@@ -149,7 +147,7 @@ class MoreInfoAlarmControlPanel extends
         </template>
         <template is="dom-if" if="[[_armVisible]]">
           <mwc-button
-            raised
+            outlined
             on-click="_callService"
             data-service="alarm_arm_home"
             disabled="[[!_codeValid]]"
@@ -157,7 +155,7 @@ class MoreInfoAlarmControlPanel extends
             [['ui.card.alarm_control_panel.arm_home']]
           </mwc-button>
           <mwc-button
-            raised
+            outlined
             on-click="_callService"
             data-service="alarm_arm_away"
             disabled="[[!_codeValid]]"
@@ -186,7 +184,8 @@ class MoreInfoAlarmControlPanel extends
       },
       _codeValid: {
         type: Boolean,
-        computed: "_validateCode(_enteredCode, _codeFormat)",
+        computed:
+          "_validateCode(_enteredCode,  _codeFormat,  _armVisible, _codeArmRequired)",
       },
       _disarmVisible: {
         type: Boolean,
@@ -219,6 +218,7 @@ class MoreInfoAlarmControlPanel extends
       const props = {
         _codeFormat: newVal.attributes.code_format,
         _armVisible: state === "disarmed",
+        _codeArmRequired: newVal.attributes.code_arm_required,
         _disarmVisible:
           this._armedStates.includes(state) ||
           state === "pending" ||
@@ -230,7 +230,7 @@ class MoreInfoAlarmControlPanel extends
     }
     if (oldVal) {
       setTimeout(() => {
-        this.fire("iron-resize");
+        fireEvent(this, "iron-resize");
       }, 500);
     }
   }
@@ -239,8 +239,8 @@ class MoreInfoAlarmControlPanel extends
     return format === "Number";
   }
 
-  _validateCode(code, format) {
-    return !format || code.length > 0;
+  _validateCode(code, format, armVisible, codeArmRequired) {
+    return !format || code.length > 0 || (armVisible && !codeArmRequired);
   }
 
   _digitClicked(ev) {

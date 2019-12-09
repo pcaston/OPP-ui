@@ -2,33 +2,23 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@material/mwc-button";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
-import { LitElement, html, property, customElement } from 'lit-element';
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { EventsMixin } from "../../mixins/events-mixin";
 import { OpenPeerPower, OppEntity } from '../../types';
 
-import computeStateName from "../../common/entity/compute_state_name";
-import computeDomain from "../../common/entity/compute_domain";
+import { computeStateName } from "../../common/entity/compute_state_name";
+import { computeDomain } from "../../common/entity/compute_domain";
 import { updateEntityRegistryEntry } from "../../data/entity_registry";
+import { showSaveSuccessToast } from "../../util/toast-saved-success";
 
 import "../../components/op-paper-icon-button-arrow-prev";
 /*
  * @appliesMixin EventsMixin
  */
-// @ts-ignore
-@customElement('more-info-settings')
-export class MoreInfoSettings extends EventsMixin(LitElement) {
-  @property({type: Object})
-  private opp: OpenPeerPower = {};
-  @property({type: Object})
-  private stateObj!: OppEntity;
-  @property({type: Object})
-  private registryInfo!;
-  @property({type: String}) private _name = "";
-  @property({type: String}) private _entityId = "";
-
-  protected render() {
-    console.log('more info settings');
+class MoreInfoSettings extends EventsMixin(PolymerElement) {
+  static get template() {
     return html`
       <style>
         app-toolbar {
@@ -46,6 +36,7 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
         app-toolbar mwc-button {
           font-size: 0.8em;
           margin: 0;
+          --mdc-theme-primary: var(--more-info-header-color);
         }
 
         .form {
@@ -55,27 +46,44 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
 
       <app-toolbar>
         <op-paper-icon-button-arrow-prev
-          @click="_backTapped"
+          aria-label$="[['ui.dialogs.more_info_settings.back']]"
+          on-click="_backTapped"
         ></op-paper-icon-button-arrow-prev>
-        <div main-title="">${this._computeStateName(this.stateObj)}</div>
-        <mwc-button @click="_save" disabled="${this._computeInvalid(this._entityId)}"
-          >Save</mwc-button
+        <div main-title="">[[_computeStateName(stateObj)]]</div>
+        <mwc-button on-click="_save" disabled="[[_computeInvalid(_entityId)]]"
+          >[['ui.dialogs.more_info_settings.save']]</mwc-button
         >
       </app-toolbar>
 
       <div class="form">
         <paper-input
-          value="${this._name}"
-          label="Name"
+          value="{{_name}}"
+          label="[['ui.dialogs.more_info_settings.name']]"
         ></paper-input>
         <paper-input
-          value="${this._entityId}"
-          label="Entity Id"
+          value="{{_entityId}}"
+          label="[['ui.dialogs.more_info_settings.entity_id']]"
           error-message="Domain needs to stay the same"
-          invalid="${this._computeInvalid(this._entityId)}"
+          invalid="[[_computeInvalid(_entityId)]]"
         ></paper-input>
       </div>
     `;
+  }
+
+  static get properties() {
+    return {
+      opp: Object,
+      stateObj: Object,
+
+      registryInfo: {
+        type: Object,
+        observer: "_registryInfoChanged",
+        notify: true,
+      },
+
+      _name: String,
+      _entityId: String,
+    };
   }
 
   _computeStateName(stateObj) {
@@ -85,6 +93,20 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
 
   _computeInvalid(entityId) {
     return computeDomain(this.stateObj.entity_id) !== computeDomain(entityId);
+  }
+
+  _registryInfoChanged(newVal) {
+    if (newVal) {
+      this.setProperties({
+        _name: newVal.name,
+        _entityId: newVal.entity_id,
+      });
+    } else {
+      this.setProperties({
+        _name: "",
+        _entityId: "",
+      });
+    }
   }
 
   _backTapped() {
@@ -102,6 +124,8 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
         }
       );
 
+      showSaveSuccessToast(this, this.opp);
+
       this.registryInfo = info;
 
       // Keep the more info dialog open at the new entity.
@@ -113,3 +137,4 @@ export class MoreInfoSettings extends EventsMixin(LitElement) {
     }
   }
 }
+customElements.define("more-info-settings", MoreInfoSettings);

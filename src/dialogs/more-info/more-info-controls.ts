@@ -1,53 +1,30 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { LitElement, html, property, customElement } from 'lit-element';
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import { OpenPeerPower, OppEntity } from '../../types';
 
 import "../../components/state-history-charts";
+import "../../data/op-state-history-data";
 import "../../resources/op-style";
+import "../../state-summary/state-card-content";
 
-import "./controls/more-info-sun";
+import "./controls/more-info-content";
 
-import computeStateName from "../../common/entity/compute_state_name";
-import computeStateDomain from "../../common/entity/compute_state_domain";
-import isComponentLoaded from "../../common/config/is_component_loaded";
+import { computeStateName } from "../../common/entity/compute_state_name";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
 import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
 import { EventsMixin } from "../../mixins/events-mixin";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 /*
  * @appliesMixin EventsMixin
  */
-// @ts-ignore
-@customElement('more-info-controls')
-export class MoreInfoControls extends EventsMixin(LitElement) {
-  @property({type: Object})
-  private opp!: OpenPeerPower;
-  @property({type: Object})
-  private stateObj!: OppEntity;
-  @property({type: Object})
-  private dialogElement!: OppEntity;
-  @property({type: Boolean})
-  private canConfigure!: OppEntity;
-  @property({type: String})
-  private domain = "";
-  @property({type: Object})
-  private _stateHistory = {};
-  @property({type: Object})
-  private _stateHistoryLoading = {};
-  @property({type: Boolean})
-  private large = false;
-  @property({type: Object})
-  private _cacheConfig = {
-    refresh: 60,
-    cacheKey: null,
-    hoursToShow: 24,
-  };
-
-  protected render() {
-    this.domain = this._computeDomain(this.stateObj);
-    console.log('more info controls');
+class MoreInfoControls extends EventsMixin(PolymerElement) {
+  static get template() {
     return html`
       <style include="op-style-dialog">
         app-toolbar {
@@ -57,6 +34,11 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
 
         app-toolbar [main-title] {
           @apply --op-more-info-app-toolbar-title;
+        }
+
+        state-card-content {
+          display: block;
+          padding: 16px;
         }
 
         state-history-charts {
@@ -74,8 +56,8 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
         paper-dialog-scrollable {
           padding-bottom: 16px;
         }
-        
-        :host([${this.domain}="camera"]) paper-dialog-scrollable {
+
+        :host([domain="camera"]) paper-dialog-scrollable {
           margin: 0 -24px -21px;
         }
 
@@ -87,41 +69,99 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
 
       <app-toolbar>
         <paper-icon-button
+          aria-label$="[['ui.dialogs.more_info_control.dismiss']]"
           icon="opp:close"
-          dialog-dismiss=""
+          dialog-dismiss
         ></paper-icon-button>
-        <div class="main-title" main-title="" @click="enlarge">
-          ${this._computeStateName(this.stateObj)}
+        <div class="main-title" main-title="" on-click="enlarge">
+          [[_computeStateName(stateObj)]]
         </div>
-        ${this.canConfigure?
-        html`
+        <template is="dom-if" if="[[canConfigure]]">
           <paper-icon-button
+            aria-label$="[['ui.dialogs.more_info_control.settings']]"
             icon="opp:settings"
-            @click=${this._gotoSettings}
+            on-click="_gotoSettings"
           ></paper-icon-button>
-          ` : ``
-        }
-
+        </template>
       </app-toolbar>
-      <p>Show somthing in More info Controls</p>
-      <paper-dialog-scrollable dialog-element="${this.dialogElement}">
-        ${this._computeShowHistoryComponent(this.opp, this.stateObj)?
-          html`
+
+      <template is="dom-if" if="[[_computeShowStateInfo(stateObj)]]" restamp="">
+        <state-card-content
+          state-obj="[[stateObj]]"
+          opp="[[opp]]"
+          in-dialog=""
+        ></state-card-content>
+      </template>
+      <paper-dialog-scrollable dialog-element="[[dialogElement]]">
+        <template
+          is="dom-if"
+          if="[[_computeShowHistoryComponent(opp, stateObj)]]"
+          restamp=""
+        >
+          <op-state-history-data
+            opp="[[opp]]"
+            filter-type="recent-entity"
+            entity-id="[[stateObj.entity_id]]"
+            data="{{_stateHistory}}"
+            is-loading="{{_stateHistoryLoading}}"
+            cache-config="[[_cacheConfig]]"
+          ></op-state-history-data>
           <state-history-charts
-            .opp="${this.opp}"
-            history-data="${this._stateHistory}"
-            is-loading-data="${this._stateHistoryLoading}"
+            opp="[[opp]]"
+            history-data="[[_stateHistory]]"
+            is-loading-data="[[_stateHistoryLoading]]"
             up-to-now
           ></state-history-charts>
-          ` : ``
-        }
-
-        <more-info-sun
-          .stateObj="${this.stateObj}"
-          .opp="${this.opp}"
-        ></more-info-sun>
+        </template>
+        <more-info-content
+          state-obj="[[stateObj]]"
+          opp="[[opp]]"
+        ></more-info-content>
       </paper-dialog-scrollable>
     `;
+  }
+
+  static get properties() {
+    return {
+      opp: Object,
+
+      stateObj: {
+        type: Object,
+        observer: "_stateObjChanged",
+      },
+
+      dialogElement: Object,
+      canConfigure: Boolean,
+
+      domain: {
+        type: String,
+        reflectToAttribute: true,
+        computed: "_computeDomain(stateObj)",
+      },
+
+      _stateHistory: Object,
+      _stateHistoryLoading: Boolean,
+
+      large: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      },
+
+      _cacheConfig: {
+        type: Object,
+        value: {
+          refresh: 60,
+          cacheKey: null,
+          hoursToShow: 24,
+        },
+      },
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
+    };
   }
 
   enlarge() {
@@ -155,13 +195,19 @@ export class MoreInfoControls extends EventsMixin(LitElement) {
     }
 
     if (this._cacheConfig.cacheKey !== `more_info.${newVal.entity_id}`) {
-      this._cacheConfig = Object.assign({}, this._cacheConfig, {
+      this._cacheConfig = {
+        ...this._cacheConfig,
         cacheKey: `more_info.${newVal.entity_id}`,
-      });
+      };
     }
   }
 
   _gotoSettings() {
     this.fire("more-info-page", { page: "settings" });
   }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
+  }
 }
+customElements.define("more-info-controls", MoreInfoControls);

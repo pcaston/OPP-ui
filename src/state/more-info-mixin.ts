@@ -24,8 +24,8 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
 
     private async _handleMoreInfo(ev) {
       if (!this._moreInfoEl) {
-        import("../dialogs/opp-more-info-test");
-        this._moreInfoEl = document.createElement("opp-more-info-test");
+        import("../dialogs/opp-more-info-dialog");
+        this._moreInfoEl = document.createElement("opp-more-info-dialog");
         this.shadowRoot!.appendChild(this._moreInfoEl);
         this.provideOpp(this._moreInfoEl);
       }
