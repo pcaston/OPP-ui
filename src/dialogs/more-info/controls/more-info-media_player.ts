@@ -10,10 +10,10 @@ import "../../../components/op-paper-slider";
 import "../../../components/op-paper-dropdown-menu";
 import OppMediaPlayerEntity from "../../../util/opp-media-player-model";
 
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
-import { isComponentLoaded } from "../../../common/config/is_component_loaded";
+import attributeClassNames from "../../../common/entity/attribute_class_names";
+import isComponentLoaded from "../../../common/config/is_component_loaded";
 import { EventsMixin } from "../../../mixins/events-mixin";
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
+
 
 /*
  * @appliesMixin EventsMixin
@@ -138,7 +138,6 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
             on-change="volumeSliderChanged"
             class="flex"
             ignore-bar-touch=""
-            dir="{{rtl}}"
           >
           </op-paper-slider>
         </div>
@@ -228,11 +227,6 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
       ttsMessage: {
         type: String,
         value: "",
-      },
-
-      rtl: {
-        type: String,
-        computed: "_computeRTLDirection(opp)",
       },
     };
   }
@@ -413,10 +407,6 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
     });
     this.ttsMessage = "";
     this.$.ttsInput.focus();
-  }
-
-  _computeRTLDirection(opp) {
-    return computeRTLDirection(opp);
   }
 }
 

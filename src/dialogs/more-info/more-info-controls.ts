@@ -60,8 +60,7 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
           margin: 0 -24px -21px;
         }
 
-        :host([rtl]) app-toolbar {
-          direction: rtl;
+        :host('ltr') app-toolbar {
           text-align: right;
         }
       </style>

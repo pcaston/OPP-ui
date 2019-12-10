@@ -60,8 +60,8 @@ class OpChartBase extends mixinBehaviors(
           width: 200px;
           transition: opacity 0.15s ease-in-out;
         }
-        :host([rtl]) .chartTooltip {
-          direction: rtl;
+        :host('ltr') .chartTooltip {
+          direction: 'ltr';
         }
         .chartLegend ul,
         .chartTooltip ul {
@@ -102,7 +102,7 @@ class OpChartBase extends mixinBehaviors(
           margin-right: 4px;
           width: 10px;
         }
-        :host([rtl]) .chartTooltip em {
+        :host('ltr') .chartTooltip em {
           margin-right: inherit;
           margin-left: 4px;
         }
@@ -176,10 +176,6 @@ class OpChartBase extends mixinBehaviors(
         }),
       },
       unit: Object,
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
     };
   }
 

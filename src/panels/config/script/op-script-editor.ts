@@ -16,8 +16,6 @@ import computeObjectId from "../../../common/entity/compute_object_id";
 import computeStateName from "../../../common/entity/compute_state_name";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
-import { computeRTL } from "../../../common/util/compute_rtl";
-
 function ScriptEditor(mountEl, props, mergeEl) {
   return render(h(Script, props), mountEl, mergeEl);
 }
@@ -113,7 +111,6 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
           icon="opp:content-save"
           title="Save"
           on-click="saveScript"
-          rtl$="[[rtl]]"
         ></paper-fab>
       </op-app-layout>
     `;
@@ -163,12 +160,6 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
       _renderScheduled: {
         type: Boolean,
         value: false,
-      },
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -291,10 +282,6 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
 
   computeName(script) {
     return script && computeStateName(script);
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 

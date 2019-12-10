@@ -17,7 +17,6 @@ import "./op-logbook-data";
 import "./op-logbook";
 
 import formatDate from "../../common/datetime/format_date";
-import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
  */
@@ -56,7 +55,7 @@ class OpPanelLogbook extends PolymerElement {
           }
         }
 
-        :host([rtl]) paper-dropdown-menu {
+        :host('ltr') paper-dropdown-menu {
           text-align: right;
         }
 
@@ -198,12 +197,6 @@ class OpPanelLogbook extends PolymerElement {
       datePicker: {
         type: Object,
       },
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
     };
   }
 
@@ -240,10 +233,6 @@ class OpPanelLogbook extends PolymerElement {
 
   refreshLogbook() {
     this.shadowRoot.querySelector("op-logbook-data").refreshLogbook();
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 

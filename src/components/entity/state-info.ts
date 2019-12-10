@@ -25,7 +25,7 @@ class StateInfo extends PolymerElement {
           float: left;
         }
 
-        :host([rtl]) state-badge {
+        :host('ltr') state-badge {
           float: right;
         }
 
@@ -33,7 +33,7 @@ class StateInfo extends PolymerElement {
           margin-left: 56px;
         }
 
-        :host([rtl]) .info {
+        :host('ltr') .info {
           margin-right: 56px;
           margin-left: 0;
           text-align: right;
