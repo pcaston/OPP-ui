@@ -11,8 +11,6 @@ import "../../../components/op-card";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
-import { computeRTL } from "../../../common/util/compute_rtl";
-
 let registeredDialog = false;
 
 /*
@@ -81,7 +79,6 @@ class OpUserPicker extends EventsMixin(
           icon="opp:plus"
           title="[['ui.panel.config.users.picker.add_user']]"
           on-click="_addUser"
-          rtl$="[[rtl]]"
         ></paper-fab>
       </opp-subpage>
     `;
@@ -91,12 +88,6 @@ class OpUserPicker extends EventsMixin(
     return {
       opp: Object,
       users: Array,
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
     };
   }
 
@@ -124,10 +115,6 @@ class OpUserPicker extends EventsMixin(
 
   _computeGroup(user) {
     return `groups.${user.group_ids[0]}`;
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 
   _addUser() {

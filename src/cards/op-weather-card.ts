@@ -50,7 +50,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           color: var(--secondary-text-color);
         }
 
-        :host([rtl]) .name {
+        :host('ltr') .name {
           margin-left: 0px;
           margin-right: 16px;
         }
@@ -68,7 +68,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           margin-right: 32px;
         }
 
-        :host([rtl]) .main {
+        :host('ltr') .main {
           margin-right: 0px;
         }
 
@@ -78,7 +78,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           margin-right: 8px;
         }
 
-        :host([rtl]) .main opp-icon {
+        :host('ltr') .main opp-icon {
           margin-right: 0px;
         }
 
@@ -88,8 +88,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           position: relative;
         }
 
-        :host([rtl]) .main .temp {
-          direction: ltr;
+        :host('ltr') .main .temp {
+          direction: 'ltr';
           margin-right: 28px;
         }
 
@@ -104,8 +104,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           display: inline-block;
         }
 
-        :host([rtl]) .measurand {
-          direction: ltr;
+        :host('ltr') .measurand {
+          direction: 'ltr';
         }
 
         .forecast {
@@ -124,8 +124,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           text-align: center;
         }
 
-        :host([rtl]) .forecast .temp {
-          direction: ltr;
+        :host('ltr') .forecast .temp {
+          direction: 'ltr';
         }
 
         .weekday {
@@ -138,8 +138,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           color: var(--secondary-text-color);
         }
 
-        :host([rtl]) .precipitation {
-          direction: ltr;
+        :host('ltr') .precipitation {
+          direction: 'ltr';
         }
       </style>
       <op-card>
@@ -243,11 +243,6 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
       forecast: {
         type: Array,
         computed: "computeForecast(stateObj.attributes.forecast)",
-      },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: false,
       },
     };
   }

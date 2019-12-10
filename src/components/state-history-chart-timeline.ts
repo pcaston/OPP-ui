@@ -51,10 +51,6 @@ class StateHistoryChartTimeline extends PolymerElement {
         value: false,
         reflectToAttribute: true,
       },
-      rtl: {
-        reflectToAttribute: true,
-        computed: false,
-      },
     };
   }
 

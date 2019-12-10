@@ -17,7 +17,6 @@ import "../../../components/op-paper-dropdown-menu";
 import "../../../components/op-switch";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
 import { OpenPeerPower } from "../../../types";
 import {
   ClimateEntity,
@@ -72,8 +71,6 @@ class MoreInfoClimate extends LitElement {
     const temperatureStepSize =
       stateObj.attributes.target_temp_step ||
       (Opp.config.unit_system.temperature.indexOf("F") === -1 ? 0.5 : 1);
-
-    const rtlDirection = computeRTLDirection(Opp);
 
     return html`
       <div
@@ -150,7 +147,6 @@ class MoreInfoClimate extends LitElement {
                     step="1"
                     pin
                     ignore-bar-touch
-                    dir=${rtlDirection}
                     .min=${stateObj.attributes.min_humidity}
                     .max=${stateObj.attributes.max_humidity}
                     .secondaryProgress=${stateObj.attributes.max_humidity}
