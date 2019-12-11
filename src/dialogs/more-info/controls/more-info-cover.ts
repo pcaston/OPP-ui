@@ -6,8 +6,8 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/op-cover-tilt-controls";
 import "../../../components/op-labeled-slider";
 import CoverEntity from "../../../util/cover-model";
-import { featureClassNames } from "../../../common/entity/feature_class_names";
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+import featureClassNames from "../../../common/entity/feature_class_names";
+import attributeClassNames from "../../../common/entity/attribute_class_names";
 
 const FEATURE_CLASS_NAMES = {
   128: "has-set_tilt_position",
