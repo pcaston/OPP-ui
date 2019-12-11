@@ -29,6 +29,7 @@ import {
   CLIMATE_SUPPORT_PRESET_MODE,
   compareClimateHvacModes,
 } from "../../../data/climate";
+
 import { fireEvent } from "../../../common/dom/fire_event";
 import { classMap } from "lit-html/directives/class-map";
 
