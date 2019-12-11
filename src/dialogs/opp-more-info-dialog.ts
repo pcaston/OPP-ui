@@ -204,4 +204,4 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
     this.notifyResize();
   }
 }
-customElements.define("op-more-info-dialog", OpMoreInfoDialog);
+customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
