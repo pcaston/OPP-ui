@@ -10,7 +10,7 @@ import "../../../components/op-color-picker";
 import "../../../components/op-labeled-slider";
 import "../../../components/op-paper-dropdown-menu";
 
-import { featureClassNames } from "../../../common/entity/feature_class_names";
+import featureClassNames from "../../../common/entity/feature_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
 const FEATURE_CLASS_NAMES = {
