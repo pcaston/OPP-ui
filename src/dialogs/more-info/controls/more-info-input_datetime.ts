@@ -7,7 +7,7 @@ import "@vaadin/vaadin-date-picker/theme/material/vaadin-date-picker";
 import "../../../components/op-relative-time";
 import "../../../components/paper-time-input";
 
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+import attributeClassNames from "../../../common/entity/attribute_class_names";
 
 class DatetimeInput extends PolymerElement {
   static get template() {
