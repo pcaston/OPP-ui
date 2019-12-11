@@ -17,7 +17,6 @@ import "../../../components/op-icon-next";
 
 import NavigateMixin from "../../../mixins/navigate-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
-import { computeRTL } from "../../../common/util/compute_rtl";
 
 /*
  * @appliesMixin NavigateMixin
@@ -48,11 +47,6 @@ class OpAutomationPicker extends NavigateMixin(PolymerElement) {
         paper-fab[is-wide] {
           bottom: 24px;
           right: 24px;
-        }
-
-        paper-fab[rtl] {
-          right: auto;
-          left: 16px;
         }
 
         paper-fab[rtl][is-wide] {
@@ -121,7 +115,6 @@ class OpAutomationPicker extends NavigateMixin(PolymerElement) {
           icon="opp:plus"
           title="[['ui.panel.config.automation.picker.add_automation']]"
           on-click="addAutomation"
-          rtl$="[[rtl]]"
         ></paper-fab>
       </op-app-layout>
     `;
@@ -139,12 +132,6 @@ class OpAutomationPicker extends NavigateMixin(PolymerElement) {
 
       isWide: {
         type: Boolean,
-      },
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -172,10 +159,6 @@ class OpAutomationPicker extends NavigateMixin(PolymerElement) {
 
   _backTapped() {
     history.back();
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 

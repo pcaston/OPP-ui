@@ -16,7 +16,6 @@ import "../../resources/op-date-picker-style";
 import "../../resources/op-style";
 
 import formatDate from "../../common/datetime/format_date";
-import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
 
@@ -43,7 +42,7 @@ class OpPanelHistory extends PolymerElement {
           }
         }
 
-        :host([rtl]) paper-dropdown-menu {
+        :host('ltr') paper-dropdown-menu {
           text-align: right;
         }
 
@@ -145,12 +144,6 @@ class OpPanelHistory extends PolymerElement {
         type: String,
         value: "date",
       },
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
     };
   }
 
@@ -190,10 +183,6 @@ class OpPanelHistory extends PolymerElement {
       default:
         return 1;
     }
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 

@@ -7,7 +7,6 @@ import formatTime from "../../common/datetime/format_time";
 import formatDate from "../../common/datetime/format_date";
 import { EventsMixin } from "../../mixins/events-mixin";
 import domainIcon from "../../common/entity/domain_icon";
-import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
  * @appliesMixin EventsMixin
@@ -21,7 +20,7 @@ class OpLogbook extends EventsMixin(PolymerElement) {
           display: block;
         }
 
-        :host([rtl]) {
+        :host('ltr') {
           direction: ltr;
         }
 
@@ -36,8 +35,8 @@ class OpLogbook extends EventsMixin(PolymerElement) {
           color: var(--secondary-text-color);
         }
 
-        :host([rtl]) .date {
-          direction: rtl;
+        :host('ltr') .date {
+          direction: 'ltr';
         }
 
         iron-icon {
@@ -92,11 +91,6 @@ class OpLogbook extends EventsMixin(PolymerElement) {
         type: Array,
         value: [],
       },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
     };
   }
 
@@ -121,10 +115,6 @@ class OpLogbook extends EventsMixin(PolymerElement) {
 
   _computeIcon(domain) {
     return domainIcon(domain);
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 
   entityClicked(ev) {

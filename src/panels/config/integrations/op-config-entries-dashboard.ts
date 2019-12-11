@@ -14,7 +14,6 @@ import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import "../../../components/op-icon-next";
 
-import { computeRTL } from "../../../common/util/compute_rtl";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
@@ -147,7 +146,6 @@ class OpConfigManagerDashboard extends
           title="[['ui.panel.config.integrations.new']]"
           on-click="_createFlow"
           is-wide$="[[isWide]]"
-          rtl$="[[rtl]]"
         ></paper-fab>
       </opp-subpage>
     `;
@@ -175,12 +173,6 @@ class OpConfigManagerDashboard extends
       progress: Array,
 
       handlers: Array,
-
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(opp)",
-      },
     };
   }
 
@@ -232,10 +224,6 @@ class OpConfigManagerDashboard extends
 
   _handleMoreInfo(ev) {
     this.fire("opp-more-info", { entityId: ev.model.item.entity_id });
-  }
-
-  _computeRTL(opp) {
-    return computeRTL(opp);
   }
 }
 
