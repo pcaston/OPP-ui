@@ -63,14 +63,14 @@ export default (
       display = "state.zwave.default ${stateObj.state}";
         }
   } else {
-    display = "state.${domain}.${stateObj.state}";
+    display = `state.${domain}.${stateObj.state}`;
   }
 
   // Fall back to default, component backend translation, or raw state if nothing else matches.
   if (!display) {
     display =
-      "state.default.${stateObj.state}" ||
-      "component.${domain}.state.${stateObj.state}" ||
+      `state.default.${stateObj.state}` ||
+      `component.${domain}.state.${stateObj.state}` ||
       stateObj.state;
   }
 

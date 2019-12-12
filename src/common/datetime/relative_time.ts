@@ -18,25 +18,24 @@ export default function relativeTime(
   const tense = delta >= 0 ? "past" : "future";
   delta = Math.abs(delta);
 
-  let timeDesc;
+  let timeDesc: string;
 
   for (let i = 0; i < tests.length; i++) {
     if (delta < tests[i]) {
       delta = Math.floor(delta);
-      timeDesc = "relative_time.duration.${langKey[i]} count ${delta}"
+      timeDesc = `${langKey[i]} count ${delta}`
       break;
     }
 
     delta /= tests[i];
   }
 
-  if (timeDesc === undefined) {
+  if (timeDesc! === undefined) {
     delta = Math.floor(delta);
-    debugger;
-    timeDesc = "relative_time.duration.week count ${delta}"
+    timeDesc = `week count ${delta}`
   }
 
   return options.includeTense === false
     ? timeDesc
-    : "ui.components.relative_time.${tense} time ${timeDesc}";
+    : `${tense} time ${timeDesc}`;
 }

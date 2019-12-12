@@ -18,7 +18,6 @@ const defaultConnectionOptions: ConnectionOptions = {
 };
 
 export async function createConnection(options?: Partial<ConnectionOptions>) {
-  debugger;
   const connOptions: ConnectionOptions = Object.assign(
     {},
     defaultConnectionOptions,
