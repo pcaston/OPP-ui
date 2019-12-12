@@ -16,7 +16,7 @@ import formatTime from "../../../common/datetime/format_time";
 @customElement("more-info-sun")
 export class MoreInfoSun extends LitElement {
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property() public stateObj?: OppEntity;
+  @property() public stateObj?: SunEntity;
 
   protected render(): TemplateResult | void {
     if (!this.opp || !this.stateObj) {
@@ -34,8 +34,8 @@ export class MoreInfoSun extends LitElement {
             <div class="key">
               <span
                 >${item === "ris"
-                  ? "ui.dialogs.more_info_control.sun.rising"
-                  : "ui.dialogs.more_info_control.sun.setting"
+                  ? "Rising"
+                  : "Setting"
                     }</span
               >
               <op-relative-time
@@ -54,7 +54,7 @@ export class MoreInfoSun extends LitElement {
       })}
       <div class="row">
         <div class="key">
-          "ui.dialogs.more_info_control.sun.elevation"
+          Elevation
         </div>
         <div class="value">${this.stateObj.attributes.elevation}</div>
       </div>
@@ -70,11 +70,5 @@ export class MoreInfoSun extends LitElement {
         justify-content: space-between;
       }
     `;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    "more-info-sun": MoreInfoSun;
   }
 }
