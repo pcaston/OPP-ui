@@ -10,7 +10,7 @@ import "../../../components/op-paper-dropdown-menu";
 import "../../../components/op-switch";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+import attributeClassNames from "../../../common/entity/attribute_class_names";
 
 
 /*
