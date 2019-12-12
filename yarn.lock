@@ -572,6 +572,21 @@
     "@material/feature-targeting" "^0.44.1"
     "@material/theme" "^1.1.0"
 
+"@material/fab@=5.0.0-canary.5729943ba.0":
+  version "5.0.0-canary.5729943ba.0"
+  resolved "https://registry.yarnpkg.com/@material/fab/-/fab-5.0.0-canary.5729943ba.0.tgz#6ea9a017be75969a3acf69a0dd4a341cee7a681a"
+  integrity sha512-GyGdW7rnjnV8nxbiQ5bTqRtCAux6Y+z46hLLmNp4mOFe/irv0KqNukR+xz8PXevct/SKMPPMU1SrLHYxKOxQ1Q==
+  dependencies:
+    "@material/animation" "5.0.0-canary.5729943ba.0"
+    "@material/elevation" "5.0.0-canary.5729943ba.0"
+    "@material/feature-targeting" "5.0.0-canary.5729943ba.0"
+    "@material/ripple" "5.0.0-canary.5729943ba.0"
+    "@material/rtl" "5.0.0-canary.5729943ba.0"
+    "@material/shape" "5.0.0-canary.5729943ba.0"
+    "@material/theme" "5.0.0-canary.5729943ba.0"
+    "@material/touch-target" "5.0.0-canary.5729943ba.0"
+    "@material/typography" "5.0.0-canary.5729943ba.0"
+
 "@material/feature-targeting@5.0.0-canary.5729943ba.0":
   version "5.0.0-canary.5729943ba.0"
   resolved "https://registry.npmjs.org/@material/feature-targeting/-/feature-targeting-5.0.0-canary.5729943ba.0.tgz#c5f3302c3875b35d9488338f18a1c1e80f3e5562"
@@ -611,6 +626,28 @@
     "@material/mwc-base" "^0.5.0"
     "@material/mwc-icon" "^0.5.0"
     "@material/mwc-ripple" "^0.5.0"
+
+"@material/mwc-fab@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@material/mwc-fab/-/mwc-fab-0.11.1.tgz#a00cded77e921f1f17c061504f8e845b6864fc44"
+  integrity sha512-Sqci0kxAYEvTuzRQDq+dnW76w2tAkKWHaYLSXv2U74W+GLRkzpABiC8hsyzv2ClRr7sWFmUDZUY4LhBXUiRg9Q==
+  dependencies:
+    "@material/fab" "=5.0.0-canary.5729943ba.0"
+    "@material/mwc-base" "^0.11.1"
+    "@material/mwc-icon" "^0.11.1"
+    "@material/mwc-ripple" "^0.11.1"
+    lit-element "^2.2.1"
+    lit-html "^1.1.2"
+    tslib "^1.10.0"
+
+"@material/mwc-icon@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@material/mwc-icon/-/mwc-icon-0.11.1.tgz#1dc9c4225a0f8e339116056268925c37d77d1a38"
+  integrity sha512-nc+RuokDU43fx3fOMg6yKKguLgDA9MjscEW2BMknsSufiNuok8DMzXAHd9ZDhfX7Kf6bjwj7EDwaPiUP6UX7qA==
+  dependencies:
+    "@material/mwc-base" "^0.11.1"
+    lit-element "^2.2.1"
+    tslib "^1.10.0"
 
 "@material/mwc-icon@^0.5.0":
   version "0.5.0"
@@ -685,6 +722,13 @@
   resolved "https://registry.npmjs.org/@material/rtl/-/rtl-0.42.0.tgz#1836e78186c2d8b996f6fbf97adab203535335bc"
   integrity sha512-VrnrKJzhmspsN8WXHuxxBZ69yM5IwhCUqWr1t1eNfw3ZEvEj7i1g3P31HGowKThIN1dc1Wh4LE14rCISWCtv5w==
 
+"@material/shape@5.0.0-canary.5729943ba.0":
+  version "5.0.0-canary.5729943ba.0"
+  resolved "https://registry.yarnpkg.com/@material/shape/-/shape-5.0.0-canary.5729943ba.0.tgz#039ab70bb1ae6b5517c8ce11d1035446f05075fd"
+  integrity sha512-Owg5bWUawEFjVLZGyBytazzxdbwSUygWQORciQA+a1UdSakkJ6VlQVt8uXJ+FoF2nBiQXL2SNxS7HKWeXWcsSA==
+  dependencies:
+    "@material/feature-targeting" "5.0.0-canary.5729943ba.0"
+
 "@material/shape@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npmjs.org/@material/shape/-/shape-1.1.1.tgz#7a5368694bc3555e69ea547950904b46fa1024bf"
@@ -720,6 +764,20 @@
   integrity sha512-YYUV9Rhbx4r/EMb/zoOYJUWjhXChNaLlH1rqt3vpNVyxRcxGqoVMGp5u1XALBCFiD9dACPKLIkKyRYa928nmPQ==
   dependencies:
     "@material/feature-targeting" "^0.44.1"
+
+"@material/touch-target@5.0.0-canary.5729943ba.0":
+  version "5.0.0-canary.5729943ba.0"
+  resolved "https://registry.yarnpkg.com/@material/touch-target/-/touch-target-5.0.0-canary.5729943ba.0.tgz#9b10fd81cb4e9cf8c58252a0b72a89e4b047dda1"
+  integrity sha512-GvQl9OUWmYc/FylRolMYw1KG4XCrmDBir3VjZ36uYcCv/CChcdeKnd8HckDXnbnPi5P2y6emexlnSSzjZVJQ5Q==
+  dependencies:
+    "@material/feature-targeting" "5.0.0-canary.5729943ba.0"
+
+"@material/typography@5.0.0-canary.5729943ba.0":
+  version "5.0.0-canary.5729943ba.0"
+  resolved "https://registry.yarnpkg.com/@material/typography/-/typography-5.0.0-canary.5729943ba.0.tgz#fe38866887e648e59928253f8ae1c4ffac583aed"
+  integrity sha512-FxQzURmUVuVtN2A0cx27+Jun17vmxTMRBS69adBiQmQHoRJGuZXw0zTLW6Wjgv8AU264bZZmf0uO/Ip7p+9sUg==
+  dependencies:
+    "@material/feature-targeting" "5.0.0-canary.5729943ba.0"
 
 "@material/typography@^1.0.0":
   version "1.0.0"
