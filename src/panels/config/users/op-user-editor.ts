@@ -70,7 +70,7 @@ class OpUserEditor extends LitElement {
                   ${GROUPS.map(
                     (groupId) => html`
                       <option value=${groupId}>
-                        `groups.${groupId}`
+                        groups.${groupId}
                       </option>
                     `
                   )}
