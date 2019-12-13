@@ -6,21 +6,18 @@ import {
   CSSResult,
   property,
 } from "lit-element";
-import "@polymer/paper-item/paper-icon-item";
-import "@polymer/paper-item/paper-item-body";
 
 import { OpenPeerPower } from "../../../types";
 import {
   EntityRegistryEntry,
   computeEntityRegistryName,
-  updateEntityRegistryEntry,
-  removeEntityRegistryEntry,
   subscribeEntityRegistry,
 } from "../../../data/entity_registry";
 import "../../../layouts/opp-subpage";
 import "../../../layouts/opp-loading-screen";
 import "../../../components/op-card";
 import "../../../components/opp-icon";
+import "../../../components/op-switch";
 import domainIcon from "../../../common/entity/domain_icon";
 import stateIcon from "../../../common/entity/state_icon";
 import computeDomain from "../../../common/entity/compute_domain";
@@ -30,13 +27,88 @@ import {
   loadEntityRegistryDetailDialog,
 } from "./show-dialog-entity-registry-detail";
 import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
-import { compare } from "../../../common/string/compare";
+import { OpSwitch } from "../../../components/op-switch";
+import memoize from "memoize-one";
+// tslint:disable-next-line
+import {
+  DataTableColumnContainer,
+  RowClickedEvent,
+} from "../../../components/data-table/op-data-table";
 
 class OpConfigEntityRegistry extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _entities?: EntityRegistryEntry[];
+  @property() private _showDisabled = false;
   private _unsubEntities?: UnsubscribeFunc;
+
+  private _columns = memoize(
+    (_language): DataTableColumnContainer => {
+      return {
+        icon: {
+          title: "",
+          type: "icon",
+          template: (icon) => html`
+            <op-icon slot="item-icon" .icon=${icon}></op-icon>
+          `,
+        },
+        name: {
+          title: 
+            "ui.panel.config.entity_registry.picker.headers.name",
+          sortable: true,
+          filterable: true,
+          direction: "asc",
+        },
+        entity_id: {
+          title:
+            "ui.panel.config.entity_registry.picker.headers.entity_id",
+          sortable: true,
+          filterable: true,
+        },
+        platform: {
+          title: "ui.panel.config.entity_registry.picker.headers.integration",
+          sortable: true,
+          filterable: true,
+          template: (platform) =>
+            html`
+              component.${platform}.config.title ||
+                platform}
+            `,
+        },
+        disabled_by: {
+          title: 
+            "ui.panel.config.entity_registry.picker.headers.enabled"
+          ,
+          type: "icon",
+          template: (disabledBy) => html`
+            <op-icon
+              slot="item-icon"
+              .icon=${disabledBy ? "opp:cancel" : "opp:check-circle"}
+            ></op-icon>
+          `,
+        },
+      };
+    }
+  );
+
+  private _filteredEntities = memoize(
+    (entities: EntityRegistryEntry[], showDisabled: boolean) =>
+      (showDisabled
+        ? entities
+        : entities.filter((entity) => !Boolean(entity.disabled_by))
+      ).map((entry) => {
+        const state = this.opp!.states[entry.entity_id];
+        return {
+          ...entry,
+          icon: state
+            ? stateIcon(state)
+            : domainIcon(computeDomain(entry.entity_id)),
+          name:
+            computeEntityRegistryName(this.opp!, entry) ||
+            "state.default.unavailable",
+        };
+      })
+  );
 
   public disconnectedCallback() {
     super.disconnectedCallback();
@@ -55,11 +127,12 @@ class OpConfigEntityRegistry extends LitElement {
       <opp-subpage
         header="ui.panel.config.entity_registry.caption"
       >
-        <op-config-section .isWide=${this.isWide}>
-          <span slot="header">
+      <div class="content">
+        <div class="intro">
+          <h2>
             "ui.panel.config.entity_registry.picker.header"
-          </span>
-          <span slot="introduction">
+          </h2>
+          <p>
             "ui.panel.config.entity_registry.picker.introduction"
             <p>
               "ui.panel.config.entity_registry.picker.introduction2"
@@ -67,33 +140,21 @@ class OpConfigEntityRegistry extends LitElement {
             <a href="/config/integrations">
               "ui.panel.config.entity_registry.picker.integrations_page"
             </a>
-          </span>
-          <op-card>
-            ${this._entities.map((entry) => {
-              const state = this.opp!.states[entry.entity_id];
-              return html`
-                <paper-icon-item @click=${this._openEditEntry} .entry=${entry}>
-                  <opp-icon
-                    slot="item-icon"
-                    .icon=${state
-                      ? stateIcon(state)
-                      : domainIcon(computeDomain(entry.entity_id))}
-                  ></opp-icon>
-                  <paper-item-body two-line>
-                    <div class="name">
-                      ${computeEntityRegistryName(this.opp!, entry) ||
-                        "ui.panel.config.entity_registry.picker.unavailable"
-                    </div>
-                    <div class="secondary entity-id">
-                      ${entry.entity_id}
-                    </div>
-                  </paper-item-body>
-                  <div class="platform">${entry.platform}</div>
-                </paper-icon-item>
-              `;
-            })}
-          </op-card>
-        </op-config-section>
+            <op-switch
+              ?checked=${this._showDisabled}
+              @change=${this._showDisabledChanged}
+              "ui.panel.config.entity_registry.picker.show_disabled"
+            </op-switch>
+          </div>
+        </p>
+        <op-data-table
+          .columns=${this._columns(this.opp.language)}
+          .data=${this._filteredEntities(this._entities, this._showDisabled)}
+          @row-click=${this._openEditEntry}
+          id="entity_id"
+        >
+        </op-data-table>
+        </div>
       </opp-subpage>
     `;
   }
@@ -106,47 +167,29 @@ class OpConfigEntityRegistry extends LitElement {
   protected updated(changedProps) {
     super.updated(changedProps);
     if (!this._unsubEntities) {
-      this._unsubEntities = subscribeEntityRegistry(this.opp, (entities) => {
-        this._entities = entities.sort((ent1, ent2) =>
-          compare(ent1.entity_id, ent2.entity_id)
-        );
-      });
+      this._unsubEntities = subscribeEntityRegistry(
+        this.opp.connection,
+        (entities) => {
+          this._entities = entities;
+        }
+      );
     }
   }
 
-  private _openEditEntry(ev: MouseEvent): void {
-    const entry = (ev.currentTarget! as any).entry;
+  private _showDisabledChanged(ev: Event) {
+    this._showDisabled = (ev.target as OpSwitch).checked;
+  }
+
+  private _openEditEntry(ev: CustomEvent): void {
+    const entryId = (ev.detail as RowClickedEvent).id;
+    const entry = this._entities!.find(
+      (entity) => entity.entity_id === entryId
+    );
+    if (!entry) {
+      return;
+    }
     showEntityRegistryDetailDialog(this, {
       entry,
-      updateEntry: async (updates) => {
-        const updated = await updateEntityRegistryEntry(
-          this.opp!,
-          entry.entity_id,
-          updates
-        );
-        this._entities = this._entities!.map((ent) =>
-          ent === entry ? updated : ent
-        );
-      },
-      removeEntry: async () => {
-        if (
-          !confirm(`Are you sure you want to delete this entry?
-
-Deleting an entry will not remove the entity from Open Peer Power. To do this, you will need to remove the integration "${
-            entry.platform
-          }" from Open Peer Power.`)
-        ) {
-          return false;
-        }
-
-        try {
-          await removeEntityRegistryEntry(this.opp!, entry.entity_id);
-          this._entities = this._entities!.filter((ent) => ent !== entry);
-          return true;
-        } catch (err) {
-          return false;
-        }
-      },
     });
   }
 
@@ -155,15 +198,40 @@ Deleting an entry will not remove the entity from Open Peer Power. To do this, y
       a {
         color: var(--primary-color);
       }
-      op-card {
-        direction: ltr;
-        overflow: hidden;
+      h2 {
+        margin-top: 0;
+        font-family: var(--paper-font-display1_-_font-family);
+        -webkit-font-smoothing: var(
+          --paper-font-display1_-_-webkit-font-smoothing
+        );
+        font-size: var(--paper-font-display1_-_font-size);
+        font-weight: var(--paper-font-display1_-_font-weight);
+        letter-spacing: var(--paper-font-display1_-_letter-spacing);
+        line-height: var(--paper-font-display1_-_line-height);
+        opacity: var(--dark-primary-opacity);
       }
-      paper-icon-item {
-        cursor: pointer;
+      p {
+        font-family: var(--paper-font-subhead_-_font-family);
+        -webkit-font-smoothing: var(
+          --paper-font-subhead_-_-webkit-font-smoothing
+        );
+        font-size: var(--paper-font-subhead_-_font-size);
+        font-weight: var(--paper-font-subhead_-_font-weight);
+        line-height: var(--paper-font-subhead_-_line-height);
+        opacity: var(--dark-primary-opacity);
       }
-      opp-icon {
-        margin-left: 8px;
+      .intro {
+        padding: 24px 16px 0;
+      }
+      .content {
+        padding: 4px;
+      }
+      op-data-table {
+        margin-bottom: 24px;
+        margin-top: 0px;
+      }
+      op-switch {
+        margin-top: 16px;
       }
     `;
   }
