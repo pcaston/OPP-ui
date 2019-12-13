@@ -34,8 +34,8 @@ export class HuiConfiguratorNotificationItem extends LitElement {
 
         <mwc-button slot="actions" @click="${this._handleClick}"
           >
-            `state.configurator.${this.notification.state}`
-          }</mwc-button
+            state.configurator.${this.notification.state}
+          </mwc-button
         >
       </hui-notification-item-template>
     `;

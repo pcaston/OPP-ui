@@ -95,7 +95,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
     if (!this.opp || !this._config) {
       return html``;
     }
-    const stateObj = this.opp.states[this._config.entity] as ClimateEntity;
+    const stateObj = this.opp.states![this._config.entity] as ClimateEntity;
 
     if (!stateObj) {
       return html`
@@ -133,8 +133,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
                   stateObj.attributes.current_temperature
                     ? html`
                         <span class="uom"
-                          >${this.opp.config.unit_system.temperature}</span
-                        >
+                          >${this.opp.config!.unit_system.temperature}</span>
                       `
                     : ""
                 }
@@ -142,9 +141,9 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
             </div>
             <div class="climate-info">
             <div id="set-temperature"></div>
-            <div class="current-mode">
-              `state.climate.${stateObj.state}`
-            }</div>
+              <div class="current-mode">
+              state.climate.${stateObj.state}
+              </div>
             <div class="modes">
               ${(stateObj.attributes.operation_list || []).map((modeItem) =>
                 this._renderIcon(modeItem, mode)
@@ -175,11 +174,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
-      applyThemesOnElement(this, this.opp.themes, this._config.theme);
-    }
-
-    const stateObj = this.opp.states[this._config.entity] as ClimateEntity;
+    const stateObj = this.opp.states![this._config.entity] as ClimateEntity;
 
     if (!stateObj) {
       return;
@@ -189,7 +184,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       this._jQuery &&
       // If jQuery changed, we just rendered in firstUpdated
       !changedProps.has("_jQuery") &&
-      (!oldOpp || oldOpp.states[this._config.entity] !== stateObj)
+      (!oldOpp || oldOpp.states![this._config.entity] !== stateObj)
     ) {
       const [sliderValue, uiValue] = this._genSliderValue(stateObj);
 
@@ -201,16 +196,16 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private get _stepSize(): number {
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (stateObj.attributes.target_temp_step) {
       return stateObj.attributes.target_temp_step;
     }
-    return this.opp!.config.unit_system.temperature === UNIT_F ? 1 : 0.5;
+    return this.opp!.config!.unit_system.temperature === UNIT_F ? 1 : 0.5;
   }
 
   private async _initialLoad(): Promise<void> {
-    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as ClimateEntity;
 
     if (!stateObj) {
       // Card will require refresh to work again
@@ -297,7 +292,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private _setTemperature(e): void {
-    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as ClimateEntity;
     if (
       stateObj.attributes.target_temp_low &&
       stateObj.attributes.target_temp_high
