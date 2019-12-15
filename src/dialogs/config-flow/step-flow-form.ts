@@ -64,7 +64,7 @@ class StepFlowForm extends LitElement {
 
     return html`
       <h2>
-          `component.${step.handler}.config.step.${step.step_id}.title`
+          component.${step.handler}.config.step.${step.step_id}.title
       </h2>
       <div class="content">
         ${this._errorMsg

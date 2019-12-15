@@ -7,6 +7,7 @@ import formatTime from "../datetime/format_time";
 export default (
   stateObj: OppEntity,
 ): string => {
+  debugger;
   let display: string | undefined;
   const domain = computeStateDomain(stateObj);
 
@@ -63,7 +64,7 @@ export default (
       display = "state.zwave.default ${stateObj.state}";
         }
   } else {
-    display = `state.${domain}.${stateObj.state}`;
+    display = `${stateObj.state}`;
   }
 
   // Fall back to default, component backend translation, or raw state if nothing else matches.

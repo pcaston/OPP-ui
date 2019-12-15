@@ -56,7 +56,7 @@ class OpRelativeTime extends PolymerElement {
     if (!this.parsedDateTime) {
       root.innerHTML = "ui.components.relative_time.never";
     } else {
-      root.innerHTML = relativeTime(this.parsedDateTime;
+      root.innerHTML = relativeTime(this.parsedDateTime);
     }
   }
 }
