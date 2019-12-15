@@ -24,11 +24,7 @@ function computeEntityName(opp, entity) {
 /*
  * @appliesMixin EventsMixin
  */
-<<<<<<< HEAD
-class HaDeviceCard extends EventsMixin(PolymerElement) {
-=======
 class OpDeviceCard extends EventsMixin(PolymerElement) {
->>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
   static get template() {
     return html`
       <style>

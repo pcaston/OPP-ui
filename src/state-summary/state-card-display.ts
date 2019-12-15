@@ -80,8 +80,8 @@ class StateCardDisplay extends PolymerElement {
     };
   }
 
-  computeStateDisplay(stateObj, language) {
-    return computeStateDisplay(stateObj, language);
+  computeStateDisplay(stateObj) {
+    return computeStateDisplay(stateObj);
   }
 
   computeClassNames(stateObj) {

@@ -11,11 +11,7 @@ import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
-<<<<<<< HEAD
-class HaConfigEntryPage extends NavigateMixin(
-=======
 class OpConfigEntryPage extends NavigateMixin(
->>>>>>> 120829779afd502f6b2d904b2519a1085a05f132
   EventsMixin(PolymerElement)
 ) {
   static get template() {
