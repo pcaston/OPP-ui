@@ -24,6 +24,7 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
  */
 class MoreInfoControls extends EventsMixin(PolymerElement) {
   static get template() {
+    debugger;
     return html`
       <style include="op-style-dialog">
         app-toolbar {

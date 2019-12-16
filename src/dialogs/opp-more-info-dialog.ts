@@ -19,6 +19,7 @@ import { OpenPeerPower, OppEntity } from '../types';
  */
 class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
   static get template() {
+    debugger;
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
