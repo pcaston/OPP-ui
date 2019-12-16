@@ -347,7 +347,7 @@ class OpChartBase extends mixinBehaviors(
       return value;
     }
     const date = new Date(values[index].value);
-    return formatTime(date);
+    return formatTime(date, "en");
   }
 
   drawChart() {
