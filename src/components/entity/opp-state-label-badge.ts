@@ -142,7 +142,7 @@ export class OppStateLabelBadge extends LitElement {
       case "person":
         return stateIcon(state);
       case "sun":
-        return state.state === "above_horizon"
+        return state.state === "Above Horizon"
           ? domainIcon(domain)
           : "opp:brightness-3";
       case "timer":
