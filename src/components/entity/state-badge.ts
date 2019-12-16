@@ -106,7 +106,7 @@ class StateBadge extends LitElement {
       opp-icon[data-domain="switch"][data-state="on"],
       opp-icon[data-domain="binary_sensor"][data-state="on"],
       opp-icon[data-domain="fan"][data-state="on"],
-      opp-icon[data-domain="sun"][data-state="above_horizon"] {
+      opp-icon[data-domain="sun"][data-state="Above Horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 

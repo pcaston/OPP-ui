@@ -269,8 +269,8 @@
       "on": "[%key:state::default::on%]"
     },
     "sun": {
-      "above_horizon": "Above horizon",
-      "below_horizon": "Below horizon"
+      "Above Horizon": "Above horizon",
+      "Below Horizon": "Below horizon"
     },
     "switch": {
       "off": "[%key:state::default::off%]",
