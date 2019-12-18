@@ -60,7 +60,6 @@ async def main():
                 ))
             #await websocket.send(json.dumps(
             #{"id": 1, "type": "auth/long_lived_access_token", "client_name": "paul", "client_icon": '', "lifespan": 365}
-            #{'id': 2, 'type': 'subscribe_events', 'event_type': 'state_changed'}
         if msg['type'] == 'result' and msg['id'] == 2:
             States = json.dumps(msg)
             if os.path.exists(sName):
@@ -90,7 +89,12 @@ async def main():
             else:
                 with open(vName, 'w') as h:
                     h.write(Services)
-            break
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'state_changed'}
+            ))
+
+        if msg['type'] == 'result' and msg['id'] == 5:
+            print(message)
 
         print(message)
         if message is None:
