@@ -115,7 +115,7 @@ class OpSidebar extends LitElement {
               <paper-icon-item>
                 <opp-icon slot="item-icon" .icon="${panel.icon}"></opp-icon>
                 <span class="item-text"
-                  >`panel.${panel.title}` || panel.title}</span>
+                  >"panel.${panel.title}" || panel.title</span>
               </paper-icon-item>
             </a>
           `
