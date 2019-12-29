@@ -9,7 +9,10 @@ import {
 import { ConnectionOptions, Error } from "./types";
 import * as messages from "./messages";
 
+const DEBUG = false;
 
+const MSG_TYPE_AUTH_REQUIRED = "auth_required";
+const MSG_TYPE_AUTH_INVALID = "auth_invalid";
 const MSG_TYPE_AUTH_OK = "auth_ok";
 
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
@@ -59,6 +62,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       }
     };
 
+    socket.addEventListener("open", handleOpen);
     socket.addEventListener("message", handleMessage);
     socket.addEventListener("close", closeMessage);
     socket.addEventListener("error", closeMessage);

@@ -211,7 +211,6 @@ export class OPPui extends LitElement {
 
       <!-- Main content -->
       <main role="main" class="main-content">
-        <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login .opp="${this.opp}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
@@ -371,14 +370,11 @@ export class OPPui extends LitElement {
 
   protected _loadPage(page: string) {
     switch(page) {
-      case 'view1':
-        import('../components/my-view1').then(() => {
-          // Put code in here that you want to run every time when
-          // navigating to view1 after my-view1 is loaded.
-        });
-        break;
       case 'view_appliances':
-        import('../components/opp-home-view');
+        import('../components/opp-home-view').then(() => {
+          // Put code in here that you want to run every time when
+          // navigating to view1 after view_appliances is loaded.
+        });
         break;
       case 'about':
         import('../components/about-page');
