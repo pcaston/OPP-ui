@@ -23,7 +23,7 @@ import secondsToDuration from "../../common/datetime/seconds_to_duration";
 
 import "../opp-label-badge";
 
-@customElement("opp-state-label-badge")
+@customElement("op-state-label-badge")
 export class OppStateLabelBadge extends LitElement {
   @property({ type : Object }) opp?: OpenPeerPower;
   @property({ type : Object }) state?: OppEntity;
