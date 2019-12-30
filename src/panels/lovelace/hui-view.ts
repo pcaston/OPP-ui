@@ -203,7 +203,7 @@ export class HUIView extends LitElement {
       this._badges.forEach((badge) => {
         const { element, entityId } = badge;
         element.opp = this.opp!;
-        element.state = this.opp!.states[entityId];
+        element.state = this.opp!.states![entityId];
       });
     }
 

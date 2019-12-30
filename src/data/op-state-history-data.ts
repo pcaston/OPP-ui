@@ -7,7 +7,6 @@ import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
 
 /*
- * @appliesMixin LocalizeMixin
  */
 class OpStateHistoryData extends PolymerElement {
   static get properties() {
@@ -67,15 +66,14 @@ class OpStateHistoryData extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  oppChanged(newHass, oldHass) {
-    if (!oldHass && !this._madeFirstCall) {
+  oppChanged(newOpp, oldOpp) {
+    if (!oldOpp && !this._madeFirstCall) {
       this.filterChangedDebouncer(
         this.filterType,
         this.entityId,
         this.startTime,
         this.endTime,
-        this.cacheConfig,
-        this.localize
+        this.cacheConfig
       );
     }
   }
@@ -96,15 +94,11 @@ class OpStateHistoryData extends PolymerElement {
     startTime,
     endTime,
     cacheConfig,
-    localize
   ) {
     if (!this.opp) {
       return;
     }
     if (cacheConfig && !cacheConfig.cacheKey) {
-      return;
-    }
-    if (!localize) {
       return;
     }
     this._madeFirstCall = true;
@@ -121,8 +115,7 @@ class OpStateHistoryData extends PolymerElement {
       if (cacheConfig) {
         data = this.getRecentWithCacheRefresh(
           entityId,
-          cacheConfig,
-          localize
+          cacheConfig
         );
       } else {
         data = getRecent(
