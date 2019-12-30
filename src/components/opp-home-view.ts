@@ -5,7 +5,7 @@ import { OppElement } from "../state/opp-element";
 // These are the elements needed by this element.
 import { OpenPeerPower, OppEntities} from "../types";
 import './appliance-list';
-import '../cards/opp-badges-card';
+import '../cards/op-badges-card';
 import { Appliances } from './appliance-list';
 
 
@@ -59,7 +59,7 @@ export class OppHomeView extends OppElement {
     this.states = this.opp.states!;
     return html`
       <section>
-        <opp-badges-card .opp="${this.opp}" .states="${this.states}"></opp-badges-card>
+        <op-badges-card .opp="${this.opp}" .states="${this.states}"></op-badges-card>
       </section>
       <section>
         <h2>Discovered Appliances</h2>

@@ -4,7 +4,7 @@ import "../components/entity/op-state-label-badge";
 import { OpenPeerPower } from '../types';
 import { OppEntities, OppEntity} from "../types";
 
-@customElement("opp-badges-card")
+@customElement("op-badges-card")
 export class OppBadgesCard extends LitElement {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states?: OppEntities;

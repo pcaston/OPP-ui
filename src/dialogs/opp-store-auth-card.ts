@@ -5,7 +5,7 @@ import {
     property,
 } from "lit-element";
   
-import "../components/entity/opp-state-label-badge"
+import "../components/entity/op-state-label-badge"
 import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
