@@ -49,7 +49,7 @@ class LovelacePanel extends LitElement {
 
   public render(): TemplateResult | void {
     const state = this._state!;
-
+    debugger;
     if (state === "loaded") {
       return html`
         <hui-root

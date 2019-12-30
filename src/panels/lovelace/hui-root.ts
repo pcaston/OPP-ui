@@ -20,12 +20,11 @@ import "@polymer/paper-listbox/paper-listbox";
 import "@polymer/paper-menu-button/paper-menu-button";
 import "@polymer/paper-tabs/paper-tab";
 import "@polymer/paper-tabs/paper-tabs";
-import { OppEntities } from "../../open-peer-power-js-websocket/lib";
+import { OppEntities } from "../../types";
 
 import scrollToTarget from "../../common/dom/scroll-to-target";
 
 import "../../layouts/op-app-layout";
-import "../../components/op-start-voice-button";
 import "../../components/op-paper-icon-button-arrow-next";
 import "../../components/op-paper-icon-button-arrow-prev";
 import "../../components/opp-icon";
@@ -170,9 +169,6 @@ class HUIRoot extends LitElement {
                     @opened-changed="${this._handleNotificationsOpenChanged}"
                     .notifications="${this._notifications}"
                   ></hui-notifications-button>
-                  <op-start-voice-button
-                    .opp="${this.opp}"
-                  ></op-start-voice-button>
                   <paper-menu-button
                     no-animations
                     horizontal-align="right"

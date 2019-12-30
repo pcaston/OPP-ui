@@ -21,7 +21,6 @@ import {
   loadConfigFlowDialog,
   showConfigFlowDialog,
 } from "../../../dialogs/config-flow/show-dialog-config-flow";
-import { localizeConfigFlowTitle } from "../../../data/config_entries";
 
 /*
  * @appliesMixin EventsMixin
@@ -86,7 +85,7 @@ class OpConfigManagerDashboard extends
               <template is="dom-repeat" items="[[progress]]">
                 <div class="config-entry-row">
                   <paper-item-body>
-                    [[_computeActiveFlowTitle(item)]]
+                    [[item]]
                   </paper-item-body>
                   <mwc-button on-click="_continueFlow"
                     >[['ui.panel.config.integrations.configure']]</mwc-button
@@ -196,10 +195,6 @@ class OpConfigManagerDashboard extends
 
   _computeIntegrationTitle(integration) {
     return `component.${integration}.config.title`;
-  }
-
-  _computeActiveFlowTitle(flow) {
-    return localizeConfigFlowTitle(flow);
   }
 
   _computeConfigEntryEntities(opp, configEntry, entities) {

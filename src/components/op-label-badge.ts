@@ -11,8 +11,8 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import "./opp-icon";
 
-@customElement('opp-label-badge')
-export class OppLabelBadge extends LitElement {
+@customElement('op-label-badge')
+export class OpLabelBadge extends LitElement {
   @property( { type : String }  ) value?: string;
   @property( { type : String }  ) icon?: string;
   @property( { type : String }  ) label?: string;
@@ -74,13 +74,13 @@ export class OppLabelBadge extends LitElement {
           position: relative;
           display: block;
           margin: 0 auto;
-          width: var(--opp-label-badge-size, 2.5em);
+          width: var(--op-label-badge-size, 2.5em);
           text-align: center;
-          height: var(--opp-label-badge-size, 2.5em);
-          line-height: var(--opp-label-badge-size, 2.5em);
-          font-size: var(--opp-label-badge-font-size, 1.5em);
+          height: var(--op-label-badge-size, 2.5em);
+          line-height: var(--op-label-badge-size, 2.5em);
+          font-size: var(--op-label-badge-font-size, 1.5em);
           border-radius: 50%;
-          border: 0.1em solid var(--opp-label-badge-color, var(--primary-color));
+          border: 0.1em solid var(--op-label-badge-color, var(--primary-color));
           color: var(--label-badge-text-color, rgb(76, 76, 76));
 
           white-space: nowrap;
@@ -109,8 +109,8 @@ export class OppLabelBadge extends LitElement {
           box-sizing: border-box;
           max-width: 100%;
           display: inline-block;
-          background-color: var(--opp-label-badge-color, var(--primary-color));
-          color: var(--opp-label-badge-label-color, white);
+          background-color: var(--op-label-badge-color, var(--primary-color));
+          color: var(--op-label-badge-label-color, white);
           border-radius: 1em;
           padding: 9% 16% 8% 16%; /* mostly apitalized text, not much descenders => bit more top margin */
           font-weight: 500;
@@ -118,7 +118,7 @@ export class OppLabelBadge extends LitElement {
           text-transform: uppercase;
           text-overflow: ellipsis;
           transition: background-color 0.3s ease-in-out;
-          text-transform: var(--opp-label-badge-label-text-transform, uppercase);
+          text-transform: var(--op-label-badge-label-text-transform, uppercase);
         }
         .label-badge .label.big span {
           font-size: 90%;
@@ -126,9 +126,9 @@ export class OppLabelBadge extends LitElement {
         }
         .badge-container .title {
           margin-top: 1em;
-          font-size: var(--opp-label-badge-title-font-size, 0.9em);
-          width: var(--opp-label-badge-title-width, 5em);
-          font-weight: var(--opp-label-badge-title-font-weight, 400);
+          font-size: var(--op-label-badge-title-font-size, 0.9em);
+          width: var(--op-label-badge-title-width, 5em);
+          font-weight: var(--op-label-badge-title-font-weight, 400);
           overflow: hidden;
           text-overflow: ellipsis;
           line-height: normal;
@@ -150,6 +150,6 @@ export class OppLabelBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-label-badge": OppLabelBadge;
+    "op-label-badge": OpLabelBadge;
   }
 }

@@ -1,5 +1,4 @@
-import { OppEntities } from "../../open-peer-power-js-websocket/lib";
-import { GroupEntity } from "../../types";
+import { OppEntities, GroupEntity } from "../../types";
 
 export default function getGroupEntities(
   entities: OppEntities,

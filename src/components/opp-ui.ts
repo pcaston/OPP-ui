@@ -191,7 +191,6 @@ export class OPPui extends LitElement {
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
@@ -202,8 +201,7 @@ export class OPPui extends LitElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>      
+          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>    
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
@@ -371,7 +369,8 @@ export class OPPui extends LitElement {
   protected _loadPage(page: string) {
     switch(page) {
       case 'view_appliances':
-        import('../components/opp-home-view').then(() => {
+          import('../panels/lovelace/op-panel-lovelace').then(() => {
+          //import('../components/opp-home-view').then(() => {
           // Put code in here that you want to run every time when
           // navigating to view1 after view_appliances is loaded.
         });
