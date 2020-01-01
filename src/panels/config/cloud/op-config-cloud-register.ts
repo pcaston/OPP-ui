@@ -54,19 +54,19 @@ class HaConfigCloudRegister extends EventsMixin(PolymerElement) {
           <span slot="header">Start your free trial</span>
           <div slot="introduction">
             <p>
-              Create an account to start your free one month trial with Home Assistant Cloud. No payment information necessary.
+              Create an account to start your free one month trial with Open Peer Power Cloud. No payment information necessary.
             </p>
             <p>
-              The trial will give you access to all the benefits of Home Assistant Cloud, including:
+              The trial will give you access to all the benefits of Open Peer Power Cloud, including:
             </p>
             <ul>
-              <li>Control of Home Assistant away from home</li>
+              <li>Control of Open Peer Power away from home</li>
               <li>Integration with Google Assistant</li>
               <li>Integration with Amazon Alexa</li>
               <li>Easy integration with webhook-based apps like OwnTracks</li>
             </ul>
             <p>
-              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Home Assistant and Opp.io.
+              This service is run by our partner <a href='https://www.nabucasa.com' target='_blank'>Nabu&nbsp;Casa,&nbsp;Inc</a>, a company founded by the founders of Open Peer Power and Opp.io.
             </p>
 
             <p>

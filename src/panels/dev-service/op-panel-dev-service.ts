@@ -111,7 +111,7 @@ class OpPanelDevService extends PolymerElement {
               opp="[[opp]]"
               value="{{domainService}}"
             ></op-service-picker>
-            <template is="dom-if" if="[[_computeOpsEntity(_attributes)]]">
+            <template is="dom-if" if="[[_computeHasEntity(_attributes)]]">
               <op-entity-picker
                 opp="[[opp]]"
                 value="[[_computeEntityValue(parsedJSON)]]"

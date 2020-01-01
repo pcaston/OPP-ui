@@ -21,7 +21,7 @@ export const configFlowContentStyles = css`
   }
 
   op-markdown {
-    word-break: break-word;
+    overflow-wrap: break-word;
   }
   op-markdown a {
     color: var(--primary-color);

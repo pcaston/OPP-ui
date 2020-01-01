@@ -9,7 +9,7 @@ import {
 } from "lit-element";
 import "@material/mwc-button";
 
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 
 import { callService } from "../common/call-service";
 import { EntityRow, CallServiceConfig } from "../entity-rows/types";
@@ -35,7 +35,7 @@ class HuiCallServiceRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <opp-icon .icon="${this._config.icon}"></opp-icon>
+      <op-icon .icon="${this._config.icon}"></op-icon>
       <div class="flex">
         <div>${this._config.name}</div>
         <mwc-button @click="${this._callService}"
@@ -51,7 +51,7 @@ class HuiCallServiceRow extends LitElement implements EntityRow {
         display: flex;
         align-items: center;
       }
-      opp-icon {
+      op-icon {
         padding: 8px;
         color: var(--paper-item-icon-color);
       }

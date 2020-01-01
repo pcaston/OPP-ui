@@ -1,7 +1,6 @@
 import "@polymer/app-layout/app-header-layout/app-header-layout";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-checkbox/paper-checkbox";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
@@ -15,10 +14,13 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
 import "../../components/op-start-voice-button";
+import "../../components/op-card";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpPanelShoppingList extends PolymerElement {
+class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -35,9 +37,6 @@ class OpPanelShoppingList extends PolymerElement {
           padding-bottom: 32px;
           max-width: 600px;
           margin: 0 auto;
-        }
-        paper-card {
-          display: block;
         }
         paper-icon-item {
           border-top: 1px solid var(--divider-color);
@@ -69,7 +68,7 @@ class OpPanelShoppingList extends PolymerElement {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.shopping_list']]</div>
+            <div main-title>[[localize('panel.shopping_list')]]</div>
             <op-start-voice-button
               opp="[[opp]]"
               can-listen="{{canListen}}"
@@ -85,7 +84,7 @@ class OpPanelShoppingList extends PolymerElement {
               ></paper-icon-button>
               <paper-listbox slot="dropdown-content">
                 <paper-item on-click="_clearCompleted"
-                  >[['ui.panel.shopping-list.clear_completed']]</paper-item
+                  >[[localize('ui.panel.shopping-list.clear_completed')]]</paper-item
                 >
               </paper-listbox>
             </paper-menu-button>
@@ -93,7 +92,7 @@ class OpPanelShoppingList extends PolymerElement {
         </app-header>
 
         <div class="content">
-          <paper-card>
+          <op-card>
             <paper-icon-item on-focus="_focusRowInput">
               <paper-icon-button
                 slot="item-icon"
@@ -103,7 +102,7 @@ class OpPanelShoppingList extends PolymerElement {
               <paper-item-body>
                 <paper-input
                   id="addBox"
-                  placeholder="[['ui.panel.shopping-list.add_item']]"
+                  placeholder="[[localize('ui.panel.shopping-list.add_item')]]"
                   on-keydown="_addKeyPress"
                   no-label-float
                 ></paper-input>
@@ -128,9 +127,9 @@ class OpPanelShoppingList extends PolymerElement {
                 </paper-item-body>
               </paper-icon-item>
             </template>
-          </paper-card>
+          </op-card>
           <div class="tip" hidden$="[[!canListen]]">
-            [['ui.panel.shopping-list.microphone_tip']]
+            [[localize('ui.panel.shopping-list.microphone_tip')]]
           </div>
         </div>
       </app-header-layout>

@@ -55,8 +55,9 @@ class DialogAreaDetail extends LitElement {
         <h2>
           ${entry
             ? entry.name
-            : "ui.panel.config.area_registry.editor.default_name"
-              }
+            : this.opp.localize(
+                "ui.panel.config.area_registry.editor.default_name"
+              )}
         </h2>
         <paper-dialog-scrollable>
           ${this._error
@@ -88,8 +89,9 @@ class DialogAreaDetail extends LitElement {
                   @click="${this._deleteEntry}"
                   .disabled=${this._submitting}
                 >
-                  "ui.panel.config.area_registry.editor.delete"
-                  }
+                  ${this.opp.localize(
+                    "ui.panel.config.area_registry.editor.delete"
+                  )}
                 </mwc-button>
               `
             : html``}
@@ -98,10 +100,12 @@ class DialogAreaDetail extends LitElement {
             .disabled=${nameInvalid || this._submitting}
           >
             ${entry
-              ? "ui.panel.config.area_registry.editor.update"
-                
-              : "ui.panel.config.area_registry.editor.create"
-                }
+              ? this.opp.localize(
+                  "ui.panel.config.area_registry.editor.update"
+                )
+              : this.opp.localize(
+                  "ui.panel.config.area_registry.editor.create"
+                )}
           </mwc-button>
         </div>
       </op-paper-dialog>

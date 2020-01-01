@@ -2,7 +2,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "./op-paper-slider";
-import "./opp-icon";
+import "./op-icon";
 
 class OpLabeledSlider extends PolymerElement {
   static get template() {
@@ -17,7 +17,7 @@ class OpLabeledSlider extends PolymerElement {
           opacity: var(--dark-primary-opacity);
         }
 
-        opp-icon {
+        op-icon {
           float: left;
           margin-top: 4px;
           opacity: var(--dark-secondary-opacity);
@@ -31,7 +31,7 @@ class OpLabeledSlider extends PolymerElement {
       <div class="title">[[caption]]</div>
       <div class="extra-container"><slot name="extra"></slot></div>
       <div class="slider-container">
-        <opp-icon icon="[[icon]]" hidden$="[[!icon]]"></opp-icon>
+        <op-icon icon="[[icon]]" hidden$="[[!icon]]"></op-icon>
         <op-paper-slider
           min="[[min]]"
           max="[[max]]"

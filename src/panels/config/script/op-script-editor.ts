@@ -15,15 +15,20 @@ import unmountPreact from "../../../common/preact/unmount";
 import computeObjectId from "../../../common/entity/compute_object_id";
 import computeStateName from "../../../common/entity/compute_state_name";
 import NavigateMixin from "../../../mixins/navigate-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
+
+import { computeRTL } from "../../../common/util/compute_rtl";
+import { deleteScript } from "../../../data/script";
 
 function ScriptEditor(mountEl, props, mergeEl) {
   return render(h(Script, props), mountEl, mergeEl);
 }
 
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  */
-class OpScriptEditor extends NavigateMixin(PolymerElement) {
+class OpScriptEditor extends LocalizeMixin(NavigateMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -95,7 +100,13 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
             <op-paper-icon-button-arrow-prev
               on-click="backTapped"
             ></op-paper-icon-button-arrow-prev>
-            <div main-title="">Script [[computeName(script)]]</div>
+            <div main-title>Script [[computeName(script)]]</div>
+            <template is="dom-if" if="[[!creatingNew]]">
+              <paper-icon-button
+                icon="opp:delete"
+                on-click="_delete"
+              ></paper-icon-button>
+            </template>
           </app-toolbar>
         </app-header>
         <div class="content">
@@ -111,6 +122,7 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
           icon="opp:content-save"
           title="Save"
           on-click="saveScript"
+          rtl$="[[rtl]]"
         ></paper-fab>
       </op-app-layout>
     `;
@@ -160,6 +172,12 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
       _renderScheduled: {
         type: Boolean,
         value: false,
+      },
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -253,12 +271,21 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
           script: this.config,
           onChange: this.configChanged,
           isWide: this.isWide,
-          opp: this.opp
+          opp: this.opp,
+          localize: this.localize,
         },
         this._rendered
       );
       this._renderScheduled = false;
     });
+  }
+
+  async _delete() {
+    if (!confirm("Are you sure you want to delete this script?")) {
+      return;
+    }
+    await deleteScript(this.opp, computeObjectId(this.script.entity_id));
+    history.back();
   }
 
   saveScript() {
@@ -282,6 +309,10 @@ class OpScriptEditor extends NavigateMixin(PolymerElement) {
 
   computeName(script) {
     return script && computeStateName(script);
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 

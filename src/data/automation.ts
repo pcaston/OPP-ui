@@ -1,11 +1,13 @@
 import {
   OppEntityBase,
   OppEntityAttributeBase,
-} from "../open-peer-power-js-websocket/lib";
+  OpenPeerPower,
+} from "../types";
 
 export interface AutomationEntity extends OppEntityBase {
   attributes: OppEntityAttributeBase & {
     id?: string;
+    last_triggered: string;
   };
 }
 
@@ -15,3 +17,6 @@ export interface AutomationConfig {
   condition?: any[];
   action: any[];
 }
+
+export const deleteAutomation = (opp: OpenPeerPower, id: string) =>
+  opp.callApi("DELETE", `config/automation/config/${id}`);

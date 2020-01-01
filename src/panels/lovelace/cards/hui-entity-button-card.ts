@@ -107,8 +107,11 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     if (!stateObj) {
       return html`
         <hui-warning
-          >"ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-          </hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
@@ -121,15 +124,18 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
       >
         ${this._config.show_icon
           ? html`
-              <opp-icon
+              <op-icon
                 data-domain="${computeStateDomain(stateObj)}"
                 data-state="${stateObj.state}"
                 .icon="${this._config.icon || stateIcon(stateObj)}"
                 style="${styleMap({
                   filter: this._computeBrightness(stateObj),
                   color: this._computeColor(stateObj),
+                  height: this._config.icon_height
+                    ? this._config.icon_height
+                    : "auto",
                 })}"
-              ></opp-icon>
+              ></op-icon>
             `
           : ""}
         ${this._config.show_name
@@ -167,21 +173,21 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
         font-size: 1.2rem;
       }
 
-      opp-icon {
+      op-icon {
         width: 40%;
         height: auto;
         color: var(--paper-item-icon-color, #44739e);
       }
 
-      opp-icon[data-domain="light"][data-state="on"],
-      opp-icon[data-domain="switch"][data-state="on"],
-      opp-icon[data-domain="binary_sensor"][data-state="on"],
-      opp-icon[data-domain="fan"][data-state="on"],
-      opp-icon[data-domain="sun"][data-state="Above Horizon"] {
+      op-icon[data-domain="light"][data-state="on"],
+      op-icon[data-domain="switch"][data-state="on"],
+      op-icon[data-domain="binary_sensor"][data-state="on"],
+      op-icon[data-domain="fan"][data-state="on"],
+      op-icon[data-domain="sun"][data-state="above_horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 
-      opp-icon[data-state="unavailable"] {
+      op-icon[data-state="unavailable"] {
         color: var(--state-icon-unavailable-color);
       }
     `;

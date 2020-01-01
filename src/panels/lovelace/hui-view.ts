@@ -23,6 +23,8 @@ import { computeCardSize } from "./common/compute-card-size";
 import { showEditCardDialog } from "./editor/card-editor/show-edit-card-dialog";
 import { HuiErrorCard } from "./cards/hui-error-card";
 
+import { computeRTL } from "../../common/util/compute_rtl";
+
 let editCodeLoaded = false;
 
 // Find column with < 5 entities, else column with lowest count
@@ -96,10 +98,12 @@ export class HUIView extends LitElement {
             <paper-fab
               elevated="2"
               icon="opp:plus"
-              title="ui.panel.lovelace.editor.edit_card.add"
+              title="${this.opp!.localize(
+                "ui.panel.lovelace.editor.edit_card.add"
+              )}"
               @click="${this._addCard}"
               class="${classMap({
-                rtl: "ltr",
+                rtl: computeRTL(this.opp!),
               })}"
             ></paper-fab>
           `
@@ -203,7 +207,7 @@ export class HUIView extends LitElement {
       this._badges.forEach((badge) => {
         const { element, entityId } = badge;
         element.opp = this.opp!;
-        element.state = this.opp!.states![entityId];
+        element.state = this.opp!.states[entityId];
       });
     }
 

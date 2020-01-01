@@ -7,13 +7,15 @@ import "../../../components/op-card";
 import "../../../layouts/opp-subpage";
 
 import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixIn from "../../../mixins/localize-mixin";
 import "../../../components/entity/state-badge";
 import { computeEntityRegistryName } from "../../../data/entity_registry";
 
 /*
+ * @appliesMixin LocalizeMixIn
  * @appliesMixin EventsMixin
  */
-class OpConfigNavigation extends EventsMixin(PolymerElement) {
+class OpCeEntitiesCard extends LocalizeMixIn(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -59,8 +61,9 @@ class OpConfigNavigation extends EventsMixin(PolymerElement) {
   _computeEntityName(entity, opp) {
     return (
       computeEntityRegistryName(opp, entity) ||
-      `ui.panel.config.integrations.config_entry.entity_unavailable"
-      `
+      `(${this.localize(
+        "ui.panel.config.integrations.config_entry.entity_unavailable"
+      )})`
     );
   }
 
@@ -69,4 +72,4 @@ class OpConfigNavigation extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-ce-entities-card", OpConfigNavigation);
+customElements.define("op-ce-entities-card", OpCeEntitiesCard);

@@ -28,8 +28,8 @@ export class OppIcon extends ironIconClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-icon": OppIcon;
+    "op-icon": OppIcon;
   }
 }
 
-customElements.define("opp-icon", OppIcon);
+customElements.define("op-icon", OppIcon);

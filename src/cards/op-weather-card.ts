@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import computeStateName from "../common/entity/compute_state_name";
 
 import "../components/op-card";
-import "../components/opp-icon";
+import "../components/op-icon";
 
 import { EventsMixin } from "../mixins/events-mixin";
 
@@ -22,7 +22,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           padding: 0 20px 20px;
         }
 
-        opp-icon {
+        op-icon {
           color: var(--paper-item-icon-color);
         }
 
@@ -72,13 +72,13 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           margin-right: 0px;
         }
 
-        .main opp-icon {
+        .main op-icon {
           --iron-icon-height: 72px;
           --iron-icon-width: 72px;
           margin-right: 8px;
         }
 
-        :host('ltr') .main opp-icon {
+        :host('ltr') .main op-icon {
           margin-right: 0px;
         }
 
@@ -151,7 +151,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           <div class="now">
             <div class="main">
               <template is="dom-if" if="[[showWeatherIcon(stateObj.state)]]">
-                <opp-icon icon="[[getWeatherIcon(stateObj.state)]]"></opp-icon>
+                <op-icon icon="[[getWeatherIcon(stateObj.state)]]"></op-icon>
               </template>
               <div class="temp">
                 [[stateObj.attributes.temperature]]<span
@@ -208,9 +208,9 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                   </div>
                   <template is="dom-if" if="[[_showValue(item.condition)]]">
                     <div class="icon">
-                      <opp-icon
+                      <op-icon
                         icon="[[getWeatherIcon(item.condition)]]"
-                      ></opp-icon>
+                      ></op-icon>
                     </div>
                   </template>
                   <div class="temp">

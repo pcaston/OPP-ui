@@ -6,8 +6,8 @@ import {
   PropertyDeclarations,
   TemplateResult,
 } from "lit-element";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-spinner/paper-spinner";
+import "../../components/op-card";
 
 import { OpenPeerPower } from "../../types";
 import {
@@ -71,7 +71,10 @@ class SystemHealthCard extends LitElement {
         }
         if (domain !== "openpeerpower") {
           sections.push(
-            html`<h3>${domain}.${domain} || domain}</h3>`);
+            html`
+              <h3>${this.opp.localize(`domain.${domain}`) || domain}</h3>
+            `
+          );
         }
         sections.push(html`
           <table>
@@ -82,9 +85,9 @@ class SystemHealthCard extends LitElement {
     }
 
     return html`
-      <paper-card heading="System Health">
+      <op-card header="System Health">
         <div class="card-content">${sections}</div>
-      </paper-card>
+      </op-card>
     `;
   }
 
@@ -111,10 +114,6 @@ class SystemHealthCard extends LitElement {
 
   static get styles(): CSSResult {
     return css`
-      paper-card {
-        display: block;
-      }
-
       table {
         width: 100%;
       }

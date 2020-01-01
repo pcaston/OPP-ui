@@ -91,7 +91,7 @@ class OpPanelDevTemplate extends PolymerElement {
               </li>
               <li>
                 <a
-                  href="https://.io/docs/configuration/templating/"
+                  href="https://open-peer-power.io/docs/configuration/templating/"
                   target="_blank"
                   >Open Peer Power template extensions</a
                 >

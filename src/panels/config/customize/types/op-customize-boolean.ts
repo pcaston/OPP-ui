@@ -20,4 +20,4 @@ class OpCustomizeBoolean extends PolymerElement {
     };
   }
 }
-customElements.define("op-customize-boolean", HaCustomizeBoolean);
+customElements.define("op-customize-boolean", OpCustomizeBoolean);

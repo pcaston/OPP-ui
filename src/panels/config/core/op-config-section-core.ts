@@ -10,10 +10,15 @@ import "../../../resources/op-style";
 import "../op-config-section";
 
 import isComponentLoaded from "../../../common/config/is_component_loaded";
+import LocalizeMixin from "../../../mixins/localize-mixin";
+
+import "./op-config-name-form";
+import "./op-config-core-form";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpConfigSectionCore extends PolymerElement {
+class HaConfigSectionCore extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -49,27 +54,30 @@ class OpConfigSectionCore extends PolymerElement {
       </style>
       <op-config-section is-wide="[[isWide]]">
         <span slot="header"
-          >[['ui.panel.config.core.section.core.header']]</span
+          >[[localize('ui.panel.config.core.section.core.header')]]</span
         >
         <span slot="introduction"
-          >[['ui.panel.config.core.section.core.introduction']]</span
+          >[[localize('ui.panel.config.core.section.core.introduction')]]</span
         >
 
+        <op-config-name-form opp="[[opp]]"></op-config-name-form>
+        <op-config-core-form opp="[[opp]]"></op-config-core-form>
+
         <op-card
-          header="[[l'ui.panel.config.core.section.core.validation.heading']]"
+          header="[[localize('ui.panel.config.core.section.core.validation.heading')]]"
         >
           <div class="card-content">
-            [['ui.panel.config.core.section.core.validation.introduction']]
+            [[localize('ui.panel.config.core.section.core.validation.introduction')]]
             <template is="dom-if" if="[[!validateLog]]">
               <div class="validate-container">
                 <template is="dom-if" if="[[!validating]]">
                   <template is="dom-if" if="[[isValid]]">
                     <div class="validate-result" id="result">
-                      [['ui.panel.config.core.section.core.validation.valid']]
+                      [[localize('ui.panel.config.core.section.core.validation.valid')]]
                     </div>
                   </template>
                   <mwc-button raised="" on-click="validateConfig">
-                    [['ui.panel.config.core.section.core.validation.check_config']]
+                    [[localize('ui.panel.config.core.section.core.validation.check_config')]]
                   </mwc-button>
                 </template>
                 <template is="dom-if" if="[[validating]]">
@@ -80,10 +88,10 @@ class OpConfigSectionCore extends PolymerElement {
             <template is="dom-if" if="[[validateLog]]">
               <div class="config-invalid">
                 <span class="text">
-                  [['ui.panel.config.core.section.core.validation.invalid']]
+                  [[localize('ui.panel.config.core.section.core.validation.invalid')]]
                 </span>
                 <mwc-button raised="" on-click="validateConfig">
-                  [['ui.panel.config.core.section.core.validation.check_config']]
+                  [[localize('ui.panel.config.core.section.core.validation.check_config')]]
                 </mwc-button>
               </div>
               <div id="configLog" class="validate-log">[[validateLog]]</div>
@@ -92,62 +100,62 @@ class OpConfigSectionCore extends PolymerElement {
         </op-card>
 
         <op-card
-          header="[['ui.panel.config.core.section.core.reloading.heading']]"
+          header="[[localize('ui.panel.config.core.section.core.reloading.heading')]]"
         >
           <div class="card-content">
-            [['ui.panel.config.core.section.core.reloading.introduction']]
+            [[localize('ui.panel.config.core.section.core.reloading.introduction')]]
           </div>
           <div class="card-actions">
             <op-call-service-button
               opp="[[opp]]"
-              domain="openPeerPower"
+              domain="openpeerpower"
               service="reload_core_config"
-              >[['ui.panel.config.core.section.core.reloading.core']]
+              >[[localize('ui.panel.config.core.section.core.reloading.core')]]
             </op-call-service-button>
             <op-call-service-button
               opp="[[opp]]"
               domain="group"
               service="reload"
               hidden$="[[!groupLoaded(opp)]]"
-              >[['ui.panel.config.core.section.core.reloading.group']]
+              >[[localize('ui.panel.config.core.section.core.reloading.group')]]
             </op-call-service-button>
             <op-call-service-button
               opp="[[opp]]"
               domain="automation"
               service="reload"
               hidden$="[[!automationLoaded(opp)]]"
-              >[['ui.panel.config.core.section.core.reloading.automation']]
+              >[[localize('ui.panel.config.core.section.core.reloading.automation')]]
             </op-call-service-button>
             <op-call-service-button
               opp="[[opp]]"
               domain="script"
               service="reload"
               hidden$="[[!scriptLoaded(opp)]]"
-              >[['ui.panel.config.core.section.core.reloading.script']]
+              >[[localize('ui.panel.config.core.section.core.reloading.script')]]
             </op-call-service-button>
           </div>
         </op-card>
 
         <op-card
-          header="[['ui.panel.config.core.section.core.server_management.heading')]]"
+          header="[[localize('ui.panel.config.core.section.core.server_management.heading')]]"
         >
           <div class="card-content">
-            [['ui.panel.config.core.section.core.server_management.introduction']]
+            [[localize('ui.panel.config.core.section.core.server_management.introduction')]]
           </div>
           <div class="card-actions warning">
             <op-call-service-button
               class="warning"
               opp="[[opp]]"
-              domain="openPeerPower"
+              domain="openpeerpower"
               service="restart"
-              >[['ui.panel.config.core.section.core.server_management.restart']]
+              >[[localize('ui.panel.config.core.section.core.server_management.restart')]]
             </op-call-service-button>
             <op-call-service-button
               class="warning"
               opp="[[opp]]"
-              domain="openPeerPower"
+              domain="openpeerpower"
               service="stop"
-              >[['ui.panel.config.core.section.core.server_management.stop']]
+              >[[localize('ui.panel.config.core.section.core.server_management.stop')]]
             </op-call-service-button>
           </div>
         </op-card>
@@ -211,4 +219,4 @@ class OpConfigSectionCore extends PolymerElement {
   }
 }
 
-customElements.define("op-config-section-core", OpConfigSectionCore);
+customElements.define("op-config-section-core", HaConfigSectionCore);

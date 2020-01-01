@@ -9,10 +9,11 @@ import { compare } from "../../../common/string/compare";
 import "./op-device-card";
 import "./op-ce-entities-card";
 import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 class OpConfigEntryPage extends NavigateMixin(
-  EventsMixin(PolymerElement)
+  EventsMixin(LocalizeMixin(PolymerElement))
 ) {
   static get template() {
     return html`
@@ -44,7 +45,7 @@ class OpConfigEntryPage extends NavigateMixin(
             if="[[_computeIsEmpty(_configEntryDevices, _noDeviceEntities)]]"
           >
             <p>
-              [['ui.panel.config.integrations.config_entry.no_devices']]
+              [[localize('ui.panel.config.integrations.config_entry.no_devices')]]
             </p>
           </template>
           <template is="dom-repeat" items="[[_configEntryDevices]]" as="device">
@@ -61,7 +62,7 @@ class OpConfigEntryPage extends NavigateMixin(
           <template is="dom-if" if="[[_noDeviceEntities.length]]">
             <op-ce-entities-card
               class="card"
-              heading="[['ui.panel.config.integrations.config_entry.no_device']]"
+              heading="[[localize('ui.panel.config.integrations.config_entry.no_device')]]"
               entities="[[_noDeviceEntities]]"
               opp="[[opp]]"
               narrow="[[narrow]]"
@@ -124,7 +125,7 @@ class OpConfigEntryPage extends NavigateMixin(
       .filter((device) => device.config_entries.includes(configEntry.entry_id))
       .sort(
         (dev1, dev2) =>
-          !!dev1.hub_device_id - !!dev2.hub_device_id ||
+          !!dev1.via_device_id - !!dev2.via_device_id ||
           compare(dev1.name, dev2.name)
       );
   }
@@ -143,7 +144,9 @@ class OpConfigEntryPage extends NavigateMixin(
   _removeEntry() {
     if (
       !confirm(
-        "ui.panel.config.integrations.config_entry.delete_confirm"
+        this.localize(
+          "ui.panel.config.integrations.config_entry.delete_confirm"
+        )
       )
     )
       return;
@@ -156,7 +159,9 @@ class OpConfigEntryPage extends NavigateMixin(
         this.fire("opp-reload-entries");
         if (result.require_restart) {
           alert(
-            "ui.panel.config.integrations.config_entry.restart_confirm"
+            this.localize(
+              "ui.panel.config.integrations.config_entry.restart_confirm"
+            )
           );
         }
         this.navigate("/config/integrations/dashboard", true);

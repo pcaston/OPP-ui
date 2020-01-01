@@ -1,7 +1,7 @@
 import "@polymer/polymer/lib/elements/dom-if";
 import "@polymer/polymer/lib/elements/dom-repeat";
 
-import "../components/opp-iconset-svg";
+import "../components/op-iconset-svg";
 import "../resources/op-style";
 import "../resources/roboto";
 

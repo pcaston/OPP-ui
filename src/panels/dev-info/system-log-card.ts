@@ -6,11 +6,11 @@ import {
   PropertyDeclarations,
   TemplateResult,
 } from "lit-element";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-spinner/paper-spinner";
+import "../../components/op-card";
 import "../../components/buttons/op-call-service-button";
 import "../../components/buttons/op-progress-button";
 import { OpenPeerPower } from "../../types";
@@ -19,14 +19,14 @@ import formatDateTime from "../../common/datetime/format_date_time";
 import formatTime from "../../common/datetime/format_time";
 import { showSystemLogDetailDialog } from "./show-dialog-system-log-detail";
 
-const formatLogTime = (date) => {
+const formatLogTime = (date, language: string) => {
   const today = new Date().setHours(0, 0, 0, 0);
   const dateTime = new Date(date * 1000);
   const dateTimeDay = new Date(date * 1000).setHours(0, 0, 0, 0);
 
   return dateTimeDay < today
-    ? formatDateTime(dateTime, 'en')
-    : formatTime(dateTime, 'en');
+    ? formatDateTime(dateTime, language)
+    : formatTime(dateTime, language);
 };
 
 class SystemLogCard extends LitElement {
@@ -43,7 +43,7 @@ class SystemLogCard extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <div class="system-log-intro">
-        <paper-card>
+        <op-card>
           ${this._items === undefined
             ? html`
                 <div class="loading-container">
@@ -65,7 +65,7 @@ class SystemLogCard extends LitElement {
                             <div secondary>
                               ${formatLogTime(
                                 item.timestamp,
-                                'en'
+                                this.opp!.language
                               )}
                               ${item.source} (${item.level})
                               ${item.count > 1
@@ -73,7 +73,7 @@ class SystemLogCard extends LitElement {
                                     - message first occured at
                                     ${formatLogTime(
                                       item.first_occured,
-                                      'en'
+                                      this.opp!.language
                                     )}
                                     and shows up ${item.count} times
                                   `
@@ -96,7 +96,7 @@ class SystemLogCard extends LitElement {
                   >
                 </div>
               `}
-        </paper-card>
+        </op-card>
       </div>
     `;
   }
@@ -131,8 +131,7 @@ class SystemLogCard extends LitElement {
 
   static get styles(): CSSResult {
     return css`
-      paper-card {
-        display: block;
+      op-card {
         padding-top: 16px;
       }
 

@@ -36,10 +36,10 @@ class ZHAAddDevicesPage extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
-    if (this.route && this.route.path && this.route.path !== "") {
-      this._ieeeAddress = this.route.path.substring(1);
-    }
-    this._subscribe(this._ieeeAddress);
+    this.route && this.route.path && this.route.path !== ""
+      ? (this._ieeeAddress = this.route.path.substring(1))
+      : (this._ieeeAddress = undefined);
+    this._subscribe();
   }
 
   public disconnectedCallback(): void {
@@ -53,7 +53,9 @@ class ZHAAddDevicesPage extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage
-        header="ui.panel.config.zha.add_device_page.header"
+        header="${this.opp!.localize(
+          "ui.panel.config.zha.add_device_page.header"
+        )}"
       >
         ${this._active
           ? html`
@@ -62,7 +64,9 @@ class ZHAAddDevicesPage extends LitElement {
                   ?active="${this._active}"
                   alt="Searching"
                 ></paper-spinner>
-                "ui.panel.config.zha.add_device_page.spinner"
+                ${this.opp!.localize(
+                  "ui.panel.config.zha.add_device_page.spinner"
+                )}
               </h2>
             `
           : html`
@@ -98,7 +102,9 @@ class ZHAAddDevicesPage extends LitElement {
             ? html`
                 <div class="discovery-text">
                   <h4>
-                    "ui.panel.config.zha.add_device_page.discovery_text"
+                    ${this.opp!.localize(
+                      "ui.panel.config.zha.add_device_page.discovery_text"
+                    )}
                   </h4>
                 </div>
               `
@@ -150,10 +156,10 @@ class ZHAAddDevicesPage extends LitElement {
     }
   }
 
-  private _subscribe(ieeeAddress: string | undefined): void {
+  private _subscribe(): void {
     const data: any = { type: "zha/devices/permit" };
-    if (ieeeAddress) {
-      data.ieee = ieeeAddress;
+    if (this._ieeeAddress) {
+      data.ieee = this._ieeeAddress;
     }
     this._subscribed = this.opp!.connection.subscribeMessage(
       (message) => this._handleMessage(message),

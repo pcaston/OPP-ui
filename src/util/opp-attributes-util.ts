@@ -1,4 +1,17 @@
-const oppAttributeUtil = {};
+type AttributeUtil = {
+  DOMAIN_DEVICE_CLASS?: { 
+    binary_sensor: string[], 
+    cover: string[],
+    sensor: string[],
+    switch: string[],
+  };
+  UNKNOWN_TYPE?: string;
+  ADD_TYPE?: {};
+  LOGIC_STATE_ATTRIBUTES?: {};
+  TYPE_TO_TAG?: {};
+};
+
+let oppAttributeUtil: AttributeUtil = {}
 
 oppAttributeUtil.DOMAIN_DEVICE_CLASS = {
   binary_sensor: [

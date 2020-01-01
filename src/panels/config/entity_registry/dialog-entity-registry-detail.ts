@@ -67,7 +67,9 @@ class DialogEntityRegistryDetail extends LitElement {
           ${!stateObj
             ? html`
                 <div>
+                  ${this.opp!.localize(
                     "ui.panel.config.entity_registry.editor.unavailable"
+                  )}
                 </div>
               `
             : ""}
@@ -80,14 +82,16 @@ class DialogEntityRegistryDetail extends LitElement {
             <paper-input
               .value=${this._name}
               @value-changed=${this._nameChanged}
-              .label="ui.dialogs.more_info_settings.name"
+              .label=${this.opp.localize("ui.dialogs.more_info_settings.name")}
               .placeholder=${stateObj ? computeStateName(stateObj) : ""}
               .disabled=${this._submitting}
             ></paper-input>
             <paper-input
               .value=${this._entityId}
               @value-changed=${this._entityIdChanged}
-              .label="ui.dialogs.more_info_settings.entity_id"
+              .label=${this.opp.localize(
+                "ui.dialogs.more_info_settings.entity_id"
+              )}
               error-message="Domain needs to stay the same"
               .invalid=${invalidDomainUpdate}
               .disabled=${this._submitting}
@@ -100,13 +104,17 @@ class DialogEntityRegistryDetail extends LitElement {
             @click="${this._deleteEntry}"
             .disabled=${this._submitting}
           >
-            "ui.panel.config.entity_registry.editor.delete"
+            ${this.opp.localize(
+              "ui.panel.config.entity_registry.editor.delete"
+            )}
           </mwc-button>
           <mwc-button
             @click="${this._updateEntry}"
             .disabled=${invalidDomainUpdate || this._submitting}
           >
-            "ui.panel.config.entity_registry.editor.update"
+            ${this.opp.localize(
+              "ui.panel.config.entity_registry.editor.update"
+            )}
           </mwc-button>
         </div>
       </op-paper-dialog>

@@ -1,7 +1,7 @@
 import "@polymer/iron-icon/iron-icon";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { OppIcon } from "./opp-icon";
+import { OppIcon } from "./op-icon";
 
 export class OppIconPrev extends OppIcon {
   public connectedCallback() {
@@ -17,8 +17,8 @@ export class OppIconPrev extends OppIcon {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "opp-icon-prev": OppIconPrev;
+    "op-icon-prev": OppIconPrev;
   }
 }
 
-customElements.define("opp-icon-prev", OppIconPrev);
+customElements.define("op-icon-prev", OppIconPrev);

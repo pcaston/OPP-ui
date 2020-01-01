@@ -1,6 +1,5 @@
 import "@polymer/app-layout/app-header-layout/app-header-layout";
 import "@polymer/app-layout/app-header/app-header";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-item/paper-item";
 import "@material/mwc-button";
@@ -8,9 +7,12 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import "../../components/op-card";
 import "../../components/op-menu-button";
 import "../../resources/op-style";
+
 import { EventsMixin } from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 import "./op-change-password-card";
 import "./op-mfa-modules-card";
@@ -23,8 +25,9 @@ import "./op-push-notifications-row";
 
 /*
  * @appliesMixin EventsMixin
+ * @appliesMixin LocalizeMixin
  */
-class OpPanelProfile extends EventsMixin(PolymerElement) {
+class OpPanelProfile extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -50,17 +53,17 @@ class OpPanelProfile extends EventsMixin(PolymerElement) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.profile']]</div>
+            <div main-title>[[localize('panel.profile')]]</div>
           </app-toolbar>
         </app-header>
 
         <div class="content">
-          <paper-card heading="[[opp.user.name]]">
+          <op-card header="[[opp.user.name]]">
             <div class="card-content">
-              [['ui.panel.profile.current_user', 'fullName',
-              opp.user.name]]
+              [[localize('ui.panel.profile.current_user', 'fullName',
+              opp.user.name)]]
               <template is="dom-if" if="[[opp.user.is_owner]]"
-                >[['ui.panel.profile.is_owner']]</template
+                >[[localize('ui.panel.profile.is_owner')]]</template
               >
             </div>
 
@@ -81,10 +84,10 @@ class OpPanelProfile extends EventsMixin(PolymerElement) {
 
             <div class="card-actions">
               <mwc-button class="warning" on-click="_handleLogOut"
-                >[['ui.panel.profile.logout']]</mwc-button
+                >[[localize('ui.panel.profile.logout')]]</mwc-button
               >
             </div>
-          </paper-card>
+          </op-card>
 
           <template is="dom-if" if="[[_canChangePassword(opp.user)]]">
             <op-change-password-card opp="[[opp]]"></op-change-password-card>
@@ -136,7 +139,7 @@ class OpPanelProfile extends EventsMixin(PolymerElement) {
 
   _canChangePassword(user) {
     return user.credentials.some(
-      (cred) => cred.auth_provider_type === "openPeerPower"
+      (cred) => cred.auth_provider_type === "openpeerpower"
     );
   }
 }

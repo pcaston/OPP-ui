@@ -96,7 +96,7 @@ class OpConfigIntegrations extends NavigateMixin(PolymerElement) {
   connectedCallback() {
     super.connectedCallback();
     this._loadData();
-    this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
+    this._unsubAreas = subscribeAreaRegistry(this.opp.connection, (areas) => {
       this._areas = areas;
     });
 

@@ -24,16 +24,21 @@ import computeStateName from "../../../common/entity/compute_state_name";
 
 import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
-import { AutomationEntity, AutomationConfig } from "../../../data/automation";
+import {
+  AutomationEntity,
+  AutomationConfig,
+  deleteAutomation,
+} from "../../../data/automation";
 import { navigate } from "../../../common/navigate";
+import { computeRTL } from "../../../common/util/compute_rtl";
 
 function AutomationEditor(mountEl, props, mergeEl) {
   return render(h(Automation, props), mountEl, mergeEl);
 }
 
-class HaAutomationEditor extends LitElement {
-  public opp?: OpenPeerPower;
-  public automation?: AutomationEntity;
+class OpAutomationEditor extends LitElement {
+  public opp!: OpenPeerPower;
+  public automation!: AutomationEntity;
   public isWide?: boolean;
   public creatingNew?: boolean;
   private _config?: AutomationConfig;
@@ -80,8 +85,18 @@ class HaAutomationEditor extends LitElement {
             <div main-title>
               ${this.automation
                 ? computeStateName(this.automation)
-                : "ui.panel.config.automation.editor.default_name"
+                : this.opp.localize(
+                    "ui.panel.config.automation.editor.default_name"
+                  )}
             </div>
+            ${this.creatingNew
+              ? ""
+              : html`
+                  <paper-icon-button
+                    icon="opp:delete"
+                    @click=${this._delete}
+                  ></paper-icon-button>
+                `}
           </app-toolbar>
         </app-header>
 
@@ -94,7 +109,7 @@ class HaAutomationEditor extends LitElement {
           <div
             id="root"
             class="${classMap({
-              rtl: false,
+              rtl: computeRTL(this.opp),
             })}"
           ></div>
         </div>
@@ -103,10 +118,12 @@ class HaAutomationEditor extends LitElement {
           ?is-wide="${this.isWide}"
           ?dirty="${this._dirty}"
           icon="opp:content-save"
-          .title="ui.panel.config.automation.editor.save"
+          .title="${this.opp.localize(
+            "ui.panel.config.automation.editor.save"
+          )}"
           @click=${this._saveAutomation}
           class="${classMap({
-            rtl: false,
+            rtl: computeRTL(this.opp),
           })}"
         ></paper-fab>
       </op-app-layout>
@@ -130,24 +147,42 @@ class HaAutomationEditor extends LitElement {
           "GET",
           `config/automation/config/${this.automation.attributes.id}`
         )
-        .then((config) => {
-          // Normalize data: ensure trigger, action and condition are lists
-          // Happens when people copy paste their automations into the config
-          for (const key of ["trigger", "condition", "action"]) {
-            const value = config[key];
-            if (value && !Array.isArray(value)) {
-              config[key] = [value];
+        .then(
+          (config) => {
+            // Normalize data: ensure trigger, action and condition are lists
+            // Happens when people copy paste their automations into the config
+            for (const key of ["trigger", "condition", "action"]) {
+              const value = config[key];
+              if (value && !Array.isArray(value)) {
+                config[key] = [value];
+              }
             }
+            this._dirty = false;
+            this._config = config;
+          },
+          (resp) => {
+            alert(
+              resp.status_code === 404
+                ? this.opp.localize(
+                    "ui.panel.config.automation.editor.load_error_not_editable"
+                  )
+                : this.opp.localize(
+                    "ui.panel.config.automation.editor.load_error_unknown",
+                    "err_no",
+                    resp.status_code
+                  )
+            );
+            history.back();
           }
-          this._dirty = false;
-          this._config = config;
-        });
+        );
     }
 
     if (changedProps.has("creatingNew") && this.creatingNew && this.opp) {
       this._dirty = false;
       this._config = {
-        alias: "ui.panel.config.automation.editor.default_name",
+        alias: this.opp.localize(
+          "ui.panel.config.automation.editor.default_name"
+        ),
         trigger: [{ platform: "state" }],
         condition: [],
         action: [{ service: "" }],
@@ -162,6 +197,7 @@ class HaAutomationEditor extends LitElement {
           onChange: this._configChanged,
           isWide: this.isWide,
           opp: this.opp,
+          localize: this.opp.localize,
         },
         this._rendered
       );
@@ -176,23 +212,32 @@ class HaAutomationEditor extends LitElement {
     this._config = config;
     this._errors = undefined;
     this._dirty = true;
-    // this._updateComponent();
   }
 
   private _backTapped(): void {
     if (
       this._dirty &&
-      !confirm("ui.panel.config.automation.editor.unsaved_confirm")
+      !confirm(
+        this.opp!.localize("ui.panel.config.automation.editor.unsaved_confirm")
+      )
     ) {
       return;
     }
     history.back();
   }
 
+  private async _delete() {
+    if (!confirm("Are you sure you want to delete this automation?")) {
+      return;
+    }
+    await deleteAutomation(this.opp, this.automation.attributes.id!);
+    history.back();
+  }
+
   private _saveAutomation(): void {
     const id = this.creatingNew
       ? "" + Date.now()
-      : this.automation!.attributes.id;
+      : this.automation.attributes.id;
     this.opp!.callApi(
       "POST",
       "config/automation/config/" + id,
@@ -289,4 +334,4 @@ class HaAutomationEditor extends LitElement {
   }
 }
 
-customElements.define("op-automation-editor", HaAutomationEditor);
+customElements.define("op-automation-editor", OpAutomationEditor);

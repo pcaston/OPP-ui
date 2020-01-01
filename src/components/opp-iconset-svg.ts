@@ -30,4 +30,4 @@ class OppIconset extends IronIconsetClass {
   }
 }
 
-customElements.define("opp-iconset-svg", OppIconset);
+customElements.define("op-iconset-svg", OppIconset);

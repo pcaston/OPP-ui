@@ -8,7 +8,7 @@ import {
 import "@polymer/paper-input/paper-input";
 
 import "../../../../components/entity/op-entity-picker";
-import "../../../../components/opp-icon";
+import "../../../../components/op-icon";
 
 import { struct } from "../../common/structs/struct";
 import { EntitiesEditorEvent, EditorTarget } from "../types";

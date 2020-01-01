@@ -1,7 +1,7 @@
 import "../../../components/buttons/op-call-service-button";
 import "../../../components/op-service-description";
+import "../../../components/op-card";
 import "../op-config-section";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";

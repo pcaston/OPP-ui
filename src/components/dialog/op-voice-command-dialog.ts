@@ -179,7 +179,7 @@ class OpVoiceCommandDialog extends DialogMixin(PolymerElement) {
       var text = this.results.final || this.results.interim;
       this.results = null;
       if (text === "") {
-        text = "<Home Assistant did not hear anything>";
+        text = "<Open Peer Power did not hear anything>";
       }
       this.push("_conversation", { who: "user", text: text, error: true });
     }.bind(this);

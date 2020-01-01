@@ -12,15 +12,18 @@ import "@vaadin/vaadin-date-picker/vaadin-date-picker";
 
 import "../../components/op-menu-button";
 import "../../components/state-history-charts";
+import "../../data/op-state-history-data";
 import "../../resources/op-date-picker-style";
 import "../../resources/op-style";
 
 import formatDate from "../../common/datetime/format_date";
+import LocalizeMixin from "../../mixins/localize-mixin";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
-
+ * @appliesMixin LocalizeMixin
  */
-class OpPanelHistory extends PolymerElement {
+class OpPanelHistory extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -42,7 +45,7 @@ class OpPanelHistory extends PolymerElement {
           }
         }
 
-        :host('ltr') paper-dropdown-menu {
+        :host([rtl]) paper-dropdown-menu {
           text-align: right;
         }
 
@@ -50,11 +53,20 @@ class OpPanelHistory extends PolymerElement {
           cursor: pointer;
         }
       </style>
+
+      <op-state-history-data
+        opp="[[opp]]"
+        filter-type="[[_filterType]]"
+        start-time="[[_computeStartTime(_currentDate)]]"
+        end-time="[[endTime]]"
+        data="{{stateHistory}}"
+        is-loading="{{isLoadingData}}"
+      ></op-state-history-data>
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.history']]</div>
+            <div main-title>[[localize('panel.history')]]</div>
           </app-toolbar>
         </app-header>
 
@@ -63,14 +75,14 @@ class OpPanelHistory extends PolymerElement {
             <vaadin-date-picker
               id="picker"
               value="{{_currentDate}}"
-              label="[['ui.panel.history.showing_entries']]"
+              label="[[localize('ui.panel.history.showing_entries')]]"
               disabled="[[isLoadingData]]"
               required
             ></vaadin-date-picker>
 
             <paper-dropdown-menu
               label-float
-              label="[['ui.panel.history.period']]"
+              label="[[localize('ui.panel.history.period')]]"
               disabled="[[isLoadingData]]"
             >
               <paper-listbox
@@ -78,13 +90,13 @@ class OpPanelHistory extends PolymerElement {
                 selected="{{_periodIndex}}"
               >
                 <paper-item
-                  >[['ui.duration.day', 'count', 1)]</paper-item
+                  >[[localize('ui.duration.day', 'count', 1)]]</paper-item
                 >
                 <paper-item
-                  >[['ui.duration.day', 'count', 3]]</paper-item
+                  >[[localize('ui.duration.day', 'count', 3)]]</paper-item
                 >
                 <paper-item
-                  >[['ui.duration.week', 'count', 1]]</paper-item
+                  >[[localize('ui.duration.week', 'count', 1)]]</paper-item
                 >
               </paper-listbox>
             </paper-dropdown-menu>
@@ -144,6 +156,12 @@ class OpPanelHistory extends PolymerElement {
         type: String,
         value: "date",
       },
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
@@ -183,6 +201,10 @@ class OpPanelHistory extends PolymerElement {
       default:
         return 1;
     }
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 

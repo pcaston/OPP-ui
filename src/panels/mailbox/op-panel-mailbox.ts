@@ -2,7 +2,6 @@ import "@polymer/app-layout/app-header-layout/app-header-layout";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@material/mwc-button";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-input/paper-textarea";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-item/paper-item";
@@ -12,16 +11,19 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
+import "../../components/op-card";
 import "../../resources/op-style";
 
 import formatDateTime from "../../common/datetime/format_date_time";
+import LocalizeMixin from "../../mixins/localize-mixin";
 import { EventsMixin } from "../../mixins/events-mixin";
 
 let registeredDialog = false;
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpPanelMailbox extends EventsMixin(PolymerElement) {
+class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -37,8 +39,8 @@ class OpPanelMailbox extends EventsMixin(PolymerElement) {
           margin: 0 auto;
         }
 
-        paper-card {
-          display: block;
+        op-card {
+          overflow: hidden;
         }
 
         paper-item {
@@ -79,7 +81,7 @@ class OpPanelMailbox extends EventsMixin(PolymerElement) {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.mailbox']]</div>
+            <div main-title>[[localize('panel.mailbox')]]</div>
           </app-toolbar>
           <div sticky hidden$="[[areTabsHidden(platforms)]]">
             <paper-tabs
@@ -96,10 +98,10 @@ class OpPanelMailbox extends EventsMixin(PolymerElement) {
           </div>
         </app-header>
         <div class="content">
-          <paper-card>
+          <op-card>
             <template is="dom-if" if="[[!_messages.length]]">
               <div class="card-content empty">
-                [['ui.panel.mailbox.empty']]
+                [[localize('ui.panel.mailbox.empty')]]
               </div>
             </template>
             <template is="dom-repeat" items="[[_messages]]">
@@ -108,7 +110,7 @@ class OpPanelMailbox extends EventsMixin(PolymerElement) {
                   <div class="row">
                     <div>[[item.caller]]</div>
                     <div class="tip">
-                      [['ui.duration.second', 'count', item.duration]]
+                      [[localize('ui.duration.second', 'count', item.duration)]]
                     </div>
                   </div>
                   <div secondary>
@@ -118,7 +120,7 @@ class OpPanelMailbox extends EventsMixin(PolymerElement) {
                 </paper-item-body>
               </paper-item>
             </template>
-          </paper-card>
+          </op-card>
         </div>
       </app-header-layout>
     `;

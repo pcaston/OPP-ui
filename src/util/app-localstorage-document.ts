@@ -93,7 +93,7 @@ Polymer({
    * @param {*} key The new key to use.
    * @return {Promise}
    */
-  saveValue: function(key) {
+  saveValue: function(key: string) {
     try {
       this.__setStorageValue(/*{@type if (key ty){String}}*/ key, this.data);
     } catch (e) {
@@ -167,9 +167,10 @@ Polymer({
     if (event.key !== this.key || event.storageArea !== this.storage) {
       return;
     }
-
+    let thatset = this.set();
+    let thatpVFS = this.__parseValueFromStorage();
     this.syncToMemory(function() {
-      this.set("data", this.__parseValueFromStorage());
+      thatset("data", thatpVFS);
     });
   },
 
@@ -181,8 +182,9 @@ Polymer({
     ) {
       return;
     }
+    let thatset = this.set();
     this.syncToMemory(function() {
-      this.set("data", event.detail.data);
+      thatset("data", event.detail.data);
     });
   },
 

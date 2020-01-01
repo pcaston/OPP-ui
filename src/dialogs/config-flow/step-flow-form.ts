@@ -23,6 +23,7 @@ import {
 import { PolymerChangedEvent, applyPolymerEvent } from "../../polymer-types";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
+import { localizeKey } from "../../common/translations/localize";
 import { configFlowContentStyles } from "./styles";
 
 @customElement("step-flow-form")
@@ -43,6 +44,7 @@ class StepFlowForm extends LitElement {
   private _errorMsg?: string;
 
   protected render(): TemplateResult | void {
+    const localize = this.opp.localize;
     const step = this.step;
 
     const allRequiredInfoFilledIn =
@@ -57,14 +59,17 @@ class StepFlowForm extends LitElement {
               !["", undefined].includes(this._stepData![field.name])
           );
 
-    const description = 
+    const description = localizeKey(
+      localize,
       `component.${step.handler}.config.step.${step.step_id}.description`,
       step.description_placeholders
-    ;
+    );
 
     return html`
       <h2>
-          component.${step.handler}.config.step.${step.step_id}.title
+        ${localize(
+          `component.${step.handler}.config.step.${step.step_id}.title`
+        )}
       </h2>
       <div class="content">
         ${this._errorMsg
@@ -186,14 +191,15 @@ class StepFlowForm extends LitElement {
   private _labelCallback = (schema: FieldSchema): string => {
     const step = this.step as ConfigFlowStepForm;
 
-    return
+    return this.opp.localize(
       `component.${step.handler}.config.step.${step.step_id}.data.${
         schema.name
-      }`;
+      }`
+    );
   };
 
   private _errorCallback = (error: string) =>
-    `component.${this.step.handler}.config.error.${error}`;
+    this.opp.localize(`component.${this.step.handler}.config.error.${error}`);
 
   static get styles(): CSSResultArray {
     return [

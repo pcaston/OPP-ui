@@ -3,6 +3,7 @@ import {
   MessageBase,
   OppServices,
 } from './open-peer-power-js-websocket/lib';
+import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
 
 declare global {
@@ -84,6 +85,7 @@ export interface Panels {
 
 export interface Translation {
   nativeName: string;
+  isRTL: boolean;
   fingerprints: { [fragment: string]: string };
 }
 
@@ -154,6 +156,13 @@ export interface OpenPeerPower {
   services?: OppServices;
   config?: OppConfig;
   moreInfoEntityId?: string | null;
+  // i18n
+  // current effective language, in that order:
+  //   - backend saved user selected lanugage
+  //   - language in local appstorage
+  //   - browser language
+  //   - english (en)
+  language: string;
   user?: CurrentUser;
   callService: (
     domain: string,

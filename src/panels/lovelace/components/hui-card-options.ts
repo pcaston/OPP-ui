@@ -36,8 +36,9 @@ export class HuiCardOptions extends LitElement {
       <div class="options">
         <div class="primary-actions">
           <mwc-button @click="${this._editCard}"
-            >"ui.panel.lovelace.editor.edit_card.edit"
-            </mwc-button
+            >${this.opp!.localize(
+              "ui.panel.lovelace.editor.edit_card.edit"
+            )}</mwc-button
           >
         </div>
         <div class="secondary-actions">
@@ -68,12 +69,14 @@ export class HuiCardOptions extends LitElement {
             ></paper-icon-button>
             <paper-listbox slot="dropdown-content">
               <paper-item @click="${this._moveCard}"
-                >"ui.panel.lovelace.editor.edit_card.move"
-                </paper-item
+                >${this.opp!.localize(
+                  "ui.panel.lovelace.editor.edit_card.move"
+                )}</paper-item
               >
               <paper-item @click="${this._deleteCard}"
-                >"ui.panel.lovelace.editor.edit_card.delete"
-                </paper-item
+                >${this.opp!.localize(
+                  "ui.panel.lovelace.editor.edit_card.delete"
+                )}</paper-item
               >
             </paper-listbox>
           </paper-menu-button>

@@ -25,22 +25,28 @@ class ConfigNameForm extends LitElement {
   @property() private _name!: ConfigUpdateValues["location_name"];
 
   protected render(): TemplateResult | void {
-    const isStorage = this.opp.config.config_source === "storage";
-    const disabled = this._working || !isStorage;
+    const canEdit = ["storage", "default"].includes(
+      this.opp.config.config_source
+    );
+    const disabled = this._working || !canEdit;
 
     return html`
       <op-card>
         <div class="card-content">
-          ${!isStorage
+          ${!canEdit
             ? html`
                 <p>
-                  "ui.panel.config.core.section.core.core_config.edit_requires_storage"
+                  ${this.opp.localize(
+                    "ui.panel.config.core.section.core.core_config.edit_requires_storage"
+                  )}
                 </p>
               `
             : ""}
           <paper-input
             class="flex"
-            .label="ui.panel.config.core.section.core.core_config.location_name"
+            .label=${this.opp.localize(
+              "ui.panel.config.core.section.core.core_config.location_name"
+            )}
             name="name"
             .disabled=${disabled}
             .value=${this._nameValue}
@@ -49,7 +55,9 @@ class ConfigNameForm extends LitElement {
         </div>
         <div class="card-actions">
           <mwc-button @click=${this._save} .disabled=${disabled}>
-            "ui.panel.config.core.section.core.core_config.save_button"
+            ${this.opp.localize(
+              "ui.panel.config.core.section.core.core_config.save_button"
+            )}
           </mwc-button>
         </div>
       </op-card>

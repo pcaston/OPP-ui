@@ -10,9 +10,11 @@ import {
 import "@polymer/paper-fab/paper-fab";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item-body";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "home-assistant-js-websocket";
 
 import "../../../layouts/opp-subpage";
+
+import { computeRTL } from "../../../common/util/compute_rtl";
 
 import "../../../components/op-card";
 
@@ -34,14 +36,14 @@ class OpScriptPicker extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage
-        .header="ui.panel.config.script.caption"
+        .header=${this.opp.localize("ui.panel.config.script.caption")}
       >
         <op-config-section .isWide=${this.isWide}>
           <div slot="header">Script Editor</div>
           <div slot="introduction">
             The script editor allows you to create and edit scripts. Please read
             <a
-              href="https://open-peer-power.io/docs/scripts/editor/"
+              href="https://home-assistant.io/docs/scripts/editor/"
               target="_blank"
               >the instructions</a
             >
@@ -87,7 +89,7 @@ class OpScriptPicker extends LitElement {
             ?is-wide=${this.isWide}
             icon="opp:plus"
             title="Add Script"
-            ?rtl=false
+            ?rtl=${computeRTL(this.opp)}
           ></paper-fab>
         </a>
       </opp-subpage>
