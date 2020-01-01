@@ -10,12 +10,12 @@ import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
 import { saveTokens } from "../common/auth/token_storage";
-import LocalizeMixin from "../mixins/localize-mixin";
+import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
+
 import "../resources/op-style";
   
 @customElement("op-store-auth-card")
-  
-export class OppStoreAuth extends LocalizeMixin(LitElement) {
+export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
   @property() public opp?: OpenPeerPower;
   @property() public access_token!: String;
 

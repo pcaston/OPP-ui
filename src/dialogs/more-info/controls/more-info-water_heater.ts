@@ -1,6 +1,7 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
+import "@polymer/paper-toggle-button/paper-toggle-button";
 import { timeOut } from "@polymer/polymer/lib/utils/async";
 import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
@@ -9,17 +10,18 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/op-water_heater-control";
 import "../../../components/op-paper-slider";
 import "../../../components/op-paper-dropdown-menu";
-import "../../../components/op-switch";
-
-import { supportsFeature } from "../../../common/entity/supports-feature";
-import { EventsMixin } from "../../../mixins/events-mixin";
 
 import featureClassNames from "../../../common/entity/feature_class_names";
+import { supportsFeature } from "../../../common/entity/supports-feature";
+
+import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
+ * @appliesMixin LocalizeMixin
  */
-class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
+class MoreInfoWaterHeater extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -72,7 +74,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
         <div class="container-temperature">
           <div class$="[[stateObj.attributes.operation_mode]]">
             <div hidden$="[[!supportsTemperatureControls(stateObj)]]">
-              [['ui.card.water_heater.target_temperature']]
+              [[localize('ui.card.water_heater.target_temperature')]]
             </div>
             <template is="dom-if" if="[[supportsTemperature(stateObj)]]">
               <op-water_heater-control
@@ -94,7 +96,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
               <op-paper-dropdown-menu
                 label-float=""
                 dynamic-align=""
-                label="[['ui.card.water_heater.operation']]"
+                label="[[localize('ui.card.water_heater.operation')]]"
               >
                 <paper-listbox
                   slot="dropdown-content"
@@ -107,7 +109,7 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
                     items="[[stateObj.attributes.operation_list]]"
                   >
                     <paper-item item-name$="[[item]]"
-                      >[[_OperationMode(item)]]</paper-item
+                      >[[_localizeOperationMode(localize, item)]]</paper-item
                     >
                   </template>
                 </paper-listbox>
@@ -120,13 +122,13 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
           <div class="container-away_mode">
             <div class="center horizontal layout single-row">
               <div class="flex">
-                [['ui.card.water_heater.away_mode']]
+                [[localize('ui.card.water_heater.away_mode')]]
               </div>
-              <op-switch
+              <paper-toggle-button
                 checked="[[awayToggleChecked]]"
                 on-change="awayToggleChanged"
               >
-              </op-switch>
+              </paper-toggle-button>
             </div>
           </div>
         </template>
@@ -245,8 +247,8 @@ class MoreInfoWaterHeater extends EventsMixin(PolymerElement) {
     });
   }
 
-  _OperationMode(mode) {
-    return `state.water_heater.${mode}` || mode;
+  _localizeOperationMode(localize, mode) {
+    return localize(`state.water_heater.${mode}`) || mode;
   }
 }
 
