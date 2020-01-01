@@ -46,9 +46,13 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
 
     if (!stateObj) {
       return html`
-          <hui-warning-element
-              label="ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-          ></hui-warning-element>
+        <hui-warning-element
+          label=${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}
+        ></hui-warning-element>
       `;
     }
 
@@ -61,7 +65,9 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
       >
         ${this._config.prefix}${stateObj
           ? computeStateDisplay(
-              stateObj
+              this.opp.localize,
+              stateObj,
+              this.opp.language
             )
           : "-"}${this._config.suffix}
       </div>

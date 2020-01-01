@@ -93,10 +93,7 @@ class HaConfigAutomation extends PolymerElement {
     Object.keys(opp.states).forEach(function(key) {
       var entity = opp.states[key];
 
-      if (
-        computeStateDomain(entity) === "automation" &&
-        "id" in entity.attributes
-      ) {
+      if (computeStateDomain(entity) === "automation") {
         automations.push(entity);
       }
     });

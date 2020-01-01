@@ -1,4 +1,3 @@
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-item";
@@ -7,6 +6,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/buttons/op-call-api-button";
+import "../../../components/op-card";
 
 class ZwaveNodeProtection extends PolymerElement {
   static get template() {
@@ -19,8 +19,7 @@ class ZwaveNodeProtection extends PolymerElement {
         margin-top: 24px;
       }
 
-      paper-card {
-        display: block;
+      op-card {
         margin: 0 auto;
         max-width: 600px;
       }
@@ -33,7 +32,7 @@ class ZwaveNodeProtection extends PolymerElement {
 
     </style>
       <div class="content">
-        <paper-card heading="Node protection">
+        <op-card header="Node protection">
           <div class="device-picker">
           <paper-dropdown-menu label="Protection" dynamic-align class="flex" placeholder="{{_loadedProtectionValue}}">
             <paper-listbox slot="dropdown-content" selected="{{_selectedProtectionParameter}}">
@@ -51,7 +50,8 @@ class ZwaveNodeProtection extends PolymerElement {
               Set Protection
             </op-call-service-button>
           </div>
-        </div>
+        </op-card>
+      </div>
 `;
   }
 

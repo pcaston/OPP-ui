@@ -8,17 +8,21 @@ import "../../../layouts/opp-subpage";
 import "../../../components/op-icon-next";
 import "../../../components/op-card";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 import { EventsMixin } from "../../../mixins/events-mixin";
+
+import { computeRTL } from "../../../common/util/compute_rtl";
 
 let registeredDialog = false;
 
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin NavigateMixin
  * @appliesMixin EventsMixin
  */
 class OpUserPicker extends EventsMixin(
-  NavigateMixin(PolymerElement)
+  NavigateMixin(LocalizeMixin(PolymerElement))
 ) {
   static get template() {
     return html`
@@ -54,7 +58,7 @@ class OpUserPicker extends EventsMixin(
         }
       </style>
 
-      <opp-subpage header="[['ui.panel.config.users.picker.title']]">
+      <opp-subpage header="[[localize('ui.panel.config.users.picker.title')]]">
         <op-card>
           <template is="dom-repeat" items="[[users]]" as="user">
             <a href="[[_computeUrl(user)]]">
@@ -62,7 +66,7 @@ class OpUserPicker extends EventsMixin(
                 <paper-item-body two-line>
                   <div>[[_withDefault(user.name, 'Unnamed User')]]</div>
                   <div secondary="">
-                    [[_computeGroup( user)]]
+                    [[_computeGroup(localize, user)]]
                     <template is="dom-if" if="[[user.system_generated]]">
                       - System Generated
                     </template>
@@ -77,8 +81,9 @@ class OpUserPicker extends EventsMixin(
         <paper-fab
           is-wide$="[[isWide]]"
           icon="opp:plus"
-          title="[['ui.panel.config.users.picker.add_user']]"
+          title="[[localize('ui.panel.config.users.picker.add_user')]]"
           on-click="_addUser"
+          rtl$="[[rtl]]"
         ></paper-fab>
       </opp-subpage>
     `;
@@ -88,6 +93,12 @@ class OpUserPicker extends EventsMixin(
     return {
       opp: Object,
       users: Array,
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
@@ -113,8 +124,12 @@ class OpUserPicker extends EventsMixin(
     return `/config/users/${user.id}`;
   }
 
-  _computeGroup(user) {
-    return `groups.${user.group_ids[0]}`;
+  _computeGroup(localize, user) {
+    return localize(`groups.${user.group_ids[0]}`);
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 
   _addUser() {

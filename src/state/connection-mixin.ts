@@ -1,15 +1,20 @@
 import {
   ERR_INVALID_AUTH,
   subscribeEntities,
+  subscribeConfig,
   subscribeServices,
   callService,
   Auth,
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
+import { translationMetadata } from "../resources/translations-metadata";
+
 import { getState } from "../util/op-pref-storage";
+import { getLocalLanguage } from "../util/opp-translation";
 import { fetchWithAuth } from "../util/fetch-with-auth";
 import oppCallApi from "../util/opp-call-api";
+import { subscribePanels } from "../data/ws-panels";
 import { forwardHaptic } from "../data/haptics";
 import { fireEvent } from "../common/dom/fire_event";
 import { Constructor, LitElement } from "lit-element";
@@ -21,20 +26,59 @@ export const connectionMixin = (
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {
-      console.log("Opp Initialise 2");
       this.opp = {
+        auth,
         connection: conn,
         connected: true,
         states: null as any,
         config: null as any,
+        themes: null as any,
         panels: null as any,
         services: null as any,
         user: null as any,
         panelUrl: (this as any)._panelUrl,
+
+        language: getLocalLanguage(),
+        selectedLanguage: null,
         resources: null as any,
+        localize: () => "",
+
+        translationMetadata,
         dockedSidebar: false,
         moreInfoEntityId: null,
-
+        callService: async (domain, service, serviceData = {}) => {
+          if (__DEV__) {
+            // tslint:disable-next-line: no-console
+            console.log("Calling service", domain, service, serviceData);
+          }
+          try {
+            await callService(conn, domain, service, serviceData);
+          } catch (err) {
+            if (__DEV__) {
+              // tslint:disable-next-line: no-console
+              console.error(
+                "Error calling service",
+                domain,
+                service,
+                serviceData,
+                err
+              );
+            }
+            forwardHaptic("failure");
+            const message =
+              (this as any).opp.localize(
+                "ui.notification_toast.service_call_failed",
+                "service",
+                `${domain}/${service}`
+              ) + ` ${err.message}`;
+            fireEvent(this as any, "opp-notification", { message });
+            throw err;
+          }
+        },
+        callApi: async (method, path, parameters) =>
+          oppCallApi(auth, method, path, parameters),
+        fetchWithAuth: (path, init) =>
+          fetchWithAuth(auth, `${auth.data.oppUrl}${path}`, init),
         // For messages that do not get a response
         sendWS: (msg) => {
           if (__DEV__) {
@@ -87,6 +131,9 @@ export const connectionMixin = (
       });
 
       subscribeEntities(conn, (states) => this._updateOpp({ states }));
+      subscribeConfig(conn, (config) => this._updateOpp({ config }));
+      subscribeServices(conn, (services) => this._updateOpp({ services }));
+      subscribePanels(conn, (panels) => this._updateOpp({ panels }));
     }
 
     protected oppReconnected() {

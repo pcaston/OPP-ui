@@ -17,10 +17,13 @@ import "./op-logbook-data";
 import "./op-logbook";
 
 import formatDate from "../../common/datetime/format_date";
+import LocalizeMixin from "../../mixins/localize-mixin";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpPanelLogbook extends PolymerElement {
+class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -55,7 +58,7 @@ class OpPanelLogbook extends PolymerElement {
           }
         }
 
-        :host('ltr') paper-dropdown-menu {
+        :host([rtl]) paper-dropdown-menu {
           text-align: right;
         }
 
@@ -87,7 +90,7 @@ class OpPanelLogbook extends PolymerElement {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.logbook')]</div>
+            <div main-title>[[localize('panel.logbook')]]</div>
             <paper-icon-button
               icon="opp:refresh"
               on-click="refreshLogbook"
@@ -100,21 +103,21 @@ class OpPanelLogbook extends PolymerElement {
           <paper-spinner
             active="[[isLoading]]"
             hidden$="[[!isLoading]]"
-            alt="[['ui.common.loading']]"
+            alt="[[localize('ui.common.loading')]]"
           ></paper-spinner>
 
           <div class="flex layout horizontal wrap">
             <vaadin-date-picker
               id="picker"
               value="{{_currentDate}}"
-              label="[['ui.panel.logbook.showing_entries']]"
+              label="[[localize('ui.panel.logbook.showing_entries')]]"
               disabled="[[isLoading]]"
               required
             ></vaadin-date-picker>
 
             <paper-dropdown-menu
               label-float
-              label="[['ui.panel.logbook.period']]"
+              label="[[localize('ui.panel.logbook.period')]]"
               disabled="[[isLoading]]"
             >
               <paper-listbox
@@ -122,13 +125,13 @@ class OpPanelLogbook extends PolymerElement {
                 selected="{{_periodIndex}}"
               >
                 <paper-item
-                  >[['ui.duration.day', 'count', 1]]</paper-item
+                  >[[localize('ui.duration.day', 'count', 1)]]</paper-item
                 >
                 <paper-item
-                  >[['ui.duration.day', 'count', 3)]</paper-item
+                  >[[localize('ui.duration.day', 'count', 3)]]</paper-item
                 >
                 <paper-item
-                  >[['ui.duration.week', 'count', 1)]</paper-item
+                  >[[localize('ui.duration.week', 'count', 1)]]</paper-item
                 >
               </paper-listbox>
             </paper-dropdown-menu>
@@ -136,7 +139,7 @@ class OpPanelLogbook extends PolymerElement {
             <op-entity-picker
               opp="[[opp]]"
               value="{{_entityId}}"
-              label="[['ui.components.entity.entity-picker.entity']]"
+              label="[[localize('ui.components.entity.entity-picker.entity')]]"
               disabled="[[isLoading]]"
               on-change="_entityPicked"
             ></op-entity-picker>
@@ -197,6 +200,12 @@ class OpPanelLogbook extends PolymerElement {
       datePicker: {
         type: Object,
       },
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
@@ -233,6 +242,10 @@ class OpPanelLogbook extends PolymerElement {
 
   refreshLogbook() {
     this.shadowRoot.querySelector("op-logbook-data").refreshLogbook();
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 

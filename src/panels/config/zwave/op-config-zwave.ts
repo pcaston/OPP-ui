@@ -1,6 +1,5 @@
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
@@ -15,6 +14,7 @@ import "../../../components/op-service-description";
 import "../../../components/op-paper-icon-button-arrow-prev";
 import "../../../layouts/op-app-layout";
 import "../../../resources/op-style";
+import "../../../components/op-card";
 
 import "../op-config-section";
 import "../op-form-style";
@@ -30,11 +30,13 @@ import sortByName from "../../../common/entity/states_sort_by_name";
 import computeStateName from "../../../common/entity/compute_state_name";
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class OpConfigZwave extends EventsMixin(PolymerElement) {
+class OpConfigZwave extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex op-style op-form-style">
@@ -51,8 +53,7 @@ class OpConfigZwave extends EventsMixin(PolymerElement) {
           padding-right: 24px;
         }
 
-        paper-card {
-          display: block;
+        op-card {
           margin: 0 auto;
           max-width: 600px;
         }
@@ -88,7 +89,7 @@ class OpConfigZwave extends EventsMixin(PolymerElement) {
               on-click="_backTapped"
             ></op-paper-icon-button-arrow-prev>
             <div main-title="">
-              [['ui.panel.config.zwave.caption']]
+              [[localize('ui.panel.config.zwave.caption')]]
             </div>
           </app-toolbar>
         </app-header>
@@ -114,7 +115,7 @@ class OpConfigZwave extends EventsMixin(PolymerElement) {
             list of available commands.
           </span>
 
-          <paper-card class="content">
+          <op-card class="content">
             <div class="device-picker">
               <paper-dropdown-menu dynamic-align="" label="Nodes" class="flex">
                 <paper-listbox
@@ -284,7 +285,7 @@ class OpConfigZwave extends EventsMixin(PolymerElement) {
                     checked="{{entityIgnored}}"
                     class="form-control"
                   >
-                    Exclude this entity from Home Assistant
+                    Exclude this entity from Open Peer Power
                   </paper-checkbox>
                   <paper-input
                     disabled="{{entityIgnored}}"
@@ -307,7 +308,7 @@ class OpConfigZwave extends EventsMixin(PolymerElement) {
                 </div>
               </template>
             </template>
-          </paper-card>
+          </op-card>
 
           <template is="dom-if" if="[[computeIsNodeSelected(selectedNode)]]">
             <!-- Value card -->

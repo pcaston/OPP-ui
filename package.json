@@ -104,6 +104,7 @@
     "xss": "^1.0.6"
   },
   "devDependencies": {
+    "@polymer/decorators": "^3.0.0",
     "@polymer/test-fixture": "^4.0.2",
     "@types/hls.js": "^0.12.4",
     "axe-core": "^3.0.0",

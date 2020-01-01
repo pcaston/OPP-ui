@@ -1,13 +1,13 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../opp-icon";
+import "../op-icon";
 import stateIcon from "../../common/entity/state_icon";
 
 class OppStateIcon extends PolymerElement {
   static get template() {
     return html`
-      <opp-icon icon="[[computeIcon(stateObj)]]"></opp-icon>
+      <op-icon icon="[[computeIcon(stateObj)]]"></op-icon>
     `;
   }
 

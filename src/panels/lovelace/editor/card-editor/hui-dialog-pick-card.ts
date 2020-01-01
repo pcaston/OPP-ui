@@ -30,7 +30,7 @@ export class HuiDialogPickCard extends LitElement {
         @opened-changed="${this._openedChanged}"
       >
         <h2>
-          "ui.panel.lovelace.editor.edit_card.header"
+          ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.header")}
         </h2>
         <paper-dialog-scrollable>
           <hui-card-picker

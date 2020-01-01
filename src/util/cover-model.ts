@@ -1,8 +1,18 @@
 import { supportsFeature } from "../common/entity/supports-feature";
+import { OpenPeerPower, OppEntity } from "../types";
 
 /* eslint-enable no-bitwise */
-export default class CoverEntity {
-  constructor(opp, stateObj) {
+export default class CoverEntity { 
+  opp: OpenPeerPower;
+  stateObj: OppEntity;
+  _attr: {
+    supported_features?: {};
+    current_position?: {};
+    current_tilt_position?: {};
+  };
+  _feat?: {
+    };
+  constructor(opp: OpenPeerPower, stateObj: OppEntity) {
     this.opp = opp;
     this.stateObj = stateObj;
     this._attr = stateObj.attributes;
@@ -103,7 +113,7 @@ export default class CoverEntity {
     this.callService("stop_cover_tilt");
   }
 
-  setCoverPosition(position) {
+  setCoverPosition(position: {entity_id: {};}) {
     this.callService("set_cover_position", { position });
   }
 
@@ -115,7 +125,7 @@ export default class CoverEntity {
 
   // helper method
 
-  callService(service, data = {}) {
+  callService(service: string, data = {entity_id: {},}) {
     data.entity_id = this.stateObj.entity_id;
     this.opp.callService("cover", service, data);
   }
@@ -135,7 +145,7 @@ export const supportsCloseTilt = (stateObj) => supportsFeature(stateObj, 32);
 
 export const supportsStopTilt = (stateObj) => supportsFeature(stateObj, 64);
 
-export const supportsSetTiltPosition = (stateObj) =>
+export const supportsSetTiltPosition = (stateObj: OppEntity) =>
   supportsFeature(stateObj, 128);
 
 export function isTiltOnly(stateObj) {

@@ -6,9 +6,12 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../resources/op-style";
 import "../../components/dialog/op-paper-dialog";
 
+import LocalizeMixin from "../../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpDialogShowAudioMessage extends PolymerElement {
+class OpDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -49,7 +52,7 @@ class OpDialogShowAudioMessage extends PolymerElement {
         on-opened-changed="_openedChanged"
       >
         <h2>
-          [['ui.panel.mailbox.playback_title']]
+          [[localize('ui.panel.mailbox.playback_title')]]
           <div class="icon">
             <template is="dom-if" if="[[_loading]]">
               <paper-spinner active></paper-spinner>
@@ -135,7 +138,7 @@ class OpDialogShowAudioMessage extends PolymerElement {
   }
 
   openDeleteDialog() {
-    if ("ui.panel.mailbox.delete_prompt") {
+    if (confirm(this.localize("ui.panel.mailbox.delete_prompt"))) {
       this.deleteSelected();
     }
   }

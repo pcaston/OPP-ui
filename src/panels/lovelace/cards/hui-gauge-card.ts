@@ -42,6 +42,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
 
   @property() public opp?: OpenPeerPower;
 
+  @property() private _baseUnit = "50px";
   @property() private _config?: GaugeCardConfig;
 
   private _updated?: boolean;
@@ -75,8 +76,11 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
     if (!stateObj) {
       return html`
         <hui-warning
-          >"ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}
-          </hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
@@ -86,23 +90,31 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
     if (isNaN(state)) {
       return html`
         <hui-warning
-          >"ui.panel.lovelace.warning.entity_non_numeric entity ${this._config.entity}"
-          </hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_non_numeric",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
 
     return html`
-      <op-card @click="${this._handleClick}">
+      <op-card
+        @click="${this._handleClick}"
+        style=${styleMap({
+          "--base-unit": this._baseUnit,
+        })}
+      >
         <div class="container">
           <div class="gauge-a"></div>
           <div class="gauge-b"></div>
           <div
             class="gauge-c"
-            style="${styleMap({
+            style=${styleMap({
               transform: `rotate(${this._translateTurn(state)}turn)`,
               "background-color": this._computeSeverity(state),
-            })}"
+            })}
           ></div>
           <div class="gauge-data">
             <div id="percent">
@@ -148,12 +160,9 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
       return;
     }
     const baseUnit = this._computeBaseUnit();
-    if (baseUnit === "0px") {
-      return;
+    if (baseUnit !== "0px") {
+      this._baseUnit = baseUnit;
     }
-    (this.shadowRoot!.querySelector(
-      "op-card"
-    )! as HTMLElement).style.setProperty("--base-unit", baseUnit);
   }
 
   private _computeSeverity(numberValue: number): string {
@@ -205,7 +214,6 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
   static get styles(): CSSResult {
     return css`
       op-card {
-        --base-unit: 50px;
         height: calc(var(--base-unit) * 3);
         position: relative;
         cursor: pointer;

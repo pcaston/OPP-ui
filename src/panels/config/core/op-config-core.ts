@@ -9,9 +9,12 @@ import "../../../resources/op-style";
 
 import "./op-config-section-core";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
-class HaConfigCore extends PolymerElement {
+class HaConfigCore extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -30,7 +33,7 @@ class HaConfigCore extends PolymerElement {
         }
       </style>
 
-      <opp-subpage header="[['ui.panel.config.core.caption']]">
+      <opp-subpage header="[[localize('ui.panel.config.core.caption')]]">
         <div class$="[[computeClasses(isWide)]]">
           <op-config-section-core
             is-wide="[[isWide]]"

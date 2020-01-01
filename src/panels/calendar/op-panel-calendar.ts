@@ -2,7 +2,6 @@ import "@polymer/app-layout/app-header-layout/app-header-layout";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-listbox/paper-listbox";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-checkbox/paper-checkbox";
 import "@polymer/paper-item/paper-item";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
@@ -11,15 +10,18 @@ import moment from "moment";
 import dates from "react-big-calendar/lib/utils/dates";
 
 import "../../components/op-menu-button";
+import "../../components/op-card";
 import "../../resources/op-style";
 import "./op-big-calendar";
+
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 const DEFAULT_VIEW = "month";
 
 /*
-
+ * @appliesMixin LocalizeMixin
  */
-class HaPanelCalendar extends PolymerElement {
+class OpPanelCalendar extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -66,13 +68,13 @@ class HaPanelCalendar extends PolymerElement {
         <app-header slot="header" fixed>
           <app-toolbar>
             <op-menu-button></op-menu-button>
-            <div main-title>[['panel.calendar']]</div>
+            <div main-title>[[localize('panel.calendar')]]</div>
           </app-toolbar>
         </app-header>
 
         <div class="flex content">
           <div id="calendars" class="layout vertical wrap">
-            <paper-card heading="Calendars">
+            <op-card header="Calendars">
               <paper-listbox
                 id="calendar_list"
                 multi
@@ -90,7 +92,7 @@ class HaPanelCalendar extends PolymerElement {
                   </paper-item>
                 </template>
               </paper-listbox>
-            </paper-card>
+            </op-card>
           </div>
           <div class="flex layout horizontal wrap">
             <op-big-calendar
@@ -219,4 +221,4 @@ class HaPanelCalendar extends PolymerElement {
   }
 }
 
-customElements.define("op-panel-calendar", HaPanelCalendar);
+customElements.define("op-panel-calendar", OpPanelCalendar);

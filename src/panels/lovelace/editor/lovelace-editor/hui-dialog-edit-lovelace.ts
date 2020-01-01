@@ -65,7 +65,7 @@ export class HuiDialogEditLovelace extends LitElement {
         ></paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._closeDialog}"
-            >cancel</mwc-button
+            >${this.opp!.localize("ui.common.cancel")}</mwc-button
           >
           <mwc-button
             ?disabled="${!this._config || this._saving}"
@@ -75,7 +75,7 @@ export class HuiDialogEditLovelace extends LitElement {
               ?active="${this._saving}"
               alt="Saving"
             ></paper-spinner>
-            save</mwc-button
+            ${this.opp!.localize("ui.common.save")}</mwc-button
           >
         </div>
       </op-paper-dialog>

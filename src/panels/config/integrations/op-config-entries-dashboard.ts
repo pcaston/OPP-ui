@@ -14,19 +14,23 @@ import "../../../layouts/opp-subpage";
 import "../../../resources/op-style";
 import "../../../components/op-icon-next";
 
+import { computeRTL } from "../../../common/util/compute_rtl";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 import computeStateName from "../../../common/entity/compute_state_name";
 import {
   loadConfigFlowDialog,
   showConfigFlowDialog,
 } from "../../../dialogs/config-flow/show-dialog-config-flow";
+import { localizeConfigFlowTitle } from "../../../data/config_entries";
 
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class OpConfigManagerDashboard extends 
-  EventsMixin(PolymerElement
+class OpConfigManagerDashboard extends LocalizeMixin(
+  EventsMixin(PolymerElement)
 ) {
   static get template() {
     return html`
@@ -74,21 +78,21 @@ class OpConfigManagerDashboard extends
       </style>
 
       <opp-subpage
-        header="[['ui.panel.config.integrations.caption']]"
+        header="[[localize('ui.panel.config.integrations.caption')]]"
       >
         <template is="dom-if" if="[[progress.length]]">
           <op-config-section>
             <span slot="header"
-              >[['ui.panel.config.integrations.discovered']]</span
+              >[[localize('ui.panel.config.integrations.discovered')]]</span
             >
             <op-card>
               <template is="dom-repeat" items="[[progress]]">
                 <div class="config-entry-row">
                   <paper-item-body>
-                    [[item]]
+                    [[_computeActiveFlowTitle(localize, item)]]
                   </paper-item-body>
                   <mwc-button on-click="_continueFlow"
-                    >[['ui.panel.config.integrations.configure']]</mwc-button
+                    >[[localize('ui.panel.config.integrations.configure')]]</mwc-button
                   >
                 </div>
               </template>
@@ -98,13 +102,13 @@ class OpConfigManagerDashboard extends
 
         <op-config-section class="configured">
           <span slot="header"
-            >[['ui.panel.config.integrations.configured']]</span
+            >[[localize('ui.panel.config.integrations.configured')]]</span
           >
           <op-card>
             <template is="dom-if" if="[[!entries.length]]">
               <div class="config-entry-row">
                 <paper-item-body two-line>
-                  <div>[['ui.panel.config.integrations.none']]</div>
+                  <div>[[localize('ui.panel.config.integrations.none')]]</div>
                 </paper-item-body>
               </div>
             </template>
@@ -113,7 +117,7 @@ class OpConfigManagerDashboard extends
                 <paper-item>
                   <paper-item-body two-line>
                     <div>
-                      [[_computeIntegrationTitle(item.domain)]]:
+                      [[_computeIntegrationTitle(localize, item.domain)]]:
                       [[item.title]]
                     </div>
                     <div secondary>
@@ -142,9 +146,10 @@ class OpConfigManagerDashboard extends
 
         <paper-fab
           icon="opp:plus"
-          title="[['ui.panel.config.integrations.new']]"
+          title="[[localize('ui.panel.config.integrations.new')]]"
           on-click="_createFlow"
           is-wide$="[[isWide]]"
+          rtl$="[[rtl]]"
         ></paper-fab>
       </opp-subpage>
     `;
@@ -172,6 +177,12 @@ class OpConfigManagerDashboard extends
       progress: Array,
 
       handlers: Array,
+
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
@@ -193,8 +204,12 @@ class OpConfigManagerDashboard extends
     });
   }
 
-  _computeIntegrationTitle(integration) {
-    return `component.${integration}.config.title`;
+  _computeIntegrationTitle(localize, integration) {
+    return localize(`component.${integration}.config.title`);
+  }
+
+  _computeActiveFlowTitle(localize, flow) {
+    return localizeConfigFlowTitle(localize, flow);
   }
 
   _computeConfigEntryEntities(opp, configEntry, entities) {
@@ -219,6 +234,10 @@ class OpConfigManagerDashboard extends
 
   _handleMoreInfo(ev) {
     this.fire("opp-more-info", { entityId: ev.model.item.entity_id });
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 

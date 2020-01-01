@@ -93,8 +93,8 @@ class ConfigFlowDialog extends LitElement {
           this._handlers = (await getConfigFlowHandlers(this.opp)).sort(
             (handlerA, handlerB) =>
               caseInsensitiveCompare(
-                `component.${handlerA}.config.title`,
-                `component.${handlerB}.config.title`
+                this.opp.localize(`component.${handlerA}.config.title`),
+                this.opp.localize(`component.${handlerB}.config.title`)
               )
           );
         } finally {
@@ -219,15 +219,18 @@ class ConfigFlowDialog extends LitElement {
   }
 
   private async _fetchDevices(configEntryId) {
-    this._unsubDevices = subscribeDeviceRegistry(this.opp, (devices) => {
-      this._devices = devices.filter((device) =>
-        device.config_entries.includes(configEntryId)
-      );
-    });
+    this._unsubDevices = subscribeDeviceRegistry(
+      this.opp.connection,
+      (devices) => {
+        this._devices = devices.filter((device) =>
+          device.config_entries.includes(configEntryId)
+        );
+      }
+    );
   }
 
   private async _fetchAreas() {
-    this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
+    this._unsubAreas = subscribeAreaRegistry(this.opp.connection, (areas) => {
       this._areas = areas;
     });
   }

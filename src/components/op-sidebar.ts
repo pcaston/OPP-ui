@@ -11,7 +11,7 @@ import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-icon-item";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import "./opp-icon";
+import "./op-icon";
 
 import "../components/user/op-user-badge";
 import isComponentLoaded from "../common/config/is_component_loaded";
@@ -67,6 +67,7 @@ const computePanels = (opp: OpenPeerPower) => {
 };
 
 /*
+ * @appliesMixin LocalizeMixin
  */
 class OpSidebar extends LitElement {
   @property() public opp?: OpenPeerPower;
@@ -100,8 +101,8 @@ class OpSidebar extends LitElement {
           tabindex="-1"
         >
           <paper-icon-item>
-            <opp-icon slot="item-icon" icon="opp:apps"></opp-icon>
-            <span class="item-text">"panel.states"</span>
+            <op-icon slot="item-icon" icon="opp:apps"></op-icon>
+            <span class="item-text">${opp.localize("panel.states")}</span>
           </paper-icon-item>
         </a>
 
@@ -113,9 +114,10 @@ class OpSidebar extends LitElement {
               tabindex="-1"
             >
               <paper-icon-item>
-                <opp-icon slot="item-icon" .icon="${panel.icon}"></opp-icon>
+                <op-icon slot="item-icon" .icon="${panel.icon}"></op-icon>
                 <span class="item-text"
-                  >"panel.${panel.title}" || panel.title</span>
+                  >${opp.localize(`panel.${panel.title}`) || panel.title}</span
+                >
               </paper-icon-item>
             </a>
           `
@@ -123,17 +125,20 @@ class OpSidebar extends LitElement {
         ${this._externalConfig && this._externalConfig.hasSettingsScreen
           ? html`
               <a
+                aria-label="App Configuration"
                 href="#external-app-configuration"
                 tabindex="-1"
                 @click=${this._handleExternalAppConfiguration}
               >
                 <paper-icon-item>
-                  <opp-icon
+                  <op-icon
                     slot="item-icon"
                     icon="opp:cellphone-settings-variant"
-                  ></opp-icon>
+                  ></op-icon>
                   <span class="item-text"
-                    >"ui.sidebar.external_app_configuration"</span
+                    >${opp.localize(
+                      "ui.sidebar.external_app_configuration"
+                    )}</span
                   >
                 </paper-icon-item>
               </a>
@@ -142,9 +147,9 @@ class OpSidebar extends LitElement {
         ${!opp.user
           ? html`
               <paper-icon-item @click=${this._handleLogOut} class="logout">
-                <opp-icon slot="item-icon" icon="opp:exit-to-app"></opp-icon>
+                <op-icon slot="item-icon" icon="opp:exit-to-app"></op-icon>
                 <span class="item-text"
-                  >"ui.sidebar.log_out"</span
+                  >${opp.localize("ui.sidebar.log_out")}</span
                 >
               </paper-icon-item>
             `
@@ -157,36 +162,36 @@ class OpSidebar extends LitElement {
               <div class="divider"></div>
 
               <div class="subheader">
-                "ui.sidebar.developer_tools"
+                ${opp.localize("ui.sidebar.developer_tools")}
               </div>
 
               <div class="dev-tools">
                 <a href="/dev-service" tabindex="-1">
                   <paper-icon-button
                     icon="opp:remote"
-                    alt=panel.dev-services"
-                    title=panel.dev-services"
+                    alt="${opp.localize("panel.dev-services")}"
+                    title="${opp.localize("panel.dev-services")}"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-state" tabindex="-1">
                   <paper-icon-button
                     icon="opp:code-tags"
-                    alt="panel.dev-states"
-                    title="panel.dev-states"
+                    alt="${opp.localize("panel.dev-states")}"
+                    title="${opp.localize("panel.dev-states")}"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-event" tabindex="-1">
                   <paper-icon-button
                     icon="opp:radio-tower"
-                    alt="panel.dev-events"
-                    title="panel.dev-events"
+                    alt="${opp.localize("panel.dev-events")}"
+                    title="${opp.localize("panel.dev-events")}"
                   ></paper-icon-button>
                 </a>
                 <a href="/dev-template" tabindex="-1">
                   <paper-icon-button
                     icon="opp:file-xml"
-                    alt="panel.dev-templates"
-                    title="panel.dev-templates"
+                    alt="${opp.localize("panel.dev-templates")}"
+                    title="${opp.localize("panel.dev-templates")}"
                   ></paper-icon-button>
                 </a>
                 ${isComponentLoaded(opp, "mqtt")
@@ -194,8 +199,8 @@ class OpSidebar extends LitElement {
                       <a href="/dev-mqtt" tabindex="-1">
                         <paper-icon-button
                           icon="opp:altimeter"
-                          alt="panel.dev-mqtt"
-                          title="panel.dev-mqtt"
+                          alt="${opp.localize("panel.dev-mqtt")}"
+                          title="${opp.localize("panel.dev-mqtt")}"
                         ></paper-icon-button>
                       </a>
                     `
@@ -203,8 +208,8 @@ class OpSidebar extends LitElement {
                 <a href="/dev-info" tabindex="-1">
                   <paper-icon-button
                     icon="opp:information-outline"
-                    alt="panel.dev-info"
-                    title="panel.dev-info"
+                    alt="${opp.localize("panel.dev-info")}"
+                    title="${opp.localize("panel.dev-info")}"
                   ></paper-icon-button>
                 </a>
               </div>
@@ -231,6 +236,7 @@ class OpSidebar extends LitElement {
       opp.panelUrl !== oldOpp.panelUrl ||
       opp.config.components !== oldOpp.config.components ||
       opp.user !== oldOpp.user ||
+      opp.localize !== oldOpp.localize
     );
   }
 
@@ -299,7 +305,7 @@ class OpSidebar extends LitElement {
         --paper-item-min-height: 40px;
       }
 
-      opp-icon[slot="item-icon"] {
+      op-icon[slot="item-icon"] {
         color: var(--sidebar-icon-color);
       }
 
@@ -328,7 +334,7 @@ class OpSidebar extends LitElement {
         font-size: 14px;
       }
 
-      a.iron-selected paper-icon-item opp-icon {
+      a.iron-selected paper-icon-item op-icon {
         color: var(--sidebar-selected-icon-color);
       }
 

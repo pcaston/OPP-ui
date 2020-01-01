@@ -351,4 +351,4 @@ class OpPanelDevState extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-panel-dev-state", HaPanelDevState);
+customElements.define("op-panel-dev-state", OpPanelDevState);

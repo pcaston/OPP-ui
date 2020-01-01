@@ -88,7 +88,7 @@ export class HuiUnusedEntities extends LitElement {
       .map((domain) => {
         const el = createCardElement({
           type: "entities",
-          title: `domain.${domain}` || domain,
+          title: this._opp!.localize(`domain.${domain}`) || domain,
           entities: domains[domain].map((entity) => ({
             entity,
             secondary_info: "entity-id",

@@ -16,7 +16,7 @@ import computeDomain from "../../../common/entity/compute_domain";
 import stateIcon from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-image";
 import "../components/hui-warning-element";
 
@@ -164,14 +164,18 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning
+        <hui-warning-element
+          label=${this.opp!.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            entityConf.entity
+          )}
+        ></hui-warning-element>
       `;
     }
 
     return html`
-      <opp-icon
+      <op-icon
         .entity="${stateObj.entity_id}"
         @click="${dialog ? this._openDialog : this._callService}"
         class="${classMap({
@@ -180,10 +184,12 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
         .icon="${entityConf.icon || stateIcon(stateObj)}"
         title="${`
             ${computeStateName(stateObj)} : ${computeStateDisplay(
-          stateObj
+          this.opp!.localize,
+          stateObj,
+          this.opp!.language
         )}
           `}"
-      ></opp-icon>
+      ></op-icon>
     `;
   }
 
@@ -240,13 +246,13 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
         margin-left: 8px;
       }
 
-      opp-icon {
+      op-icon {
         cursor: pointer;
         padding: 8px;
         color: #a9a9a9;
       }
 
-      opp-icon.state-on {
+      op-icon.state-on {
         color: white;
       }
     `;

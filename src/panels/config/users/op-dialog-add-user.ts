@@ -6,9 +6,12 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/dialog/op-paper-dialog";
 import "../../../resources/op-style";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpDialogAddUser extends PolymerElement {
+class OpDialogAddUser extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -28,14 +31,14 @@ class OpDialogAddUser extends PolymerElement {
         opened="{{_opened}}"
         on-opened-changed="_openedChanged"
       >
-        <h2>[['ui.panel.config.users.add_user.caption']]</h2>
+        <h2>[[localize('ui.panel.config.users.add_user.caption')]]</h2>
         <div>
           <template is="dom-if" if="[[_errorMsg]]">
             <div class="error">[[_errorMsg]]</div>
           </template>
           <paper-input
             class="name"
-            label="[['ui.panel.config.users.add_user.name']]"
+            label="[[localize('ui.panel.config.users.add_user.name')]]"
             value="{{_name}}"
             required
             auto-validate
@@ -45,7 +48,7 @@ class OpDialogAddUser extends PolymerElement {
           ></paper-input>
           <paper-input
             class="username"
-            label="[['ui.panel.config.users.add_user.username']]"
+            label="[[localize('ui.panel.config.users.add_user.username')]]"
             value="{{_username}}"
             required
             auto-validate
@@ -53,7 +56,7 @@ class OpDialogAddUser extends PolymerElement {
             error-message="Required"
           ></paper-input>
           <paper-input
-            label="[['ui.panel.config.users.add_user.password']]"
+            label="[[localize('ui.panel.config.users.add_user.password')]]"
             type="password"
             value="{{_password}}"
             required
@@ -69,7 +72,7 @@ class OpDialogAddUser extends PolymerElement {
           </template>
           <template is="dom-if" if="[[!_loading]]">
             <mwc-button on-click="_createUser"
-              >[['ui.panel.config.users.add_user.create']]</mwc-button
+              >[[localize('ui.panel.config.users.add_user.create')]]</mwc-button
             >
           </template>
         </div>
@@ -151,7 +154,7 @@ class OpDialogAddUser extends PolymerElement {
 
     try {
       await this.opp.callWS({
-        type: "config/auth_provider/openPeerPower/create",
+        type: "config/auth_provider/openpeerpower/create",
         user_id: userId,
         username: this._username,
         password: this._password,

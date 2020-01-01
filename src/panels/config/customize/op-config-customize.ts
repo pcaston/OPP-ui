@@ -15,10 +15,12 @@ import "./op-form-customize";
 import computeStateName from "../../../common/entity/compute_state_name";
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 import sortByName from "../../../common/entity/states_sort_by_name";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpConfigCustomize extends PolymerElement {
+class HaConfigCustomize extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style"></style>
@@ -30,7 +32,7 @@ class OpConfigCustomize extends PolymerElement {
               on-click="_backTapped"
             ></op-paper-icon-button-arrow-prev>
             <div main-title="">
-              [['ui.panel.config.customize.caption']]
+              [[localize('ui.panel.config.customize.caption')]]
             </div>
           </app-toolbar>
         </app-header>
@@ -38,10 +40,10 @@ class OpConfigCustomize extends PolymerElement {
         <div class$="[[computeClasses(isWide)]]">
           <op-config-section is-wide="[[isWide]]">
             <span slot="header">
-              [['ui.panel.config.customize.picker.header']]
+              [[localize('ui.panel.config.customize.picker.header')]]
             </span>
             <span slot="introduction">
-              [['ui.panel.config.customize.picker.introduction']]
+              [[localize('ui.panel.config.customize.picker.introduction')]]
             </span>
             <op-entity-config
               opp="[[opp]]"
@@ -94,4 +96,4 @@ class OpConfigCustomize extends PolymerElement {
       .sort(sortByName);
   }
 }
-customElements.define("op-config-customize", OpConfigCustomize);
+customElements.define("op-config-customize", HaConfigCustomize);

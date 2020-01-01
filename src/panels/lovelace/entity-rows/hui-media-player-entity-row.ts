@@ -48,53 +48,56 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning>
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
+        >
       `;
     }
+
     return html`
       <hui-generic-entity-row
         .opp="${this.opp}"
         .config="${this._config}"
         .showSecondary="false"
       >
-      ${OFF_STATES.includes(stateObj.state)
-        ? html`
-          <div>
-            state.media_player.${stateObj.state} ||
-            state.default.${stateObj.state} ||
-            stateObj.state}
-          </div>
-        `
-        : html`
-          <div class="controls">
-            ${stateObj.state !== "playing" &&
-            !supportsFeature(stateObj, SUPPORTS_PLAY)
-              ? ""
-              : html`
-              <paper-icon-button
-                icon="${this._computeControlIcon(stateObj)}"
-                @click="${this._playPause}"
-              ></paper-icon-button>
-              `
-            }
-            ${supportsFeature(stateObj, SUPPORT_NEXT_TRACK)
-              ? html`
-                <paper-icon-button
-                  icon="opp:skip-next"
-                  @click="${this._nextTrack}"
-                ></paper-icon-button>
-              `
-              : ""
-              }
-          </div>
-        `
-      }
+        ${OFF_STATES.includes(stateObj.state)
+          ? html`
+              <div>
+                ${this.opp!.localize(`state.media_player.${stateObj.state}`) ||
+                  this.opp!.localize(`state.default.${stateObj.state}`) ||
+                  stateObj.state}
+              </div>
+            `
+          : html`
+              <div class="controls">
+                ${stateObj.state !== "playing" &&
+                !supportsFeature(stateObj, SUPPORTS_PLAY)
+                  ? ""
+                  : html`
+                      <paper-icon-button
+                        icon="${this._computeControlIcon(stateObj)}"
+                        @click="${this._playPause}"
+                      ></paper-icon-button>
+                    `}
+                ${supportsFeature(stateObj, SUPPORT_NEXT_TRACK)
+                  ? html`
+                      <paper-icon-button
+                        icon="opp:skip-next"
+                        @click="${this._nextTrack}"
+                      ></paper-icon-button>
+                    `
+                  : ""}
+              </div>
+              <div slot="secondary">${this._computeMediaTitle(stateObj)}</div>
+            `}
       </hui-generic-entity-row>
     `;
   }

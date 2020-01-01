@@ -180,7 +180,10 @@ class HuiMapCard extends LitElement implements LovelaceCard {
   }
 
   private async loadMap(): Promise<void> {
-    [this._leafletMap, this.Leaflet] = await setupLeafletMap(this._mapEl);
+    [this._leafletMap, this.Leaflet] = await setupLeafletMap(
+      this._mapEl,
+      this._config !== undefined ? this._config.dark_mode === true : false
+    );
     this._drawEntities();
     this._leafletMap.invalidateSize();
     this._fitMap();
@@ -274,7 +277,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         mapItems.push(
           Leaflet.marker([latitude, longitude], {
             icon: Leaflet.divIcon({
-              html: icon ? `<opp-icon icon="${icon}"></opp-icon>` : title,
+              html: icon ? `<op-icon icon="${icon}"></op-icon>` : title,
               iconSize: [24, 24],
               className: "",
             }),

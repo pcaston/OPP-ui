@@ -65,13 +65,13 @@ class OpConfigCloudAccount extends EventsMixin(PolymerElement) {
           color: var(--primary-color);
         }
       </style>
-      <opp-subpage header="Home Assistant Cloud">
+      <opp-subpage header="Open Peer Power Cloud">
         <div class="content">
           <ha-config-section is-wide="[[isWide]]">
-            <span slot="header">Home Assistant Cloud</span>
+            <span slot="header">Open Peer Power Cloud</span>
             <div slot="introduction">
               <p>
-                Thank you for being part of Home Assistant Cloud. It's because
+                Thank you for being part of Open Peer Power Cloud. It's because
                 of people like you that we are able to make a great home
                 automation experience for everyone. Thank you!
               </p>
@@ -107,7 +107,7 @@ class OpConfigCloudAccount extends EventsMixin(PolymerElement) {
             <span slot="header">Integrations</span>
             <div slot="introduction">
               <p>
-                Integrations for Home Assistant Cloud allow you to connect with
+                Integrations for Open Peer Power Cloud allow you to connect with
                 services in the cloud without having to expose your Home
                 Assistant instance publicly on the internet.
               </p>

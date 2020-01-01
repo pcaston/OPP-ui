@@ -10,7 +10,7 @@ import "./types/op-customize-icon";
 import "./types/op-customize-key-value";
 import "./types/op-customize-string";
 
-class HaCustomizeAttribute extends PolymerElement {
+class OpCustomizeAttribute extends PolymerElement {
   static get template() {
     return html`
       <style include="op-form-style">
@@ -82,4 +82,4 @@ class HaCustomizeAttribute extends PolymerElement {
     }
   }
 }
-customElements.define("op-customize-attribute", HaCustomizeAttribute);
+customElements.define("op-customize-attribute", OpCustomizeAttribute);

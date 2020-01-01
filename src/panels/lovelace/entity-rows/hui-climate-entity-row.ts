@@ -45,8 +45,12 @@ class HuiClimateEntityRow extends LitElement implements EntityRow {
     if (!stateObj) {
       return html`
         <hui-warning
-          label="ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        ></hui-warning>
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
+        >
       `;
     }
 

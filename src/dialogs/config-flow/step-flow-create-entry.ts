@@ -14,6 +14,7 @@ import "@polymer/paper-listbox/paper-listbox";
 
 import { ConfigFlowStepCreateEntry } from "../../data/config_entries";
 import { OpenPeerPower } from "../../types";
+import { localizeKey } from "../../common/translations/localize";
 import { fireEvent } from "../../common/dom/fire_event";
 import { configFlowContentStyles } from "./styles";
 import {
@@ -40,9 +41,11 @@ class StepFlowCreateEntry extends LitElement {
   public areas!: AreaRegistryEntry[];
 
   protected render(): TemplateResult | void {
+    const localize = this.opp.localize;
     const step = this.step;
 
-    const description = 
+    const description = localizeKey(
+      localize,
       `component.${step.handler}.config.create_entry.${step.description ||
         "default"}`,
       step.description_placeholders
@@ -76,7 +79,9 @@ class StepFlowCreateEntry extends LitElement {
                         >
                           <paper-listbox slot="dropdown-content" selected="0">
                             <paper-item>
+                              ${localize(
                                 "ui.panel.config.integrations.config_entry.no_area"
+                              )}
                             </paper-item>
                             ${this.areas.map(
                               (area) => html`

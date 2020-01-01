@@ -16,7 +16,7 @@ import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-warning-element";
 
 import { OpenPeerPower } from "../../../types";
@@ -169,7 +169,11 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label="ui.panel.lovelace.warning.entity_not_found entity ${entityConf.entity}"
+          label=${this.opp!.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            entityConf.entity
+          )}
         ></hui-warning-element>
       `;
     }
@@ -203,7 +207,9 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
           ? html`
               <div>
                 ${computeStateDisplay(
-                  stateObj
+                  this.opp!.localize,
+                  stateObj,
+                  this.opp!.language
                 )}
               </div>
             `
