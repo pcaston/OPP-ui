@@ -1,4 +1,5 @@
 import { OpenPeerPower } from "../types";
+import { Connection } from "open-peer-power-js-websocket";
 
 export interface LovelaceConfig {
   title?: string;
@@ -60,10 +61,10 @@ export type ActionConfig =
   | NoActionConfig;
 
 export const fetchConfig = (
-  opp: OpenPeerPower,
+  conn: Connection,
   force: boolean
 ): Promise<LovelaceConfig> =>
-  opp.callWS({
+  conn.sendMessagePromise({
     type: "lovelace/config",
     force,
   });

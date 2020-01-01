@@ -3,23 +3,26 @@ import computeStateDomain from "./compute_state_domain";
 import formatDateTime from "../datetime/format_date_time";
 import formatDate from "../datetime/format_date";
 import formatTime from "../datetime/format_time";
+import { LocalizeFunc } from "../translations/localize";
 
 export default (
+  localize: LocalizeFunc,
   stateObj: OppEntity,
+  language: string
 ): string => {
-  debugger;
   let display: string | undefined;
   const domain = computeStateDomain(stateObj);
 
   if (domain === "binary_sensor") {
     // Try device class translation, then default binary sensor translation
     if (stateObj.attributes.device_class) {
-      display =
-        `${domain}.${stateObj.attributes.device_class}.${stateObj.state}`;
+      display = localize(
+        `state.${domain}.${stateObj.attributes.device_class}.${stateObj.state}`
+      );
     }
 
     if (!display) {
-      display = `${domain}.${stateObj.state}`;
+      display = localize(`state.${domain}.default.${stateObj.state}`);
     }
   } else if (
     stateObj.attributes.unit_of_measurement &&
@@ -34,7 +37,7 @@ export default (
         stateObj.attributes.month - 1,
         stateObj.attributes.day
       );
-      display = formatDate(date, 'en');
+      display = formatDate(date, language);
     } else if (!stateObj.attributes.has_date) {
       const now = new Date();
       date = new Date(
@@ -46,7 +49,7 @@ export default (
         stateObj.attributes.hour,
         stateObj.attributes.minute
       );
-      display = formatTime(date, 'en');
+      display = formatTime(date, language);
     } else {
       date = new Date(
         stateObj.attributes.year,
@@ -55,23 +58,27 @@ export default (
         stateObj.attributes.hour,
         stateObj.attributes.minute
       );
-      display = formatDateTime(date, 'en');
+      display = formatDateTime(date, language);
     }
   } else if (domain === "zwave") {
     if (["initializing", "dead"].includes(stateObj.state)) {
-      display = "${stateObj.state} query_stage stateObj.attributes.query_stage";
+      display = localize(
+        `state.zwave.query_stage.${stateObj.state}`,
+        "query_stage",
+        stateObj.attributes.query_stage
+      );
     } else {
-      display = "state.zwave.default ${stateObj.state}";
-        }
+      display = localize(`state.zwave.default.${stateObj.state}`);
+    }
   } else {
-    display = `${stateObj.state}`;
+    display = localize(`state.${domain}.${stateObj.state}`);
   }
 
   // Fall back to default, component backend translation, or raw state if nothing else matches.
   if (!display) {
     display =
-      `state.default.${stateObj.state}` ||
-      `component.${domain}.state.${stateObj.state}` ||
+      localize(`state.default.${stateObj.state}`) ||
+      localize(`component.${domain}.state.${stateObj.state}`) ||
       stateObj.state;
   }
 

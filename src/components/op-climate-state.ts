@@ -1,9 +1,12 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import LocalizeMixin from "../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpClimateState extends PolymerElement {
+class OpClimateState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -35,14 +38,14 @@ class OpClimateState extends PolymerElement {
 
       <div class="target">
         <template is="dom-if" if="[[_hasKnownState(stateObj.state)]]">
-          <span class="state-label"> [[stateObj.state]] </span>
+          <span class="state-label"> [[_localizeState(stateObj.state)]] </span>
         </template>
         <div class="unit">[[computeTarget(opp, stateObj)]]</div>
       </div>
 
       <template is="dom-if" if="[[currentStatus]]">
         <div class="current">
-          [['ui.card.climate.currently']]:
+          [[localize('ui.card.climate.currently')]]:
           <div class="unit">[[currentStatus]]</div>
         </div>
       </template>
@@ -106,6 +109,10 @@ class OpClimateState extends PolymerElement {
 
   _hasKnownState(state) {
     return state !== "unknown";
+  }
+
+  _localizeState(state) {
+    return this.localize(`state.climate.${state}`) || state;
   }
 }
 customElements.define("op-climate-state", OpClimateState);

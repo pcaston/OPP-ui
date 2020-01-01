@@ -6,11 +6,13 @@ import "../components/op-card";
 import "../components/op-markdown";
 
 import computeStateName from "../common/entity/compute_state_name";
+import LocalizeMixin from "../mixins/localize-mixin";
 import computeObjectId from "../common/entity/compute_object_id";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpPersistentNotificationCard extends PolymerElement {
+class OpPersistentNotificationCard extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -44,7 +46,7 @@ class OpPersistentNotificationCard extends PolymerElement {
       <op-card header="[[computeTitle(stateObj)]]">
         <op-markdown content="[[stateObj.attributes.message]]"></op-markdown>
         <mwc-button on-click="dismissTap"
-          >[['ui card persistent_notification dismiss']]</mwc-button
+          >[[localize('ui.card.persistent_notification.dismiss')]]</mwc-button
         >
       </op-card>
     `;

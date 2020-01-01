@@ -2,14 +2,15 @@ import "@polymer/polymer/lib/utils/debounce";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import LocalizeMixin from "../mixins/localize-mixin";
 
 import "./entity/op-chart-base";
 
 import formatDateTime from "../common/datetime/format_date_time";
+import { computeRTL } from "../common/util/compute_rtl";
 
-class StateHistoryChartTimeline extends PolymerElement {
+class StateHistoryChartTimeline extends LocalizeMixin(PolymerElement) {
   static get template() {
-    console.log('state history chart line');
     return html`
       <style>
         :host {
@@ -28,7 +29,7 @@ class StateHistoryChartTimeline extends PolymerElement {
       <op-chart-base
         data="[[chartData]]"
         rendered="{{rendered}}"
-        rtl=false
+        rtl="{{rtl}}"
       ></op-chart-base>
     `;
   }
@@ -51,11 +52,15 @@ class StateHistoryChartTimeline extends PolymerElement {
         value: false,
         reflectToAttribute: true,
       },
+      rtl: {
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
   static get observers() {
-    return ["dataChanged(data, endTime)"];
+    return ["dataChanged(data, endTime, localize, language)"];
   }
 
   connectedCallback() {
@@ -141,9 +146,11 @@ class StateHistoryChartTimeline extends PolymerElement {
           dataRow.push([prevLastChanged, newLastChanged, locState, prevState]);
 
           prevState = newState;
+          locState = state.state_localize;
           prevLastChanged = newLastChanged;
         } else if (prevState === null) {
           prevState = newState;
+          locState = state.state_localize;
           prevLastChanged = new Date(state.last_changed);
         }
       });
@@ -188,7 +195,7 @@ class StateHistoryChartTimeline extends PolymerElement {
               afterSetDimensions: (yaxe) => {
                 yaxe.maxWidth = yaxe.chart.width * 0.18;
               },
-              position: "left",
+              position: this._computeRTL ? "right" : "left",
             },
           ],
         },
@@ -205,6 +212,9 @@ class StateHistoryChartTimeline extends PolymerElement {
     this.chartData = chartOptions;
   }
 
+  _computeRTL(opp) {
+    return computeRTL(opp);
+  }
 }
 customElements.define(
   "state-history-chart-timeline",

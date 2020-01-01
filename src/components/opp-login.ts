@@ -1,6 +1,6 @@
 import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
-import "../dialogs/opp-store-auth-card";
+import "../dialogs/op-store-auth-card";
 import {
   LitElement,
   CSSResult,
@@ -169,7 +169,7 @@ export class OppLogin extends LitElement {
   }
 
   private async _saveAuth(item: string): Promise<void> {
-    const el = document.createElement("opp-store-auth-card");
+    const el = document.createElement("op-store-auth-card");
     el.setAttribute('access_token', item);
     this.shadowRoot!.appendChild(el);
     console.log(item);

@@ -6,18 +6,18 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { EventsMixin } from "../../mixins/events-mixin";
-import { OpenPeerPower, OppEntity } from '../../types';
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 import computeStateName from "../../common/entity/compute_state_name";
 import computeDomain from "../../common/entity/compute_domain";
 import { updateEntityRegistryEntry } from "../../data/entity_registry";
-import { showSaveSuccessToast } from "../../util/toast-saved-success";
 
 import "../../components/op-paper-icon-button-arrow-prev";
 /*
  * @appliesMixin EventsMixin
+ * @appliesMixin LocalizeMixin
  */
-class MoreInfoSettings extends EventsMixin(PolymerElement) {
+class MoreInfoSettings extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -36,7 +36,6 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
         app-toolbar mwc-button {
           font-size: 0.8em;
           margin: 0;
-          --mdc-theme-primary: var(--more-info-header-color);
         }
 
         .form {
@@ -46,23 +45,22 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
 
       <app-toolbar>
         <op-paper-icon-button-arrow-prev
-          aria-label$="[['ui.dialogs.more_info_settings.back']]"
           on-click="_backTapped"
         ></op-paper-icon-button-arrow-prev>
         <div main-title="">[[_computeStateName(stateObj)]]</div>
         <mwc-button on-click="_save" disabled="[[_computeInvalid(_entityId)]]"
-          >[['ui.dialogs.more_info_settings.save']]</mwc-button
+          >[[localize('ui.dialogs.more_info_settings.save')]]</mwc-button
         >
       </app-toolbar>
 
       <div class="form">
         <paper-input
           value="{{_name}}"
-          label="[['ui.dialogs.more_info_settings.name']]"
+          label="[[localize('ui.dialogs.more_info_settings.name')]]"
         ></paper-input>
         <paper-input
           value="{{_entityId}}"
-          label="[['ui.dialogs.more_info_settings.entity_id']]"
+          label="[[localize('ui.dialogs.more_info_settings.entity_id')]]"
           error-message="Domain needs to stay the same"
           invalid="[[_computeInvalid(_entityId)]]"
         ></paper-input>
@@ -123,8 +121,6 @@ class MoreInfoSettings extends EventsMixin(PolymerElement) {
           new_entity_id: this._entityId,
         }
       );
-
-      showSaveSuccessToast(this, this.opp);
 
       this.registryInfo = info;
 

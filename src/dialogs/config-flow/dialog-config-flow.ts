@@ -29,7 +29,7 @@ import {
   getConfigFlowHandlers,
 } from "../../data/config_entries";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { HaConfigFlowParams } from "./show-dialog-config-flow";
+import { OpConfigFlowParams } from "./show-dialog-config-flow";
 
 import "./step-flow-pick-handler";
 import "./step-flow-loading";
@@ -63,7 +63,7 @@ declare global {
 @customElement("dialog-config-flow")
 class ConfigFlowDialog extends LitElement {
   public opp!: OpenPeerPower;
-  @property() private _params?: HaConfigFlowParams;
+  @property() private _params?: OpConfigFlowParams;
   @property() private _loading = true;
   private _instance = instance;
   @property() private _step:
@@ -77,7 +77,7 @@ class ConfigFlowDialog extends LitElement {
   private _unsubAreas?: UnsubscribeFunc;
   private _unsubDevices?: UnsubscribeFunc;
 
-  public async showDialog(params: HaConfigFlowParams): Promise<void> {
+  public async showDialog(params: OpConfigFlowParams): Promise<void> {
     this._params = params;
     this._instance = instance++;
 

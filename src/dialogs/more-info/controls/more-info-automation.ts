@@ -4,7 +4,9 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-relative-time";
 
-class MoreInfoAutomation extends PolymerElement {
+import LocalizeMixin from "../../../mixins/localize-mixin";
+
+class MoreInfoAutomation extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -19,7 +21,7 @@ class MoreInfoAutomation extends PolymerElement {
       </style>
 
       <div class="flex">
-        <div>[['ui.card.automation.last_triggered']]:</div>
+        <div>[[localize('ui.card.automation.last_triggered')]]:</div>
         <op-relative-time
           opp="[[opp]]"
           datetime="[[stateObj.attributes.last_triggered]]"
@@ -28,7 +30,7 @@ class MoreInfoAutomation extends PolymerElement {
 
       <div class="actions">
         <mwc-button on-click="handleTriggerTapped">
-          [['ui.card.automation.trigger']]
+          [[localize('ui.card.automation.trigger')]]
         </mwc-button>
       </div>
     `;

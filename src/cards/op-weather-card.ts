@@ -7,10 +7,13 @@ import "../components/op-card";
 import "../components/op-icon";
 
 import { EventsMixin } from "../mixins/events-mixin";
+import LocalizeMixin from "../mixins/localize-mixin";
+import { computeRTL } from "../common/util/compute_rtl";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpWeatherCard extends EventsMixin(PolymerElement) {
+class OpWeatherCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -50,7 +53,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           color: var(--secondary-text-color);
         }
 
-        :host('ltr') .name {
+        :host([rtl]) .name {
           margin-left: 0px;
           margin-right: 16px;
         }
@@ -68,7 +71,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           margin-right: 32px;
         }
 
-        :host('ltr') .main {
+        :host([rtl]) .main {
           margin-right: 0px;
         }
 
@@ -78,7 +81,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           margin-right: 8px;
         }
 
-        :host('ltr') .main op-icon {
+        :host([rtl]) .main op-icon {
           margin-right: 0px;
         }
 
@@ -88,8 +91,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           position: relative;
         }
 
-        :host('ltr') .main .temp {
-          direction: 'ltr';
+        :host([rtl]) .main .temp {
+          direction: ltr;
           margin-right: 28px;
         }
 
@@ -104,8 +107,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           display: inline-block;
         }
 
-        :host('ltr') .measurand {
-          direction: 'ltr';
+        :host([rtl]) .measurand {
+          direction: ltr;
         }
 
         .forecast {
@@ -124,8 +127,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           text-align: center;
         }
 
-        :host('ltr') .forecast .temp {
-          direction: 'ltr';
+        :host([rtl]) .forecast .temp {
+          direction: ltr;
         }
 
         .weekday {
@@ -138,13 +141,13 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
           color: var(--secondary-text-color);
         }
 
-        :host('ltr') .precipitation {
-          direction: 'ltr';
+        :host([rtl]) .precipitation {
+          direction: ltr;
         }
       </style>
       <op-card>
         <div class="header">
-          [[computeState(stateObj.state)]]
+          [[computeState(stateObj.state, localize)]]
           <div class="name">[[computeName(stateObj)]]</div>
         </div>
         <div class="content">
@@ -165,7 +168,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                 if="[[_showValue(stateObj.attributes.pressure)]]"
               >
                 <div>
-                  [['ui.card.weather.attributes.air_pressure']]:
+                  [[localize('ui.card.weather.attributes.air_pressure')]]:
                   <span class="measurand">
                     [[stateObj.attributes.pressure]] [[getUnit('air_pressure')]]
                   </span>
@@ -176,7 +179,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                 if="[[_showValue(stateObj.attributes.humidity)]]"
               >
                 <div>
-                  [['ui.card.weather.attributes.humidity']]:
+                  [[localize('ui.card.weather.attributes.humidity')]]:
                   <span class="measurand"
                     >[[stateObj.attributes.humidity]] %</span
                   >
@@ -187,11 +190,11 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                 if="[[_showValue(stateObj.attributes.wind_speed)]]"
               >
                 <div>
-                  [['ui.card.weather.attributes.wind_speed']]:
+                  [[localize('ui.card.weather.attributes.wind_speed')]]:
                   <span class="measurand">
                     [[getWindSpeed(stateObj.attributes.wind_speed)]]
                   </span>
-                  [[getWindBearing(stateObj.attributes.wind_bearing)]]
+                  [[getWindBearing(stateObj.attributes.wind_bearing, localize)]]
                 </div>
               </template>
             </div>
@@ -213,9 +216,11 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
                       ></op-icon>
                     </div>
                   </template>
-                  <div class="temp">
-                    [[item.temperature]] [[getUnit('temperature')]]
-                  </div>
+                  <template is="dom-if" if="[[_showValue(item.temperature)]]">
+                    <div class="temp">
+                      [[item.temperature]] [[getUnit('temperature')]]
+                    </div>
+                  </template>
                   <template is="dom-if" if="[[_showValue(item.templow)]]">
                     <div class="templow">
                       [[item.templow]] [[getUnit('temperature')]]
@@ -243,6 +248,11 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
       forecast: {
         type: Array,
         computed: "computeForecast(stateObj.attributes.forecast)",
+      },
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
       },
     };
   }
@@ -275,7 +285,7 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
       hail: "opp:weather-hail",
       lightning: "opp:weather-lightning",
       "lightning-rainy": "opp:weather-lightning-rainy",
-      partlycloudy: "opp:weather-partly-cloudy",
+      partlycloudy: "opp:weather-partlycloudy",
       pouring: "opp:weather-pouring",
       rainy: "opp:weather-rainy",
       snowy: "opp:weather-snowy",
@@ -313,8 +323,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
     }
   }
 
-  computeState(state) {
-    return `state.weather.${state}` || state;
+  computeState(state, localize) {
+    return localize(`state.weather.${state}`) || state;
   }
 
   computeName(stateObj) {
@@ -341,12 +351,12 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
     return `${speed} ${this.getUnit("length")}/h`;
   }
 
-  getWindBearing(bearing) {
+  getWindBearing(bearing, localize) {
     if (bearing != null) {
       const cardinalDirection = this.windBearingToText(bearing);
-      return `(${
+      return `(${localize(
         `ui.card.weather.cardinal_direction.${cardinalDirection.toLowerCase()}`
-       || cardinalDirection})`;
+      ) || cardinalDirection})`;
     }
     return ``;
   }
@@ -365,5 +375,8 @@ class OpWeatherCard extends EventsMixin(PolymerElement) {
     return date.toLocaleTimeString(this.opp.language, { hour: "numeric" });
   }
 
+  _computeRTL(opp) {
+    return computeRTL(opp);
+  }
 }
 customElements.define("op-weather-card", OpWeatherCard);

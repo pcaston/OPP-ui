@@ -4,6 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../op-relative-time";
 import "./state-badge";
 import computeStateName from "../../common/entity/compute_state_name";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 class StateInfo extends PolymerElement {
   static get template() {
@@ -25,7 +26,7 @@ class StateInfo extends PolymerElement {
           float: left;
         }
 
-        :host('ltr') state-badge {
+        :host([rtl]) state-badge {
           float: right;
         }
 
@@ -33,7 +34,7 @@ class StateInfo extends PolymerElement {
           margin-left: 56px;
         }
 
-        :host('ltr') .info {
+        :host([rtl]) .info {
           margin-right: 56px;
           margin-left: 0;
           text-align: right;
@@ -90,23 +91,26 @@ class StateInfo extends PolymerElement {
 
   static get properties() {
     return {
-      detailed: {
-        type: Boolean,
-        value: false,
-      },
       opp: Object,
       stateObj: Object,
-      inDialog: Boolean,
+      inDialog: {
+        type: Boolean,
+        value: () => false,
+      },
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: false,
+        computed: "computeRTL(opp)",
       },
     };
   }
 
   computeStateName(stateObj) {
     return computeStateName(stateObj);
+  }
+
+  computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 

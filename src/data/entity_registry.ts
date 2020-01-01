@@ -1,4 +1,4 @@
-import { createCollection } from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
 import { OpenPeerPower } from "../types";
 import computeStateName from "../common/entity/compute_state_name";
 import { debounce } from "../common/util/debounce";
@@ -67,13 +67,13 @@ const subscribeEntityRegistryUpdates = (conn, store) =>
   );
 
 export const subscribeEntityRegistry = (
-  opp: OpenPeerPower,
+  conn: Connection,
   onChange: (entities: EntityRegistryEntry[]) => void
 ) =>
   createCollection<EntityRegistryEntry[]>(
     "_entityRegistry",
     fetchEntityRegistry,
     subscribeEntityRegistryUpdates,
-    opp.connection,
+    conn,
     onChange
   );

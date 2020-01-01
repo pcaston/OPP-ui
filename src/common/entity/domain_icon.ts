@@ -17,7 +17,7 @@ const fixedIcons = {
   fan: "opp:fan",
   group: "opp:google-circles-communities",
   history_graph: "opp:chart-line",
-  openpeerpower: "opp:",
+  openpeerpower: "opp:open-peer-power",
   homekit: "opp:home-automation",
   image_processing: "opp:image-filter-frames",
   input_boolean: "opp:drawing",
@@ -42,6 +42,7 @@ const fixedIcons = {
   updater: "opp:cloud-upload",
   vacuum: "opp:robot-vacuum",
   water_heater: "opp:thermometer",
+  weather: "opp:weather-cloudy",
   weblink: "opp:open-in-new",
 };
 

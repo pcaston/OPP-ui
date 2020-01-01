@@ -1,9 +1,9 @@
 import "@polymer/iron-icon/iron-icon";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { OppIcon } from "./op-icon";
+import { OpIcon } from "./op-icon";
 
-export class OppIconPrev extends OppIcon {
+export class OpIconPrev extends OpIcon {
   public connectedCallback() {
     this.icon =
       window.getComputedStyle(this).direction === "ltr"
@@ -17,8 +17,8 @@ export class OppIconPrev extends OppIcon {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-icon-prev": OppIconPrev;
+    "op-icon-prev": OpIconPrev;
   }
 }
 
-customElements.define("op-icon-prev", OppIconPrev);
+customElements.define("op-icon-prev", OpIconPrev);

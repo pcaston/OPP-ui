@@ -17,9 +17,8 @@ import { OpenPeerPower, OppEntity } from '../types';
 /*
  * @appliesMixin DialogMixin
  */
-class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
+class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
   static get template() {
-    debugger;
     return html`
       <style include="op-style-dialog paper-dialog-shared-styles">
         :host {
@@ -32,7 +31,7 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
         more-info-settings {
           --more-info-header-background: var(--secondary-background-color);
           --more-info-header-color: var(--primary-text-color);
-            --opp-more-info-app-toolbar-title: {
+          --op-more-info-app-toolbar-title: {
             /* Design guideline states 24px, changed to 16 to align with state info */
             margin-left: 16px;
             line-height: 1.3em;
@@ -205,4 +204,4 @@ class OppMoreInfoDialog extends DialogMixin(PolymerElement) {
     this.notifyResize();
   }
 }
-customElements.define("opp-more-info-dialog", OppMoreInfoDialog);
+customElements.define("op-more-info-dialog", OpMoreInfoDialog);

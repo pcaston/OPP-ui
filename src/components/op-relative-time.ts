@@ -3,7 +3,10 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import relativeTime from "../common/datetime/relative_time";
 
+import LocalizeMixin from "../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
 class OpRelativeTime extends PolymerElement {
   static get properties() {
@@ -54,11 +57,11 @@ class OpRelativeTime extends PolymerElement {
   updateRelative() {
     const root = dom(this);
     if (!this.parsedDateTime) {
-      root.innerHTML = "ui.components.relative_time.never";
+      root.innerHTML = this.localize("ui.components.relative_time.never");
     } else {
-      root.innerHTML = relativeTime(this.parsedDateTime);
+      root.innerHTML = relativeTime(this.parsedDateTime, this.localize);
     }
   }
 }
 
-customElements.define("op-relative-time", OpRelativeTime);
+customElements.define("op-relative-time", HaRelativeTime);

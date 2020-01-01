@@ -1,3 +1,5 @@
+import { LocalizeFunc } from "../translations/localize";
+
 /**
  * Calculate a string representing a date object as relative time from now.
  *
@@ -8,6 +10,7 @@ const langKey = ["second", "minute", "hour", "day"];
 
 export default function relativeTime(
   dateObj: Date,
+  localize: LocalizeFunc,
   options: {
     compareTime?: Date;
     includeTense?: boolean;
@@ -18,24 +21,32 @@ export default function relativeTime(
   const tense = delta >= 0 ? "past" : "future";
   delta = Math.abs(delta);
 
-  let timeDesc: string;
+  let timeDesc;
 
   for (let i = 0; i < tests.length; i++) {
     if (delta < tests[i]) {
       delta = Math.floor(delta);
-      timeDesc = `${langKey[i]} count ${delta}`
+      timeDesc = localize(
+        `ui.components.relative_time.duration.${langKey[i]}`,
+        "count",
+        delta
+      );
       break;
     }
 
     delta /= tests[i];
   }
 
-  if (timeDesc! === undefined) {
+  if (timeDesc === undefined) {
     delta = Math.floor(delta);
-    timeDesc = `week count ${delta}`
+    timeDesc = localize(
+      "ui.components.relative_time.duration.week",
+      "count",
+      delta
+    );
   }
 
   return options.includeTense === false
     ? timeDesc
-    : `${tense} time ${timeDesc}`;
+    : localize(`ui.components.relative_time.${tense}`, "time", timeDesc);
 }

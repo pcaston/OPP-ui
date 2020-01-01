@@ -4,8 +4,10 @@ import "@polymer/paper-input/paper-input";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
 import { fireEvent } from "../../../common/dom/fire_event";
-class MoreInfoAlarmControlPanel extends PolymerElement {
+
+class MoreInfoAlarmControlPanel extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -27,9 +29,8 @@ class MoreInfoAlarmControlPanel extends PolymerElement {
           width: 80px;
         }
         .actions mwc-button {
-          flex: 1 0 50%;
-          margin: 0 4px 16px;
-          max-width: 200px;
+          min-width: 160px;
+          margin-bottom: 16px;
         }
         mwc-button.disarm {
           color: var(--google-red-500);
@@ -38,7 +39,7 @@ class MoreInfoAlarmControlPanel extends PolymerElement {
 
       <template is="dom-if" if="[[_codeFormat]]">
         <paper-input
-          label="[['ui.card.alarm_control_panel.code']]"
+          label="[[localize('ui.card.alarm_control_panel.code')]]"
           value="{{_enteredCode}}"
           type="password"
           disabled="[[!_inputEnabled]]"
@@ -126,7 +127,7 @@ class MoreInfoAlarmControlPanel extends PolymerElement {
                 disabled="[[!_inputEnabled]]"
                 raised
               >
-                [['ui.card.alarm_control_panel.clear_code']]
+                [[localize('ui.card.alarm_control_panel.clear_code')]]
               </mwc-button>
             </div>
           </div>
@@ -136,31 +137,31 @@ class MoreInfoAlarmControlPanel extends PolymerElement {
       <div class="layout horizontal center-justified actions">
         <template is="dom-if" if="[[_disarmVisible]]">
           <mwc-button
-            outlined
+            raised
             class="disarm"
             on-click="_callService"
             data-service="alarm_disarm"
             disabled="[[!_codeValid]]"
           >
-            [['ui.card.alarm_control_panel.disarm']]
+            [[localize('ui.card.alarm_control_panel.disarm')]]
           </mwc-button>
         </template>
         <template is="dom-if" if="[[_armVisible]]">
           <mwc-button
-            outlined
+            raised
             on-click="_callService"
             data-service="alarm_arm_home"
             disabled="[[!_codeValid]]"
           >
-            [['ui.card.alarm_control_panel.arm_home']]
+            [[localize('ui.card.alarm_control_panel.arm_home')]]
           </mwc-button>
           <mwc-button
-            outlined
+            raised
             on-click="_callService"
             data-service="alarm_arm_away"
             disabled="[[!_codeValid]]"
           >
-            [['ui.card.alarm_control_panel.arm_away']]
+            [[localize('ui.card.alarm_control_panel.arm_away')]]
           </mwc-button>
         </template>
       </div>

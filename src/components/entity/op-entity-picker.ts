@@ -126,7 +126,7 @@ class OpEntityPicker extends LitElement {
         <paper-input
           .autofocus=${this.autofocus}
           .label=${this.label === undefined && this._opp
-            ? "ui.components.entity.entity-picker.entity"
+            ? this._opp.localize("ui.components.entity.entity-picker.entity")
             : this.label}
           .value=${this._value}
           .disabled=${this.disabled}

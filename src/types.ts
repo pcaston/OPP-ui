@@ -56,7 +56,7 @@ export interface CurrentUser {
   is_owner: boolean;
   is_admin: boolean;
   name: string;
-  credentials?: Credential[];
+  credentials: Credential[];
 }
 
 export interface Theme {
@@ -103,6 +103,8 @@ export interface Notification {
   status: "read" | "unread";
   created_at: string;
 }
+export interface Resources {
+  [language: string]: { [key: string]: string };
 
 export type OppEntityBase = {
   entity_id: string;
@@ -163,12 +165,29 @@ export interface OpenPeerPower {
   //   - browser language
   //   - english (en)
   language: string;
+  // local stored language, keep that name for backward compability
+  selectedLanguage: string | null;
+  resources: Resources;
+  localize: LocalizeFunc;
+  translationMetadata: TranslationMetadata;
+  moreInfoEntityId: string | null;
   user?: CurrentUser;
   callService: (
     domain: string,
     service: string,
     serviceData?: { [key: string]: any }
   ) => Promise<void>;
+  callApi: <T>(
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    path: string,
+    parameters?: { [key: string]: any }
+  ) => Promise<T>;
+  fetchWithAuth: (
+    path: string,
+    init?: { [key: string]: any }
+  ) => Promise<Response>;
+  sendWS: (msg: MessageBase) => void;
+  callWS: <T>(msg: MessageBase) => Promise<T>;
 }
 
 export type ClimateEntity = OppEntityBase & {
@@ -254,4 +273,8 @@ export interface PanelElement extends HTMLElement {
   narrow?: boolean;
   route?: Route | null;
   panel?: PanelInfo;
+}
+export interface LocalizeMixin {
+  opp?: OpenPeerPower;
+  localize: LocalizeFunc;
 }

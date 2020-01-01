@@ -1,14 +1,20 @@
 import { OpenPeerPower } from "../types";
+import { EntityFilter } from "../common/entity/entity_filter";
 
-export interface EntityFilter {
-  include_domains: string[];
-  include_entities: string[];
-  exclude_domains: string[];
-  exclude_entities: string[];
-}
 interface CloudStatusBase {
   logged_in: boolean;
   cloud: "disconnected" | "connecting" | "connected";
+}
+
+export interface GoogleEntityConfig {
+  should_expose?: boolean;
+  override_name?: string;
+  aliases?: string[];
+  disable_2fa?: boolean;
+}
+
+export interface AlexaEntityConfig {
+  should_expose?: boolean;
 }
 
 export interface CertificateInformation {
@@ -17,11 +23,19 @@ export interface CertificateInformation {
   fingerprint: string;
 }
 
-interface CloudPreferences {
+export interface CloudPreferences {
   google_enabled: boolean;
   alexa_enabled: boolean;
+  remote_enabled: boolean;
   google_secure_devices_pin: string | undefined;
   cloudhooks: { [webhookId: string]: CloudWebhook };
+  google_entity_configs: {
+    [entityId: string]: GoogleEntityConfig;
+  };
+  alexa_entity_configs: {
+    [entityId: string]: AlexaEntityConfig;
+  };
+  alexa_report_state: boolean;
 }
 
 export type CloudStatusLoggedIn = CloudStatusBase & {
@@ -29,7 +43,6 @@ export type CloudStatusLoggedIn = CloudStatusBase & {
   google_entities: EntityFilter;
   google_domains: string[];
   alexa_entities: EntityFilter;
-  alexa_domains: string[];
   prefs: CloudPreferences;
   remote_domain: string | undefined;
   remote_connected: boolean;
@@ -82,10 +95,36 @@ export const updateCloudPref = (
   prefs: {
     google_enabled?: CloudPreferences["google_enabled"];
     alexa_enabled?: CloudPreferences["alexa_enabled"];
+    alexa_report_state?: CloudPreferences["alexa_report_state"];
     google_secure_devices_pin?: CloudPreferences["google_secure_devices_pin"];
   }
 ) =>
   opp.callWS({
     type: "cloud/update_prefs",
     ...prefs,
+  });
+
+export const updateCloudGoogleEntityConfig = (
+  opp: OpenPeerPower,
+  entityId: string,
+  values: GoogleEntityConfig
+) =>
+  opp.callWS<GoogleEntityConfig>({
+    type: "cloud/google_assistant/entities/update",
+    entity_id: entityId,
+    ...values,
+  });
+
+export const cloudSyncGoogleAssistant = (opp: OpenPeerPower) =>
+  opp.callApi("POST", "cloud/google_actions/sync");
+
+export const updateCloudAlexaEntityConfig = (
+  opp: OpenPeerPower,
+  entityId: string,
+  values: AlexaEntityConfig
+) =>
+  opp.callWS<AlexaEntityConfig>({
+    type: "cloud/alexa/entities/update",
+    entity_id: entityId,
+    ...values,
   });

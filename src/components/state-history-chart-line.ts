@@ -4,9 +4,10 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "./entity/op-chart-base";
 
+import LocalizeMixin from "../mixins/localize-mixin";
 import formatDateTime from "../common/datetime/format_date_time";
 
-class StateHistoryChartLine extends PolymerElement {
+class StateHistoryChartLine extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>

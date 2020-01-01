@@ -1,8 +1,6 @@
 import { Constructor, LitElement } from "lit-element";
 
 import { OppBaseEl } from "./opp-base-mixin";
-//import "../dialogs/opp-more-info-dialog";
-
 
 declare global {
   // for fire event
@@ -15,7 +13,7 @@ declare global {
 
 export default (superClass: Constructor<LitElement & OppBaseEl>) =>
   class extends superClass {
-    private _moreInfoEl?: any;
+    private _moreInfoEntityId?: any;
 
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);
@@ -23,12 +21,12 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
     }
 
     private async _handleMoreInfo(ev) {
-      if (!this._moreInfoEl) {
-        import("../dialogs/opp-more-info-dialog");
-        this._moreInfoEl = document.createElement("opp-more-info-dialog");
-        this.shadowRoot!.appendChild(this._moreInfoEl);
-        this.provideOpp(this._moreInfoEl);
+      if (!this._moreInfoEntityId) {
+        import("../dialogs/op-more-info-dialog");
+        this._moreInfoEntityId = document.createElement("op-more-info-dialog");
+        this.shadowRoot!.appendChild(this._moreInfoEntityId);
+        this.provideOpp(this._moreInfoEntityId);
       }
-      this._updateOpp(this._moreInfoEl, { moreInfoEntityId: ev.detail.entityId });
+      this._updateOpp(this._moreInfoEntityId, { moreInfoEntityId: ev.detail.entityId });
     }
   };
