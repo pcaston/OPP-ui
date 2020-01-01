@@ -1,20 +1,14 @@
-import {
-  property,
-  LitElement,
-  TemplateResult,
-  html,
-  customElement,
-  CSSResult,
-  css,
-} from "lit-element";
-import { OpenPeerPower, SunEntity} from "../../../types";
+import "@polymer/iron-flex-layout/iron-flex-layout-classes";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-relative-time";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
 import formatTime from "../../../common/datetime/format_time";
 
 @customElement("more-info-sun")
-export class MoreInfoSun extends LitElement {
+export class MoreInfoSun extends LocalizeMixin(LitElement) {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property() public stateObj?: SunEntity;
 
@@ -70,5 +64,30 @@ export class MoreInfoSun extends LitElement {
         justify-content: space-between;
       }
     `;
+  computeRising(stateObj) {
+    return new Date(stateObj.attributes.next_rising);
+  }
+
+  computeSetting(stateObj) {
+    return new Date(stateObj.attributes.next_setting);
+  }
+
+  computeOrder(risingDate, settingDate) {
+    return risingDate > settingDate ? ["set", "ris"] : ["ris", "set"];
+  }
+
+  itemCaption(type) {
+    if (type === "ris") {
+      return this.localize("ui.dialogs.more_info_control.sun.rising");
+    }
+    return this.localize("ui.dialogs.more_info_control.sun.setting");
+  }
+
+  itemDate(type) {
+    return type === "ris" ? this.risingDate : this.settingDate;
+  }
+
+  itemValue(type) {
+    return formatTime(this.itemDate(type), this.opp.language);
   }
 }

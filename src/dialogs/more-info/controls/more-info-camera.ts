@@ -26,20 +26,9 @@ class MoreInfoCamera extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public stateObj?: CameraEntity;
   @property() private _cameraPrefs?: CameraPreferences;
-  @property() private _attached = false;
-
-  public connectedCallback() {
-    super.connectedCallback();
-    this._attached = true;
-  }
-
-  public disconnectedCallback() {
-    super.disconnectedCallback();
-    this._attached = false;
-  }
 
   protected render(): TemplateResult | void {
-    if (!this._attached || !this.opp || !this.stateObj) {
+    if (!this.opp || !this.stateObj) {
       return html``;
     }
 

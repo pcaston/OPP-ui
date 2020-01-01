@@ -51,14 +51,17 @@ export class OpStateLabelBadge extends LitElement {
       return html`
         <op-label-badge
           class="warning"
-          label="state_badge.default.error"
+          label="${this.opp!.localize("state_badge.default.error")}"
           icon="opp:alert"
-          description="entity_not_found"
+          description="${this.opp!.localize(
+            "state_badge.default.entity_not_found"
+          )}"
         ></op-label-badge>
       `;
     }
 
     const domain = computeStateDomain(state);
+
     return html`
       <op-label-badge
         class="${classMap({
@@ -66,10 +69,10 @@ export class OpStateLabelBadge extends LitElement {
           "has-unit_of_measurement": "unit_of_measurement" in state.attributes,
         })}"
         .value="${this._computeValue(domain, state)}"
-        icon="${this._computeIcon(domain, state)}"
+        .icon="${this._computeIcon(domain, state)}"
         .image="${state.attributes.entity_picture}"
         .label="${this._computeLabel(domain, state, this._timerTimeRemaining)}"
-        description="${computeStateName(state)}"
+        .description="${computeStateName(state)}"
       ></op-label-badge>
     `;
   }
@@ -105,7 +108,7 @@ export class OpStateLabelBadge extends LitElement {
       default:
         return state.state === "unknown"
           ? "-"
-          : `component.${domain}.state.${state.state}` ||
+          : this.opp!.localize(`component.${domain}.state.${state.state}`) ||
               state.state;
     }
   }
@@ -142,7 +145,7 @@ export class OpStateLabelBadge extends LitElement {
       case "person":
         return stateIcon(state);
       case "sun":
-        return state.state === "Above Horizon"
+        return state.state === "above_horizon"
           ? domainIcon(domain)
           : "opp:brightness-3";
       case "timer":
@@ -157,9 +160,12 @@ export class OpStateLabelBadge extends LitElement {
       state.state === "unavailable" ||
       ["device_tracker", "alarm_control_panel", "person"].includes(domain)
     ) {
+      // Localize the state with a special state_badge namespace, which has variations of
+      // the state translations that are truncated to fit within the badge label. Translations
+      // are only added for device_tracker, alarm_control_panel and person.
       return (
-        `state_badge.${domain}.${state.state}` ||
-        `state_badge.default.${state.state}` ||
+        this.opp!.localize(`state_badge.${domain}.${state.state}`) ||
+        this.opp!.localize(`state_badge.default.${state.state}`) ||
         state.state
       );
     }

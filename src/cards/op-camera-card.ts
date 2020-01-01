@@ -4,13 +4,15 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import computeStateName from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
+import LocalizeMixin from "../mixins/localize-mixin";
 import { fetchThumbnailUrlWithCache } from "../data/camera";
 
 const UPDATE_INTERVAL = 10000; // ms
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class OpCameraCard extends EventsMixin(PolymerElement) {
+class OpCameraCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="paper-material-styles">
@@ -60,7 +62,7 @@ class OpCameraCard extends EventsMixin(PolymerElement) {
       <div class="caption">
         [[_computeStateName(stateObj)]]
         <template is="dom-if" if="[[!imageLoaded]]">
-          ([['camera notavailable')]])
+          ([[localize('ui.card.camera.not_available')]])
         </template>
       </div>
     `;

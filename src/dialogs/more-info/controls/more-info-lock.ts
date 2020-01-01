@@ -5,10 +5,12 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-attributes";
 
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class MoreInfoLock extends PolymerElement {
+class MoreInfoLock extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -19,7 +21,7 @@ class MoreInfoLock extends PolymerElement {
 
       <template is="dom-if" if="[[stateObj.attributes.code_format]]">
         <paper-input
-          label="[['ui.card.lock.code']]"
+          label="[[localize('ui.card.lock.code')]]"
           value="{{enteredCode}}"
           pattern="[[stateObj.attributes.code_format]]"
           type="password"
@@ -28,13 +30,13 @@ class MoreInfoLock extends PolymerElement {
           on-click="callService"
           data-service="unlock"
           hidden$="[[!isLocked]]"
-          >[['ui.card.lock.unlock']]</mwc-button
+          >[[localize('ui.card.lock.unlock')]]</mwc-button
         >
         <mwc-button
           on-click="callService"
           data-service="lock"
           hidden$="[[isLocked]]"
-          >[['ui.card.lock.lock']]</mwc-button
+          >[[localize('ui.card.lock.lock')]]</mwc-button
         >
       </template>
       <op-attributes

@@ -2,6 +2,8 @@ import "@material/mwc-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import LocalizeMixin from "../mixins/localize-mixin";
+
 const STATES_INTERCEPTABLE = {
   cleaning: {
     action: "return_to_base",
@@ -30,6 +32,7 @@ const STATES_INTERCEPTABLE = {
 };
 
 /*
+ * @appliesMixin LocalizeMixin
  */
 class OpVacuumState extends PolymerElement {
   static get template() {
@@ -70,8 +73,10 @@ class OpVacuumState extends PolymerElement {
 
   _computeLabel(state, interceptable) {
     return interceptable
-      ? `ui.card.vacuum.actions.${STATES_INTERCEPTABLE[state].action}`
-      : `state.vacuum.${state}`;
+      ? this.localize(
+          `ui.card.vacuum.actions.${STATES_INTERCEPTABLE[state].action}`
+        )
+      : this.localize(`state.vacuum.${state}`);
   }
 
   _callService(ev) {

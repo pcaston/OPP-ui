@@ -13,12 +13,14 @@ import OppMediaPlayerEntity from "../../../util/opp-media-player-model";
 import attributeClassNames from "../../../common/entity/attribute_class_names";
 import isComponentLoaded from "../../../common/config/is_component_loaded";
 import { EventsMixin } from "../../../mixins/events-mixin";
-
+import LocalizeMixin from "../../../mixins/localize-mixin";
+import { computeRTLDirection } from "../../../common/util/compute_rtl";
 
 /*
+ * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
+class MoreInfoMediaPlayer extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -138,6 +140,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
             on-change="volumeSliderChanged"
             class="flex"
             ignore-bar-touch=""
+            dir="{{rtl}}"
           >
           </op-paper-slider>
         </div>
@@ -151,7 +154,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
             class="flex source-input"
             dynamic-align=""
             label-float=""
-            label="[['ui.card.media_player.source']]"
+            label="[[localize('ui.card.media_player.source')]]"
           >
             <paper-listbox
               slot="dropdown-content"
@@ -173,7 +176,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
               class="flex source-input"
               dynamic-align
               label-float
-              label="[['ui.card.media_player.sound_mode']]"
+              label="[[localize('ui.card.media_player.sound_mode')]]"
             >
               <paper-listbox
                 slot="dropdown-content"
@@ -195,7 +198,7 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
         >
           <paper-input
             id="ttsInput"
-            label="[['ui.card.media_player.text_to_speak']]"
+            label="[[localize('ui.card.media_player.text_to_speak')]]"
             class="flex"
             value="{{ttsMessage}}"
             on-keydown="ttsCheckForEnter"
@@ -227,6 +230,11 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
       ttsMessage: {
         type: String,
         value: "",
+      },
+
+      rtl: {
+        type: String,
+        computed: "_computeRTLDirection(opp)",
       },
     };
   }
@@ -407,6 +415,10 @@ class MoreInfoMediaPlayer extends EventsMixin(PolymerElement) {
     });
     this.ttsMessage = "";
     this.$.ttsInput.focus();
+  }
+
+  _computeRTLDirection(opp) {
+    return computeRTLDirection(opp);
   }
 }
 

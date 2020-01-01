@@ -7,8 +7,7 @@ declare global {
 
 export type ValidUserDataKey = keyof FrontendUserData;
 
-export const 
-fetchFrontendUserData = async <
+export const fetchFrontendUserData = async <
   UserDataKey extends ValidUserDataKey
 >(
   opp: OpenPeerPower,

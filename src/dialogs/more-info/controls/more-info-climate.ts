@@ -4,8 +4,7 @@ import "@polymer/paper-listbox/paper-listbox";
 import "@polymer/paper-toggle-button/paper-toggle-button";
 import { timeOut } from "@polymer/polymer/lib/utils/async";
 import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { PolymerElement, html } from "@polymer/polymer";
 
 import "../../../components/op-climate-control";
 import "../../../components/op-paper-slider";

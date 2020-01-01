@@ -2,21 +2,21 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
+import "@polymer/paper-toggle-button/paper-toggle-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-attributes";
 import "../../../components/op-paper-dropdown-menu";
-import "../../../components/op-switch";
 
-import { EventsMixin } from "../../../mixins/events-mixin";
 import attributeClassNames from "../../../common/entity/attribute_class_names";
-
+import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoFan extends EventsMixin(PolymerElement) {
+class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -47,7 +47,7 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
           <op-paper-dropdown-menu
             label-float=""
             dynamic-align=""
-            label="[['ui.card.fan.speed']]"
+            label="[[localize('ui.card.fan.speed')]]"
           >
             <paper-listbox
               slot="dropdown-content"
@@ -67,29 +67,29 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
 
         <div class="container-oscillating">
           <div class="center horizontal layout single-row">
-            <div class="flex">[['ui.card.fan.oscillate']]</div>
-            <op-switch
+            <div class="flex">[[localize('ui.card.fan.oscillate')]]</div>
+            <paper-toggle-button
               checked="[[oscillationToggleChecked]]"
               on-change="oscillationToggleChanged"
             >
-            </op-switch>
+            </paper-toggle-button>
           </div>
         </div>
 
         <div class="container-direction">
           <div class="direction">
-            <div>[['ui.card.fan.direction']]</div>
+            <div>[[localize('ui.card.fan.direction')]]</div>
             <paper-icon-button
               icon="opp:rotate-left"
-              on-click="onDirectionReverse"
-              title="[['ui.card.fan.reverse']]"
-              disabled="[[computeIsRotatingReverse(stateObj)]]"
+              on-click="onDirectionLeft"
+              title="Left"
+              disabled="[[computeIsRotatingLeft(stateObj)]]"
             ></paper-icon-button>
             <paper-icon-button
               icon="opp:rotate-right"
-              on-click="onDirectionForward"
-              title="[['ui.card.fan.forward']]"
-              disabled="[[computeIsRotatingForward(stateObj)]]"
+              on-click="onDirectionRight"
+              title="Right"
+              disabled="[[computeIsRotatingRight(stateObj)]]"
             ></paper-icon-button>
           </div>
         </div>
@@ -164,25 +164,25 @@ class MoreInfoFan extends EventsMixin(PolymerElement) {
     });
   }
 
-  onDirectionReverse() {
+  onDirectionLeft() {
     this.opp.callService("fan", "set_direction", {
       entity_id: this.stateObj.entity_id,
       direction: "reverse",
     });
   }
 
-  onDirectionForward() {
+  onDirectionRight() {
     this.opp.callService("fan", "set_direction", {
       entity_id: this.stateObj.entity_id,
       direction: "forward",
     });
   }
 
-  computeIsRotatingReverse(stateObj) {
+  computeIsRotatingLeft(stateObj) {
     return stateObj.attributes.direction === "reverse";
   }
 
-  computeIsRotatingForward(stateObj) {
+  computeIsRotatingRight(stateObj) {
     return stateObj.attributes.direction === "forward";
   }
 }

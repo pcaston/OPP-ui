@@ -1,7 +1,6 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
@@ -12,6 +11,7 @@ import "../../../components/op-paper-dropdown-menu";
 
 import featureClassNames from "../../../common/entity/feature_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const FEATURE_CLASS_NAMES = {
   1: "has-brightness",
@@ -23,7 +23,7 @@ const FEATURE_CLASS_NAMES = {
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoLight extends EventsMixin(PolymerElement) {
+class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -130,7 +130,7 @@ class MoreInfoLight extends EventsMixin(PolymerElement) {
       <div class$="[[computeClassNames(stateObj)]]">
         <div class="control brightness">
           <op-labeled-slider
-            caption="[['ui.card.light.brightness']]"
+            caption="[[localize('ui.card.light.brightness')]]"
             icon="opp:brightness-5"
             min="1"
             max="255"
@@ -141,7 +141,7 @@ class MoreInfoLight extends EventsMixin(PolymerElement) {
 
         <div class="control color_temp">
           <op-labeled-slider
-            caption="[['ui.card.light.color_temperature']]"
+            caption="[[localize('ui.card.light.color_temperature')]]"
             icon="opp:thermometer"
             min="[[stateObj.attributes.min_mireds]]"
             max="[[stateObj.attributes.max_mireds]]"
@@ -152,7 +152,7 @@ class MoreInfoLight extends EventsMixin(PolymerElement) {
 
         <div class="control white_value">
           <op-labeled-slider
-            caption="[['ui.card.light.white_value']]"
+            caption="[[localize('ui.card.light.white_value')]]"
             icon="opp:file-word-box"
             max="255"
             value="{{wvSliderValue}}"
@@ -180,7 +180,7 @@ class MoreInfoLight extends EventsMixin(PolymerElement) {
           <op-paper-dropdown-menu
             label-float=""
             dynamic-align=""
-            label="[['ui.card.light.effect']]"
+            label="[[localize('ui.card.light.effect')]]"
           >
             <paper-listbox
               slot="dropdown-content"

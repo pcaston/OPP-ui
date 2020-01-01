@@ -3,6 +3,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/state-history-charts";
+import "../data/op-state-history-data";
 
 import computeStateName from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
@@ -37,6 +38,14 @@ class OpHistoryGraphCard extends EventsMixin(PolymerElement) {
           display: none;
         }
       </style>
+      <op-state-history-data
+        opp="[[opp]]"
+        filter-type="recent-entity"
+        entity-id="[[computeHistoryEntities(stateObj)]]"
+        data="{{stateHistory}}"
+        is-loading="{{stateHistoryLoading}}"
+        cache-config="[[cacheConfig]]"
+      ></op-state-history-data>
       <paper-card
         dialog$="[[inDialog]]"
         on-click="cardTapped"

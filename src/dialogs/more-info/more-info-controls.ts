@@ -17,6 +17,7 @@ import computeStateDomain from "../../common/entity/compute_state_domain";
 import isComponentLoaded from "../../common/config/is_component_loaded";
 import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
 import { EventsMixin } from "../../mixins/events-mixin";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 /*
@@ -24,7 +25,6 @@ const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
  */
 class MoreInfoControls extends EventsMixin(PolymerElement) {
   static get template() {
-    debugger;
     return html`
       <style include="op-style-dialog">
         app-toolbar {
@@ -61,23 +61,22 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
           margin: 0 -24px -21px;
         }
 
-        :host('ltr') app-toolbar {
+        :host([rtl]) app-toolbar {
+          direction: rtl;
           text-align: right;
         }
       </style>
 
       <app-toolbar>
         <paper-icon-button
-          aria-label$="[['ui.dialogs.more_info_control.dismiss']]"
           icon="opp:close"
-          dialog-dismiss
+          dialog-dismiss=""
         ></paper-icon-button>
         <div class="main-title" main-title="" on-click="enlarge">
           [[_computeStateName(stateObj)]]
         </div>
         <template is="dom-if" if="[[canConfigure]]">
           <paper-icon-button
-            aria-label$="[['ui.dialogs.more_info_control.settings']]"
             icon="opp:settings"
             on-click="_gotoSettings"
           ></paper-icon-button>
@@ -155,6 +154,11 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
           hoursToShow: 24,
         },
       },
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "_computeRTL(opp)",
+      },
     };
   }
 
@@ -175,11 +179,11 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
     );
   }
 
-  _computeDomain(stateObj: OppEntity) {
+  _computeDomain(stateObj) {
     return stateObj ? computeStateDomain(stateObj) : "";
   }
 
-  _computeStateName(stateObj: OppEntity) {
+  _computeStateName(stateObj) {
     return stateObj ? computeStateName(stateObj) : "";
   }
 
@@ -189,15 +193,18 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
     }
 
     if (this._cacheConfig.cacheKey !== `more_info.${newVal.entity_id}`) {
-      this._cacheConfig = {
-        ...this._cacheConfig,
+      this._cacheConfig = Object.assign({}, this._cacheConfig, {
         cacheKey: `more_info.${newVal.entity_id}`,
-      };
+      });
     }
   }
 
   _gotoSettings() {
     this.fire("more-info-page", { page: "settings" });
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 customElements.define("more-info-controls", MoreInfoControls);

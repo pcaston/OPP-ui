@@ -10,7 +10,7 @@ const ironIconClass = customElements.get("iron-icon") as Constructor<
 
 let loaded = false;
 
-export class OppIcon extends ironIconClass {
+export class OpIcon extends ironIconClass {
   private _iconsetName?: string;
 
   public listen(
@@ -28,8 +28,8 @@ export class OppIcon extends ironIconClass {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-icon": OppIcon;
+    "op-icon": OpIcon;
   }
 }
 
-customElements.define("op-icon", OppIcon);
+customElements.define("op-icon", OpIcon);

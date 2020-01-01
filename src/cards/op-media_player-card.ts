@@ -10,11 +10,13 @@ import { fetchMediaPlayerThumbnailWithCache } from "../data/media-player";
 
 import computeStateName from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
+import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
- *  * @appliesMixin EventsMixin
+ * @appliesMixin LocalizeMixin
+ * @appliesMixin EventsMixin
  */
-class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
+class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style
@@ -172,7 +174,7 @@ class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
 
         <div class="caption">
           [[_computeStateName(stateObj)]]
-          <div class="title">[[computePrimaryText(playerObj)]]</div>
+          <div class="title">[[computePrimaryText(localize, playerObj)]]</div>
           [[playerObj.secondaryTitle]]<br />
         </div>
       </div>
@@ -340,11 +342,11 @@ class OpMediaPlayerCard extends EventsMixin(PolymerElement) {
     return new OppMediaPlayerEntity(opp, stateObj);
   }
 
-  computePrimaryText(playerObj) {
+  computePrimaryText(localize, playerObj) {
     return (
       playerObj.primaryTitle ||
-      `state media_player ${playerObj.stateObj.state}` ||
-      `state.default ${playerObj.stateObj.state}` ||
+      localize(`state.media_player.${playerObj.stateObj.state}`) ||
+      localize(`state.default.${playerObj.stateObj.state}`) ||
       playerObj.stateObj.state
     );
   }

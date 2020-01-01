@@ -6,13 +6,16 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../components/op-cover-tilt-controls";
 import "../../../components/op-labeled-slider";
 import CoverEntity from "../../../util/cover-model";
-import featureClassNames from "../../../common/entity/feature_class_names";
+
 import attributeClassNames from "../../../common/entity/attribute_class_names";
+import featureClassNames from "../../../common/entity/feature_class_names";
+
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const FEATURE_CLASS_NAMES = {
   128: "has-set_tilt_position",
 };
-class MoreInfoCover extends PolymerElement {
+class MoreInfoCover extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -36,7 +39,7 @@ class MoreInfoCover extends PolymerElement {
       <div class$="[[computeClassNames(stateObj)]]">
         <div class="current_position">
           <op-labeled-slider
-            caption="[['ui.card.cover.position']]"
+            caption="[[localize('ui.card.cover.position')]]"
             pin=""
             value="{{coverPositionSliderValue}}"
             disabled="[[!entityObj.supportsSetPosition]]"
@@ -46,7 +49,7 @@ class MoreInfoCover extends PolymerElement {
 
         <div class="tilt">
           <op-labeled-slider
-            caption="[['ui.card.cover.tilt_position']]"
+            caption="[[localize('ui.card.cover.tilt_position')]]"
             pin=""
             extra=""
             value="{{coverTiltPositionSliderValue}}"

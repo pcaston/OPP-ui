@@ -17,6 +17,7 @@ class OpMenuButton extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <paper-icon-button
+        aria-label="Sidebar Toggle"
         .icon=${this.oppio ? "oppio:menu" : "opp:menu"}
         @click=${this._toggleMenu}
       ></paper-icon-button>
