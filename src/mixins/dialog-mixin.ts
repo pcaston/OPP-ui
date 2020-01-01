@@ -23,8 +23,3 @@ export default dedupingMixin(
       }
     }
 );
-export interface DialogMixin {
-  withBackdrop: {
-    type: Boolean
-  }
-}

@@ -1,234 +1,179 @@
 import "@polymer/iron-icon/iron-icon";
-import {
-  LitElement,
-  property,
-  CSSResult,
-  css,
-  customElement,
-  PropertyValues,
-} from "lit-element";
-import { OpenPeerPower, OppEntity } from "../../../types";
-import { TemplateResult, html } from "lit-html";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-const cardinalDirections = [
-  "N",
-  "NNE",
-  "NE",
-  "ENE",
-  "E",
-  "ESE",
-  "SE",
-  "SSE",
-  "S",
-  "SSW",
-  "SW",
-  "WSW",
-  "W",
-  "WNW",
-  "NW",
-  "NNW",
-  "N",
-];
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
-const weatherIcons = {
-  "clear-night": "opp:weather-night",
-  cloudy: "opp:weather-cloudy",
-  exceptional: "opp:alert-circle-outline",
-  fog: "opp:weather-fog",
-  hail: "opp:weather-hail",
-  lightning: "opp:weather-lightning",
-  "lightning-rainy": "opp:weather-lightning-rainy",
-  partlycloudy: "opp:weather-partly-cloudy",
-  pouring: "opp:weather-pouring",
-  rainy: "opp:weather-rainy",
-  snowy: "opp:weather-snowy",
-  "snowy-rainy": "opp:weather-snowy-rainy",
-  sunny: "opp:weather-sunny",
-  windy: "opp:weather-windy",
-  "windy-variant": "opp:weather-windy-variant",
-};
-
-@customElement("more-info-weather")
-class MoreInfoWeather extends LitElement {
-  @property() public opp!: OpenPeerPower;
-  @property() public stateObj?: OppEntity;
-
-  protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (changedProps.has("stateObj")) {
-      return true;
-    }
-
-    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (
-      !oldOpp ||
-      oldOpp.language !== this.opp.language ||
-      oldOpp.config.unit_system !== this.opp.config.unit_system
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  protected render(): TemplateResult | void {
-    if (!this.opp || !this.stateObj) {
-      return html``;
-    }
-
+/*
+ * @appliesMixin LocalizeMixin
+ */
+class MoreInfoWeather extends LocalizeMixin(PolymerElement) {
+  static get template() {
     return html`
+      <style>
+        iron-icon {
+          color: var(--paper-item-icon-color);
+        }
+        .section {
+          margin: 16px 0 8px 0;
+          font-size: 1.2em;
+        }
+
+        .flex {
+          display: flex;
+          height: 32px;
+          align-items: center;
+        }
+
+        .main {
+          flex: 1;
+          margin-left: 24px;
+        }
+
+        .temp,
+        .templow {
+          min-width: 48px;
+          text-align: right;
+        }
+
+        .templow {
+          margin: 0 16px;
+          color: var(--secondary-text-color);
+        }
+
+        .attribution {
+          color: var(--secondary-text-color);
+          text-align: center;
+        }
+      </style>
+
       <div class="flex">
         <iron-icon icon="opp:thermometer"></iron-icon>
         <div class="main">
-          "ui.card.weather.attributes.temperature"
+          [[localize('ui.card.weather.attributes.temperature')]]
         </div>
         <div>
-          ${this.stateObj.attributes.temperature} ${this.getUnit("temperature")}
+          [[stateObj.attributes.temperature]] [[getUnit('temperature')]]
         </div>
       </div>
-      ${this._showValue(this.stateObj.attributes.pressure)
-        ? html`
-            <div class="flex">
-              <iron-icon icon="opp:gauge"></iron-icon>
-              <div class="main">
-                "ui.card.weather.attributes.air_pressure"
+      <template is="dom-if" if="[[_showValue(stateObj.attributes.pressure)]]">
+        <div class="flex">
+          <iron-icon icon="opp:gauge"></iron-icon>
+          <div class="main">
+            [[localize('ui.card.weather.attributes.air_pressure')]]
+          </div>
+          <div>
+            [[stateObj.attributes.pressure]] [[getUnit('air_pressure')]]
+          </div>
+        </div>
+      </template>
+      <template is="dom-if" if="[[_showValue(stateObj.attributes.humidity)]]">
+        <div class="flex">
+          <iron-icon icon="opp:water-percent"></iron-icon>
+          <div class="main">
+            [[localize('ui.card.weather.attributes.humidity')]]
+          </div>
+          <div>[[stateObj.attributes.humidity]] %</div>
+        </div>
+      </template>
+      <template is="dom-if" if="[[_showValue(stateObj.attributes.wind_speed)]]">
+        <div class="flex">
+          <iron-icon icon="opp:weather-windy"></iron-icon>
+          <div class="main">
+            [[localize('ui.card.weather.attributes.wind_speed')]]
+          </div>
+          <div>
+            [[getWind(stateObj.attributes.wind_speed,
+            stateObj.attributes.wind_bearing, localize)]]
+          </div>
+        </div>
+      </template>
+      <template is="dom-if" if="[[_showValue(stateObj.attributes.visibility)]]">
+        <div class="flex">
+          <iron-icon icon="opp:eye"></iron-icon>
+          <div class="main">
+            [[localize('ui.card.weather.attributes.visibility')]]
+          </div>
+          <div>[[stateObj.attributes.visibility]] [[getUnit('length')]]</div>
+        </div>
+      </template>
+
+      <template is="dom-if" if="[[stateObj.attributes.forecast]]">
+        <div class="section">[[localize('ui.card.weather.forecast')]]:</div>
+        <template is="dom-repeat" items="[[stateObj.attributes.forecast]]">
+          <div class="flex">
+            <template is="dom-if" if="[[_showValue(item.condition)]]">
+              <iron-icon icon="[[getWeatherIcon(item.condition)]]"></iron-icon>
+            </template>
+            <template is="dom-if" if="[[!_showValue(item.templow)]]">
+              <div class="main">[[computeDateTime(item.datetime)]]</div>
+            </template>
+            <template is="dom-if" if="[[_showValue(item.templow)]]">
+              <div class="main">[[computeDate(item.datetime)]]</div>
+              <div class="templow">
+                [[item.templow]] [[getUnit('temperature')]]
               </div>
-              <div>
-                ${this.stateObj.attributes.pressure}
-                ${this.getUnit("air_pressure")}
-              </div>
+            </template>
+            <div class="temp">
+              [[item.temperature]] [[getUnit('temperature')]]
             </div>
-          `
-        : ""}
-      ${this._showValue(this.stateObj.attributes.humidity)
-        ? html`
-            <div class="flex">
-              <iron-icon icon="opp:water-percent"></iron-icon>
-              <div class="main">
-                "ui.card.weather.attributes.humidity"
-              </div>
-              <div>${this.stateObj.attributes.humidity} %</div>
-            </div>
-          `
-        : ""}
-      ${this._showValue(this.stateObj.attributes.wind_speed)
-        ? html`
-            <div class="flex">
-              <iron-icon icon="opp:weather-windy"></iron-icon>
-              <div class="main">
-                "ui.card.weather.attributes.wind_speed"
-              </div>
-              <div>
-                ${this.getWind(
-                  this.stateObj.attributes.wind_speed,
-                  this.stateObj.attributes.wind_bearing
-                )}
-              </div>
-            </div>
-          `
-        : ""}
-      ${this._showValue(this.stateObj.attributes.visibility)
-        ? html`
-            <div class="flex">
-              <iron-icon icon="opp:eye"></iron-icon>
-              <div class="main">
-                "ui.card.weather.attributes.visibility"
-              </div>
-              <div>
-                ${this.stateObj.attributes.visibility} ${this.getUnit("length")}
-              </div>
-            </div>
-          `
-        : ""}
-      ${this.stateObj.attributes.forecast
-        ? html`
-            <div class="section">
-              "ui.card.weather.forecast":
-            </div>
-            ${this.stateObj.attributes.forecast.map((item) => {
-              return html`
-                <div class="flex">
-                  ${item.condition
-                    ? html`
-                        <iron-icon
-                          .icon="${weatherIcons[item.condition]}"
-                        ></iron-icon>
-                      `
-                    : ""}
-                  ${!this._showValue(item.templow)
-                    ? html`
-                        <div class="main">
-                          ${this.computeDateTime(item.datetime)}
-                        </div>
-                      `
-                    : ""}
-                  ${this._showValue(item.templow)
-                    ? html`
-                        <div class="main">
-                          ${this.computeDate(item.datetime)}
-                        </div>
-                        <div class="templow">
-                          ${item.templow} ${this.getUnit("temperature")}
-                        </div>
-                      `
-                    : ""}
-                  <div class="temp">
-                    ${item.temperature} ${this.getUnit("temperature")}
-                  </div>
-                </div>
-              `;
-            })}
-          `
-        : ""}
-      ${this.stateObj.attributes.attribution
-        ? html`
-            <div class="attribution">
-              ${this.stateObj.attributes.attribution}
-            </div>
-          `
-        : ""}
+          </div>
+        </template>
+      </template>
+
+      <template is="dom-if" if="stateObj.attributes.attribution">
+        <div class="attribution">[[stateObj.attributes.attribution]]</div>
+      </template>
     `;
   }
 
-  static get styles(): CSSResult {
-    return css`
-      iron-icon {
-        color: var(--paper-item-icon-color);
-      }
-      .section {
-        margin: 16px 0 8px 0;
-        font-size: 1.2em;
-      }
-
-      .flex {
-        display: flex;
-        height: 32px;
-        align-items: center;
-      }
-
-      .main {
-        flex: 1;
-        margin-left: 24px;
-      }
-
-      .temp,
-      .templow {
-        min-width: 48px;
-        text-align: right;
-      }
-
-      .templow {
-        margin: 0 16px;
-        color: var(--secondary-text-color);
-      }
-
-      .attribution {
-        color: var(--secondary-text-color);
-        text-align: center;
-      }
-    `;
+  static get properties() {
+    return {
+      opp: Object,
+      stateObj: Object,
+    };
   }
 
-  private computeDate(data) {
+  constructor() {
+    super();
+    this.cardinalDirections = [
+      "N",
+      "NNE",
+      "NE",
+      "ENE",
+      "E",
+      "ESE",
+      "SE",
+      "SSE",
+      "S",
+      "SSW",
+      "SW",
+      "WSW",
+      "W",
+      "WNW",
+      "NW",
+      "NNW",
+      "N",
+    ];
+    this.weatherIcons = {
+      "clear-night": "opp:weather-night",
+      cloudy: "opp:weather-cloudy",
+      fog: "opp:weather-fog",
+      hail: "opp:weather-hail",
+      lightning: "opp:weather-lightning",
+      "lightning-rainy": "opp:weather-lightning-rainy",
+      partlycloudy: "opp:weather-partlycloudy",
+      pouring: "opp:weather-pouring",
+      rainy: "opp:weather-rainy",
+      snowy: "opp:weather-snowy",
+      "snowy-rainy": "opp:weather-snowy-rainy",
+      sunny: "opp:weather-sunny",
+      windy: "opp:weather-windy",
+      "windy-variant": "opp:weather-windy-variant",
+    };
+  }
+
+  computeDate(data) {
     const date = new Date(data);
     return date.toLocaleDateString(this.opp.language, {
       weekday: "long",
@@ -237,7 +182,7 @@ class MoreInfoWeather extends LitElement {
     });
   }
 
-  private computeDateTime(data) {
+  computeDateTime(data) {
     const date = new Date(data);
     return date.toLocaleDateString(this.opp.language, {
       weekday: "long",
@@ -245,7 +190,7 @@ class MoreInfoWeather extends LitElement {
     });
   }
 
-  private getUnit(measure: string): string {
+  getUnit(measure) {
     const lengthUnit = this.opp.config.unit_system.length || "";
     switch (measure) {
       case "air_pressure":
@@ -259,32 +204,31 @@ class MoreInfoWeather extends LitElement {
     }
   }
 
-  private windBearingToText(degree: string): string {
-    const degreenum = parseInt(degree, 10);
+  windBearingToText(degree) {
+    const degreenum = parseInt(degree);
     if (isFinite(degreenum)) {
-      // tslint:disable-next-line: no-bitwise
-      return cardinalDirections[(((degreenum + 11.25) / 22.5) | 0) % 16];
+      return this.cardinalDirections[(((degreenum + 11.25) / 22.5) | 0) % 16];
     }
     return degree;
   }
 
-  private getWind(speed: string, bearing: string) {
+  getWind(speed, bearing, localize) {
     if (bearing != null) {
       const cardinalDirection = this.windBearingToText(bearing);
-      return `${speed} ${this.getUnit("length")}/h (${
+      return `${speed} ${this.getUnit("length")}/h (${localize(
         `ui.card.weather.cardinal_direction.${cardinalDirection.toLowerCase()}`
-       || cardinalDirection})`;
+      ) || cardinalDirection})`;
     }
     return `${speed} ${this.getUnit("length")}/h`;
   }
 
-  private _showValue(item: string): boolean {
+  getWeatherIcon(condition) {
+    return this.weatherIcons[condition];
+  }
+
+  _showValue(item) {
     return typeof item !== "undefined" && item !== null;
   }
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    "more-info-weather": MoreInfoWeather;
-  }
-}
+customElements.define("more-info-weather", MoreInfoWeather);
