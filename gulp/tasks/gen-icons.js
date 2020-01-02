@@ -35,13 +35,13 @@ function generateIconset(iconSetName, iconNames) {
     import '@polymer/iron-iconset-svg';
     import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-    const template = html\`<opp-iconset-svg name="${iconSetName}" size="24">
+    const template = html\`<op-iconset-svg name="${iconSetName}" size="24">
       <svg>
         <defs>
           ${iconDefs}
         </defs>
       </svg>
-    </opp-iconset-svg>\`;
+    </op-iconset-svg>\`;
 
     document.head.appendChild(template.content);`;
 }
@@ -115,7 +115,7 @@ function genIconJS(findFunction, IconSetName, bsname) {
 }
 
 gulp.task("gen-icons-mdi", () => genIconJS(findMDIIcons, "mdi", "mdi"));
-gulp.task("gen-icons-opp", () => genIconJS(findOppIcons, "opp", "opp-icons"));
+gulp.task("gen-icons-opp", () => genIconJS(findOppIcons, "opp", "op-icons"));
 gulp.task("gen-icons", gulp.parallel("gen-icons-mdi", "gen-icons-opp"), () => {});
 
 module.exports = {

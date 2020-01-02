@@ -11,13 +11,13 @@ import {
 import "../../../components/op-relative-time";
 
 import formatTime from "../../../common/datetime/format_time";
-import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
+import { litLocalizeLiteMixin } from "../../../mixins/lit-localize-lite-mixin";
 
 export class MoreInfoSun extends litLocalizeLiteMixin(LitElement) {
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) stateObj!: SunEntity;
-  @property({ type : Object }) risingDate!: object;
-  @property({ type : Object }) settingDate!: object;
+  @property({ type : Object }) risingDate!: Date;
+  @property({ type : Object }) settingDate!: Date;
   static get styles() {
     return [
       css`
@@ -52,8 +52,12 @@ export class MoreInfoSun extends litLocalizeLiteMixin(LitElement) {
         })
       }
       <div class="data-entry layout justified horizontal">
-        <div class="key">elevation</div>
-        <div class="value">elevation</div>
+        <div class="key">elevation
+          ${this.localize('ui.dialogs.more_info_control.sun.elevation')}
+        </div>
+        <div class="value">
+          ${this.stateObj.attributes.elevation}
+        </div>
       </div>
     `;
   }
@@ -72,9 +76,9 @@ export class MoreInfoSun extends litLocalizeLiteMixin(LitElement) {
 
   itemCaption(type: string) {
     if (type === "ris") {
-      return "Rising";
+      return this.localize("ui.dialogs.more_info_control.sun.rising");
     }
-    return "Setting";
+    return this.localize("ui.dialogs.more_info_control.sun.setting");
   }
 
   itemDate(type: string) {
@@ -82,7 +86,7 @@ export class MoreInfoSun extends litLocalizeLiteMixin(LitElement) {
   }
 
   itemValue(type: string) {
-    return formatTime(this.itemDate(type), "en");
+    return formatTime(this.itemDate(type), this.opp.language);
   }
 }
 customElements.define("more-info-sun", MoreInfoSun);
