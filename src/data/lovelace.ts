@@ -77,3 +77,13 @@ export const saveConfig = (
     type: "lovelace/config/save",
     config,
   });
+
+  export const subscribeLovelaceUpdates = (
+    conn: Connection,
+    onChange: () => void
+  ) => conn.subscribeEvents(onChange, "lovelace_updated");
+  
+  export interface WindowWithLovelaceProm extends Window {
+    llConfProm?: Promise<LovelaceConfig>;
+  }
+  

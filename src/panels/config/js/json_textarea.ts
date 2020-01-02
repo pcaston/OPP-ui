@@ -1,15 +1,33 @@
 import { h, Component } from "preact";
-import "../../../components/op-textarea";
+import '../../components/op-textarea';
 
-export default class JSONTextArea extends Component {
-  constructor(props) {
+interface Aev {
+  target: {value: string},
+};
+interface AppProps {
+  name: string,
+  value: string,
+  optionalValue?: string,
+  onChange(ev: Aev): string,
+};
+
+interface AppState {
+  name: string,
+  useOptional: boolean,
+  isValid: boolean,
+  value: string,
+};
+
+export default class JSONTextArea extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
     this.state.isValid = true;
     this.state.value = JSON.stringify(props.value || {}, null, 2);
-    this.onChange = this.onChange.bind(this);
-  }
 
-  onChange(ev) {
+    this.onChange = this.onChange.bind(this);
+  };
+
+  onChange(ev: Aev) {
     const value = ev.target.value;
     let parsed;
     let isValid;

@@ -162,7 +162,7 @@ class MoreInfoWeather extends LocalizeMixin(PolymerElement) {
       hail: "opp:weather-hail",
       lightning: "opp:weather-lightning",
       "lightning-rainy": "opp:weather-lightning-rainy",
-      partlycloudy: "opp:weather-partlycloudy",
+      partlycloudy: "opp:weather-partly-cloudy",
       pouring: "opp:weather-pouring",
       rainy: "opp:weather-rainy",
       snowy: "opp:weather-snowy",

@@ -46,13 +46,13 @@ export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
         }
       </style>
       <paper-card elevation="4">
-        <div class="card-content">[[localize('ui.auth_store.ask')]]</div>
+        <div class="card-content">${this.localize('ui.auth_store.ask')}</div>
         <div class="card-actions">
-          <mwc-button on-click="_done"
-            >[[localize('ui.auth_store.decline')]]</mwc-button
+          <mwc-button @click="${this._done}"
+            >${this.localize('ui.auth_store.decline')}</mwc-button
           >
-          <mwc-button raised on-click="_save"
-            >[[localize('ui.auth_store.confirm')]]</mwc-button
+          <mwc-button raised @click="${this._save}"
+            >${this.localize('ui.auth_store.confirm')}</mwc-button
           >
         </div>
       </paper-card>
