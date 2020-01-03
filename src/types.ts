@@ -105,6 +105,7 @@ export interface Notification {
 }
 export interface Resources {
   [language: string]: { [key: string]: string };
+}
 
 export type OppEntityBase = {
   entity_id: string;
@@ -157,7 +158,6 @@ export interface OpenPeerPower {
   states?: OppEntities;
   services?: OppServices;
   config?: OppConfig;
-  moreInfoEntityId?: string | null;
   // i18n
   // current effective language, in that order:
   //   - backend saved user selected lanugage

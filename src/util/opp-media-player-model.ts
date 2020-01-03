@@ -6,6 +6,7 @@ export default class MediaPlayerEntity {
   stateObj: OppEntity;
   _attr: OppEntity["attributes"];
   _feat: OppEntity["attributes"]["supported_features"];
+
   constructor(opp: OpenPeerPower, stateObj: OppEntity) {
     this.opp = opp;
     this.stateObj = stateObj;
@@ -178,7 +179,7 @@ export default class MediaPlayerEntity {
     this.callService("media_previous_track");
   }
 
-  setVolume(volume) {
+  setVolume(volume: string) {
     this.callService("volume_set", { volume_level: volume });
   }
 
@@ -202,7 +203,7 @@ export default class MediaPlayerEntity {
     this.callService("volume_down");
   }
 
-  volumeMute(mute) {
+  volumeMute(mute: boolean) {
     if (!this.supportsVolumeMute) {
       throw new Error("Muting volume not supported");
     }
@@ -221,9 +222,15 @@ export default class MediaPlayerEntity {
     this.callService("select_sound_mode", { sound_mode: soundMode });
   }
 
-  // helper method
-
-  callService(service, data = {}) {
+    // helper method
+  callService(service: string, data: {
+    entity_id?: string, 
+    sound_mode?: string,
+    source?: string,
+    volume_level?: string,
+    is_volume_muted?: boolean,
+    } ={}) 
+  {
     data.entity_id = this.stateObj.entity_id;
     this.opp.callService("media_player", service, data);
   }

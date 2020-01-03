@@ -14,7 +14,7 @@ import "./op-settings-row";
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -109,4 +109,4 @@ class HaPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-pick-language-row", HaPickLanguageRow);
+customElements.define("op-pick-language-row", OpPickLanguageRow);

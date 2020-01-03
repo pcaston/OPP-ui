@@ -1,86 +1,87 @@
-import { Component } from "preact";
+import { h, Component } from "preact";
 import "@polymer/paper-input/paper-input";
 import "../../../../components/op-textarea";
+
 import "../../../../components/entity/op-entity-picker";
+
 import { onChangeEvent } from "../../../../common/preact/event";
+
 export default class NumericStateTrigger extends Component {
-    constructor() {
-        super();
-        this.onChange = onChangeEvent.bind(this, "trigger");
-        this.entityPicked = this.entityPicked.bind(this);
+  constructor() {
+    super();
+
+    this.onChange = onChangeEvent.bind(this, "trigger");
+    this.entityPicked = this.entityPicked.bind(this);
+  }
+
+  entityPicked(ev) {
+    this.props.onChange(
+      this.props.index,
+      Object.assign({}, this.props.trigger, { entity_id: ev.target.value })
+    );
+  }
+
+  /* eslint-disable camelcase */
+  render({ trigger, opp, localize }) {
+    const { value_template, entity_id, below, above } = trigger;
+    let trgFor = trigger.for;
+
+    if (trgFor && (trgFor.hours || trgFor.minutes || trgFor.seconds)) {
+      // If the trigger was defined using the yaml dict syntax, convert it to
+      // the equivalent string format
+      let { hours = 0, minutes = 0, seconds = 0 } = trgFor;
+      hours = hours.toString();
+      minutes = minutes.toString().padStart(2, "0");
+      seconds = seconds.toString().padStart(2, "0");
+
+      trgFor = `${hours}:${minutes}:${seconds}`;
     }
-    entityPicked(ev) {
-        this.props.onChange(this.props.index, Object.assign({}, this.props.trigger, { entity_id: ev.target.value }));
-    }
-    /* eslint-disable camelcase */
-    render({ trigger, opp }) {
-        const { value_template, entity_id, below, above } = trigger;
-        let trgFor = trigger.for;
-        if (trgFor && (trgFor.hours || trgFor.minutes || trgFor.seconds)) {
-            // If the trigger was defined using the yaml dict syntax, convert it to
-            // the equivalent string format
-            let { hours = 0, minutes = 0, seconds = 0 } = trgFor;
-            hours = hours.toString();
-            minutes = minutes.toString().padStart(2, "0");
-            seconds = seconds.toString().padStart(2, "0");
-            trgFor = `${hours}:${minutes}:${seconds}`;
-        }
-        return (-entity - picker);
-        value = { entity_id };
-        onChange = { this: .entityPicked };
-        opp = { opp };
-        allowCustomEntity
-            /  >
-            -input;
-        label = {
-            "ui.panel.config.automation.editor.triggers.type.numeric_state.above": 
-        };
-        name = "above";
-        value = { above };
-        onvalue - changed;
-        {
-            this.onChange;
-        }
+    return (
+      <div>
+        <op-entity-picker
+          value={entity_id}
+          onChange={this.entityPicked}
+          opp={opp}
+          allowCustomEntity
         />
-            < paper - input;
-        label = {
-            "ui.panel.config.automation.editor.triggers.type.numeric_state.below": 
-        };
-        name = "below";
-        value = { below };
-        onvalue - changed;
-        {
-            this.onChange;
-        }
+        <paper-input
+          label={localize(
+            "ui.panel.config.automation.editor.triggers.type.numeric_state.above"
+          )}
+          name="above"
+          value={above}
+          onvalue-changed={this.onChange}
         />
-            < op - textarea;
-        label = {
-            "ui.panel.config.automation.editor.triggers.type.numeric_state.value_template": 
-        };
-        name = "value_template";
-        value = { value_template };
-        onvalue - changed;
-        {
-            this.onChange;
-        }
-        dir = "ltr"
-            /  >
-            -input;
-        label = {
-            "ui.panel.config.automation.editor.triggers.type.state.for": 
-        };
-        name = "for";
-        value = { trgFor };
-        onvalue - changed;
-        {
-            this.onChange;
-        }
+        <paper-input
+          label={localize(
+            "ui.panel.config.automation.editor.triggers.type.numeric_state.below"
+          )}
+          name="below"
+          value={below}
+          onvalue-changed={this.onChange}
         />
-            < /div>;
-        ;
-    }
+        <op-textarea
+          label={localize(
+            "ui.panel.config.automation.editor.triggers.type.numeric_state.value_template"
+          )}
+          name="value_template"
+          value={value_template}
+          onvalue-changed={this.onChange}
+          dir="ltr"
+        />
+        <paper-input
+          label={localize(
+            "ui.panel.config.automation.editor.triggers.type.state.for"
+          )}
+          name="for"
+          value={trgFor}
+          onvalue-changed={this.onChange}
+        />
+      </div>
+    );
+  }
 }
+
 NumericStateTrigger.defaultConfig = {
-    entity_id: "",
+  entity_id: "",
 };
-//# sourceMappingURL=numeric_state.js.map
