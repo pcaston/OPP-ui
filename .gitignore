@@ -68,6 +68,7 @@ typings/
 # next.js build output
 .next
 !gulp/tasks/**
-
+diag.txt
 # exclude js
 !src/panels/config/js/**
+!src/cards/**
