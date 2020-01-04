@@ -28,9 +28,9 @@ import {
 } from "./show-dialog-area-registry-detail";
 import { classMap } from "lit-html/directives/class-map";
 import { computeRTL } from "../../../common/util/compute_rtl";
-import { UnsubscribeFunc } from "home-assistant-js-websocket";
+import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 
-class HaConfigAreaRegistry extends LitElement {
+class OpConfigAreaRegistry extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _areas?: AreaRegistryEntry[];
@@ -209,4 +209,4 @@ All devices in this area will become unassigned.`)
   }
 }
 
-customElements.define("op-config-area-registry", HaConfigAreaRegistry);
+customElements.define("op-config-area-registry", OpConfigAreaRegistry);

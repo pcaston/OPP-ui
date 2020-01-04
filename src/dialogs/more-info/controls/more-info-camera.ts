@@ -67,7 +67,7 @@ class MoreInfoCamera extends LitElement {
 
     if (
       curEntityId &&
-      this.opp!.config.components.includes("stream") &&
+      this.opp!.config!.components.includes("stream") &&
       supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     ) {
       // Fetch in background while we set up the video.

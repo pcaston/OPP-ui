@@ -207,7 +207,7 @@ export class HUIView extends LitElement {
       this._badges.forEach((badge) => {
         const { element, entityId } = badge;
         element.opp = this.opp!;
-        element.state = this.opp!.states[entityId];
+        element.state = this.opp!.states![entityId];
       });
     }
 
@@ -244,7 +244,7 @@ export class HUIView extends LitElement {
     for (const entityId of config.badges) {
       const element = document.createElement("op-state-label-badge");
       element.opp = this.opp;
-      element.state = this.opp!.states[entityId];
+      element.state = this.opp!.states![entityId];
       elements.push({ element, entityId });
       root.appendChild(element);
     }

@@ -1,5 +1,5 @@
 import { getCollection } from "./collection";
-import { OppEntities, StateChangedEvent, UnsubscribeFunc } from "./types";
+import { OppEntities, StateChangedEvent, UnsubscribeFunc } from "../../types";
 import { Connection } from "./connection";
 import { Store } from "./store";
 import { getStates } from "./commands";

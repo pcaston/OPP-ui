@@ -41,7 +41,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -103,7 +103,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
   }
 
   private _selectedValueChanged(ev): void {
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     const time =
       this._timeInputEl !== null

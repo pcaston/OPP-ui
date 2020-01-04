@@ -88,7 +88,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     if (oldOpp && this._configEntities) {
       for (const entity of this._configEntities) {
         if (
-          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -164,7 +164,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(entityConf): TemplateResult {
-    const stateObj = this.opp!.states[entityConf.entity];
+    const stateObj = this.opp!.states![entityConf.entity];
 
     if (!stateObj) {
       return html`

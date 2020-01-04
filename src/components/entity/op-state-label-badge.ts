@@ -244,3 +244,8 @@ export class OpStateLabelBadge extends LitElement {
     `;
   }
 }
+declare global {
+  interface HTMLElementTagNameMap {
+    "op-state-label-badge": OpStateLabelBadge;
+  }
+}

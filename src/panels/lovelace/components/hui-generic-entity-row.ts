@@ -30,7 +30,7 @@ class HuiGenericEntityRow extends LitElement {
       return html``;
     }
     const stateObj = this.config.entity
-      ? this.opp.states[this.config.entity]
+      ? this.opp.states![this.config.entity]
       : undefined;
 
     if (!stateObj) {

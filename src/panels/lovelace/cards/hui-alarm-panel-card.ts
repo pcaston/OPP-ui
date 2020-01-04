@@ -56,7 +56,7 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
       return 0;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     return !stateObj || stateObj.attributes.code_format !== FORMAT_NUMBER
       ? 3
@@ -88,8 +88,8 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
     if (oldOpp) {
       return (
-        oldOpp.states[this._config!.entity] !==
-        this.opp!.states[this._config!.entity]
+        oldOpp.states![this._config!.entity] !==
+        this.opp!.states![this._config!.entity]
       );
     }
     return true;
@@ -99,7 +99,7 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
     if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

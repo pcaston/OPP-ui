@@ -89,7 +89,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesDialog) {
       for (const entity of this._entitiesDialog) {
         if (
-          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -99,7 +99,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesToggle) {
       for (const entity of this._entitiesToggle) {
         if (
-          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -160,7 +160,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     entityConf: EntityConfig,
     dialog: boolean
   ): TemplateResult {
-    const stateObj = this.opp!.states[entityConf.entity];
+    const stateObj = this.opp!.states![entityConf.entity];
 
     if (!stateObj) {
       return html`

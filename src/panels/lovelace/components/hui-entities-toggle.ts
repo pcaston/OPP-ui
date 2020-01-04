@@ -28,7 +28,7 @@ class HuiEntitiesToggle extends LitElement {
     if (changedProperties.has("entities")) {
       this._toggleEntities = this.entities!.filter(
         (entityId) =>
-          entityId in this.opp!.states &&
+          entityId in this.opp!.states! &&
           DOMAINS_TOGGLE.has(entityId.split(".", 1)[0])
       );
     }
@@ -42,7 +42,7 @@ class HuiEntitiesToggle extends LitElement {
     return html`
       <paper-toggle-button
         ?checked="${this._toggleEntities!.some((entityId) => {
-          const stateObj = this.opp!.states[entityId];
+          const stateObj = this.opp!.states![entityId];
           return stateObj && stateObj.state === "on";
         })}"
         @change="${this._callService}"

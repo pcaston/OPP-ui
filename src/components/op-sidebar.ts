@@ -234,7 +234,7 @@ class OpSidebar extends LitElement {
     return (
       opp.panels !== oldOpp.panels ||
       opp.panelUrl !== oldOpp.panelUrl ||
-      opp.config.components !== oldOpp.config.components ||
+      opp.config!.components !== oldOpp.config!.components ||
       opp.user !== oldOpp.user ||
       opp.localize !== oldOpp.localize
     );

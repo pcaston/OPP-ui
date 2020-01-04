@@ -46,7 +46,7 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
     }
 
     const entitiesList = this._configEntities.filter((entityConf) => {
-      const stateObj = opp.states[entityConf.entity];
+      const stateObj = opp.states![entityConf.entity];
       return stateObj && this._config!.state_filter.includes(stateObj.state);
     });
 
