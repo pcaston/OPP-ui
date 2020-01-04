@@ -49,7 +49,7 @@ class OpAutomationPicker extends LitElement {
             )}
             <p>
               <a
-                href="https://home-assistant.io/docs/automation/editor/"
+                href="https://open-peer-power.io/docs/automation/editor/"
                 target="_blank"
               >
                 ${this.opp.localize(

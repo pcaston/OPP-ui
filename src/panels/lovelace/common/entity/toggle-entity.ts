@@ -5,6 +5,6 @@ export const toggleEntity = (
   opp: OpenPeerPower,
   entityId: string
 ): Promise<void> => {
-  const turnOn = STATES_OFF.includes(opp.states[entityId].state);
+  const turnOn = STATES_OFF.includes(opp.states![entityId].state);
   return turnOnOffEntity(opp, entityId, turnOn);
 };

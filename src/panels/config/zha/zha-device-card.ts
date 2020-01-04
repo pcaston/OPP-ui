@@ -154,7 +154,7 @@ class ZHADeviceCard extends LitElement {
                 .entity="${entity}"
               >
                 <state-badge
-                  .stateObj="${this.opp!.states[entity.entity_id]}"
+                  .stateObj="${this.opp!.states![entity.entity_id]}"
                   slot="item-icon"
                 ></state-badge>
                 ${!this.isJoinPage

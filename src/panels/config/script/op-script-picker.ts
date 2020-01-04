@@ -10,7 +10,7 @@ import {
 import "@polymer/paper-fab/paper-fab";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item-body";
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../types";
 
 import "../../../layouts/opp-subpage";
 

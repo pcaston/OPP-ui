@@ -50,6 +50,20 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
         1000
       );
     };
+    // Auth is mandatory, so we can send the auth message right away.
+    const handleOpen = async (event: MessageEventInit) => {
+      try {
+        if (auth.expired) {
+          await (authRefreshTask ? authRefreshTask : auth.refreshAccessToken());
+        }
+        socket.send(JSON.stringify(messages.auth(auth.accessToken)));
+      } catch (err) {
+        // Refresh token failed
+        invalidAuth = err === ERR_INVALID_AUTH;
+        socket.close();
+      }
+    };
+
     const handleMessage = async (event: MessageEvent) => {
       const message = JSON.parse(event.data);
       switch (message.type) {

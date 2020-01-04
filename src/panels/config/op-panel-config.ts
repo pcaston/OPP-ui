@@ -35,11 +35,6 @@ class OpPanelConfig extends OppRouterPage {
         load: () =>
           import(/* webpackChunkName: "panel-config-automation" */ "./automation/op-config-automation"),
       },
-      cloud: {
-        tag: "op-config-cloud",
-        load: () =>
-          import(/* webpackChunkName: "panel-config-cloud" */ "./cloud/op-config-cloud"),
-      },
       core: {
         tag: "op-config-core",
         load: () =>

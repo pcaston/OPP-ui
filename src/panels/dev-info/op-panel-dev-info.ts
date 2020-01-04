@@ -68,10 +68,10 @@ class OpPanelDevInfo extends LitElement {
                 ><img src="/static/icons/favicon-192x192.png" height="192"/></a
               ><br />
               Open Peer Power<br />
-              ${opp.config.version}
+              ${opp.config!.version}
             </p>
             <p>
-              Path to configuration.yaml: ${opp.config.config_dir}
+              Path to configuration.yaml: ${opp.config!.config_dir}
             </p>
             <p class="develop">
               <a

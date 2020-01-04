@@ -1,6 +1,6 @@
 import { Store, createStore } from "./store";
 import { Connection } from "./connection";
-import { UnsubscribeFunc } from "./types";
+import { UnsubscribeFunc } from "../../types";
 
 export type Collection<State> = {
   state: State;

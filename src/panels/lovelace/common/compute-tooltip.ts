@@ -24,8 +24,8 @@ export const computeTooltip = (opp: OpenPeerPower, config: Config): string => {
 
   if (config.entity) {
     stateName =
-      config.entity in opp.states
-        ? computeStateName(opp.states[config.entity])
+      config.entity in opp.states!
+        ? computeStateName(opp.states![config.entity])
         : config.entity;
   }
 

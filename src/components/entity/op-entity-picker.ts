@@ -76,7 +76,7 @@ class OpEntityPicker extends LitElement {
       if (!opp) {
         return [];
       }
-      let entityIds = Object.keys(opp.states);
+      let entityIds = Object.keys(opp.states!);
 
       if (domainFilter) {
         entityIds = entityIds.filter(
@@ -84,7 +84,7 @@ class OpEntityPicker extends LitElement {
         );
       }
 
-      states = entityIds.sort().map((key) => opp!.states[key]);
+      states = entityIds.sort().map((key) => opp!.states![key]);
 
       if (entityFilter) {
         states = states.filter(

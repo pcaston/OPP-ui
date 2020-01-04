@@ -24,7 +24,7 @@ export const computeEntityRegistryName = (
   if (entry.name) {
     return entry.name;
   }
-  const state = opp.states[entry.entity_id];
+  const state = opp.states![entry.entity_id];
   return state ? computeStateName(state) : null;
 };
 

@@ -450,7 +450,7 @@ class HUIRoot extends LitElement {
 
   private get _notifications() {
     return this._updateNotifications(
-      this.opp!.states,
+      this.opp!.states!,
       this._persistentNotifications! || []
     );
   }

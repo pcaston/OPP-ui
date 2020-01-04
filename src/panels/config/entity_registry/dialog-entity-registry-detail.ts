@@ -51,7 +51,7 @@ class DialogEntityRegistryDetail extends LitElement {
       return html``;
     }
     const entry = this._params.entry;
-    const stateObj: OppEntity | undefined = this.opp.states[entry.entity_id];
+    const stateObj: OppEntity | undefined = this.opp.states![entry.entity_id];
     const invalidDomainUpdate =
       computeDomain(this._entityId.trim()) !==
       computeDomain(this._params.entry.entity_id);

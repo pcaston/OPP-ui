@@ -42,7 +42,7 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity!];
+    const stateObj = this.opp.states![this._config.entity!];
 
     if (!stateObj) {
       return html`

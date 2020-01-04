@@ -27,6 +27,6 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
         this.shadowRoot!.appendChild(this._moreInfoEntityId);
         this.provideOpp(this._moreInfoEntityId);
       }
-      this._updateOpp(this._moreInfoEntityId, { moreInfoEntityId: ev.detail.entityId });
+      this._updateOpp({ moreInfoEntityId: ev.detail.entityId });
     }
   };

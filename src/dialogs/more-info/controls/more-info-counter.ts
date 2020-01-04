@@ -8,7 +8,7 @@ import {
   customElement,
 } from "lit-element";
 import "@material/mwc-button";
-import { OppEntity } from "home-assistant-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 import { OpenPeerPower } from "../../../types";
 

@@ -174,13 +174,13 @@ const computeCards = (
 
 const computeDefaultViewStates = (opp: OpenPeerPower): OppEntities => {
   const states = {};
-  Object.keys(opp.states).forEach((entityId) => {
-    const stateObj = opp.states[entityId];
+  Object.keys(opp.states!).forEach((entityId) => {
+    const stateObj = opp.states![entityId];
     if (
       !stateObj.attributes.hidden &&
       !HIDE_DOMAIN.has(computeStateDomain(stateObj))
     ) {
-      states[entityId] = opp.states[entityId];
+      states[entityId] = opp.states![entityId];
     }
   });
   return states;
@@ -319,10 +319,10 @@ export const generateLovelaceConfig = async (
   opp: OpenPeerPower,
   localize: LocalizeFunc
 ): Promise<LovelaceConfig> => {
-  const viewEntities = extractViews(opp.states);
+  const viewEntities = extractViews(opp.states!);
 
   const views = viewEntities.map((viewEntity: GroupEntity) => {
-    const states = getViewEntities(opp.states, viewEntity);
+    const states = getViewEntities(opp.states!, viewEntity);
 
     // In the case of a normal view, we use group order as specified in view
     const groupOrders = {};
@@ -340,7 +340,7 @@ export const generateLovelaceConfig = async (
     );
   });
 
-  let title = opp.config.location_name;
+  let title = opp.config!.location_name;
 
   // User can override default view. If they didn't, we will add one
   // that contains all entities.
@@ -367,7 +367,7 @@ export const generateLovelaceConfig = async (
     views.unshift(generateDefaultViewConfig(opp, registries));
 
     // Add map of geo locations to default view if loaded
-    if (opp.config.components.includes("geo_location")) {
+    if (opp.config!.components.includes("geo_location")) {
       if (views[0] && views[0].cards) {
         views[0].cards.push({
           type: "map",

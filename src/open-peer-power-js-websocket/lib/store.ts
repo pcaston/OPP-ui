@@ -1,4 +1,4 @@
-import { UnsubscribeFunc } from "./types";
+import { UnsubscribeFunc } from "../../types";
 
 // (c) Jason Miller
 // Unistore - MIT license

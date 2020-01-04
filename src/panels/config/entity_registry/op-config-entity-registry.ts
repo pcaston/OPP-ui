@@ -29,7 +29,7 @@ import {
   showEntityRegistryDetailDialog,
   loadEntityRegistryDetailDialog,
 } from "./show-dialog-entity-registry-detail";
-import { UnsubscribeFunc } from "home-assistant-js-websocket";
+import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 import { compare } from "../../../common/string/compare";
 
 class OpConfigEntityRegistry extends LitElement {
@@ -80,7 +80,7 @@ class OpConfigEntityRegistry extends LitElement {
           </span>
           <op-card>
             ${this._entities.map((entry) => {
-              const state = this.opp!.states[entry.entity_id];
+              const state = this.opp!.states![entry.entity_id];
               return html`
                 <paper-icon-item @click=${this._openEditEntry} .entry=${entry}>
                   <op-icon

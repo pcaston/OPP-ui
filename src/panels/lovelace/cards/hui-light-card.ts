@@ -77,7 +77,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp.states![this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       return html`
@@ -132,7 +132,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     this._roundSliderStyle = loaded.roundSliderStyle;
     this._jQuery = loaded.jQuery;
 
-    const stateObj = this.opp!.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       // Card will require refresh to work again
@@ -158,7 +158,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (!stateObj) {
       return;

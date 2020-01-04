@@ -45,7 +45,7 @@ class HuiTimerEntityRow extends LitElement {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -78,10 +78,10 @@ class HuiTimerEntityRow extends LitElement {
     super.updated(changedProps);
 
     if (changedProps.has("opp")) {
-      const stateObj = this.opp!.states[this._config!.entity];
+      const stateObj = this.opp!.states![this._config!.entity];
       const oldOpp = changedProps.get("opp") as this["opp"];
       const oldStateObj = oldOpp
-        ? oldOpp.states[this._config!.entity]
+        ? oldOpp.states![this._config!.entity]
         : undefined;
 
       if (oldStateObj !== stateObj) {

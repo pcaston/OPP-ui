@@ -3,7 +3,7 @@ import {
   PropertyValues,
   UpdatingElement,
 } from "lit-element";
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../../types";
 
 import "./more-info-alarm_control_panel";
 import "./more-info-automation";

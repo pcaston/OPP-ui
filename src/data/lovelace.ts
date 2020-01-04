@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import { Connection } from "open-peer-power-js-websocket";
+import { Connection } from "../open-peer-power-js-websocket/lib";
 
 export interface LovelaceConfig {
   title?: string;

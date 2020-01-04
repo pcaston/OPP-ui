@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "./types";
+import { ConnectionOptions } from "../../types";
 import { createSocket } from "./socket";
 import { Connection } from "./connection";
 
@@ -9,7 +9,7 @@ export * from "./config";
 export * from "./services";
 export * from "./entities";
 export * from "./errors";
-export * from "./types";
+export * from "../../types";
 export * from "./commands";
 
 const defaultConnectionOptions: ConnectionOptions = {

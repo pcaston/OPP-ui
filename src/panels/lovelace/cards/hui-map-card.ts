@@ -197,8 +197,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     if (this._mapItems.length === 0) {
       this._leafletMap.setView(
         new this.Leaflet.LatLng(
-          this.opp.config.latitude,
-          this.opp.config.longitude
+          this.opp.config!.latitude,
+          this.opp.config!.longitude
         ),
         zoom || 14
       );
@@ -234,8 +234,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     // Calculate visible geo location sources
     if (config.geo_location_sources) {
       const includesAll = config.geo_location_sources.includes("all");
-      for (const entityId of Object.keys(opp.states)) {
-        const stateObj = opp.states[entityId];
+      for (const entityId of Object.keys(opp.states!)) {
+        const stateObj = opp.states![entityId];
         if (
           computeDomain(entityId) === "geo_location" &&
           (includesAll ||
@@ -248,7 +248,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
     for (const entity of allEntities) {
       const entityId = entity.entity;
-      const stateObj = opp.states[entityId];
+      const stateObj = opp.states![entityId];
       if (!stateObj) {
         continue;
       }

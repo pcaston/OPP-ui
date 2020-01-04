@@ -65,7 +65,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity];
+    const stateObj = this.opp.states![this._config!.entity];
 
     if (!stateObj) {
       return html`
@@ -217,7 +217,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
 
   private _handleMoreInfo(ev: Event): void {
     const target = ev.currentTarget! as PlantAttributeTarget;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (target.value) {
       fireEvent(this, "opp-more-info", {

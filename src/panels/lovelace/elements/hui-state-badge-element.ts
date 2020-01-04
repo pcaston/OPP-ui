@@ -38,7 +38,7 @@ export class HuiStateBadgeElement extends LitElement
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity!];
+    const stateObj = this.opp.states![this._config.entity!];
 
     if (!stateObj) {
       return html`
