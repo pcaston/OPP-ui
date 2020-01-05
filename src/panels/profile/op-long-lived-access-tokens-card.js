@@ -1,319 +1,158 @@
 import "@material/mwc-button";
-import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import "@polymer/paper-spinner/paper-spinner";
+
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
-
-import "../../components/dialog/op-paper-dialog";
-import "../../components/op-form";
-import "../../components/op-markdown";
-import "../../resources/op-style";
-
 import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
+import formatDateTime from "../../common/datetime/format_date_time";
+import "../../components/op-card";
 
-let instance = 0;
+import "../../resources/op-style";
+
+import "./op-settings-row";
 
 /*
- * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
+ * @appliesMixin LocalizeMixin
  */
-class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
-      <style include="op-style-dialog">
-        .error {
-          color: red;
+      <style include="op-style">
+        .card-content {
+          margin: -1em 0;
         }
-        op-paper-dialog {
-          max-width: 500px;
-        }
-        op-markdown img:first-child:last-child,
-        op-markdown svg:first-child:last-child {
-          display: block;
-          margin: 0 auto;
-        }
-        op-markdown a {
+        a {
           color: var(--primary-color);
         }
-        .init-spinner {
-          padding: 10px 100px 34px;
-          text-align: center;
-        }
-        .submit-spinner {
-          margin-right: 16px;
+        paper-icon-button {
+          color: var(--primary-text-color);
         }
       </style>
-      <op-paper-dialog
-        id="dialog"
-        with-backdrop=""
-        opened="{{_opened}}"
-        on-opened-changed="_openedChanged"
+      <op-card
+        header="[[localize('ui.panel.profile.long_lived_access_tokens.header')]]"
       >
-        <h2>
-          <template is="dom-if" if="[[_equals(_step.type, 'abort')]]">
-            [[localize('ui.panel.profile.mfa_setup.title_aborted')]]
-          </template>
-          <template is="dom-if" if="[[_equals(_step.type, 'create_entry')]]">
-            [[localize('ui.panel.profile.mfa_setup.title_success')]]
-          </template>
-          <template is="dom-if" if="[[_equals(_step.type, 'form')]]">
-            [[_computeStepTitle(localize, _step)]]
-          </template>
-        </h2>
-        <paper-dialog-scrollable>
-          <template is="dom-if" if="[[_errorMsg]]">
-            <div class="error">[[_errorMsg]]</div>
-          </template>
-          <template is="dom-if" if="[[!_step]]">
-            <div class="init-spinner">
-              <paper-spinner active></paper-spinner>
-            </div>
-          </template>
-          <template is="dom-if" if="[[_step]]">
-            <template is="dom-if" if="[[_equals(_step.type, 'abort')]]">
-              <op-markdown
-                content="[[_computeStepAbortedReason(localize, _step)]]"
-              ></op-markdown>
-            </template>
-
-            <template is="dom-if" if="[[_equals(_step.type, 'create_entry')]]">
-              <p>
-                [[localize('ui.panel.profile.mfa_setup.step_done', 'step',
-                _step.title)]]
-              </p>
-            </template>
-
-            <template is="dom-if" if="[[_equals(_step.type, 'form')]]">
-              <template
-                is="dom-if"
-                if="[[_computeStepDescription(localize, _step)]]"
-              >
-                <op-markdown
-                  content="[[_computeStepDescription(localize, _step)]]"
-                  allow-svg
-                ></op-markdown>
-              </template>
-
-              <op-form
-                data="{{_stepData}}"
-                schema="[[_step.data_schema]]"
-                error="[[_step.errors]]"
-                compute-label="[[_computeLabelCallback(localize, _step)]]"
-                compute-error="[[_computeErrorCallback(localize, _step)]]"
-              ></op-form>
-            </template>
-          </template>
-        </paper-dialog-scrollable>
-        <div class="buttons">
-          <template is="dom-if" if="[[_equals(_step.type, 'abort')]]">
-            <mwc-button on-click="_flowDone"
-              >[[localize('ui.panel.profile.mfa_setup.close')]]</mwc-button
+        <div class="card-content">
+          <p>
+            [[localize('ui.panel.profile.long_lived_access_tokens.description')]]
+            <a
+              href="https://developers.open-peer-power.io/docs/en/auth_api.html#making-authenticated-requests"
+              target="_blank"
             >
-          </template>
-          <template is="dom-if" if="[[_equals(_step.type, 'create_entry')]]">
-            <mwc-button on-click="_flowDone"
-              >[[localize('ui.panel.profile.mfa_setup.close')]]</mwc-button
-            >
-          </template>
-          <template is="dom-if" if="[[_equals(_step.type, 'form')]]">
-            <template is="dom-if" if="[[_loading]]">
-              <div class="submit-spinner">
-                <paper-spinner active></paper-spinner>
-              </div>
-            </template>
-            <template is="dom-if" if="[[!_loading]]">
-              <mwc-button on-click="_submitStep"
-                >[[localize('ui.panel.profile.mfa_setup.submit')]]</mwc-button
-              >
-            </template>
+              [[localize('ui.panel.profile.long_lived_access_tokens.learn_auth_requests')]]
+            </a>
+          </p>
+          <template is="dom-if" if="[[!_tokens.length]]">
+            <p>
+              [[localize('ui.panel.profile.long_lived_access_tokens.empty_state')]]
+            </p>
           </template>
         </div>
-      </op-paper-dialog>
+        <template is="dom-repeat" items="[[_tokens]]">
+          <op-settings-row two-line>
+            <span slot="heading">[[item.client_name]]</span>
+            <div slot="description">[[_formatCreatedAt(item.created_at)]]</div>
+            <paper-icon-button
+              icon="opp:delete"
+              on-click="_handleDelete"
+            ></paper-icon-button>
+          </op-settings-row>
+        </template>
+        <div class="card-actions">
+          <mwc-button on-click="_handleCreate">
+            [[localize('ui.panel.profile.long_lived_access_tokens.create')]]
+          </mwc-button>
+        </div>
+      </op-card>
     `;
   }
 
   static get properties() {
     return {
-      _opp: Object,
-      _dialogClosedCallback: Function,
-      _instance: Number,
-
-      _loading: {
-        type: Boolean,
-        value: false,
+      opp: Object,
+      refreshTokens: Array,
+      _tokens: {
+        type: Array,
+        computed: "_computeTokens(refreshTokens)",
       },
-
-      // Error message when can't talk to server etc
-      _errorMsg: String,
-
-      _opened: {
-        type: Boolean,
-        value: false,
-      },
-
-      _step: {
-        type: Object,
-        value: null,
-      },
-
-      /*
-       * Store user entered data.
-       */
-      _stepData: Object,
     };
   }
 
-  ready() {
-    super.ready();
-    this.addEventListener("keypress", (ev) => {
-      if (ev.keyCode === 13) {
-        this._submitStep();
-      }
-    });
+  _computeTokens(refreshTokens) {
+    return refreshTokens
+      .filter((tkn) => tkn.type === "long_lived_access_token")
+      .reverse();
   }
 
-  showDialog({ opp, continueFlowId, mfaModuleId, dialogClosedCallback }) {
-    this.opp = opp;
-    this._instance = instance++;
-    this._dialogClosedCallback = dialogClosedCallback;
-    this._createdFromHandler = !!mfaModuleId;
-    this._loading = true;
-    this._opened = true;
-
-    const fetchStep = continueFlowId
-      ? this.opp.callWS({
-          type: "auth/setup_mfa",
-          flow_id: continueFlowId,
-        })
-      : this.opp.callWS({
-          type: "auth/setup_mfa",
-          mfa_module_id: mfaModuleId,
-        });
-
-    const curInstance = this._instance;
-
-    fetchStep.then((step) => {
-      if (curInstance !== this._instance) return;
-
-      this._processStep(step);
-      this._loading = false;
-      // When the flow changes, center the dialog.
-      // Don't do it on each step or else the dialog keeps bouncing.
-      setTimeout(() => this.$.dialog.center(), 0);
-    });
+  _formatTitle(name) {
+    return this.localize(
+      "ui.panel.profile.long_lived_access_tokens.token_title",
+      "name",
+      name
+    );
   }
 
-  _submitStep() {
-    this._loading = true;
-    this._errorMsg = null;
+  _formatCreatedAt(created) {
+    return this.localize(
+      "ui.panel.profile.long_lived_access_tokens.created_at",
+      "date",
+      formatDateTime(new Date(created), this.opp.language)
+    );
+  }
 
-    const curInstance = this._instance;
-
-    this.opp
-      .callWS({
-        type: "auth/setup_mfa",
-        flow_id: this._step.flow_id,
-        user_input: this._stepData,
-      })
-      .then(
-        (step) => {
-          if (curInstance !== this._instance) return;
-
-          this._processStep(step);
-          this._loading = false;
-        },
-        (err) => {
-          this._errorMsg =
-            (err && err.body && err.body.message) || "Unknown error occurred";
-          this._loading = false;
-        }
+  async _handleCreate() {
+    const name = prompt(
+      this.localize("ui.panel.profile.long_lived_access_tokens.prompt_name")
+    );
+    if (!name) return;
+    try {
+      const token = await this.opp.callWS({
+        type: "auth/long_lived_access_token",
+        lifespan: 3650,
+        client_name: name,
+      });
+      prompt(
+        this.localize(
+          "ui.panel.profile.long_lived_access_tokens.prompt_copy_token"
+        ),
+        token
       );
-  }
-
-  _processStep(step) {
-    if (!step.errors) step.errors = {};
-    this._step = step;
-    // We got a new form if there are no errors.
-    if (Object.keys(step.errors).length === 0) {
-      this._stepData = {};
+      this.fire("opp-refresh-tokens");
+    } catch (err) {
+      // eslint-disable-next-line
+      console.error(err);
+      alert(
+        this.localize("ui.panel.profile.long_lived_access_tokens.create_failed")
+      );
     }
   }
 
-  _flowDone() {
-    this._opened = false;
-    const flowFinished =
-      this._step && ["create_entry", "abort"].includes(this._step.type);
-
-    if (this._step && !flowFinished && this._createdFromHandler) {
-      // console.log('flow not finish');
+  async _handleDelete(ev) {
+    if (
+      !confirm(
+        this.localize(
+          "ui.panel.profile.long_lived_access_tokens.confirm_delete",
+          "name",
+          ev.model.item.client_name
+        )
+      )
+    ) {
+      return;
     }
-
-    this._dialogClosedCallback({
-      flowFinished,
-    });
-
-    this._errorMsg = null;
-    this._step = null;
-    this._stepData = {};
-    this._dialogClosedCallback = null;
-  }
-
-  _equals(a, b) {
-    return a === b;
-  }
-
-  _openedChanged(ev) {
-    // Closed dialog by clicking on the overlay
-    if (this._step && !ev.detail.value) {
-      this._flowDone();
+    try {
+      await this.opp.callWS({
+        type: "auth/delete_refresh_token",
+        refresh_token_id: ev.model.item.id,
+      });
+      this.fire("opp-refresh-tokens");
+    } catch (err) {
+      // eslint-disable-next-line
+      console.error(err);
+      alert(
+        this.localize("ui.panel.profile.long_lived_access_tokens.delete_failed")
+      );
     }
-  }
-
-  _computeStepAbortedReason(localize, step) {
-    return localize(
-      `component.auth.mfa_setup.${step.handler}.abort.${step.reason}`
-    );
-  }
-
-  _computeStepTitle(localize, step) {
-    return (
-      localize(
-        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.title`
-      ) || "Setup Multi-factor Authentication"
-    );
-  }
-
-  _computeStepDescription(localize, step) {
-    const args = [
-      `component.auth.mfa_setup.${step.handler}.step.${
-        step.step_id
-      }.description`,
-    ];
-    const placeholders = step.description_placeholders || {};
-    Object.keys(placeholders).forEach((key) => {
-      args.push(key);
-      args.push(placeholders[key]);
-    });
-    return localize(...args);
-  }
-
-  _computeLabelCallback(localize, step) {
-    // Returns a callback for op-form to calculate labels per schema object
-    return (schema) =>
-      localize(
-        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.data.${
-          schema.name
-        }`
-      ) || schema.name;
-  }
-
-  _computeErrorCallback(localize, step) {
-    // Returns a callback for op-form to calculate error messages
-    return (error) =>
-      localize(`component.auth.mfa_setup.${step.handler}.error.${error}`) ||
-      error;
   }
 }
 
-customElements.define("op-mfa-module-setup-flow", OpMfaModuleSetupFlow);
+customElements.define("op-long-lived-access-tokens-card", OpLongLivedTokens);

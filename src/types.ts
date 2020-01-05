@@ -324,8 +324,9 @@ export type Error = 1 | 2 | 3 | 4;
 export type UnsubscribeFunc = () => void;
 
 export type ConnectionOptions = {
-    setupRetry: number;
-    createSocket: (options: ConnectionOptions) => Promise<WebSocket>;
+  setupRetry: number;
+  auth?: Auth;
+  createSocket: (options: ConnectionOptions) => Promise<WebSocket>;
 };
 
 export type OppEventBase = {

@@ -1,5 +1,4 @@
 import {
-  PropertyDeclarations,
   PropertyValues,
   UpdatingElement,
 } from "lit-element";

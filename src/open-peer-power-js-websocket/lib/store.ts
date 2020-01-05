@@ -22,7 +22,7 @@ export const createStore = <State>(state?: State): Store<State> => {
   let listeners: Listener<State>[] = [];
 
   function unsubscribe(listener: Listener<State> | null) {
-    let out = [];
+    let out: any[] = [];
     for (let i = 0; i < listeners.length; i++) {
       if (listeners[i] === listener) {
         listener = null;

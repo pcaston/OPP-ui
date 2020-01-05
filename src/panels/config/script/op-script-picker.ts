@@ -43,7 +43,7 @@ class OpScriptPicker extends LitElement {
           <div slot="introduction">
             The script editor allows you to create and edit scripts. Please read
             <a
-              href="https://home-assistant.io/docs/scripts/editor/"
+              href="https://open-peer-power.io/docs/scripts/editor/"
               target="_blank"
               >the instructions</a
             >

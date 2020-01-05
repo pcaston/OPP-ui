@@ -231,6 +231,7 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     let tokenCache = window.__tokenCache;
+    debugger;
     this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.wsp.onmessage = (event) => {
       let data = JSON.parse(event.data);

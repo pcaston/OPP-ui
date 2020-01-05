@@ -1,18 +1,19 @@
-import "@polymer/paper-item/paper-item";
-import "@polymer/paper-listbox/paper-listbox";
+import "@polymer/iron-flex-layout/iron-flex-layout-classes";
+import "@polymer/iron-label/iron-label";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../components/op-paper-dropdown-menu";
+import isComponentLoaded from "../../common/config/is_component_loaded";
+import { pushSupported } from "../../components/op-push-notifications-toggle";
 
-import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
+
+import "./op-settings-row";
 
 /*
  * @appliesMixin LocalizeMixin
- * @appliesMixin EventsMixin
  */
-class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -22,29 +23,20 @@ class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
       </style>
       <op-settings-row narrow="[[narrow]]">
         <span slot="heading"
-          >[[localize('ui.panel.profile.themes.header')]]</span
+          >[[localize('ui.panel.profile.push_notifications.header')]]</span
         >
         <span slot="description">
-          <template is="dom-if" if="[[!_hasThemes]]">
-            [[localize('ui.panel.profile.themes.error_no_theme')]]
-          </template>
+          [[_description(_platformLoaded, _pushSupported)]]
           <a
-            href="https://www.open-peer-power.io/components/frontend/#defining-themes"
+            href="https://www.open-peer-power.io/components/notify.html5/"
             target="_blank"
-            >[[localize('ui.panel.profile.themes.link_promo')]]</a
+            >[[localize('ui.panel.profile.push_notifications.link_promo')]]</a
           >
         </span>
-        <op-paper-dropdown-menu
-          label="[[localize('ui.panel.profile.themes.dropdown_label')]]"
-          dynamic-align
-          disabled="[[!_hasThemes]]"
-        >
-          <paper-listbox slot="dropdown-content" selected="{{selectedTheme}}">
-            <template is="dom-repeat" items="[[themes]]" as="theme">
-              <paper-item>[[theme]]</paper-item>
-            </template>
-          </paper-listbox>
-        </op-paper-dropdown-menu>
+        <op-push-notifications-toggle
+          opp="[[opp]]"
+          disabled="[[_error]]"
+        ></op-push-notifications-toggle>
       </op-settings-row>
     `;
   }
@@ -53,60 +45,40 @@ class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     return {
       opp: Object,
       narrow: Boolean,
-      _hasThemes: {
+      _platformLoaded: {
         type: Boolean,
-        computed: "_compHasThemes(opp)",
+        computed: "_compPlatformLoaded(opp)",
       },
-      themes: {
-        type: Array,
-        computed: "_computeThemes(opp)",
+      _pushSupported: {
+        type: Boolean,
+        value: pushSupported,
       },
-      selectedTheme: {
-        type: Number,
+      _error: {
+        type: Boolean,
+        computed: "_compError(_platformLoaded, _pushSupported)",
       },
     };
   }
 
-  static get observers() {
-    return ["selectionChanged(opp, selectedTheme)"];
+  _compPlatformLoaded(opp) {
+    return isComponentLoaded(opp, "notify.html5");
   }
 
-  _compHasThemes(opp) {
-    return (
-      opp.themes &&
-      opp.themes.themes &&
-      Object.keys(opp.themes.themes).length
-    );
+  _compError(platformLoaded, pushSupported_) {
+    return !platformLoaded || !pushSupported_;
   }
 
-  ready() {
-    super.ready();
-    if (
-      this.opp.selectedTheme &&
-      this.themes.indexOf(this.opp.selectedTheme) > 0
-    ) {
-      this.selectedTheme = this.themes.indexOf(this.opp.selectedTheme);
-    } else if (!this.opp.selectedTheme) {
-      this.selectedTheme = 0;
+  _description(platformLoaded, pushSupported_) {
+    let key;
+    if (!pushSupported_) {
+      key = "error_use_https";
+    } else if (!platformLoaded) {
+      key = "error_load_platform";
+    } else {
+      key = "description";
     }
-  }
-
-  _computeThemes(opp) {
-    if (!opp) return [];
-    return ["Backend-selected", "default"].concat(
-      Object.keys(opp.themes.themes).sort()
-    );
-  }
-
-  selectionChanged(opp, selection) {
-    if (selection > 0 && selection < this.themes.length) {
-      if (opp.selectedTheme !== this.themes[selection]) {
-        this.fire("settheme", this.themes[selection]);
-      }
-    } else if (selection === 0 && opp.selectedTheme !== "") {
-      this.fire("settheme", "");
-    }
+    return this.localize(`ui.panel.profile.push_notifications.${key}`);
   }
 }
 
-customElements.define("op-pick-theme-row", OpPickThemeRow);
+customElements.define("op-push-notifications-row", OpPushNotificationsRow);

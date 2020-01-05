@@ -98,6 +98,7 @@ typings/
 !src/components/buttons/op-call-service-button.js
 !src/components/buttons/op-progress-button.js
 
+!src/dialogs/op-more-info-dialog.js
 !src/dialogs/more-info/controls/more-info-alarm_control_panel.js
 !src/dialogs/more-info/controls/more-info-alarm_control_panel.js
 !src/dialogs/more-info/controls/more-info-automation.js
@@ -116,6 +117,8 @@ typings/
 !src/dialogs/more-info/controls/more-info-updater.js
 !src/dialogs/more-info/controls/more-info-water_heater.js
 
+!src/panels/calendar/op-big-calendar.js
+!src/panels/calendar/op-panel-calendar.js
 !src/panels/config/automation/op-config-automation.js
 !src/panels/config/customize/types/op-customize-boolean.js
 !src/panels/config/customize/types/op-customize-icon.js
@@ -147,21 +150,23 @@ typings/
 !src/panels/config/zwave/zwave-usercodes.js
 !src/panels/config/zwave/zwave-values.js
 
-
+!src/panels/dev-event/events-list.js
+!src/panels/dev-event/op-panel-dev-event.js
 !src/panels/dev-mqtt/op-panel-dev-mqtt.js
 !src/panels/dev-service/op-panel-dev-service.js
 !src/panels/dev-state/op-panel-dev-state.js
 !src/panels/dev-template/op-panel-dev-template.js
 !src/panels/history/op-panel-history.js
+!src/panels/iframe/op-panel-iframe.js
 !src/panels/kiosk/op-panel-kiosk.js
-!src/panels/logbook/op-logbook-data.js
-!src/panels/logbook/op-logbook.js
-!src/panels/logbook/op-panel-logbook.js
-!src/panels/logbook/hui-history-graph-card.js
+!src/panels/logbook/**
 
+!src/panels/lovelace/cards/hui-history-graph-card.js
 !src/panels/lovelace/cards/hui-legacy-wrapper-card.js
 !src/panels/lovelace/cards/hui-media-control-card.js
 !src/panels/lovelace/cards/hui-weather-forecast-card.js
+
+
 !src/panels/lovelace/components/notifications/hui-notification-drawer.js
 !src/panels/mailbox/op-dialog-show-audio-message.js
 !src/panels/mailbox/op-panel-mailbox.js
