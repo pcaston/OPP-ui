@@ -4,7 +4,7 @@ import "@material/mwc-button";
 import { LitElement, html, CSSResult, css, property } from "lit-element";
 import { removeInitSkeleton } from "../util/init-skeleton";
 
-class HaInitPage extends LitElement {
+class OpInitPage extends LitElement {
   @property({ type: Boolean }) public error = false;
 
   protected render() {
@@ -54,4 +54,4 @@ class HaInitPage extends LitElement {
   }
 }
 
-customElements.define("op-init-page", HaInitPage);
+customElements.define("op-init-page", OpInitPage);

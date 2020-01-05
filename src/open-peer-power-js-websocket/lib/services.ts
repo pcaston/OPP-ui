@@ -1,5 +1,5 @@
 import { getCollection } from "./collection";
-import { UnsubscribeFunc } from "./types";
+import { UnsubscribeFunc } from "../../types";
 import { OppServices, OppDomainServices  } from "../../types";
 import { Connection } from "./connection";
 import { Store } from "./store";

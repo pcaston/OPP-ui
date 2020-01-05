@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import { createCollection, Connection } from "open-peer-power-js-websocket";
+import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
 import { debounce } from "../common/util/debounce";
 
 export interface DeviceRegistryEntry {

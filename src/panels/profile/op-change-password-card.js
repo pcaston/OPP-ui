@@ -12,7 +12,7 @@ import "../../resources/op-style";
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
+class OpChangePasswordCard extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -152,4 +152,4 @@ class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-change-password-card", HaChangePasswordCard);
+customElements.define("op-change-password-card", OpChangePasswordCard);

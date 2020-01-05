@@ -12,7 +12,6 @@ import computeStateDomain from "../common/entity/compute_state_domain";
 import isComponentLoaded from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
-import { OpenPeerPower, OppEntity } from '../types';
 
 /*
  * @appliesMixin DialogMixin
@@ -45,7 +44,7 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
           }
         }
 
-          /* overrule the op-style-dialog max-height on small screens */
+        /* overrule the op-style-dialog max-height on small screens */
         @media all and (max-width: 450px), all and (max-height: 500px) {
           more-info-controls,
           more-info-settings {

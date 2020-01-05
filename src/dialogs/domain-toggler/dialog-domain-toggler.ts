@@ -9,16 +9,16 @@ import {
 } from "lit-element";
 import "../../components/dialog/op-paper-dialog";
 import { OpenPeerPower } from "../../types";
-import { HaDomainTogglerDialogParams } from "./show-dialog-domain-toggler";
+import { OpDomainTogglerDialogParams } from "./show-dialog-domain-toggler";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { opStyleDialog } from "../../resources/styles";
 
 @customElement("dialog-domain-toggler")
 class DomainTogglerDialog extends LitElement {
   public opp!: OpenPeerPower;
-  @property() private _params?: HaDomainTogglerDialogParams;
+  @property() private _params?: OpDomainTogglerDialogParams;
 
-  public async showDialog(params: HaDomainTogglerDialogParams): Promise<void> {
+  public async showDialog(params: OpDomainTogglerDialogParams): Promise<void> {
     this._params = params;
   }
 

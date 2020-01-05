@@ -4,8 +4,7 @@
  */
 import * as messages from "./messages";
 import { ERR_INVALID_AUTH, ERR_CONNECTION_LOST } from "./errors";
-import { ConnectionOptions, OppEvent } from "./types";
-import { MessageBase } from "../../types";
+import { MessageBase, ConnectionOptions, OppEvent } from "../../types";
 const DEBUG = false;
 
 export type ConnectionEventListener = (
