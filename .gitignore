@@ -67,7 +67,7 @@ typings/
 
 # next.js build output
 .next
-!gulp/tasks/**
+!gulp/**
 
 # exclude js
 !src/panels/config/js/**
