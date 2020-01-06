@@ -6,7 +6,7 @@ import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
 import { saveTokens } from "../common/auth/token_storage";
-import "./opp-iconset-svg";
+import "./op-iconset-svg";
 
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
@@ -191,7 +191,6 @@ export class OPPui extends LitElement {
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
@@ -202,8 +201,7 @@ export class OPPui extends LitElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>      
+          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>    
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
@@ -211,7 +209,6 @@ export class OPPui extends LitElement {
 
       <!-- Main content -->
       <main role="main" class="main-content">
-        <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <opp-home-view .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login .opp="${this.opp}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
@@ -234,6 +231,7 @@ export class OPPui extends LitElement {
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
     let tokenCache = window.__tokenCache;
+    debugger;
     this.wsp = new WebSocket("ws://127.0.0.1:8123/api/websocket");
     this.wsp.onmessage = (event) => {
       let data = JSON.parse(event.data);
@@ -371,14 +369,12 @@ export class OPPui extends LitElement {
 
   protected _loadPage(page: string) {
     switch(page) {
-      case 'view1':
-        import('../components/my-view1').then(() => {
-          // Put code in here that you want to run every time when
-          // navigating to view1 after my-view1 is loaded.
-        });
-        break;
       case 'view_appliances':
-        import('../components/opp-home-view');
+          import('../panels/lovelace/op-panel-lovelace').then(() => {
+          //import('../components/opp-home-view').then(() => {
+          // Put code in here that you want to run every time when
+          // navigating to view1 after view_appliances is loaded.
+        });
         break;
       case 'about':
         import('../components/about-page');

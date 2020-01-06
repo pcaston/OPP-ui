@@ -8,7 +8,6 @@ import {
 import {
   getAuth,
   createConnection,
-  genClientId,
   Auth,
 } from "../open-peer-power-js-websocket/lib";
 import {

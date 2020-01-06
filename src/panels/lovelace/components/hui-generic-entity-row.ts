@@ -11,10 +11,11 @@ import {
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-relative-time";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";
+import { computeRTL } from "../../../common/util/compute_rtl";
 import { EntitiesCardEntityConfig } from "../cards/types";
 
 class HuiGenericEntityRow extends LitElement {
@@ -29,14 +30,18 @@ class HuiGenericEntityRow extends LitElement {
       return html``;
     }
     const stateObj = this.config.entity
-      ? this.opp.states[this.config.entity]
+      ? this.opp.states![this.config.entity]
       : undefined;
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this.config.entity
+          )}</hui-warning
+        >
       `;
     }
 
@@ -74,7 +79,7 @@ class HuiGenericEntityRow extends LitElement {
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
     if (changedProps.has("opp")) {
-      this.toggleAttribute("rtl", false);
+      this.toggleAttribute("rtl", computeRTL(this.opp!));
     }
   }
 

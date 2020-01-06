@@ -45,13 +45,17 @@ class HuiTimerEntityRow extends LitElement {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
-        </hui-warning>
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
+        >
       `;
     }
 
@@ -74,10 +78,10 @@ class HuiTimerEntityRow extends LitElement {
     super.updated(changedProps);
 
     if (changedProps.has("opp")) {
-      const stateObj = this.opp!.states[this._config!.entity];
+      const stateObj = this.opp!.states![this._config!.entity];
       const oldOpp = changedProps.get("opp") as this["opp"];
       const oldStateObj = oldOpp
-        ? oldOpp.states[this._config!.entity]
+        ? oldOpp.states![this._config!.entity]
         : undefined;
 
       if (oldStateObj !== stateObj) {
@@ -117,13 +121,13 @@ class HuiTimerEntityRow extends LitElement {
     }
 
     if (stateObj.state === "idle" || this._timeRemaining === 0) {
-      return "state.timer. ${stateObj.state}";
+      return this.opp!.localize("state.timer." + stateObj.state);
     }
 
     let display = secondsToDuration(this._timeRemaining || 0);
 
     if (stateObj.state === "paused") {
-      display += ` ("state.timer.paused"})`;
+      display += ` (${this.opp!.localize("state.timer.paused")})`;
     }
 
     return display;

@@ -5,5 +5,5 @@ export default function isComponentLoaded(
   opp: OpenPeerPower,
   component: string
 ): boolean {
-  return opp && opp.config.components.indexOf(component) !== -1;
+  return opp && opp.config!.components.indexOf(component) !== -1;
 }

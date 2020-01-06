@@ -29,7 +29,7 @@ import {
   getConfigFlowHandlers,
 } from "../../data/config_entries";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { HaConfigFlowParams } from "./show-dialog-config-flow";
+import { OpConfigFlowParams } from "./show-dialog-config-flow";
 
 import "./step-flow-pick-handler";
 import "./step-flow-loading";
@@ -63,7 +63,7 @@ declare global {
 @customElement("dialog-config-flow")
 class ConfigFlowDialog extends LitElement {
   public opp!: OpenPeerPower;
-  @property() private _params?: HaConfigFlowParams;
+  @property() private _params?: OpConfigFlowParams;
   @property() private _loading = true;
   private _instance = instance;
   @property() private _step:
@@ -77,7 +77,7 @@ class ConfigFlowDialog extends LitElement {
   private _unsubAreas?: UnsubscribeFunc;
   private _unsubDevices?: UnsubscribeFunc;
 
-  public async showDialog(params: HaConfigFlowParams): Promise<void> {
+  public async showDialog(params: OpConfigFlowParams): Promise<void> {
     this._params = params;
     this._instance = instance++;
 
@@ -93,8 +93,8 @@ class ConfigFlowDialog extends LitElement {
           this._handlers = (await getConfigFlowHandlers(this.opp)).sort(
             (handlerA, handlerB) =>
               caseInsensitiveCompare(
-                `component.${handlerA}.config.title`,
-                `component.${handlerB}.config.title`
+                this.opp.localize(`component.${handlerA}.config.title`),
+                this.opp.localize(`component.${handlerB}.config.title`)
               )
           );
         } finally {
@@ -219,15 +219,18 @@ class ConfigFlowDialog extends LitElement {
   }
 
   private async _fetchDevices(configEntryId) {
-    this._unsubDevices = subscribeDeviceRegistry(this.opp, (devices) => {
-      this._devices = devices.filter((device) =>
-        device.config_entries.includes(configEntryId)
-      );
-    });
+    this._unsubDevices = subscribeDeviceRegistry(
+      this.opp.connection,
+      (devices) => {
+        this._devices = devices.filter((device) =>
+          device.config_entries.includes(configEntryId)
+        );
+      }
+    );
   }
 
   private async _fetchAreas() {
-    this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
+    this._unsubAreas = subscribeAreaRegistry(this.opp.connection, (areas) => {
       this._areas = areas;
     });
   }

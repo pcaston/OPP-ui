@@ -12,7 +12,7 @@ import "@polymer/paper-spinner/paper-spinner";
 import { struct } from "./common/structs/struct";
 import { Lovelace } from "./types";
 
-import "../../components/opp-icon";
+import "../../components/op-icon";
 import { opStyle } from "../../resources/styles";
 import "./components/hui-yaml-editor";
 // This is not a duplicate import, one is for types, one is for element.
@@ -54,8 +54,9 @@ class LovelaceFullConfigEditor extends LitElement {
               @click="${this._closeEditor}"
             ></paper-icon-button>
             <div main-title>
-              "ui.panel.lovelace.editor.raw_editor.header"
-              }
+              ${this.opp!.localize(
+                "ui.panel.lovelace.editor.raw_editor.header"
+              )}
             </div>
             <div
               class="save-button
@@ -64,13 +65,17 @@ class LovelaceFullConfigEditor extends LitElement {
               })}"
             >
               ${this._changed
-                ? "ui.panel.lovelace.editor.raw_editor.unsaved_changes"
-                : "ui.panel.lovelace.editor.raw_editor.saved"
-                }
+                ? this.opp!.localize(
+                    "ui.panel.lovelace.editor.raw_editor.unsaved_changes"
+                  )
+                : this.opp!.localize(
+                    "ui.panel.lovelace.editor.raw_editor.saved"
+                  )}
             </div>
             <mwc-button raised @click="${this._handleSave}"
-              >"ui.panel.lovelace.editor.raw_editor.save"
-              }</mwc-button
+              >${this.opp!.localize(
+                "ui.panel.lovelace.editor.raw_editor.save"
+              )}</mwc-button
             >
           </app-toolbar>
         </app-header>

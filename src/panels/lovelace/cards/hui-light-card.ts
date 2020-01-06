@@ -13,7 +13,7 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { fireEvent } from "../../../common/dom/fire_event";
@@ -77,13 +77,16 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp.states![this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >"ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
@@ -99,7 +102,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
         <div id="light"></div>
         <div id="tooltip">
           <div class="icon-state">
-            <opp-icon
+            <op-icon
               class="light-icon"
               data-state="${stateObj.state}"
               .icon="${stateIcon(stateObj)}"
@@ -108,7 +111,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
                 color: this._computeColor(stateObj),
               })}"
               @click="${this._handleTap}"
-            ></opp-icon>
+            ></op-icon>
             <div class="brightness" @op-click="${this._handleTap}"></div>
             <div class="name">
               ${this._config.name || computeStateName(stateObj)}
@@ -129,7 +132,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     this._roundSliderStyle = loaded.roundSliderStyle;
     this._jQuery = loaded.jQuery;
 
-    const stateObj = this.opp!.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       // Card will require refresh to work again
@@ -155,7 +158,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (!stateObj) {
       return;

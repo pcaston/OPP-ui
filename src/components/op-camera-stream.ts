@@ -109,7 +109,7 @@ class OpCameraStream extends LitElement {
   private get _shouldRenderMJPEG() {
     return (
       this._forceMJPEG === this.stateObj!.entity_id ||
-      !this.opp!.config.components.includes("stream") ||
+      !this.opp!.config!.components.includes("stream") ||
       !supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     );
   }

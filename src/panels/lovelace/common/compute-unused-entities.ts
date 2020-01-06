@@ -62,7 +62,7 @@ const addEntities = (entities: Set<string>, obj) => {
 };
 
 const computeUsedEntities = (config) => {
-  const entities = new Set();
+  const entities = new Set<string>();
   config.views.forEach((view) => addEntities(entities, view));
   return entities;
 };
@@ -72,7 +72,7 @@ export const computeUnusedEntities = (
   config: LovelaceConfig
 ): string[] => {
   const usedEntities = computeUsedEntities(config);
-  return Object.keys(opp.states)
+  return Object.keys(opp.states!)
     .filter(
       (entity) =>
         !usedEntities.has(entity) &&

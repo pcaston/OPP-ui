@@ -1,8 +1,8 @@
 import "../../../components/buttons/op-call-service-button";
 import "../../../components/op-service-description";
+import "../../../components/op-card";
 import "../op-config-section";
 import "@material/mwc-button";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
@@ -95,7 +95,7 @@ export class ZHAClusterAttributes extends LitElement {
         </div>
         <span slot="introduction">View and edit cluster attributes.</span>
 
-        <paper-card class="content">
+        <op-card class="content">
           <div class="attribute-picker">
             <paper-dropdown-menu
               label="Attributes of the selected cluster"
@@ -129,7 +129,7 @@ export class ZHAClusterAttributes extends LitElement {
           ${this._selectedAttributeIndex !== -1
             ? this._renderAttributeInteractions()
             : ""}
-        </paper-card>
+        </op-card>
       </op-config-section>
     `;
   }
@@ -280,8 +280,7 @@ export class ZHAClusterAttributes extends LitElement {
           margin-top: 24px;
         }
 
-        paper-card {
-          display: block;
+        op-card {
           margin: 0 auto;
           max-width: 600px;
         }

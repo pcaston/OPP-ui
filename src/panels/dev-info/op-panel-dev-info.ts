@@ -64,18 +64,18 @@ class OpPanelDevInfo extends LitElement {
         <div class="content">
           <div class="about">
             <p class="version">
-              <a href="https://www..io" target="_blank"
+              <a href="https://www.open-peer-power.io" target="_blank"
                 ><img src="/static/icons/favicon-192x192.png" height="192"/></a
               ><br />
               Open Peer Power<br />
-              ${opp.config.version}
+              ${opp.config!.version}
             </p>
             <p>
-              Path to configuration.yaml: ${opp.config.config_dir}
+              Path to configuration.yaml: ${opp.config!.config_dir}
             </p>
             <p class="develop">
               <a
-                href="https://www..io/developers/credits/"
+                href="https://www.open-peer-power.io/developers/credits/"
                 target="_blank"
               >
                 Developed by a bunch of awesome people.
@@ -85,13 +85,13 @@ class OpPanelDevInfo extends LitElement {
               Published under the Apache 2.0 license<br />
               Source:
               <a
-                href="https://github.com//"
+                href="https://github.com/open-peer-power/open-peer-power"
                 target="_blank"
                 >server</a
               >
               &mdash;
               <a
-                href="https://github.com//-polymer"
+                href="https://github.com/open-peer-power/open-peer-power-polymer"
                 target="_blank"
                 >frontend-ui</a
               >
@@ -209,8 +209,8 @@ class OpPanelDevInfo extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-panel-dev-info": HaPanelDevInfo;
+    "op-panel-dev-info": OpPanelDevInfo;
   }
 }
 
-customElements.define("op-panel-dev-info", HaPanelDevInfo);
+customElements.define("op-panel-dev-info", OpPanelDevInfo);

@@ -117,7 +117,7 @@ export class HuiEditView extends LitElement {
     return html`
       <op-paper-dialog with-backdrop>
         <h2>
-          header
+          ${this.opp!.localize("ui.panel.lovelace.editor.edit_view.header")}
         </h2>
         <paper-tabs
           scrollable
@@ -141,7 +141,7 @@ export class HuiEditView extends LitElement {
               `
             : ""}
           <mwc-button @click="${this._closeDialog}"
-            >cancel</mwc-button
+            >${this.opp!.localize("ui.common.cancel")}</mwc-button
           >
           <mwc-button
             ?disabled="${!this._config || this._saving}"
@@ -151,7 +151,7 @@ export class HuiEditView extends LitElement {
               ?active="${this._saving}"
               alt="Saving"
             ></paper-spinner>
-            save</mwc-button
+            ${this.opp!.localize("ui.common.save")}</mwc-button
           >
         </div>
       </op-paper-dialog>

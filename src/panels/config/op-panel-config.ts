@@ -6,9 +6,17 @@ import { CloudStatus, fetchCloudStatus } from "../../data/cloud";
 import { listenMediaQuery } from "../../common/dom/media_query";
 import { OppRouterPage, RouterOptions } from "../../layouts/opp-router-page";
 
+declare global {
+  // for fire event
+  interface OPPDomEvents {
+    "op-refresh-cloud-status": undefined;
+  }
+}
+
 @customElement("op-panel-config")
 class OpPanelConfig extends OppRouterPage {
   @property() public opp!: OpenPeerPower;
+  @property() public narrow!: boolean;
   @property() public _wideSidebar: boolean = false;
   @property() public _wide: boolean = false;
 
@@ -26,11 +34,6 @@ class OpPanelConfig extends OppRouterPage {
         tag: "op-config-automation",
         load: () =>
           import(/* webpackChunkName: "panel-config-automation" */ "./automation/op-config-automation"),
-      },
-      cloud: {
-        tag: "op-config-cloud",
-        load: () =>
-          import(/* webpackChunkName: "panel-config-cloud" */ "./cloud/op-config-cloud"),
       },
       core: {
         tag: "op-config-core",
@@ -73,7 +76,7 @@ class OpPanelConfig extends OppRouterPage {
           import(/* webpackChunkName: "panel-config-users" */ "./users/op-config-users"),
       },
       zha: {
-        tag: "zopp-config-panel",
+        tag: "zha-config-panel",
         load: () =>
           import(/* webpackChunkName: "panel-config-zha" */ "./zha/zha-config-panel"),
       },
@@ -124,6 +127,7 @@ class OpPanelConfig extends OppRouterPage {
     el.route = this.routeTail;
     el.opp = this.opp;
     el.isWide = this.opp.dockedSidebar ? this._wideSidebar : this._wide;
+    el.narrow = this.narrow;
     el.cloudStatus = this._cloudStatus;
   }
 

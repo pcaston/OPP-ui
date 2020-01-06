@@ -12,7 +12,7 @@ import { PaperInputElement } from "@polymer/paper-input/paper-input";
 import "@polymer/paper-checkbox/paper-checkbox";
 
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -85,18 +85,22 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
     return html`
       <op-card .header="${this._config.title}">
         <div class="addRow">
-          <opp-icon
+          <op-icon
             class="addButton"
             @click="${this._addItem}"
             icon="opp:plus"
-            .title="ui.panel.lovelace.cards.shopping-list.add_item"
+            .title="${this.opp!.localize(
+              "ui.panel.lovelace.cards.shopping-list.add_item"
+            )}"
           >
-          </opp-icon>
+          </op-icon>
           <paper-item-body>
             <paper-input
               no-label-float
               class="addBox"
-              placeholder="ui.panel.lovelace.cards.shopping-list.add_item"
+              placeholder="${this.opp!.localize(
+                "ui.panel.lovelace.cards.shopping-list.add_item"
+              )}"
               @keydown="${this._addKeyPress}"
             ></paper-input>
           </paper-item-body>
@@ -131,15 +135,19 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
               <div class="divider"></div>
               <div class="checked">
                 <span class="label">
-                  "ui.panel.lovelace.cards.shopping-list.checked_items"
+                  ${this.opp!.localize(
+                    "ui.panel.lovelace.cards.shopping-list.checked_items"
+                  )}
                 </span>
-                <opp-icon
+                <op-icon
                   class="clearall"
                   @click="${this._clearItems}"
                   icon="opp:notification-clear-all"
-                  .title="ui.panel.lovelace.cards.shopping-list.clear_items"
+                  .title="${this.opp!.localize(
+                    "ui.panel.lovelace.cards.shopping-list.clear_items"
+                  )}"
                 >
-                </opp-icon>
+                </op-icon>
               </div>
               ${repeat(
                 this._checkedItems!,
@@ -230,7 +238,7 @@ class HuiShoppingListCard extends LitElement implements LovelaceCard {
         padding-right: 10px;
       }
 
-      .addRow > opp-icon {
+      .addRow > op-icon {
         color: var(--secondary-text-color);
       }
     `;

@@ -1,8 +1,8 @@
 import computeStateName from "../common/entity/compute_state_name";
 import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateDisplay from "../common/entity/compute_state_display";
-import {  } from "../open-peer-power-js-websocket/lib";
 import { OpenPeerPower, OppEntity } from "../types";
+import { LocalizeFunc } from "../common/translations/localize";
 
 const DOMAINS_USE_LAST_UPDATED = ["climate", "water_heater"];
 const LINE_ATTRIBUTES_TO_KEEP = [
@@ -32,6 +32,7 @@ export interface LineChartUnit {
 }
 
 export interface TimelineState {
+  state_localize: string;
   state: string;
   last_changed: string;
 }
@@ -89,6 +90,8 @@ const equalState = (obj1: LineChartState, obj2: LineChartState) =>
     ));
 
 const processTimelineEntity = (
+  localize: LocalizeFunc,
+  language: string,
   states: OppEntity[]
 ): TimelineEntity => {
   const data: TimelineState[] = [];
@@ -99,6 +102,7 @@ const processTimelineEntity = (
     }
 
     data.push({
+      state_localize: computeStateDisplay(localize, state, language),
       state: state.state,
       last_changed: state.last_changed,
     });
@@ -173,6 +177,8 @@ const processLineChartEntities = (
 export const computeHistory = (
   opp: OpenPeerPower,
   stateHistory: OppEntity[][],
+  localize: LocalizeFunc,
+  language: string
 ): HistoryResult => {
   const lineChartDevices: { [unit: string]: OppEntity[][] } = {};
   const timelineDevices: TimelineEntity[] = [];
@@ -194,14 +200,14 @@ export const computeHistory = (
     if (stateWithUnit) {
       unit = stateWithUnit.attributes.unit_of_measurement;
     } else if (computeStateDomain(stateInfo[0]) === "climate") {
-      unit = opp.config.unit_system.temperature;
+      unit = opp.config!.unit_system.temperature;
     } else if (computeStateDomain(stateInfo[0]) === "water_heater") {
-      unit = opp.config.unit_system.temperature;
+      unit = opp.config!.unit_system.temperature;
     }
 
     if (!unit) {
       timelineDevices.push(
-        processTimelineEntity(stateInfo)
+        processTimelineEntity(localize, language, stateInfo)
       );
     } else if (unit in lineChartDevices) {
       lineChartDevices[unit].push(stateInfo);

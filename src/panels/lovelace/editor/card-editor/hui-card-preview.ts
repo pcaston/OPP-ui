@@ -9,12 +9,17 @@ import { LovelaceCard } from "../../types";
 import { ConfigError } from "../types";
 import { getCardElementTag } from "../../common/get-card-element-tag";
 import { createErrorCardConfig } from "../../cards/hui-error-card";
+import { computeRTL } from "../../../../common/util/compute_rtl";
 
 export class HuiCardPreview extends HTMLElement {
   private _opp?: OpenPeerPower;
   private _element?: LovelaceCard;
 
   set opp(opp: OpenPeerPower) {
+    if (!this._opp || this._opp.language !== opp.language) {
+      this.style.direction = computeRTL(opp) ? "rtl" : "ltr";
+    }
+
     this._opp = opp;
     if (this._element) {
       this._element.opp = opp;

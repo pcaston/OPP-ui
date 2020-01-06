@@ -8,7 +8,7 @@ import {
   property,
 } from "lit-element";
 
-import "@polymer/paper-card/paper-card";
+import "../../../components/op-card";
 
 import { LovelaceCard } from "../types";
 import { OpenPeerPower } from "../../../types";
@@ -32,20 +32,26 @@ export class HuiEmptyStateCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <paper-card
-        .heading="ui.panel.lovelace.cards.empty_state.title"
+      <op-card
+        .header="${this.opp.localize(
+          "ui.panel.lovelace.cards.empty_state.title"
+        )}"
       >
         <div class="card-content">
-          "ui.panel.lovelace.cards.empty_state.no_devices"
+          ${this.opp.localize(
+            "ui.panel.lovelace.cards.empty_state.no_devices"
+          )}
         </div>
         <div class="card-actions">
           <a href="/config/integrations">
             <mwc-button>
-              "ui.panel.lovelace.cards.empty_state.go_to_integrations_page"
+              ${this.opp.localize(
+                "ui.panel.lovelace.cards.empty_state.go_to_integrations_page"
+              )}
             </mwc-button>
           </a>
         </div>
-      </paper-card>
+      </header-card>
     `;
   }
 
@@ -54,6 +60,10 @@ export class HuiEmptyStateCard extends LitElement implements LovelaceCard {
       .content {
         margin-top: -1em;
         padding: 16px;
+      }
+
+      .card-actions a {
+        text-decoration: none;
       }
 
       mwc-button {

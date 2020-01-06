@@ -8,18 +8,18 @@ import {
   PropertyValues,
   query,
 } from "lit-element";
-import "../opp-icon";
+import "../op-icon";
 import computeStateDomain from "../../common/entity/compute_state_domain";
 import stateIcon from "../../common/entity/state_icon";
 import { OppEntity } from "../../types";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
-import { OppIcon } from "../opp-icon";
+import { OpIcon } from "../op-icon";
 
 class StateBadge extends LitElement {
   @property() public stateObj?: OppEntity;
   @property() public overrideIcon?: string;
-  @query("opp-icon") private _icon!: OppIcon;
+  @query("op-icon") private _icon!: OpIcon;
 
   protected render(): TemplateResult | void {
     const stateObj = this.stateObj;
@@ -29,12 +29,12 @@ class StateBadge extends LitElement {
     }
 
     return html`
-      <opp-icon
+      <op-icon
         id="icon"
         data-domain=${computeStateDomain(stateObj)}
         data-state=${stateObj.state}
         .icon=${this.overrideIcon || stateIcon(stateObj)}
-      ></opp-icon>
+      ></op-icon>
     `;
   }
 
@@ -97,21 +97,21 @@ class StateBadge extends LitElement {
         line-height: 40px;
       }
 
-      opp-icon {
+      op-icon {
         transition: color 0.3s ease-in-out, filter 0.3s ease-in-out;
       }
 
       /* Color the icon if light or sun is on */
-      opp-icon[data-domain="light"][data-state="on"],
-      opp-icon[data-domain="switch"][data-state="on"],
-      opp-icon[data-domain="binary_sensor"][data-state="on"],
-      opp-icon[data-domain="fan"][data-state="on"],
-      opp-icon[data-domain="sun"][data-state="Above Horizon"] {
+      op-icon[data-domain="light"][data-state="on"],
+      op-icon[data-domain="switch"][data-state="on"],
+      op-icon[data-domain="binary_sensor"][data-state="on"],
+      op-icon[data-domain="fan"][data-state="on"],
+      op-icon[data-domain="sun"][data-state="above_horizon"] {
         color: var(--paper-item-icon-active-color, #fdd835);
       }
 
       /* Color the icon if unavailable */
-      opp-icon[data-state="unavailable"] {
+      op-icon[data-state="unavailable"] {
         color: var(--state-icon-unavailable-color);
       }
     `;

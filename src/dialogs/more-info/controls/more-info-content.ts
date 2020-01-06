@@ -1,4 +1,7 @@
-import { PropertyValues, UpdatingElement, property } from "lit-element";
+import {
+  PropertyValues,
+  UpdatingElement,
+} from "lit-element";
 import { OppEntity } from "../../../types";
 
 import "./more-info-alarm_control_panel";
@@ -6,7 +9,6 @@ import "./more-info-automation";
 import "./more-info-camera";
 import "./more-info-climate";
 import "./more-info-configurator";
-import "./more-info-counter";
 import "./more-info-cover";
 import "./more-info-default";
 import "./more-info-fan";
@@ -18,7 +20,6 @@ import "./more-info-lock";
 import "./more-info-media_player";
 import "./more-info-script";
 import "./more-info-sun";
-import "./more-info-timer";
 import "./more-info-updater";
 import "./more-info-vacuum";
 import "./more-info-water_heater";

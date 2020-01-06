@@ -48,16 +48,14 @@ async def main():
         
         if msg['type'] == 'auth_ok':
             if os.path.exists(aName):
-                await websocket.send(json.dumps(
-                {'id': 2, 'type': 'get_states'}
-                ))
+                pass
             else:
                 ACCESS_TOKEN = msg['access_token']
                 with open(aName, 'w') as f:
                     f.write(ACCESS_TOKEN)
-                await websocket.send(json.dumps(
+            await websocket.send(json.dumps(
                     {'id': 2, 'type': 'get_states'}
-                ))
+            ))
             #await websocket.send(json.dumps(
             #{"id": 1, "type": "auth/long_lived_access_token", "client_name": "paul", "client_icon": '', "lifespan": 365}
         if msg['type'] == 'result' and msg['id'] == 2:

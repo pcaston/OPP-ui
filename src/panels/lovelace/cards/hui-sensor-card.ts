@@ -16,7 +16,7 @@ import computeStateName from "../../../common/entity/compute_state_name";
 import stateIcon from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-warning";
 
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -187,13 +187,17 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
+        >
       `;
     }
 
@@ -203,7 +207,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       if (!stateObj.attributes.unit_of_measurement) {
         return html`
           <hui-warning
-            >Entity: ${this._config.entity} - Ops no Unit of Measurement and
+            >Entity: ${this._config.entity} - Has no Unit of Measurement and
             therefore can not display a line graph.</hui-warning
           >
         `;
@@ -232,9 +236,9 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       <op-card @click="${this._handleClick}">
         <div class="flex">
           <div class="icon">
-            <opp-icon
+            <op-icon
               .icon="${this._config.icon || stateIcon(stateObj)}"
-            ></opp-icon>
+            ></op-icon>
           </div>
           <div class="header">
             <span class="name"

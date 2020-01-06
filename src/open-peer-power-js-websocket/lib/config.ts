@@ -1,5 +1,5 @@
 import { getCollection } from "./collection";
-import { OppConfig, UnsubscribeFunc } from "./types";
+import { OppConfig, UnsubscribeFunc } from "../../types";
 import { Connection } from "./connection";
 import { Store } from "./store";
 import { getConfig } from "./commands";

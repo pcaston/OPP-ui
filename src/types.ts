@@ -1,8 +1,8 @@
 import {
+  Auth,
   Connection,
-  MessageBase,
-  OppServices,
 } from './open-peer-power-js-websocket/lib';
+import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
 
 declare global {
@@ -50,6 +50,12 @@ export interface MFAModule {
   enabled: boolean;
 }
 
+export type MessageBase = {
+  id?: number;
+  type: string;
+  [key: string]: any;
+};
+
 export interface CurrentUser {
   id: string;
   is_owner: boolean;
@@ -84,6 +90,7 @@ export interface Panels {
 
 export interface Translation {
   nativeName: string;
+  isRTL: boolean;
   fingerprints: { [fragment: string]: string };
 }
 
@@ -100,6 +107,10 @@ export interface Notification {
   title: string;
   status: "read" | "unread";
   created_at: string;
+}
+
+export interface Resources {
+  [language: string]: { [key: string]: string };
 }
 
 export type OppEntityBase = {
@@ -150,17 +161,74 @@ export type OppConfig = {
 };
 
 export interface OpenPeerPower {
+  auth: Auth & { external?: ExternalMessaging };
+  connection: Connection;
+  connected: boolean;
   states?: OppEntities;
   services?: OppServices;
   config?: OppConfig;
-  moreInfoEntityId?: string | null;
+  themes: Themes;
+  selectedTheme?: string | null;
+  panels: Panels;
+  panelUrl: string;
+
+  // i18n
+  // current effective language, in that order:
+  //   - backend saved user selected lanugage
+  //   - language in local appstorage
+  //   - browser language
+  //   - english (en)
+  language: string;
+  // local stored language, keep that name for backward compability
+  selectedLanguage: string | null;
+  resources: Resources;
+  localize: LocalizeFunc;
+  translationMetadata: TranslationMetadata;
+
+  dockedSidebar: boolean;
+  moreInfoEntityId: string | null;
   user?: CurrentUser;
   callService: (
     domain: string,
     service: string,
     serviceData?: { [key: string]: any }
   ) => Promise<void>;
+  callApi: <T>(
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    path: string,
+    parameters?: { [key: string]: any }
+  ) => Promise<T>;
+  fetchWithAuth: (
+    path: string,
+    init?: { [key: string]: any }
+  ) => Promise<Response>;
+  sendWS: (msg: MessageBase) => void;
+  callWS: <T>(msg: MessageBase) => Promise<T>;
 }
+
+export type OppService = {
+  description: string;
+  fields: {
+    [field_name: string]: {
+      description: string;
+      example: string | boolean | number;
+    };
+  };
+};
+
+export type OppDomainServices = {
+  [service_name: string]: OppService;
+};
+
+export type OppServices = {
+  [domain: string]: OppDomainServices;
+};
+
+export type OppUser = {
+  id: string;
+  is_owner: boolean;
+  name: string;
+};
 
 export type ClimateEntity = OppEntityBase & {
   attributes: OppEntityAttributeBase & {
@@ -246,3 +314,40 @@ export interface PanelElement extends HTMLElement {
   route?: Route | null;
   panel?: PanelInfo;
 }
+
+export interface LocalizeMixin {
+  opp?: OpenPeerPower;
+  localize: LocalizeFunc;
+}
+export type Error = 1 | 2 | 3 | 4;
+
+export type UnsubscribeFunc = () => void;
+
+export type ConnectionOptions = {
+  setupRetry: number;
+  auth?: Auth;
+  createSocket: (options: ConnectionOptions) => Promise<WebSocket>;
+};
+
+export type OppEventBase = {
+  origin: string;
+  time_fired: string;
+  context: {
+    id: string;
+    user_id: string;
+  };
+};
+
+export type OppEvent = OppEventBase & {
+  event_type: string;
+  data: { [key: string]: any };
+};
+
+export type StateChangedEvent = OppEventBase & {
+  event_type: "state_changed";
+  data: {
+    entity_id: string;
+    new_state: OppEntity | null;
+    old_state: OppEntity | null;
+  };
+};

@@ -41,13 +41,16 @@ class HuiCoverEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning
-          >"ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-          </hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }

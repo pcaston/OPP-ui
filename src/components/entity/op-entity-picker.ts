@@ -76,7 +76,7 @@ class OpEntityPicker extends LitElement {
       if (!opp) {
         return [];
       }
-      let entityIds = Object.keys(opp.states);
+      let entityIds = Object.keys(opp.states!);
 
       if (domainFilter) {
         entityIds = entityIds.filter(
@@ -84,7 +84,7 @@ class OpEntityPicker extends LitElement {
         );
       }
 
-      states = entityIds.sort().map((key) => opp!.states[key]);
+      states = entityIds.sort().map((key) => opp!.states![key]);
 
       if (entityFilter) {
         states = states.filter(
@@ -126,7 +126,7 @@ class OpEntityPicker extends LitElement {
         <paper-input
           .autofocus=${this.autofocus}
           .label=${this.label === undefined && this._opp
-            ? "ui.components.entity.entity-picker.entity"
+            ? this._opp.localize("ui.components.entity.entity-picker.entity")
             : this.label}
           .value=${this._value}
           .disabled=${this.disabled}

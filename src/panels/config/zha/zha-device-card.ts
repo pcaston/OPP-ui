@@ -1,8 +1,8 @@
 import "../../../components/buttons/op-call-service-button";
 import "../../../components/op-service-description";
 import "../../../components/entity/state-badge";
+import "../../../components/op-card";
 import "@material/mwc-button";
-import "@polymer/paper-card/paper-card";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-icon-item";
@@ -36,6 +36,7 @@ import { OpenPeerPower } from "../../../types";
 import { ItemSelectedEvent, NodeServiceData } from "./types";
 import { navigate } from "../../../common/navigate";
 import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
+import { formatAsPaddedHex } from "./functions";
 
 declare global {
   // for fire event
@@ -90,9 +91,12 @@ class ZHADeviceCard extends LitElement {
       this._userGivenName = this.device!.user_given_name;
     }
     if (!this._unsubAreas) {
-      this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
-        this._areas = areas;
-      });
+      this._unsubAreas = subscribeAreaRegistry(
+        this.opp.connection,
+        (areas) => {
+          this._areas = areas;
+        }
+      );
     }
     super.update(changedProperties);
   }
@@ -108,14 +112,18 @@ class ZHADeviceCard extends LitElement {
 
   protected render(): TemplateResult | void {
     return html`
-      <paper-card heading="${this.isJoinPage ? this.device!.name : ""}">
+      <op-card header="${this.isJoinPage ? this.device!.name : ""}">
         ${
           this.isJoinPage
             ? html`
                 <div class="info">
                   <div class="model">${this.device!.model}</div>
                   <div class="manuf">
-                    "config_entry.manuf manufacturer ${this.device!.manufacturer}"
+                    ${this.opp!.localize(
+                      "ui.panel.config.integrations.config_entry.manuf",
+                      "manufacturer",
+                      this.device!.manufacturer
+                    )}
                   </div>
                 </div>
               `
@@ -125,6 +133,8 @@ class ZHADeviceCard extends LitElement {
           <dl>
             <dt>IEEE:</dt>
             <dd class="zha-info">${this.device!.ieee}</dd>
+            <dt>Nwk:</dt>
+            <dd class="zha-info">${formatAsPaddedHex(this.device!.nwk)}</dd>
             ${
               this.device!.quirk_applied
                 ? html`
@@ -144,7 +154,7 @@ class ZHADeviceCard extends LitElement {
                 .entity="${entity}"
               >
                 <state-badge
-                  .stateObj="${this.opp!.states[entity.entity_id]}"
+                  .stateObj="${this.opp!.states![entity.entity_id]}"
                   slot="item-icon"
                 ></state-badge>
                 ${!this.isJoinPage
@@ -166,12 +176,16 @@ class ZHADeviceCard extends LitElement {
             type="string"
             @change="${this._saveCustomName}"
             .value="${this._userGivenName}"
-            placeholder="ui.panel.config.zha.device_card.device_name_placeholder"
+            placeholder="${this.opp!.localize(
+              "ui.panel.config.zha.device_card.device_name_placeholder"
+            )}"
           ></paper-input>
         </div>
         <div class="node-picker">
           <paper-dropdown-menu
-            label="ui.panel.config.zha.device_card.area_picker_label"
+            label="${this.opp!.localize(
+              "ui.panel.config.zha.device_card.area_picker_label"
+            )}"
             class="flex"
           >
             <paper-listbox
@@ -180,7 +194,9 @@ class ZHADeviceCard extends LitElement {
               @iron-select="${this._selectedAreaChanged}"
             >
               <paper-item>
-                "ui.panel.config.integrations.config_entry.no_area"
+                ${this.opp!.localize(
+                  "ui.panel.config.integrations.config_entry.no_area"
+                )}
               </paper-item>
 
               ${this._areas.map(
@@ -201,7 +217,9 @@ class ZHADeviceCard extends LitElement {
                   ${this.showHelp
                     ? html`
                         <div class="help-text">
-                          "ui.panel.config.zha.services.reconfigure"
+                          ${this.opp!.localize(
+                            "ui.panel.config.zha.services.reconfigure"
+                          )}
                         </div>
                       `
                     : ""}
@@ -216,7 +234,9 @@ class ZHADeviceCard extends LitElement {
                   ${this.showHelp
                     ? html`
                         <div class="help-text">
-                          "ui.panel.config.zha.services.remove"
+                          ${this.opp!.localize(
+                            "ui.panel.config.zha.services.remove"
+                          )}
                         </div>
                       `
                     : ""}
@@ -242,7 +262,7 @@ class ZHADeviceCard extends LitElement {
             : ""
         }
         </div>
-      </paper-card>
+      </op-card>
     `;
   }
 
@@ -312,7 +332,7 @@ class ZHADeviceCard extends LitElement {
           padding: 4px;
           justify-content: left;
         }
-        paper-card {
+        op-card {
           flex: 1 0 100%;
           padding-bottom: 10px;
           min-width: 425px;

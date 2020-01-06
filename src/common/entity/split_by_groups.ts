@@ -1,6 +1,5 @@
 import computeDomain from "./compute_domain";
-import { OppEntities } from "../../open-peer-power-js-websocket/lib";
-import { GroupEntity } from "../../types";
+import { OppEntities, GroupEntity } from "../../types";
 
 // Split a collection into a list of groups and a 'rest' list of ungrouped
 // entities.

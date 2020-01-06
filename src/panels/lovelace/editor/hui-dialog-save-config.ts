@@ -44,27 +44,33 @@ export class HuiSaveConfig extends LitElement {
     return html`
       <op-paper-dialog with-backdrop>
         <h2>
-          save config header
+          ${this.opp!.localize("ui.panel.lovelace.editor.save_config.header")}
         </h2>
         <paper-dialog-scrollable>
           <p>
-            save config para
+            ${this.opp!.localize("ui.panel.lovelace.editor.save_config.para")}
           </p>
           <p>
-            save config parasure
+            ${this.opp!.localize(
+              "ui.panel.lovelace.editor.save_config.para_sure"
+            )}
           </p>
         </paper-dialog-scrollable>
         <div class="paper-dialog-buttons">
           <mwc-button @click="${this._closeDialog}"
-            >save config cancel</mwc-button
+            >${this.opp!.localize(
+              "ui.panel.lovelace.editor.save_config.cancel"
+            )}</mwc-button
           >
           <mwc-button ?disabled="${this._saving}" @click="${this._saveConfig}">
             <paper-spinner
               ?active="${this._saving}"
               alt="Saving"
             ></paper-spinner>
-              config save
-          </mwc-button>
+            ${this.opp!.localize(
+              "ui.panel.lovelace.editor.save_config.save"
+            )}</mwc-button
+          >
         </div>
       </op-paper-dialog>
     `;

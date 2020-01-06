@@ -30,10 +30,6 @@ declare global {
     "opp-logout": undefined;
     "iron-resize": undefined;
     "config-refresh": undefined;
-    "op-refresh-cloud-status": undefined;
-    "opp-notification": {
-      message: string;
-    };
     "opp-api-called": {
       success: boolean;
       response: unknown;

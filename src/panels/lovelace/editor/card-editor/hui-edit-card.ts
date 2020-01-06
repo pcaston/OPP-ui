@@ -155,7 +155,7 @@ export class HuiEditCard extends LitElement {
         @opened-changed="${this._openedChanged}"
       >
         <h2>
-          card header
+          ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.header")}
         </h2>
         <paper-spinner
           ?active="${this._loading}"
@@ -180,9 +180,13 @@ export class HuiEditCard extends LitElement {
                   ?disabled="${this._configElement === null ||
                     this._configState !== "OK"}"
                   @click="${this._toggleEditor}"
-                  >toggle_editor</mwc-button>
+                  >${this.opp!.localize(
+                    "ui.panel.lovelace.editor.edit_card.toggle_editor"
+                  )}</mwc-button
+                >
                 <mwc-button @click="${this.closeDialog}"
-                  >common cancel</mwc-button>
+                  >${this.opp!.localize("ui.common.cancel")}</mwc-button
+                >
                 <mwc-button
                   ?disabled="${this._saving || this._configState !== "OK"}"
                   @click="${this._save}"
@@ -191,7 +195,7 @@ export class HuiEditCard extends LitElement {
                     ?active="${this._saving}"
                     alt="Saving"
                   ></paper-spinner>
-                  save
+                  ${this.opp!.localize("ui.common.save")}
                 </mwc-button>
               </div>
             `

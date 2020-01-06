@@ -19,6 +19,7 @@ import { PaperInputElement } from "@polymer/paper-input/paper-input";
 import { UNIT_C } from "../../../common/const";
 import { ConfigUpdateValues, saveCoreConfig } from "../../../data/core";
 import { createTimezoneListEl } from "../../../components/timezone-datalist";
+import "../../../components/map/op-location-editor";
 
 @customElement("op-config-core-form")
 class ConfigCoreForm extends LitElement {
@@ -26,56 +27,55 @@ class ConfigCoreForm extends LitElement {
 
   @property() private _working = false;
 
-  @property() private _latitude!: string;
-  @property() private _longitude!: string;
+  @property() private _location!: [number, number];
+
   @property() private _elevation!: string;
   @property() private _unitSystem!: ConfigUpdateValues["unit_system"];
   @property() private _timeZone!: string;
 
   protected render(): TemplateResult | void {
-    const isStorage = this.opp.config.config_source === "storage";
-    const disabled = this._working || !isStorage;
+    const canEdit = ["storage", "default"].includes(
+      this.opp.config!.config_source
+    );
+    const disabled = this._working || !canEdit;
 
     return html`
       <op-card
-        .header="ui.panel.config.core.section.core.form.heading"
+        .header=${this.opp.localize(
+          "ui.panel.config.core.section.core.form.heading"
+        )}
       >
         <div class="card-content">
-          ${!isStorage
+          ${!canEdit
             ? html`
                 <p>
-                  "ui.panel.config.core.section.core.core_config.edit_requires_storage"
+                  ${this.opp.localize(
+                    "ui.panel.config.core.section.core.core_config.edit_requires_storage"
+                  )}
                 </p>
               `
             : ""}
 
           <div class="row">
-            <paper-input
+            <op-location-editor
               class="flex"
-              .label="ui.panel.config.core.section.core.core_config.latitude"
-              name="latitude"
-              .disabled=${disabled}
-              .value=${this._latitudeValue}
-              @value-changed=${this._handleChange}
-            ></paper-input>
-            <paper-input
-              class="flex"
-              .label="ui.panel.config.core.section.core.core_config.longitude"
-              name="longitude"
-              .disabled=${disabled}
-              .value=${this._longitudeValue}
-              @value-changed=${this._handleChange}
-            ></paper-input>
+              .location=${this._locationValue}
+              @change=${this._locationChanged}
+            ></op-location-editor>
           </div>
 
           <div class="row">
             <div class="flex">
-              "ui.panel.config.core.section.core.core_config.time_zone"
+              ${this.opp.localize(
+                "ui.panel.config.core.section.core.core_config.time_zone"
+              )}
             </div>
 
             <paper-input
               class="flex"
-              .label="ui.panel.config.core.section.core.core_config.time_zone"
+              .label=${this.opp.localize(
+                "ui.panel.config.core.section.core.core_config.time_zone"
+              )}
               name="timeZone"
               list="timezones"
               .disabled=${disabled}
@@ -85,12 +85,16 @@ class ConfigCoreForm extends LitElement {
           </div>
           <div class="row">
             <div class="flex">
-              "ui.panel.config.core.section.core.core_config.elevation"
+              ${this.opp.localize(
+                "ui.panel.config.core.section.core.core_config.elevation"
+              )}
             </div>
 
             <paper-input
               class="flex"
-              .label="ui.panel.config.core.section.core.core_config.elevation"
+              .label=${this.opp.localize(
+                "ui.panel.config.core.section.core.core_config.elevation"
+              )}
               name="elevation"
               type="number"
               .disabled=${disabled}
@@ -98,26 +102,42 @@ class ConfigCoreForm extends LitElement {
               @value-changed=${this._handleChange}
             >
               <span slot="suffix">
-                "ui.panel.config.core.section.core.core_config.elevation_meters"
+                ${this.opp.localize(
+                  "ui.panel.config.core.section.core.core_config.elevation_meters"
+                )}
               </span>
             </paper-input>
           </div>
 
           <div class="row">
             <div class="flex">
-              "ui.panel.config.core.section.core.core_config.unit_system"
+              ${this.opp.localize(
+                "ui.panel.config.core.section.core.core_config.unit_system"
+              )}
             </div>
-            <paper-radio-group class="flex" .selected=${this._unitSystemValue}>
+            <paper-radio-group
+              class="flex"
+              .selected=${this._unitSystemValue}
+              @selected-changed=${this._unitSystemChanged}
+            >
               <paper-radio-button name="metric" .disabled=${disabled}>
-                "ui.panel.config.core.section.core.core_config.unit_system_metric"
+                ${this.opp.localize(
+                  "ui.panel.config.core.section.core.core_config.unit_system_metric"
+                )}
                 <div class="secondary">
-                  "ui.panel.config.core.section.core.core_config.metric_example"
+                  ${this.opp.localize(
+                    "ui.panel.config.core.section.core.core_config.metric_example"
+                  )}
                 </div>
               </paper-radio-button>
               <paper-radio-button name="imperial" .disabled=${disabled}>
-                "ui.panel.config.core.section.core.core_config.unit_system_imperial"
+                ${this.opp.localize(
+                  "ui.panel.config.core.section.core.core_config.unit_system_imperial"
+                )}
                 <div class="secondary">
-                  "ui.panel.config.core.section.core.core_config.imperial_example"
+                  ${this.opp.localize(
+                    "ui.panel.config.core.section.core.core_config.imperial_example"
+                  )}
                 </div>
               </paper-radio-button>
             </paper-radio-group>
@@ -125,7 +145,9 @@ class ConfigCoreForm extends LitElement {
         </div>
         <div class="card-actions">
           <mwc-button @click=${this._save} .disabled=${disabled}>
-            "ui.panel.config.core.section.core.core_config.save_button"
+            ${this.opp.localize(
+              "ui.panel.config.core.section.core.core_config.save_button"
+            )}
           </mwc-button>
         </div>
       </op-card>
@@ -140,34 +162,28 @@ class ConfigCoreForm extends LitElement {
     input.inputElement.appendChild(createTimezoneListEl());
   }
 
-  private get _latitudeValue() {
-    return this._latitude !== undefined
-      ? this._latitude
-      : this.opp.config.latitude;
-  }
-
-  private get _longitudeValue() {
-    return this._longitude !== undefined
-      ? this._longitude
-      : this.opp.config.longitude;
+  private get _locationValue() {
+    return this._location !== undefined
+      ? this._location
+      : [Number(this.opp.config!.latitude), Number(this.opp.config!.longitude)];
   }
 
   private get _elevationValue() {
     return this._elevation !== undefined
       ? this._elevation
-      : this.opp.config.elevation;
+      : this.opp.config!.elevation;
   }
 
   private get _timeZoneValue() {
     return this._timeZone !== undefined
       ? this._timeZone
-      : this.opp.config.time_zone;
+      : this.opp.config!.time_zone;
   }
 
   private get _unitSystemValue() {
     return this._unitSystem !== undefined
       ? this._unitSystem
-      : this.opp.config.unit_system.temperature === UNIT_C
+      : this.opp.config!.unit_system.temperature === UNIT_C
       ? "metric"
       : "imperial";
   }
@@ -177,12 +193,23 @@ class ConfigCoreForm extends LitElement {
     this[`_${target.name}`] = target.value;
   }
 
+  private _locationChanged(ev) {
+    this._location = ev.currentTarget.location;
+  }
+
+  private _unitSystemChanged(
+    ev: PolymerChangedEvent<ConfigUpdateValues["unit_system"]>
+  ) {
+    this._unitSystem = ev.detail.value;
+  }
+
   private async _save() {
     this._working = true;
     try {
+      const location = this._locationValue;
       await saveCoreConfig(this.opp, {
-        latitude: Number(this._latitudeValue),
-        longitude: Number(this._longitudeValue),
+        latitude: location[0],
+        longitude: location[1],
         elevation: Number(this._elevationValue),
         unit_system: this._unitSystemValue,
         time_zone: this._timeZoneValue,

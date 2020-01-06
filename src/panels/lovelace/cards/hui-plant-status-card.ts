@@ -11,7 +11,7 @@ import {
 import { OppEntity } from "../../../types";
 
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 
 import computeStateName from "../../../common/entity/compute_state_name";
 
@@ -65,13 +65,16 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity];
+    const stateObj = this.opp.states![this._config!.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}"
-        </hui-warning
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
@@ -97,12 +100,12 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
                 .value="${item}"
               >
                 <div>
-                  <opp-icon
+                  <op-icon
                     icon="${this.computeIcon(
                       item,
                       stateObj.attributes.battery
                     )}"
-                  ></opp-icon>
+                  ></op-icon>
                 </div>
                 <div
                   class="${stateObj.attributes.problem.indexOf(item) === -1
@@ -171,7 +174,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
         padding-bottom: 16px;
       }
 
-      opp-icon {
+      op-icon {
         color: var(--paper-item-icon-color);
         margin-bottom: 8px;
       }
@@ -214,7 +217,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
 
   private _handleMoreInfo(ev: Event): void {
     const target = ev.currentTarget! as PlantAttributeTarget;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (target.value) {
       fireEvent(this, "opp-more-info", {

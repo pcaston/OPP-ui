@@ -20,7 +20,7 @@ import "@polymer/paper-listbox/paper-listbox";
 import "@polymer/paper-menu-button/paper-menu-button";
 import "@polymer/paper-tabs/paper-tab";
 import "@polymer/paper-tabs/paper-tabs";
-import { OppEntities } from "../../open-peer-power-js-websocket/lib";
+import { OppEntities } from "../../types";
 
 import scrollToTarget from "../../common/dom/scroll-to-target";
 
@@ -28,7 +28,7 @@ import "../../layouts/op-app-layout";
 import "../../components/op-start-voice-button";
 import "../../components/op-paper-icon-button-arrow-next";
 import "../../components/op-paper-icon-button-arrow-prev";
-import "../../components/opp-icon";
+import "../../components/op-icon";
 import { loadModule, loadCSS, loadJS } from "../../common/dom/load_resource";
 import { subscribeNotifications } from "../../data/ws-notifications";
 import { debounce } from "../../common/util/debounce";
@@ -51,12 +51,11 @@ import { showEditLovelaceDialog } from "./editor/lovelace-editor/show-edit-lovel
 import { Lovelace } from "./types";
 import { afterNextRender } from "../../common/util/render-status";
 import { opStyle } from "../../resources/styles";
+import { computeRTLDirection } from "../../common/util/compute_rtl";
 
 // CSS and JS should only be imported once. Modules and HTML are safe.
 const CSS_CACHE = {};
 const JS_CACHE = {};
-
-let loadedUnusedEntities = false;
 
 class HUIRoot extends LitElement {
   @property() public opp?: OpenPeerPower;
@@ -102,6 +101,7 @@ class HUIRoot extends LitElement {
   }
 
   protected render(): TemplateResult | void {
+    debugger;
     return html`
     <app-route .route="${this.route}" pattern="/:view" data="${
       this._routeData
@@ -127,7 +127,7 @@ class HUIRoot extends LitElement {
                   ></paper-icon-button>
                   <div main-title>
                     ${this.config.title ||
-                      "ui.panel.lovelace.editor.header"}
+                      this.opp!.localize("ui.panel.lovelace.editor.header")}
                     <paper-icon-button
                       icon="opp:pencil"
                       class="edit-icon"
@@ -153,8 +153,9 @@ class HUIRoot extends LitElement {
                       slot="dropdown-content"
                     >
                       <paper-item @click="${this.lovelace!.enableFullEditMode}"
-                        >"ui.panel.lovelace.editor.menu.raw_editor"
-                        }</paper-item
+                        >${this.opp!.localize(
+                          "ui.panel.lovelace.editor.menu.raw_editor"
+                        )}</paper-item
                       >
                     </paper-listbox>
                   </paper-menu-button>
@@ -189,22 +190,30 @@ class HUIRoot extends LitElement {
                       ${this._yamlMode
                         ? html`
                             <paper-item @click="${this._handleRefresh}"
-                              >"ui.panel.lovelace.menu.refresh"
-                              }</paper-item
+                              >${this.opp!.localize(
+                                "ui.panel.lovelace.menu.refresh"
+                              )}</paper-item
                             >
                           `
                         : ""}
-                      <paper-item @click="${this._handleUnusedEntities}"
-                        >"ui.panel.lovelace.menu.unused_entities"
-                        }</paper-item
-                      >
+                      ${__DEMO__ /* No unused entities available in the demo */
+                        ? ""
+                        : html`
+                            <paper-item @click="${this._handleUnusedEntities}">
+                              ${this.opp!.localize(
+                                "ui.panel.lovelace.menu.unused_entities"
+                              )}
+                            </paper-item>
+                          `}
                       <paper-item @click="${this._editModeEnable}"
-                        >"ui.panel.lovelace.menu.configure_ui"
-                        }</paper-item
+                        >${this.opp!.localize(
+                          "ui.panel.lovelace.menu.configure_ui"
+                        )}</paper-item
                       >
                       <paper-item @click="${this._handleHelp}"
-                        >"ui.panel.lovelace.menu.help"
-                        }</paper-item
+                        >${this.opp!.localize(
+                          "ui.panel.lovelace.menu.help"
+                        )}</paper-item
                       >
                     </paper-listbox>
                   </paper-menu-button>
@@ -220,11 +229,11 @@ class HUIRoot extends LitElement {
                     scrollable
                     .selected="${this._curView}"
                     @iron-activate="${this._handleViewSelected}"
-                    dir="ltr"
+                    dir="${computeRTLDirection(this.opp!)}"
                   >
                     ${this.lovelace!.config.views.map(
                       (view) => html`
-                        <paper-tab>
+                        <paper-tab aria-label="${view.title}">
                           ${this._editMode
                             ? html`
                                 <op-paper-icon-button-arrow-prev
@@ -237,20 +246,20 @@ class HUIRoot extends LitElement {
                             : ""}
                           ${view.icon
                             ? html`
-                                <opp-icon
+                                <op-icon
                                   title="${view.title}"
                                   .icon="${view.icon}"
-                                ></opp-icon>
+                                ></op-icon>
                               `
                             : view.title || "Unnamed view"}
                           ${this._editMode
                             ? html`
-                                <opp-icon
+                                <op-icon
                                   title="Edit view"
                                   class="edit-icon view"
                                   icon="opp:pencil"
                                   @click="${this._editView}"
-                                ></opp-icon>
+                                ></op-icon>
                                 <op-paper-icon-button-arrow-next
                                   title="Move view right"
                                   class="edit-icon view"
@@ -269,7 +278,9 @@ class HUIRoot extends LitElement {
                           <paper-icon-button
                             id="add-view"
                             @click="${this._addView}"
-                            title="ui.panel.lovelace.editor.edit_view.add"
+                            title="${this.opp!.localize(
+                              "ui.panel.lovelace.editor.edit_view.add"
+                            )}"
                             icon="opp:plus"
                           ></paper-icon-button>
                         `
@@ -302,6 +313,9 @@ class HUIRoot extends LitElement {
         op-app-layout {
           min-height: 100%;
         }
+        paper-menu-button {
+          padding: 0;
+        }
         paper-tabs {
           margin-left: 12px;
           --paper-tabs-selection-bar-color: var(--text-primary-color, #fff);
@@ -331,7 +345,7 @@ class HUIRoot extends LitElement {
           position: absolute;
           height: 44px;
         }
-        #add-view opp-icon {
+        #add-view op-icon {
           background-color: var(--accent-color);
           border-radius: 5px;
           margin-top: 4px;
@@ -388,6 +402,7 @@ class HUIRoot extends LitElement {
         views
       ) {
         navigate(this, `/lovelace/${views[0].path || 0}`, true);
+        newSelectView = 0;
       } else if (this._routeData!.view === "opp-unused-entities") {
         newSelectView = "opp-unused-entities";
       } else if (this._routeData!.view) {
@@ -429,13 +444,14 @@ class HUIRoot extends LitElement {
       if (force && newSelectView === undefined) {
         newSelectView = this._curView;
       }
-      this._selectView(newSelectView, force);
+      // Will allow for ripples to start rendering
+      afterNextRender(() => this._selectView(newSelectView, force));
     }
   }
 
   private get _notifications() {
     return this._updateNotifications(
-      this.opp!.states,
+      this.opp!.states!,
       this._persistentNotifications! || []
     );
   }
@@ -553,10 +569,7 @@ class HUIRoot extends LitElement {
     scrollToTarget(this, this._layout.header.scrollTarget);
   }
 
-  private async _selectView(
-    viewIndex: HUIRoot["_curView"],
-    force: boolean
-  ): Promise<void> {
+  private _selectView(viewIndex: HUIRoot["_curView"], force: boolean): void {
     if (!force && this._curView === viewIndex) {
       return;
     }
@@ -577,15 +590,16 @@ class HUIRoot extends LitElement {
     }
 
     if (viewIndex === "opp-unused-entities") {
-      if (!loadedUnusedEntities) {
-        loadedUnusedEntities = true;
-        await import(/* webpackChunkName: "hui-unused-entities" */ "./hui-unused-entities");
-      }
       const unusedEntities = document.createElement("hui-unused-entities");
-      unusedEntities.setConfig(this.config);
-      unusedEntities.opp = this.opp!;
+      // Wait for promise to resolve so that the element has been upgraded.
+      import(/* webpackChunkName: "hui-unused-entities" */ "./hui-unused-entities").then(
+        () => {
+          unusedEntities.setConfig(this.config);
+          unusedEntities.opp = this.opp!;
+        }
+      );
       root.style.background = this.config.background || "";
-      root.appendChild(unusedEntities);
+      root.append(unusedEntities);
       return;
     }
 
@@ -600,8 +614,6 @@ class HUIRoot extends LitElement {
     if (!force && this._viewCache![viewIndex]) {
       view = this._viewCache![viewIndex];
     } else {
-      await new Promise((resolve) => afterNextRender(resolve));
-
       if (viewConfig.panel && viewConfig.cards && viewConfig.cards.length > 0) {
         view = createCardElement(viewConfig.cards[0]);
         view.isPanel = true;
@@ -617,7 +629,7 @@ class HUIRoot extends LitElement {
     view.opp = this.opp;
     root.style.background =
       viewConfig.background || this.config.background || "";
-    root.appendChild(view);
+    root.append(view);
   }
 
   private _loadResources(resources) {

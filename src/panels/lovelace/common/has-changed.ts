@@ -13,7 +13,7 @@ export function hasConfigOrEntityChanged(
   const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
   if (oldOpp) {
     return (
-      oldOpp.states[element._config!.entity] !==
+      oldOpp.states![element._config!.entity] !==
       element.opp!.states[element._config!.entity]
     );
   }

@@ -1,4 +1,5 @@
 import { OpenPeerPower } from "../types";
+import { Connection } from "../open-peer-power-js-websocket/lib";
 
 export interface LovelaceConfig {
   title?: string;
@@ -60,10 +61,10 @@ export type ActionConfig =
   | NoActionConfig;
 
 export const fetchConfig = (
-  opp: OpenPeerPower,
+  conn: Connection,
   force: boolean
 ): Promise<LovelaceConfig> =>
-  opp.callWS({
+  conn.sendMessagePromise({
     type: "lovelace/config",
     force,
   });
@@ -76,3 +77,13 @@ export const saveConfig = (
     type: "lovelace/config/save",
     config,
   });
+
+  export const subscribeLovelaceUpdates = (
+    conn: Connection,
+    onChange: () => void
+  ) => conn.subscribeEvents(onChange, "lovelace_updated");
+  
+  export interface WindowWithLovelaceProm extends Window {
+    llConfProm?: Promise<LovelaceConfig>;
+  }
+  

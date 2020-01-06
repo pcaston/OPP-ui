@@ -75,7 +75,7 @@ export class HuiImage extends LitElement {
   protected render(): TemplateResult | void {
     const ratio = this.aspectRatio ? parseAspectRatio(this.aspectRatio) : null;
     const stateObj =
-      this.opp && this.entity ? this.opp.states[this.entity] : undefined;
+      this.opp && this.entity ? this.opp.states![this.entity] : undefined;
     const state = stateObj ? stateObj.state : "unavailable";
 
     // Figure out image source to use
@@ -87,7 +87,7 @@ export class HuiImage extends LitElement {
     if (this.cameraImage) {
       if (this.cameraView === "live") {
         cameraObj =
-          this.opp && (this.opp.states[this.cameraImage] as CameraEntity);
+          this.opp && (this.opp.states![this.cameraImage] as CameraEntity);
       } else {
         imageSrc = this._cameraImageSrc;
       }
@@ -197,7 +197,7 @@ export class HuiImage extends LitElement {
       return;
     }
 
-    const cameraState = this.opp.states[this.cameraImage] as
+    const cameraState = this.opp.states![this.cameraImage] as
       | CameraEntity
       | undefined;
 

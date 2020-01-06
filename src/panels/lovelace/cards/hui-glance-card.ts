@@ -16,7 +16,7 @@ import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-card";
-import "../../../components/opp-icon";
+import "../../../components/op-icon";
 import "../components/hui-warning-element";
 
 import { OpenPeerPower } from "../../../types";
@@ -88,7 +88,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     if (oldOpp && this._configEntities) {
       for (const entity of this._configEntities) {
         if (
-          oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -164,12 +164,16 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(entityConf): TemplateResult {
-    const stateObj = this.opp!.states[entityConf.entity];
+    const stateObj = this.opp!.states![entityConf.entity];
 
     if (!stateObj) {
       return html`
         <hui-warning-element
-          label="ui.panel.lovelace.warning.entity_not_found entity ${entityConf.entity}"
+          label=${this.opp!.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            entityConf.entity
+          )}
         ></hui-warning-element>
       `;
     }
@@ -203,7 +207,9 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
           ? html`
               <div>
                 ${computeStateDisplay(
-                  stateObj
+                  this.opp!.localize,
+                  stateObj,
+                  this.opp!.language
                 )}
               </div>
             `

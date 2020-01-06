@@ -13,6 +13,7 @@ import "../components/hui-generic-entity-row";
 import "../../../components/op-slider";
 import "../components/hui-warning";
 
+import { computeRTLDirection } from "../../../common/util/compute_rtl";
 import { EntityRow, EntityConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
 import { setValue } from "../../../data/input_text";
@@ -58,13 +59,16 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
-        </hui-warning>
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
         >
       `;
     }
@@ -76,7 +80,7 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
             ? html`
                 <div class="flex">
                   <op-slider
-                    .dir="ltr"
+                    .dir="${computeRTLDirection(this.opp!)}"
                     .step="${Number(stateObj.attributes.step)}"
                     .min="${Number(stateObj.attributes.min)}"
                     .max="${Number(stateObj.attributes.max)}"
@@ -148,7 +152,7 @@ class HuiInputNumberEntityRow extends LitElement implements EntityRow {
 
   private _selectedValueChanged(): void {
     const element = this._inputElement;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (element.value !== stateObj.state) {
       setValue(this.opp!, stateObj.entity_id, element.value!);

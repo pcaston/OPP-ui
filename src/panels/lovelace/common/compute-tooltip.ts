@@ -24,8 +24,8 @@ export const computeTooltip = (opp: OpenPeerPower, config: Config): string => {
 
   if (config.entity) {
     stateName =
-      config.entity in opp.states
-        ? computeStateName(opp.states[config.entity])
+      config.entity in opp.states!
+        ? computeStateName(opp.states![config.entity])
         : config.entity;
   }
 
@@ -55,21 +55,37 @@ function computeActionTooltip(
 
   let tooltip =
     (isHold
-      ? "ui.panel.lovelace.cards.picture-elements.hold"
-      : "ui.panel.lovelace.cards.picture-elements.tap") + " ";
+      ? opp.localize("ui.panel.lovelace.cards.picture-elements.hold")
+      : opp.localize("ui.panel.lovelace.cards.picture-elements.tap")) + " ";
 
   switch (config.action) {
     case "navigate":
-      tooltip += `ui.panel.lovelace.cards.picture-elements.navigate_to location ${config.navigation_path}`;
+      tooltip += `${opp.localize(
+        "ui.panel.lovelace.cards.picture-elements.navigate_to",
+        "location",
+        config.navigation_path
+      )}`;
       break;
     case "toggle":
-      tooltip += `ui.panel.lovelace.cards.picture-elements.toggle name ${state}`;
+      tooltip += `${opp.localize(
+        "ui.panel.lovelace.cards.picture-elements.toggle",
+        "name",
+        state
+      )}`;
       break;
     case "call-service":
-      tooltip += `ui.panel.lovelace.cards.picture-elements.call_service name ${config.service}`;
+      tooltip += `${opp.localize(
+        "ui.panel.lovelace.cards.picture-elements.call_service",
+        "name",
+        config.service
+      )}`;
       break;
     case "more-info":
-      tooltip += `ui.panel.lovelace.cards.picture-elements.more_info name ${state}`;
+      tooltip += `${opp.localize(
+        "ui.panel.lovelace.cards.picture-elements.more_info",
+        "name",
+        state
+      )}`;
       break;
   }
 

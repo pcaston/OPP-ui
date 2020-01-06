@@ -1,4 +1,4 @@
-import { createCollection } from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
 import { OpenPeerPower } from "../types";
 import { compare } from "../common/string/compare";
 import { debounce } from "../common/util/debounce";
@@ -57,13 +57,13 @@ const subscribeAreaRegistryUpdates = (conn, store) =>
   );
 
 export const subscribeAreaRegistry = (
-  opp: OpenPeerPower,
+  conn: Connection,
   onChange: (areas: AreaRegistryEntry[]) => void
 ) =>
   createCollection<AreaRegistryEntry[]>(
     "_areaRegistry",
     fetchAreaRegistry,
     subscribeAreaRegistryUpdates,
-    opp.connection,
+    conn,
     onChange
   );

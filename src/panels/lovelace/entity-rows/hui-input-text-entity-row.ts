@@ -38,13 +38,17 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
-        <hui-warning>
-          "ui.panel.lovelace.warning.entity_not_found entity ${this._config.entity}""
-        </hui-warning>
+        <hui-warning
+          >${this.opp.localize(
+            "ui.panel.lovelace.warning.entity_not_found",
+            "entity",
+            this._config.entity
+          )}</hui-warning
+        >
       `;
     }
 
@@ -71,7 +75,7 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
 
   private _selectedValueChanged(ev): void {
     const element = this._inputEl;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (element.value !== stateObj.state) {
       setValue(this.opp!, stateObj.entity_id, element.value!);

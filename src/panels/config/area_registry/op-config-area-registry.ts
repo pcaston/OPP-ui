@@ -27,9 +27,10 @@ import {
   loadAreaRegistryDetailDialog,
 } from "./show-dialog-area-registry-detail";
 import { classMap } from "lit-html/directives/class-map";
+import { computeRTL } from "../../../common/util/compute_rtl";
 import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 
-class HaConfigAreaRegistry extends LitElement {
+class OpConfigAreaRegistry extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide?: boolean;
   @property() private _areas?: AreaRegistryEntry[];
@@ -50,19 +51,25 @@ class HaConfigAreaRegistry extends LitElement {
     }
     return html`
       <opp-subpage
-        header="ui.panel.config.area_registry.caption"
+        header="${this.opp.localize("ui.panel.config.area_registry.caption")}"
       >
         <op-config-section .isWide=${this.isWide}>
           <span slot="header">
-            "ui.panel.config.area_registry.picker.header"
+            ${this.opp.localize("ui.panel.config.area_registry.picker.header")}
           </span>
           <span slot="introduction">
-            ui.panel.config.area_registry.picker.introduction"
+            ${this.opp.localize(
+              "ui.panel.config.area_registry.picker.introduction"
+            )}
             <p>
-              "ui.panel.config.area_registry.picker.introduction2"
+              ${this.opp.localize(
+                "ui.panel.config.area_registry.picker.introduction2"
+              )}
             </p>
             <a href="/config/integrations/dashboard">
-              "ui.panel.config.area_registry.picker.integrations_page"
+              ${this.opp.localize(
+                "ui.panel.config.area_registry.picker.integrations_page"
+              )}
             </a>
           </span>
           <op-card>
@@ -78,9 +85,13 @@ class HaConfigAreaRegistry extends LitElement {
             ${this._areas.length === 0
               ? html`
                   <div class="empty">
-                    "ui.panel.config.area_registry.no_areas"
+                    ${this.opp.localize(
+                      "ui.panel.config.area_registry.no_areas"
+                    )}
                     <mwc-button @click=${this._createArea}>
-                      "ui.panel.config.area_registry.create_area"
+                      ${this.opp.localize(
+                        "ui.panel.config.area_registry.create_area"
+                      )}
                     </mwc-button>
                   </div>
                 `
@@ -92,10 +103,12 @@ class HaConfigAreaRegistry extends LitElement {
       <paper-fab
         ?is-wide=${this.isWide}
         icon="opp:plus"
-        title="ui.panel.config.area_registry.create_area"
+        title="${this.opp.localize(
+          "ui.panel.config.area_registry.create_area"
+        )}"
         @click=${this._createArea}
         class="${classMap({
-          rtl: false,
+          rtl: computeRTL(this.opp),
         })}"
       ></paper-fab>
     `;
@@ -109,9 +122,12 @@ class HaConfigAreaRegistry extends LitElement {
   protected updated(changedProps) {
     super.updated(changedProps);
     if (!this._unsubAreas) {
-      this._unsubAreas = subscribeAreaRegistry(this.opp, (areas) => {
-        this._areas = areas;
-      });
+      this._unsubAreas = subscribeAreaRegistry(
+        this.opp.connection,
+        (areas) => {
+          this._areas = areas;
+        }
+      );
     }
   }
 
@@ -193,4 +209,4 @@ All devices in this area will become unassigned.`)
   }
 }
 
-customElements.define("op-config-area-registry", HaConfigAreaRegistry);
+customElements.define("op-config-area-registry", OpConfigAreaRegistry);
