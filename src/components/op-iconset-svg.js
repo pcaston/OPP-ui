@@ -2,7 +2,7 @@ import "@polymer/iron-iconset-svg/iron-iconset-svg";
 
 const IronIconsetClass = customElements.get("iron-iconset-svg");
 
-class OppIconset extends IronIconsetClass {
+class OpIconset extends IronIconsetClass {
   /**
    * Fire 'iron-iconset-added' event at next microtask.
    */
@@ -30,4 +30,4 @@ class OppIconset extends IronIconsetClass {
   }
 }
 
-customElements.define("op-iconset-svg", OppIconset);
+customElements.define("op-iconset-svg", OpIconset);

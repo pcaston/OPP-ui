@@ -5,9 +5,12 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
 
+import LocalizeMixin from "../mixins/localize-mixin";
+
 /*
+ * @appliesMixin LocalizeMixin
  */
-class StateCardLock extends PolymerElement {
+class StateCardLock extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -25,13 +28,13 @@ class StateCardLock extends PolymerElement {
           on-click="_callService"
           data-service="unlock"
           hidden$="[[!isLocked]]"
-          >[[ui.card.lock.unlock']]</mwc-button
+          >[[localize('ui.card.lock.unlock')]]</mwc-button
         >
         <mwc-button
           on-click="_callService"
           data-service="lock"
           hidden$="[[isLocked]]"
-          >[['ui.card.lock.lock']]</mwc-button
+          >[[localize('ui.card.lock.lock')]]</mwc-button
         >
       </div>
     `;
