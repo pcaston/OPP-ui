@@ -3,11 +3,13 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
+import LocalizeMixin from "../mixins/localize-mixin";
 import OppMediaPlayerEntity from "../util/opp-media-player-model";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class StateCardMediaPlayer extends PolymerElement {
+class StateCardMediaPlayer extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -43,7 +45,7 @@ class StateCardMediaPlayer extends PolymerElement {
         ${this.stateInfoTemplate}
         <div class="state">
           <div class="main-text" take-height$="[[!playerObj.secondaryTitle]]">
-            [[computePrimaryText(playerObj)]]
+            [[computePrimaryText(localize, playerObj)]]
           </div>
           <div class="secondary-text">[[playerObj.secondaryTitle]]</div>
         </div>
@@ -80,11 +82,11 @@ class StateCardMediaPlayer extends PolymerElement {
     return new OppMediaPlayerEntity(opp, stateObj);
   }
 
-  computePrimaryText(playerObj) {
+  computePrimaryText(localize, playerObj) {
     return (
       playerObj.primaryTitle ||
-      `state.media_player.${playerObj.stateObj.state}` ||
-      `state.default.${playerObj.stateObj.state}` ||
+      localize(`state.media_player.${playerObj.stateObj.state}`) ||
+      localize(`state.default.${playerObj.stateObj.state}`) ||
       playerObj.stateObj.state
     );
   }

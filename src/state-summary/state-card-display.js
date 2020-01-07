@@ -3,13 +3,16 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
+import LocalizeMixin from "../mixins/localize-mixin";
 
 import computeStateDisplay from "../common/entity/compute_state_display";
 import attributeClassNames from "../common/entity/attribute_class_names";
+import { computeRTL } from "../common/util/compute_rtl";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class StateCardDisplay extends PolymerElement {
+class StateCardDisplay extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -49,7 +52,7 @@ class StateCardDisplay extends PolymerElement {
 
       ${this.stateInfoTemplate}
       <div class$="[[computeClassNames(stateObj)]]">
-        [[computeStateDisplay(stateObj)]]
+        [[computeStateDisplay(localize, stateObj, language)]]
       </div>
     `;
   }
@@ -75,13 +78,13 @@ class StateCardDisplay extends PolymerElement {
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: false,
+        computed: "_computeRTL(opp)",
       },
     };
   }
 
-  computeStateDisplay(stateObj) {
-    return computeStateDisplay(stateObj);
+  computeStateDisplay(localize, stateObj, language) {
+    return computeStateDisplay(localize, stateObj, language);
   }
 
   computeClassNames(stateObj) {
@@ -90,6 +93,10 @@ class StateCardDisplay extends PolymerElement {
       attributeClassNames(stateObj, ["unit_of_measurement"]),
     ];
     return classes.join(" ");
+  }
+
+  _computeRTL(opp) {
+    return computeRTL(opp);
   }
 }
 customElements.define("state-card-display", StateCardDisplay);

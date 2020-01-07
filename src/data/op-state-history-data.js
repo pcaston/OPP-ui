@@ -2,13 +2,15 @@ import { timeOut } from "@polymer/polymer/lib/utils/async";
 import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import LocalizeMixin from "../mixins/localize-mixin";
 
 import { computeHistory, fetchDate } from "./history";
 import { getRecent, getRecentWithCache } from "./cached-history";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class OpStateHistoryData extends PolymerElement {
+class OpStateHistoryData extends LocalizeMixin(PolymerElement) {
   static get properties() {
     return {
       opp: {
@@ -43,7 +45,7 @@ class OpStateHistoryData extends PolymerElement {
 
   static get observers() {
     return [
-      "filterChangedDebouncer(filterType, entityId, startTime, endTime, cacheConfig)",
+      "filterChangedDebouncer(filterType, entityId, startTime, endTime, cacheConfig, localize)",
     ];
   }
 
@@ -54,7 +56,8 @@ class OpStateHistoryData extends PolymerElement {
       this.entityId,
       this.startTime,
       this.endTime,
-      this.cacheConfig
+      this.cacheConfig,
+      this.localize
     );
   }
 
@@ -73,7 +76,8 @@ class OpStateHistoryData extends PolymerElement {
         this.entityId,
         this.startTime,
         this.endTime,
-        this.cacheConfig
+        this.cacheConfig,
+        this.localize
       );
     }
   }
@@ -94,6 +98,7 @@ class OpStateHistoryData extends PolymerElement {
     startTime,
     endTime,
     cacheConfig,
+    localize
   ) {
     if (!this.opp) {
       return;
@@ -101,28 +106,36 @@ class OpStateHistoryData extends PolymerElement {
     if (cacheConfig && !cacheConfig.cacheKey) {
       return;
     }
+    if (!localize) {
+      return;
+    }
     this._madeFirstCall = true;
+    const language = this.opp.language;
     let data;
 
     if (filterType === "date") {
       if (!startTime || !endTime) return;
 
       data = fetchDate(this.opp, startTime, endTime).then((dateHistory) =>
-        computeHistory(this.opp, dateHistory)
+        computeHistory(this.opp, dateHistory, localize, language)
       );
     } else if (filterType === "recent-entity") {
       if (!entityId) return;
       if (cacheConfig) {
         data = this.getRecentWithCacheRefresh(
           entityId,
-          cacheConfig
+          cacheConfig,
+          localize,
+          language
         );
       } else {
         data = getRecent(
           this.opp,
           entityId,
           startTime,
-          endTime
+          endTime,
+          localize,
+          language
         );
       }
     } else {
@@ -136,7 +149,7 @@ class OpStateHistoryData extends PolymerElement {
     });
   }
 
-  getRecentWithCacheRefresh(entityId, cacheConfig) {
+  getRecentWithCacheRefresh(entityId, cacheConfig, localize, language) {
     if (this._refreshTimeoutId) {
       window.clearInterval(this._refreshTimeoutId);
       this._refreshTimeoutId = null;
@@ -146,7 +159,9 @@ class OpStateHistoryData extends PolymerElement {
         getRecentWithCache(
           this.opp,
           entityId,
-          cacheConfig
+          cacheConfig,
+          localize,
+          language
         ).then((stateHistory) => {
           this._setData(Object.assign({}, stateHistory));
         });
@@ -155,7 +170,9 @@ class OpStateHistoryData extends PolymerElement {
     return getRecentWithCache(
       this.opp,
       entityId,
-      cacheConfig
+      cacheConfig,
+      localize,
+      language
     );
   }
 }
