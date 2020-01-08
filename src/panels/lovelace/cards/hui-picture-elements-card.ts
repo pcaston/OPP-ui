@@ -14,7 +14,7 @@ import { LovelaceCard } from "../types";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceElementConfig, LovelaceElement } from "../elements/types";
 import { PictureElementsCardConfig } from "./types";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-picture-elements-card")
 class HuiPictureElementsCard extends LitElement implements LovelaceCard {

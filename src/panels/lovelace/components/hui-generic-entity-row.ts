@@ -1,4 +1,4 @@
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import computeStateName from "../../../common/entity/compute_state_name";
 import {
   LitElement,
   html,
@@ -18,7 +18,7 @@ import { OpenPeerPower } from "../../../types";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { toggleAttribute } from "../../../common/dom/toggle_attribute";
 import { DOMAINS_HIDE_MORE_INFO } from "../../../common/const";
-import { computeDomain } from "../../../common/entity/compute_domain";
+import computeDomain from "../../../common/entity/compute_domain";
 import { classMap } from "lit-html/directives/class-map";
 import { EntitiesCardEntityConfig } from "../cards/types";
 import { actionHandler } from "../common/directives/action-handler-directive";

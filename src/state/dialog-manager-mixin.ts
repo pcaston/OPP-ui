@@ -20,8 +20,8 @@ declare global {
   }
 }
 
-export const dialogManagerMixin = <T extends Constructor<OppBaseEl>>(
-  superClass: T
+export const dialogManagerMixin = (
+  superClass: Constructor<LitElement & OppBaseEl>
 ) =>
   class extends superClass {
     protected firstUpdated(changedProps) {

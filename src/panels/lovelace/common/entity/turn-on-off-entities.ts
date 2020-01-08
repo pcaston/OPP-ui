@@ -1,4 +1,4 @@
-import { computeDomain } from "../../../../common/entity/compute_domain";
+import computeDomain from "../../../../common/entity/compute_domain";
 import { STATES_OFF } from "../../../../common/const";
 import { OpenPeerPower } from "../../../../types";
 

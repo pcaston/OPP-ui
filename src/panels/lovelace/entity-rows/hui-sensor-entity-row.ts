@@ -16,7 +16,7 @@ import "../components/hui-warning";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 
 interface SensorEntityConfig extends EntityConfig {
   format?: "relative" | "date" | "time" | "datetime";

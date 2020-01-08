@@ -12,8 +12,8 @@ import {
 import "../../../components/op-card";
 import "../components/hui-warning";
 
-import { isValidEntityId } from "../../../common/entity/valid_entity_id";
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import isValidEntityId from "../../../common/entity/valid_entity_id";
+import computeStateName from "../../../common/entity/compute_state_name";
 
 import { OpenPeerPower } from "../../../types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
@@ -22,7 +22,7 @@ import { WeatherForecastCardConfig } from "./types";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { toggleAttribute } from "../../../common/dom/toggle_attribute";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 const cardinalDirections = [
   "N",

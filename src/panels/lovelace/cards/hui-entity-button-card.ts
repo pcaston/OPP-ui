@@ -8,19 +8,19 @@ import {
   customElement,
   property,
 } from "lit-element";
-import { OppEntity } from "open-peer-power-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import { styleMap } from "lit-html/directives/style-map";
 import "@material/mwc-ripple";
 
 import "../../../components/op-card";
 import "../components/hui-warning";
 
-import { isValidEntityId } from "../../../common/entity/valid_entity_id";
-import { stateIcon } from "../../../common/entity/state_icon";
-import { computeStateDomain } from "../../../common/entity/compute_state_domain";
-import { computeStateName } from "../../../common/entity/compute_state_name";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
-import { computeDomain } from "../../../common/entity/compute_domain";
+import isValidEntityId from "../../../common/entity/valid_entity_id";
+import stateIcon from "../../../common/entity/state_icon";
+import computeStateDomain from "../../../common/entity/compute_state_domain";
+import computeStateName from "../../../common/entity/compute_state_name";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import computeDomain from "../../../common/entity/compute_domain";
 
 import { OpenPeerPower, LightEntity } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
@@ -104,8 +104,8 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     }
 
     return (
-      oldOpp.states[this._config!.entity] !==
-      this.opp!.states[this._config!.entity]
+      oldOpp.states![this._config!.entity] !==
+      this.opp!.states![this._config!.entity]
     );
   }
 
@@ -113,7 +113,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

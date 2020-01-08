@@ -12,7 +12,7 @@ import {
 import "../../../components/op-switch";
 
 // tslint:disable-next-line: no-duplicate-imports
-import { HaSwitch } from "../../../components/op-switch";
+import { OpSwitch } from "../../../components/op-switch";
 import { DOMAINS_TOGGLE } from "../../../common/const";
 import { turnOnOffEntities } from "../common/entity/turn-on-off-entities";
 import { OpenPeerPower } from "../../../types";
@@ -71,7 +71,7 @@ class HuiEntitiesToggle extends LitElement {
 
   private _callService(ev: MouseEvent): void {
     forwardHaptic("light");
-    const turnOn = (ev.target as HaSwitch).checked;
+    const turnOn = (ev.target as OpSwitch).checked;
     turnOnOffEntities(this.opp!, this._toggleEntities!, turnOn!);
   }
 }

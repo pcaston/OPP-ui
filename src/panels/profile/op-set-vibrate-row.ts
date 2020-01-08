@@ -12,11 +12,11 @@ import "../../components/op-switch";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
 // tslint:disable-next-line: no-duplicate-imports
-import { HaSwitch } from "../../components/op-switch";
+import { OpSwitch } from "../../components/op-switch";
 import { forwardHaptic } from "../../data/haptics";
 
 @customElement("op-set-vibrate-row")
-class HaSetVibrateRow extends LitElement {
+class OpSetVibrateRow extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow!: boolean;
 
@@ -38,7 +38,7 @@ class HaSetVibrateRow extends LitElement {
   }
 
   private async _checkedChanged(ev: Event) {
-    const vibrate = (ev.target as HaSwitch).checked;
+    const vibrate = (ev.target as OpSwitch).checked;
     if (vibrate === this.opp.vibrate) {
       return;
     }
@@ -51,6 +51,6 @@ class HaSetVibrateRow extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-set-vibrate-row": HaSetVibrateRow;
+    "op-set-vibrate-row": OpSetVibrateRow;
   }
 }

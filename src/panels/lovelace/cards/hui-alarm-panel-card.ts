@@ -23,7 +23,7 @@ import {
 } from "../../../data/alarm_control_panel";
 import { AlarmPanelCardConfig } from "./types";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 const ICONS = {
   armed_away: "opp:shield-lock",
@@ -61,7 +61,7 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
       return 0;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     return !stateObj || stateObj.attributes.code_format !== FORMAT_NUMBER
       ? 3
@@ -119,8 +119,8 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
       return true;
     }
     return (
-      oldOpp.states[this._config!.entity] !==
-      this.opp!.states[this._config!.entity]
+      oldOpp.states![this._config!.entity] !==
+      this.opp!.states![this._config!.entity]
     );
   }
 
@@ -128,7 +128,7 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
     if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
