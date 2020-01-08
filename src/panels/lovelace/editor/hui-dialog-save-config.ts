@@ -10,7 +10,7 @@ import {
 import "@polymer/paper-spinner/paper-spinner";
 import "../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { OpPaperDialog } from "../../../components/dialog/op-paper-dialog";
+import { HaPaperDialog } from "../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 
 import { opStyleDialog } from "../../../resources/styles";
@@ -36,7 +36,7 @@ export class HuiSaveConfig extends LitElement {
     this._dialog.open();
   }
 
-  private get _dialog(): OpPaperDialog {
+  private get _dialog(): HaPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 

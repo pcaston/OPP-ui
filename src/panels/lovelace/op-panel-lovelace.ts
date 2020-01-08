@@ -20,7 +20,7 @@ import {
   property,
 } from "lit-element";
 import { showSaveDialog } from "./editor/show-save-config-dialog";
-import { generateLovelaceConfig } from "./common/generate-lovelace-config";
+import { generateLovelaceConfigFromOpp } from "./common/generate-lovelace-config";
 import { showToast } from "../../util/toast";
 
 interface LovelacePanelConfig {
@@ -49,7 +49,8 @@ class LovelacePanel extends LitElement {
 
   private mqls?: MediaQueryList[];
 
-  private _saving: boolean = false;
+  private _ignoreNextUpdateEvent = false;
+  private _fetchConfigOnConnect = false;
 
   constructor() {
     super();
@@ -74,7 +75,10 @@ class LovelacePanel extends LitElement {
 
     if (state === "error") {
       return html`
-        <opp-error-screen title="Lovelace" .error="${this._errorMsg}">
+        <opp-error-screen
+          title="${this.opp!.localize("domain.lovelace")}"
+          .error="${this._errorMsg}"
+        >
           <mwc-button on-click="_forceFetchConfig"
             >${this.opp!.localize(
               "ui.panel.lovelace.reload_lovelace"
@@ -95,7 +99,11 @@ class LovelacePanel extends LitElement {
     }
 
     return html`
-      <opp-loading-screen rootnav></opp-loading-screen>
+      <opp-loading-screen
+        rootnav
+        .opp=${this.opp}
+        .narrow=${this.narrow}
+      ></opp-loading-screen>
     `;
   }
 
@@ -153,11 +161,14 @@ class LovelacePanel extends LitElement {
       // to the states panel to make sure new entities are shown.
       this._state = "loading";
       this._regenerateConfig();
+    } else if (this._fetchConfigOnConnect) {
+      // Config was changed when we were not at the lovelace panel
+      this._fetchConfig(false);
     }
   }
 
   private async _regenerateConfig() {
-    const conf = await generateLovelaceConfig(this.opp!, this.opp!.localize);
+    const conf = await generateLovelaceConfigFromOpp(this.opp!);
     this._setLovelaceConfig(conf, "generated");
     this._state = "loaded";
   }
@@ -174,31 +185,38 @@ class LovelacePanel extends LitElement {
     // Do -1 column if the menu is docked and open
     this._columns = Math.max(
       1,
-      matchColumns - Number(!this.narrow && this.opp!.dockedSidebar)
+      matchColumns -
+        Number(!this.narrow && this.opp!.dockedSidebar === "docked")
     );
   }
 
   private _lovelaceChanged() {
-    if (this._saving) {
-      this._saving = false;
-    } else {
-      showToast(this, {
-        message: this.opp!.localize("ui.panel.lovelace.changed_toast.message"),
-        action: {
-          action: () => this._fetchConfig(false),
-          text: this.opp!.localize("ui.panel.lovelace.changed_toast.refresh"),
-        },
-        duration: 0,
-        dismissable: false,
-      });
+    if (this._ignoreNextUpdateEvent) {
+      this._ignoreNextUpdateEvent = false;
+      return;
     }
+    if (!this.isConnected) {
+      // We can't fire events from an element that is connected
+      // Make sure we fetch the config as soon as the user goes back to Lovelace
+      this._fetchConfigOnConnect = true;
+      return;
+    }
+    showToast(this, {
+      message: this.opp!.localize("ui.panel.lovelace.changed_toast.message"),
+      action: {
+        action: () => this._fetchConfig(false),
+        text: this.opp!.localize("ui.panel.lovelace.changed_toast.refresh"),
+      },
+      duration: 0,
+      dismissable: false,
+    });
   }
 
   private _forceFetchConfig() {
     this._fetchConfig(true);
   }
 
-  private async _fetchConfig(forceDiskRefresh) {
+  private async _fetchConfig(forceDiskRefresh: boolean) {
     let conf: LovelaceConfig;
     let confMode: Lovelace["mode"] = this.panel!.config.mode;
     let confProm: Promise<LovelaceConfig>;
@@ -209,6 +227,13 @@ class LovelacePanel extends LitElement {
       confProm = llWindow.llConfProm;
       llWindow.llConfProm = undefined;
     } else {
+      // Refreshing a YAML config can trigger an update event. We will ignore
+      // all update events while fetching the config and for 2 seconds after the cnofig is back.
+      // We ignore because we already have the latest config.
+      if (this.lovelace && this.lovelace.mode === "yaml") {
+        this._ignoreNextUpdateEvent = true;
+      }
+
       confProm = fetchConfig(this.opp!.connection, forceDiskRefresh);
     }
 
@@ -222,15 +247,32 @@ class LovelacePanel extends LitElement {
         this._errorMsg = err.message;
         return;
       }
-      conf = await generateLovelaceConfig(this.opp!, this.opp!.localize);
+      conf = await generateLovelaceConfigFromOpp(this.opp!);
       confMode = "generated";
+    } finally {
+      // Ignore updates for another 2 seconds.
+      if (this.lovelace && this.lovelace.mode === "yaml") {
+        setTimeout(() => {
+          this._ignoreNextUpdateEvent = false;
+        }, 2000);
+      }
     }
 
     this._state = "loaded";
     this._setLovelaceConfig(conf, confMode);
   }
 
+  private _checkLovelaceConfig(config: LovelaceConfig) {
+    // Somehow there can be badges with value null, we remove those
+    config.views.forEach((view) => {
+      if (view.badges) {
+        view.badges = view.badges.filter(Boolean);
+      }
+    });
+  }
+
   private _setLovelaceConfig(config: LovelaceConfig, mode: Lovelace["mode"]) {
+    this._checkLovelaceConfig(config);
     this.lovelace = {
       config,
       mode,
@@ -254,13 +296,14 @@ class LovelacePanel extends LitElement {
       },
       saveConfig: async (newConfig: LovelaceConfig): Promise<void> => {
         const { config: previousConfig, mode: previousMode } = this.lovelace!;
+        this._checkLovelaceConfig(newConfig);
         try {
           // Optimistic update
           this._updateLovelace({
             config: newConfig,
             mode: "storage",
           });
-          this._saving = true;
+          this._ignoreNextUpdateEvent = true;
           await saveConfig(this.opp!, newConfig);
         } catch (err) {
           // tslint:disable-next-line

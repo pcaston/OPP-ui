@@ -16,8 +16,7 @@ import "../components/hui-warning";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
-
-import computeStateDisplay from "../../../common/entity/compute_state_display";
+import { computeStateDisplay } from "../../../common/entity/compute_state_display";
 
 interface SensorEntityConfig extends EntityConfig {
   format?: "relative" | "date" | "time" | "datetime";
@@ -45,7 +44,7 @@ class HuiSensorEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -62,7 +61,8 @@ class HuiSensorEntityRow extends LitElement implements EntityRow {
     return html`
       <hui-generic-entity-row .opp="${this.opp}" .config="${this._config}">
         <div>
-          ${stateObj.attributes.device_class === "timestamp"
+          ${stateObj.attributes.device_class === "timestamp" &&
+          stateObj.state !== "unavailable"
             ? html`
                 <hui-timestamp-display
                   .opp="${this.opp}"

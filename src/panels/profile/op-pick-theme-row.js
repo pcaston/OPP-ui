@@ -12,7 +12,7 @@ import LocalizeMixin from "../../mixins/localize-mixin";
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -29,7 +29,7 @@ class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
             [[localize('ui.panel.profile.themes.error_no_theme')]]
           </template>
           <a
-            href="https://www.open-peer-power.io/components/frontend/#defining-themes"
+            href="https://www.open-peer-power.io/integrations/frontend/#defining-themes"
             target="_blank"
             >[[localize('ui.panel.profile.themes.link_promo')]]</a
           >
@@ -109,4 +109,4 @@ class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-pick-theme-row", OpPickThemeRow);
+customElements.define("op-pick-theme-row", HaPickThemeRow);

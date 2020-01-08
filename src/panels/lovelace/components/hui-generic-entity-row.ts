@@ -1,4 +1,4 @@
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import {
   LitElement,
   html,
@@ -16,7 +16,15 @@ import "../components/hui-warning";
 
 import { OpenPeerPower } from "../../../types";
 import { computeRTL } from "../../../common/util/compute_rtl";
+import { toggleAttribute } from "../../../common/dom/toggle_attribute";
+import { DOMAINS_HIDE_MORE_INFO } from "../../../common/const";
+import { computeDomain } from "../../../common/entity/compute_domain";
+import { classMap } from "lit-html/directives/class-map";
 import { EntitiesCardEntityConfig } from "../cards/types";
+import { actionHandler } from "../common/directives/action-handler-directive";
+import { hasAction } from "../common/has-action";
+import { ActionHandlerEvent } from "../../../data/lovelace";
+import { handleAction } from "../common/handle-action";
 
 class HuiGenericEntityRow extends LitElement {
   @property() public opp?: OpenPeerPower;
@@ -30,7 +38,7 @@ class HuiGenericEntityRow extends LitElement {
       return html``;
     }
     const stateObj = this.config.entity
-      ? this.opp.states![this.config.entity]
+      ? this.opp.states[this.config.entity]
       : undefined;
 
     if (!stateObj) {
@@ -45,13 +53,43 @@ class HuiGenericEntityRow extends LitElement {
       `;
     }
 
+    const pointer =
+      (this.config.tap_action && this.config.tap_action.action !== "none") ||
+      (this.config.entity &&
+        !DOMAINS_HIDE_MORE_INFO.includes(computeDomain(this.config.entity)));
+
     return html`
       <state-badge
-        .stateObj="${stateObj}"
-        .overrideIcon="${this.config.icon}"
+        class=${classMap({
+          pointer,
+        })}
+        .opp=${this.opp}
+        .stateObj=${stateObj}
+        .overrideIcon=${this.config.icon}
+        .overrideImage=${this.config.image}
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(this.config!.hold_action),
+          hasDoubleClick: hasAction(this.config!.double_tap_action),
+        })}
+        tabindex="0"
       ></state-badge>
       <div class="flex">
-        <div class="info">
+        <div
+          class=${classMap({
+            info: true,
+            pointer,
+            padName: this.showSecondary && !this.config.secondary_info,
+            padSecondary: Boolean(
+              !this.showSecondary || this.config.secondary_info
+            ),
+          })}
+          @action=${this._handleAction}
+          .actionHandler=${actionHandler({
+            hasHold: hasAction(this.config!.hold_action),
+            hasDoubleClick: hasAction(this.config!.double_tap_action),
+          })}
+        >
           ${this.config.name || computeStateName(stateObj)}
           <div class="secondary">
             ${!this.showSecondary
@@ -63,8 +101,16 @@ class HuiGenericEntityRow extends LitElement {
               : this.config.secondary_info === "last-changed"
               ? html`
                   <op-relative-time
-                    .opp="${this.opp}"
-                    .datetime="${stateObj.last_changed}"
+                    .opp=${this.opp}
+                    .datetime=${stateObj.last_changed}
+                  ></op-relative-time>
+                `
+              : this.config.secondary_info === "last-triggered" &&
+                stateObj.attributes.last_triggered
+              ? html`
+                  <op-relative-time
+                    .opp=${this.opp}
+                    .datetime=${stateObj.attributes.last_triggered}
                   ></op-relative-time>
                 `
               : ""}
@@ -79,8 +125,12 @@ class HuiGenericEntityRow extends LitElement {
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
     if (changedProps.has("opp")) {
-      this.toggleAttribute("rtl", computeRTL(this.opp!));
+      toggleAttribute(this, "rtl", computeRTL(this.opp!));
     }
+  }
+
+  private _handleAction(ev: ActionHandlerEvent) {
+    handleAction(this, this.opp!, this.config!, ev.detail.action!);
   }
 
   static get styles(): CSSResult {
@@ -128,6 +178,15 @@ class HuiGenericEntityRow extends LitElement {
       :host([rtl]) .flex ::slotted(*) {
         margin-left: 0;
         margin-right: 8px;
+      }
+      .pointer {
+        cursor: pointer;
+      }
+      .padName {
+        padding: 12px 0px;
+      }
+      .padSecondary {
+        padding: 4px 0px;
       }
     `;
   }

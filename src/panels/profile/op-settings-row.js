@@ -1,7 +1,7 @@
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-class OpSettingsRow extends PolymerElement {
+class HaSettingsRow extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -44,4 +44,4 @@ class OpSettingsRow extends PolymerElement {
   }
 }
 
-customElements.define("op-settings-row", OpSettingsRow);
+customElements.define("op-settings-row", HaSettingsRow);

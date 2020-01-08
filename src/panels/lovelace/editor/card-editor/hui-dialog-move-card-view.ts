@@ -10,7 +10,9 @@ import {
 import "@polymer/paper-item/paper-item";
 import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+
+import "../../components/hui-views-list";
 
 import { moveCard } from "../config-util";
 import { MoveCardViewDialogParams } from "./show-move-card-view-dialog";
@@ -36,16 +38,11 @@ export class HuiDialogMoveCardView extends LitElement {
         @opened-changed="${this._openedChanged}"
       >
         <h2>Choose view to move card</h2>
-        ${this._params!.lovelace!.config.views.map((view, index) => {
-          return html`
-            <paper-item
-              ?active="${this._params!.path![0] === index}"
-              @click="${this._moveCard}"
-              .index="${index}"
-              >${view.title}</paper-item
-            >
-          `;
-        })}
+        <hui-views-list 
+        .lovelaceConfig=${this._params!.lovelace.config} 
+        .selected=${this._params!.path![0]} 
+        @view-selected=${this._moveCard}>
+        </hui-view-list>
       </op-paper-dialog>
     `;
   }
@@ -76,19 +73,18 @@ export class HuiDialogMoveCardView extends LitElement {
     `;
   }
 
-  private get _dialog(): OpPaperDialog {
+  private get _dialog(): HaPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
-  private _moveCard(e: Event): void {
-    const newView = (e.currentTarget! as any).index;
+  private _moveCard(e: CustomEvent): void {
+    const newView = e.detail.view;
     const path = this._params!.path!;
     if (newView === path[0]) {
       return;
     }
 
     const lovelace = this._params!.lovelace!;
-
     lovelace.saveConfig(moveCard(lovelace.config, path, [newView!]));
     this._dialog.close();
   }

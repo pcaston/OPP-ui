@@ -7,6 +7,7 @@ import {
   css,
   property,
   customElement,
+  query,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
@@ -21,6 +22,8 @@ import {
   FORMAT_NUMBER,
 } from "../../../data/alarm_control_panel";
 import { AlarmPanelCardConfig } from "./types";
+import { PaperInputElement } from "@polymer/paper-input/paper-input";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 const ICONS = {
   armed_away: "opp:shield-lock",
@@ -37,26 +40,28 @@ const BUTTONS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "clear"];
 @customElement("hui-alarm-panel-card")
 class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
   public static async getConfigElement() {
-    await import(/* webpackChunkName: "hui-alarm-panel-card-editor" */ "../editor/config-elements/hui-alarm-panel-card-editor");
+    await import(
+      /* webpackChunkName: "hui-alarm-panel-card-editor" */ "../editor/config-elements/hui-alarm-panel-card-editor"
+    );
     return document.createElement("hui-alarm-panel-card-editor");
   }
 
   public static getStubConfig() {
-    return { states: ["arm_home", "arm_away"] };
+    return { states: ["arm_home", "arm_away"], entity: "" };
   }
 
   @property() public opp?: OpenPeerPower;
 
   @property() private _config?: AlarmPanelCardConfig;
 
-  @property() private _code?: string;
+  @query("#alarmCode") private _input?: PaperInputElement;
 
   public getCardSize(): number {
     if (!this._config || !this.opp) {
       return 0;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     return !stateObj || stateObj.attributes.code_format !== FORMAT_NUMBER
       ? 3
@@ -77,29 +82,53 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
     };
 
     this._config = { ...defaults, ...config };
-    this._code = "";
+  }
+
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this.opp) {
+      return;
+    }
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | AlarmPanelCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
+    }
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (changedProps.has("_config") || changedProps.has("_code")) {
+    if (changedProps.has("_config")) {
       return true;
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldOpp) {
-      return (
-        oldOpp.states![this._config!.entity] !==
-        this.opp!.states![this._config!.entity]
-      );
+
+    if (
+      !oldOpp ||
+      oldOpp.themes !== this.opp!.themes ||
+      oldOpp.language !== this.opp!.language
+    ) {
+      return true;
     }
-    return true;
+    return (
+      oldOpp.states[this._config!.entity] !==
+      this.opp!.states[this._config!.entity]
+    );
   }
 
   protected render(): TemplateResult | void {
     if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -114,7 +143,11 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <op-card .header="${this._config.name || this._label(stateObj.state)}">
+      <op-card
+        .header="${this._config.name ||
+          stateObj.attributes.friendly_name ||
+          this._label(stateObj.state)}"
+      >
         <op-label-badge
           class="${classMap({ [stateObj.state]: true })}"
           .icon="${ICONS[stateObj.state] || "opp:shield-outline"}"
@@ -140,9 +173,9 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
           ? html``
           : html`
               <paper-input
+                id="alarmCode"
                 label="Alarm Code"
                 type="password"
-                .value="${this._code}"
               ></paper-input>
             `}
         ${stateObj.attributes.code_format !== FORMAT_NUMBER
@@ -158,7 +191,7 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
                         <mwc-button
                           .value="${value}"
                           @click="${this._handlePadClick}"
-                          dense
+                          outlined
                         >
                           ${value === "clear"
                             ? this._label("clear_code")
@@ -190,17 +223,20 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
 
   private _handlePadClick(e: MouseEvent): void {
     const val = (e.currentTarget! as any).value;
-    this._code = val === "clear" ? "" : this._code + val;
+    this._input!.value = val === "clear" ? "" : this._input!.value + val;
   }
 
   private _handleActionClick(e: MouseEvent): void {
+    const input = this._input!;
+    const code =
+      input && input.value && input.value.length > 0 ? input.value : "";
     callAlarmAction(
       this.opp!,
       this._config!.entity,
       (e.currentTarget! as any).action,
-      this._code!
+      code
     );
-    this._code = "";
+    input.value = "";
   }
 
   static get styles(): CSSResult {
@@ -214,8 +250,6 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
         --alarm-color-armed: var(--label-badge-red);
         --alarm-color-autoarm: rgba(0, 153, 255, 0.1);
         --alarm-state-color: var(--alarm-color-armed);
-        --base-unit: 15px;
-        font-size: calc(var(--base-unit));
       }
 
       op-label-badge {
@@ -259,13 +293,11 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
       paper-input {
         margin: 0 auto 8px;
         max-width: 150px;
-        font-size: calc(var(--base-unit));
         text-align: center;
       }
 
       .state {
         margin-left: 16px;
-        font-size: calc(var(--base-unit) * 0.9);
         position: relative;
         bottom: 16px;
         color: var(--alarm-state-color);
@@ -277,14 +309,14 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
         justify-content: center;
         flex-wrap: wrap;
         margin: auto;
-        width: 300px;
+        width: 100%;
+        max-width: 300px;
       }
 
       #keypad mwc-button {
-        margin-bottom: 5%;
+        text-size: 20px;
+        padding: 8px;
         width: 30%;
-        padding: calc(var(--base-unit));
-        font-size: calc(var(--base-unit) * 1.1);
         box-sizing: border-box;
       }
 
@@ -294,11 +326,9 @@ class HuiAlarmPanelCard extends LitElement implements LovelaceCard {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        font-size: calc(var(--base-unit) * 1);
       }
 
       .actions mwc-button {
-        min-width: calc(var(--base-unit) * 9);
         margin: 0 4px 4px;
       }
 

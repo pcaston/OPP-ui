@@ -4,15 +4,19 @@ import {
   LovelaceCardConfig,
   LovelaceViewConfig,
 } from "../../../data/lovelace";
-import { OppEntity, OppEntities } from "../../../types";
+import {
+  OppEntity,
+  OppEntities,
+  OppConfig,
+} from "open-peer-power-js-websocket";
 
-import extractViews from "../../../common/entity/extract_views";
-import getViewEntities from "../../../common/entity/get_view_entities";
-import computeStateName from "../../../common/entity/compute_state_name";
-import splitByGroups from "../../../common/entity/split_by_groups";
-import computeObjectId from "../../../common/entity/compute_object_id";
-import computeStateDomain from "../../../common/entity/compute_state_domain";
-import computeDomain from "../../../common/entity/compute_domain";
+import { extractViews } from "../../../common/entity/extract_views";
+import { getViewEntities } from "../../../common/entity/get_view_entities";
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { splitByGroups } from "../../../common/entity/split_by_groups";
+import { computeObjectId } from "../../../common/entity/compute_object_id";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
+import { computeDomain } from "../../../common/entity/compute_domain";
 
 import { EntityRowConfig, WeblinkConfig } from "../entity-rows/types";
 import { LocalizeFunc } from "../../../common/translations/localize";
@@ -30,6 +34,7 @@ import {
   subscribeEntityRegistry,
   EntityRegistryEntry,
 } from "../../../data/entity_registry";
+import { processEditorEntities } from "../editor/process-editor-entities";
 
 const DEFAULT_VIEW_ENTITY_ID = "group.default_view";
 const DOMAINS_BADGES = [
@@ -47,12 +52,6 @@ const HIDE_DOMAIN = new Set([
   "geo_location",
 ]);
 
-interface Registries {
-  areas: AreaRegistryEntry[];
-  devices: DeviceRegistryEntry[];
-  entities: EntityRegistryEntry[];
-}
-
 let subscribedRegistries = false;
 
 interface SplittedByAreas {
@@ -61,20 +60,22 @@ interface SplittedByAreas {
 }
 
 const splitByAreas = (
-  registries: Registries,
+  areaEntries: AreaRegistryEntry[],
+  deviceEntries: DeviceRegistryEntry[],
+  entityEntries: EntityRegistryEntry[],
   entities: OppEntities
 ): SplittedByAreas => {
   const allEntities = { ...entities };
   const areasWithEntities: SplittedByAreas["areasWithEntities"] = [];
 
-  for (const area of registries.areas) {
+  for (const area of areaEntries) {
     const areaEntities: OppEntity[] = [];
     const areaDevices = new Set(
-      registries.devices
+      deviceEntries
         .filter((device) => device.area_id === area.area_id)
         .map((device) => device.id)
     );
-    for (const entity of registries.entities) {
+    for (const entity of entityEntries) {
       if (
         areaDevices.has(
           // @ts-ignore
@@ -96,8 +97,8 @@ const splitByAreas = (
   };
 };
 
-const computeCards = (
-  states: Array<[string, OppEntity]>,
+export const computeCards = (
+  states: Array<[string, OppEntity?]>,
   entityCardOptions: Partial<EntitiesCardConfig>
 ): LovelaceCardConfig[] => {
   const cards: LovelaceCardConfig[] = [];
@@ -130,6 +131,11 @@ const computeCards = (
         hours_to_show: stateObj.attributes.hours_to_show,
         title: stateObj.attributes.friendly_name,
         refresh_interval: stateObj.attributes.refresh,
+      });
+    } else if (domain === "light") {
+      cards.push({
+        type: "light",
+        entity: entityId,
       });
     } else if (domain === "media_player") {
       cards.push({
@@ -172,25 +178,28 @@ const computeCards = (
   return cards;
 };
 
-const computeDefaultViewStates = (opp: OpenPeerPower): OppEntities => {
+const computeDefaultViewStates = (entities: OppEntities): OppEntities => {
   const states = {};
-  Object.keys(opp.states!).forEach((entityId) => {
-    const stateObj = opp.states![entityId];
+  Object.keys(entities).forEach((entityId) => {
+    const stateObj = entities[entityId];
     if (
       !stateObj.attributes.hidden &&
       !HIDE_DOMAIN.has(computeStateDomain(stateObj))
     ) {
-      states[entityId] = opp.states![entityId];
+      states[entityId] = entities[entityId];
     }
   });
   return states;
 };
 
-const generateDefaultViewConfig = (
-  opp: OpenPeerPower,
-  registries: Registries
+export const generateDefaultViewConfig = (
+  areaEntries: AreaRegistryEntry[],
+  deviceEntries: DeviceRegistryEntry[],
+  entityEntries: EntityRegistryEntry[],
+  entities: OppEntities,
+  localize: LocalizeFunc
 ): LovelaceViewConfig => {
-  const states = computeDefaultViewStates(opp);
+  const states = computeDefaultViewStates(entities);
   const path = "default_view";
   const title = "Home";
   const icon = undefined;
@@ -204,10 +213,15 @@ const generateDefaultViewConfig = (
     }
   });
 
-  const splittedByAreas = splitByAreas(registries, states);
+  const splittedByAreas = splitByAreas(
+    areaEntries,
+    deviceEntries,
+    entityEntries,
+    states
+  );
 
   const config = generateViewConfig(
-    opp.localize,
+    localize,
     path,
     title,
     icon,
@@ -217,12 +231,15 @@ const generateDefaultViewConfig = (
 
   const areaCards: LovelaceCardConfig[] = [];
 
-  splittedByAreas.areasWithEntities.forEach(([area, entities]) => {
+  splittedByAreas.areasWithEntities.forEach(([area, areaEntities]) => {
     areaCards.push(
-      ...computeCards(entities.map((entity) => [entity.entity_id, entity]), {
-        title: area.name,
-        show_header_toggle: true,
-      })
+      ...computeCards(
+        areaEntities.map((entity) => [entity.entity_id, entity]),
+        {
+          title: area.name,
+          show_header_toggle: true,
+        }
+      )
     );
   });
 
@@ -275,9 +292,10 @@ const generateViewConfig = (
   splitted.groups.forEach((groupEntity) => {
     cards = cards.concat(
       computeCards(
-        groupEntity.attributes.entity_id.map(
-          (entityId): [string, OppEntity] => [entityId, entities[entityId]]
-        ),
+        groupEntity.attributes.entity_id.map((entityId): [
+          string,
+          OppEntity
+        ] => [entityId, entities[entityId]]),
         {
           title: computeStateName(groupEntity),
           show_header_toggle: groupEntity.attributes.control !== "hidden",
@@ -291,9 +309,10 @@ const generateViewConfig = (
     .forEach((domain) => {
       cards = cards.concat(
         computeCards(
-          ungroupedEntitites[domain].map(
-            (entityId): [string, OppEntity] => [entityId, entities[entityId]]
-          ),
+          ungroupedEntitites[domain].map((entityId): [string, OppEntity] => [
+            entityId,
+            entities[entityId],
+          ]),
           {
             title: localize(`domain.${domain}`),
           }
@@ -304,7 +323,7 @@ const generateViewConfig = (
   const view: LovelaceViewConfig = {
     path,
     title,
-    badges,
+    badges: processEditorEntities(badges),
     cards,
   };
 
@@ -315,14 +334,44 @@ const generateViewConfig = (
   return view;
 };
 
-export const generateLovelaceConfig = async (
-  opp: OpenPeerPower,
+export const generateLovelaceConfigFromOpp = async (opp: OpenPeerPower) => {
+  // We want to keep the registry subscriptions alive after generating the UI
+  // so that we don't serve up stale data after changing areas.
+  if (!subscribedRegistries) {
+    subscribedRegistries = true;
+    subscribeAreaRegistry(opp.connection, () => undefined);
+    subscribeDeviceRegistry(opp.connection, () => undefined);
+    subscribeEntityRegistry(opp.connection, () => undefined);
+  }
+
+  const [areaEntries, deviceEntries, entityEntries] = await Promise.all([
+    subscribeOne(opp.connection, subscribeAreaRegistry),
+    subscribeOne(opp.connection, subscribeDeviceRegistry),
+    subscribeOne(opp.connection, subscribeEntityRegistry),
+  ]);
+
+  return generateLovelaceConfigFromData(
+    opp.config,
+    areaEntries,
+    deviceEntries,
+    entityEntries,
+    opp.states,
+    opp.localize
+  );
+};
+
+export const generateLovelaceConfigFromData = async (
+  config: OppConfig,
+  areaEntries: AreaRegistryEntry[],
+  deviceEntries: DeviceRegistryEntry[],
+  entityEntries: EntityRegistryEntry[],
+  entities: OppEntities,
   localize: LocalizeFunc
 ): Promise<LovelaceConfig> => {
-  const viewEntities = extractViews(opp.states!);
+  const viewEntities = extractViews(entities);
 
   const views = viewEntities.map((viewEntity: GroupEntity) => {
-    const states = getViewEntities(opp.states!, viewEntity);
+    const states = getViewEntities(entities, viewEntity);
 
     // In the case of a normal view, we use group order as specified in view
     const groupOrders = {};
@@ -340,7 +389,7 @@ export const generateLovelaceConfig = async (
     );
   });
 
-  let title = opp.config!.location_name;
+  let title = config.location_name;
 
   // User can override default view. If they didn't, we will add one
   // that contains all entities.
@@ -348,26 +397,18 @@ export const generateLovelaceConfig = async (
     viewEntities.length === 0 ||
     viewEntities[0].entity_id !== DEFAULT_VIEW_ENTITY_ID
   ) {
-    // We want to keep the registry subscriptions alive after generating the UI
-    // so that we don't serve up stale data after changing areas.
-    if (!subscribedRegistries) {
-      subscribedRegistries = true;
-      subscribeAreaRegistry(opp.connection, () => undefined);
-      subscribeDeviceRegistry(opp.connection, () => undefined);
-      subscribeEntityRegistry(opp.connection, () => undefined);
-    }
-
-    const [areas, devices, entities] = await Promise.all([
-      subscribeOne(opp.connection, subscribeAreaRegistry),
-      subscribeOne(opp.connection, subscribeDeviceRegistry),
-      subscribeOne(opp.connection, subscribeEntityRegistry),
-    ]);
-    const registries = { areas, devices, entities };
-
-    views.unshift(generateDefaultViewConfig(opp, registries));
+    views.unshift(
+      generateDefaultViewConfig(
+        areaEntries,
+        deviceEntries,
+        entityEntries,
+        entities,
+        localize
+      )
+    );
 
     // Add map of geo locations to default view if loaded
-    if (opp.config!.components.includes("geo_location")) {
+    if (config.components.includes("geo_location")) {
       if (views[0] && views[0].cards) {
         views[0].cards.push({
           type: "map",
@@ -382,15 +423,11 @@ export const generateLovelaceConfig = async (
     }
   }
 
-  if (__DEMO__) {
-    views[0].cards!.unshift({
-      type: "custom:op-demo-card",
-    });
-  }
-
   // User has no entities
   if (views.length === 1 && views[0].cards!.length === 0) {
-    import(/* webpackChunkName: "hui-empty-state-card" */ "../cards/hui-empty-state-card");
+    import(
+      /* webpackChunkName: "hui-empty-state-card" */ "../cards/hui-empty-state-card"
+    );
     views[0].cards!.push({
       type: "custom:hui-empty-state-card",
     });

@@ -7,7 +7,7 @@ import { EventsMixin } from "../../mixins/events-mixin";
 /*
  * @appliesMixin EventsMixin
  */
-class OpEntityMarker extends EventsMixin(PolymerElement) {
+class HaEntityMarker extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-positioning"></style>
@@ -34,9 +34,7 @@ class OpEntityMarker extends EventsMixin(PolymerElement) {
       </style>
 
       <div class="marker">
-        <template is="dom-if" if="[[entityName]]"
-          >[[entityName]]</template
-        >
+        <template is="dom-if" if="[[entityName]]">[[entityName]]</template>
         <template is="dom-if" if="[[entityPicture]]">
           <iron-image
             sizing="cover"
@@ -84,4 +82,4 @@ class OpEntityMarker extends EventsMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-entity-marker", OpEntityMarker);
+customElements.define("op-entity-marker", HaEntityMarker);

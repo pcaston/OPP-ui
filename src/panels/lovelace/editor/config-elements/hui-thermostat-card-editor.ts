@@ -57,28 +57,35 @@ export class HuiThermostatCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
+        <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .opp="${this.opp}"
+          .value="${this._entity}"
+          .configValue=${"entity"}
+          include-domains='["climate"]'
+          @change="${this._valueChanged}"
+          allow-custom-entity
+        ></op-entity-picker>
         <paper-input
-          label="Name"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.name"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.optional"
+          )})"
           .value="${this._name}"
           .configValue="${"name"}"
           @value-changed="${this._valueChanged}"
         ></paper-input>
-        <div class="side-by-side">
-          <op-entity-picker
-            .opp="${this.opp}"
-            .value="${this._entity}"
-            .configValue=${"entity"}
-            domain-filter="climate"
-            @change="${this._valueChanged}"
-            allow-custom-entity
-          ></op-entity-picker>
-          <hui-theme-select-editor
-            .opp="${this.opp}"
-            .value="${this._theme}"
-            .configValue="${"theme"}"
-            @theme-changed="${this._valueChanged}"
-          ></hui-theme-select-editor>
-        </div>
+        <hui-theme-select-editor
+          .opp="${this.opp}"
+          .value="${this._theme}"
+          .configValue="${"theme"}"
+          @theme-changed="${this._valueChanged}"
+        ></hui-theme-select-editor>
       </div>
     `;
   }

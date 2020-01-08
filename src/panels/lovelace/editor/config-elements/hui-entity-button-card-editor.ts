@@ -92,12 +92,24 @@ export class HuiEntityButtonCardEditor extends LitElement
       return html``;
     }
 
-    const actions = ["more-info", "toggle", "navigate", "call-service", "none"];
+    const actions = [
+      "more-info",
+      "toggle",
+      "navigate",
+      "url",
+      "call-service",
+      "none",
+    ];
 
     return html`
       ${configElementStyle}
       <div class="card-config">
         <op-entity-picker
+        .label="${this.opp.localize(
+          "ui.panel.lovelace.editor.card.generic.entity"
+        )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.required"
+    )})"
           .opp="${this.opp}"
           .value="${this._entity}"
           .configValue=${"entity"}
@@ -106,35 +118,51 @@ export class HuiEntityButtonCardEditor extends LitElement
         ></op-entity-picker>
         <div class="side-by-side">
           <paper-input
-            label="Name (Optional)"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.name"
+          )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.optional"
+    )})"
             .value="${this._name}"
             .configValue="${"name"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
           <paper-input
-            label="Icon (Optional)"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.icon"
+          )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.optional"
+    )})"
             .value="${this._icon}"
             .configValue="${"icon"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
         </div>
         <div class="side-by-side">
-          <paper-toggle-button
+          <op-switch
             ?checked="${this._config!.show_name !== false}"
             .configValue="${"show_name"}"
             @change="${this._valueChanged}"
-            >Show Name?</paper-toggle-button
+            >${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.show_name"
+            )}</op-switch
           >
-          <paper-toggle-button
+          <op-switch
             ?checked="${this._config!.show_icon !== false}"
             .configValue="${"show_icon"}"
             @change="${this._valueChanged}"
-            >Show Icon?</paper-toggle-button
+            >${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.show_icon"
+            )}</op-switch
           >
         </div>
         <div class="side-by-side">
           <paper-input
-            label="Icon Height (Optional)"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.icon_height"
+          )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.optional"
+    )})"
             .value="${this._icon_height}"
             .configValue="${"icon_height"}"
             @value-changed="${this._valueChanged}"
@@ -152,7 +180,11 @@ export class HuiEntityButtonCardEditor extends LitElement
         </div>
         <div class="side-by-side">
           <hui-action-editor
-            label="Tap Action"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.tap_action"
+          )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.optional"
+    )})"
             .opp="${this.opp}"
             .config="${this._tap_action}"
             .actions="${actions}"
@@ -160,7 +192,11 @@ export class HuiEntityButtonCardEditor extends LitElement
             @action-changed="${this._valueChanged}"
           ></hui-action-editor>
           <hui-action-editor
-            label="Hold Action"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.hold_action"
+          )} (${this.opp.localize(
+      "ui.panel.lovelace.editor.card.config.optional"
+    )})"
             .opp="${this.opp}"
             .config="${this._hold_action}"
             .actions="${actions}"

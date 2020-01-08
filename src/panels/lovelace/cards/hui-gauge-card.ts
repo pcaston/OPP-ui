@@ -13,9 +13,9 @@ import { styleMap } from "lit-html/directives/style-map";
 import "../../../components/op-card";
 import "../components/hui-warning";
 
-import isValidEntityId from "../../../common/entity/valid_entity_id";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { isValidEntityId } from "../../../common/entity/valid_entity_id";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 import { OpenPeerPower } from "../../../types";
 import { fireEvent } from "../../../common/dom/fire_event";
@@ -33,11 +33,13 @@ export const severityMap = {
 @customElement("hui-gauge-card")
 class HuiGaugeCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-gauge-card-editor" */ "../editor/config-elements/hui-gauge-card-editor");
+    await import(
+      /* webpackChunkName: "hui-gauge-card-editor" */ "../editor/config-elements/hui-gauge-card-editor"
+    );
     return document.createElement("hui-gauge-card-editor");
   }
   public static getStubConfig(): object {
-    return {};
+    return { entity: "" };
   }
 
   @property() public opp?: OpenPeerPower;
@@ -71,7 +73,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -149,8 +151,16 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | GaugeCardConfig
+      | undefined;
 
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }

@@ -1,4 +1,4 @@
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceElementConfig } from "../elements/types";
 import { ActionConfig } from "../../../data/lovelace";
@@ -8,6 +8,7 @@ interface Config extends LovelaceElementConfig {
   title?: string;
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
+  double_tap_action?: ActionConfig;
 }
 
 export const computeTooltip = (opp: OpenPeerPower, config: Config): string => {
@@ -24,8 +25,8 @@ export const computeTooltip = (opp: OpenPeerPower, config: Config): string => {
 
   if (config.entity) {
     stateName =
-      config.entity in opp.states!
-        ? computeStateName(opp.states![config.entity])
+      config.entity in opp.states
+        ? computeStateName(opp.states[config.entity])
         : config.entity;
   }
 
@@ -64,6 +65,13 @@ function computeActionTooltip(
         "ui.panel.lovelace.cards.picture-elements.navigate_to",
         "location",
         config.navigation_path
+      )}`;
+      break;
+    case "url":
+      tooltip += `${opp.localize(
+        "ui.panel.lovelace.cards.picture-elements.url",
+        "url_path",
+        config.url_path
       )}`;
       break;
     case "toggle":

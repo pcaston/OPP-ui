@@ -5,58 +5,46 @@ import {
   TemplateResult,
   property,
   customElement,
+  css,
+  CSSResult,
 } from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
+import { styleMap } from "lit-html/directives/style-map";
 import "@polymer/paper-icon-button/paper-icon-button";
+import "@thomasloven/round-slider";
 
-import stateIcon from "../../../common/entity/state_icon";
-import computeStateName from "../../../common/entity/compute_state_name";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { stateIcon } from "../../../common/entity/state_icon";
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/op-card";
-import "../../../components/op-icon";
 import "../components/hui-warning";
+import "../components/hui-unavailable";
 
 import { fireEvent } from "../../../common/dom/fire_event";
-import { styleMap } from "lit-html/directives/style-map";
 import { OpenPeerPower, LightEntity } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
-import { loadRoundslider } from "../../../resources/jquery.roundslider.ondemand";
 import { toggleEntity } from "../common/entity/toggle-entity";
 import { LightCardConfig } from "./types";
-
-const lightConfig = {
-  radius: 80,
-  step: 1,
-  circleShape: "pie",
-  startAngle: 315,
-  width: 5,
-  min: 1,
-  max: 100,
-  sliderType: "min-range",
-  lineCap: "round",
-  handleSize: "+12",
-  showTooltip: false,
-  animation: false,
-};
+import { supportsFeature } from "../../../common/entity/supports-feature";
+import { SUPPORT_BRIGHTNESS } from "../../../data/light";
 
 @customElement("hui-light-card")
 export class HuiLightCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-light-card-editor" */ "../editor/config-elements/hui-light-card-editor");
+    await import(
+      /* webpackChunkName: "hui-light-card-editor" */ "../editor/config-elements/hui-light-card-editor"
+    );
     return document.createElement("hui-light-card-editor");
   }
   public static getStubConfig(): object {
-    return {};
+    return { entity: "" };
   }
 
   @property() public opp?: OpenPeerPower;
 
   @property() private _config?: LightCardConfig;
-
-  @property() private _roundSliderStyle?: TemplateResult;
-
-  @property() private _jQuery?: any;
 
   private _brightnessTimout?: number;
 
@@ -77,7 +65,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config!.entity] as LightEntity;
+    const stateObj = this.opp.states[this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       return html`
@@ -91,32 +79,57 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       `;
     }
 
+    const brightness =
+      Math.round((stateObj.attributes.brightness / 254) * 100) || 0;
+
     return html`
-      ${this.renderStyle()}
       <op-card>
+        ${stateObj.state === "unavailable"
+          ? html`
+              <hui-unavailable
+                .text="${this.opp.localize("state.default.unavailable")}"
+              ></hui-unavailable>
+            `
+          : ""}
         <paper-icon-button
           icon="opp:dots-vertical"
           class="more-info"
           @click="${this._handleMoreInfo}"
         ></paper-icon-button>
-        <div id="light"></div>
-        <div id="tooltip">
-          <div class="icon-state">
-            <op-icon
-              class="light-icon"
-              data-state="${stateObj.state}"
-              .icon="${stateIcon(stateObj)}"
-              style="${styleMap({
+
+        <div id="controls">
+          <div id="slider">
+            ${supportsFeature(stateObj, SUPPORT_BRIGHTNESS)
+              ? html`
+                  <round-slider
+                    min="0"
+                    .value=${brightness}
+                    @value-changing=${this._dragEvent}
+                    @value-changed=${this._setBrightness}
+                  ></round-slider>
+                `
+              : ""}
+            <paper-icon-button
+              class="light-button ${classMap({
+                "slider-center": supportsFeature(stateObj, SUPPORT_BRIGHTNESS),
+                "state-on": stateObj.state === "on",
+                "state-unavailable": stateObj.state === "unavailable",
+              })}"
+              .icon=${this._config.icon || stateIcon(stateObj)}
+              style=${styleMap({
                 filter: this._computeBrightness(stateObj),
                 color: this._computeColor(stateObj),
-              })}"
-              @click="${this._handleTap}"
-            ></op-icon>
-            <div class="brightness" @op-click="${this._handleTap}"></div>
-            <div class="name">
-              ${this._config.name || computeStateName(stateObj)}
-            </div>
+              })}
+              @click=${this._handleClick}
+            ></paper-icon-button>
           </div>
+        </div>
+
+        <div id="info">
+          <div class="brightness">
+            %
+          </div>
+          ${this._config.name || computeStateName(stateObj)}
         </div>
       </op-card>
     `;
@@ -126,192 +139,39 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     return hasConfigOrEntityChanged(this, changedProps);
   }
 
-  protected async firstUpdated(): Promise<void> {
-    const loaded = await loadRoundslider();
-
-    this._roundSliderStyle = loaded.roundSliderStyle;
-    this._jQuery = loaded.jQuery;
-
-    const stateObj = this.opp!.states![this._config!.entity] as LightEntity;
-
-    if (!stateObj) {
-      // Card will require refresh to work again
-      return;
-    }
-
-    const brightness = stateObj.attributes.brightness || 0;
-
-    this._jQuery("#light", this.shadowRoot).roundSlider({
-      ...lightConfig,
-      change: (value) => this._setBrightness(value),
-      drag: (value) => this._dragEvent(value),
-      start: () => this._showBrightness(),
-      stop: () => this._hideBrightness(),
-    });
-    this.shadowRoot!.querySelector(".brightness")!.innerHTML =
-      (Math.round((brightness / 254) * 100) || 0) + "%";
-  }
-
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
-    if (!this._config || !this.opp || !this._jQuery) {
+    if (!this._config || !this.opp) {
       return;
     }
 
-    const stateObj = this.opp!.states![this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     if (!stateObj) {
       return;
     }
 
-    const attrs = stateObj.attributes;
-
-    this._jQuery("#light", this.shadowRoot).roundSlider({
-      value: Math.round((attrs.brightness / 254) * 100) || 0,
-    });
-
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
+    const oldConfig = changedProps.get("_config") as
+      | LightCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
 
-  private renderStyle(): TemplateResult {
-    return html`
-      ${this._roundSliderStyle}
-      <style>
-        :host {
-          display: block;
-        }
-
-        op-card {
-          position: relative;
-          overflow: hidden;
-          --brightness-font-color: white;
-          --brightness-font-text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
-            -1px 1px 0 #000, 1px 1px 0 #000;
-          --name-font-size: 1.2rem;
-          --brightness-font-size: 1.2rem;
-          --rail-border-color: transparent;
-        }
-
-        #tooltip {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 100%;
-          text-align: center;
-          z-index: 15;
-        }
-
-        .icon-state {
-          display: block;
-          margin: auto;
-          width: 100%;
-          height: 100%;
-          transform: translate(0, 25%);
-        }
-
-        #light {
-          margin: 0 auto;
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-
-        #light .rs-bar.rs-transition.rs-first,
-        .rs-bar.rs-transition.rs-second {
-          z-index: 20 !important;
-        }
-
-        #light .rs-range-color {
-          background-color: var(--primary-color);
-        }
-
-        #light .rs-path-color {
-          background-color: var(--disabled-text-color);
-        }
-
-        #light .rs-handle {
-          background-color: var(--paper-card-background-color, white);
-          padding: 7px;
-          border: 2px solid var(--disabled-text-color);
-        }
-
-        #light .rs-handle.rs-focus {
-          border-color: var(--primary-color);
-        }
-
-        #light .rs-handle:after {
-          border-color: var(--primary-color);
-          background-color: var(--primary-color);
-        }
-
-        #light .rs-border {
-          border-color: var(--rail-border-color);
-        }
-
-        #light .rs-inner.rs-bg-color.rs-border,
-        #light .rs-overlay.rs-transition.rs-bg-color {
-          background-color: var(--paper-card-background-color, white);
-        }
-
-        .light-icon {
-          margin: auto;
-          width: 76px;
-          height: 76px;
-          color: var(--paper-item-icon-color, #44739e);
-          cursor: pointer;
-        }
-
-        .light-icon[data-state="on"] {
-          color: var(--paper-item-icon-active-color, #fdd835);
-        }
-
-        .light-icon[data-state="unavailable"] {
-          color: var(--state-icon-unavailable-color);
-        }
-
-        .name {
-          padding-top: 40px;
-          font-size: var(--name-font-size);
-        }
-
-        .brightness {
-          font-size: var(--brightness-font-size);
-          position: absolute;
-          margin: 0 auto;
-          left: 50%;
-          top: 10%;
-          transform: translate(-50%);
-          opacity: 0;
-          transition: opacity 0.5s ease-in-out;
-          -moz-transition: opacity 0.5s ease-in-out;
-          -webkit-transition: opacity 0.5s ease-in-out;
-          cursor: pointer;
-          color: var(--brightness-font-color);
-          text-shadow: var(--brightness-font-text-shadow);
-          pointer-events: none;
-        }
-
-        .show_brightness {
-          opacity: 1;
-        }
-
-        .more-info {
-          position: absolute;
-          cursor: pointer;
-          top: 0;
-          right: 0;
-          z-index: 25;
-          color: var(--secondary-text-color);
-        }
-      </style>
-    `;
-  }
-
   private _dragEvent(e: any): void {
-    this.shadowRoot!.querySelector(".brightness")!.innerHTML = e.value + "%";
+    this.shadowRoot!.querySelector(
+      ".brightness"
+    )!.innerHTML = `${e.detail.value} %`;
+    this._showBrightness();
+    this._hideBrightness();
   }
 
   private _showBrightness(): void {
@@ -332,7 +192,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
   private _setBrightness(e: any): void {
     this.opp!.callService("light", "turn_on", {
       entity_id: this._config!.entity,
-      brightness_pct: e.value,
+      brightness_pct: e.detail.value,
     });
   }
 
@@ -355,7 +215,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     return `hsl(${hue}, 100%, ${100 - sat / 2}%)`;
   }
 
-  private _handleTap() {
+  private _handleClick() {
     toggleEntity(this.opp!, this._config!.entity!);
   }
 
@@ -363,6 +223,101 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
     fireEvent(this, "opp-more-info", {
       entityId: this._config!.entity,
     });
+  }
+
+  static get styles(): CSSResult {
+    return css`
+      :host {
+        display: block;
+      }
+
+      op-card {
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        --name-font-size: 1.2rem;
+        --brightness-font-size: 1.2rem;
+      }
+
+      .more-info {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        right: 0;
+        border-radius: 100%;
+        color: var(--secondary-text-color);
+        z-index: 25;
+      }
+
+      #controls {
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+        position: relative;
+      }
+
+      #slider {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        max-width: 200px;
+        min-width: 100px;
+      }
+
+      round-slider {
+        --round-slider-path-color: var(--disabled-text-color);
+        --round-slider-bar-color: var(--primary-color);
+        padding-bottom: 10%;
+      }
+
+      .light-button {
+        color: var(--paper-item-icon-color, #44739e);
+        width: 60%;
+        height: auto;
+      }
+
+      .light-button.state-on {
+        color: var(--paper-item-icon-active-color, #fdd835);
+      }
+
+      .light-button.state-unavailable {
+        color: var(--state-icon-unavailable-color);
+      }
+
+      .slider-center {
+        position: absolute;
+        max-width: calc(100% - 40px);
+        box-sizing: border-box;
+        border-radius: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #info {
+        display: flex-vertical;
+        justify-content: center;
+        text-align: center;
+        margin-top: -56px;
+        padding: 16px;
+        font-size: var(--name-font-size);
+      }
+
+      .brightness {
+        font-size: var(--brightness-font-size);
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        cursor: pointer;
+        pointer-events: none;
+        padding-left: 0.5em;
+      }
+
+      .show_brightness {
+        opacity: 1;
+      }
+    `;
   }
 }
 

@@ -54,27 +54,39 @@ export class HuiIframeCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
+        <paper-input
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.url"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .value="${this._url}"
+          .configValue="${"url"}"
+          @value-changed="${this._valueChanged}"
+        ></paper-input>
         <div class="side-by-side">
           <paper-input
-            label="Title"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.title"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             .value="${this._title}"
             .configValue="${"title"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
           <paper-input
-            label="Aspect Ratio"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.aspect_ratio"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             type="number"
             .value="${Number(this._aspect_ratio.replace("%", ""))}"
             .configValue="${"aspect_ratio"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
         </div>
-        <paper-input
-          label="Url"
-          .value="${this._url}"
-          .configValue="${"url"}"
-          @value-changed="${this._valueChanged}"
-        ></paper-input>
       </div>
     `;
   }

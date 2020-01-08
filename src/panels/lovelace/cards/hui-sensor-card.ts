@@ -11,9 +11,9 @@ import {
 } from "lit-element";
 import "@polymer/paper-spinner/paper-spinner";
 
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
-import computeStateName from "../../../common/entity/compute_state_name";
-import stateIcon from "../../../common/entity/state_icon";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { stateIcon } from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
 import "../../../components/op-icon";
@@ -108,8 +108,14 @@ const coordinates = (
   history.forEach((item) => (item.state = Number(item.state)));
   history = history.filter((item) => !Number.isNaN(item.state));
 
-  const min = Math.min.apply(Math, history.map((item) => item.state));
-  const max = Math.max.apply(Math, history.map((item) => item.state));
+  const min = Math.min.apply(
+    Math,
+    history.map((item) => item.state)
+  );
+  const max = Math.max.apply(
+    Math,
+    history.map((item) => item.state)
+  );
   const now = new Date().getTime();
 
   const reduce = (res, item, point) => {
@@ -141,12 +147,14 @@ const coordinates = (
 @customElement("hui-sensor-card")
 class HuiSensorCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-sensor-card-editor" */ "../editor/config-elements/hui-sensor-card-editor");
+    await import(
+      /* webpackChunkName: "hui-sensor-card-editor" */ "../editor/config-elements/hui-sensor-card-editor"
+    );
     return document.createElement("hui-sensor-card-editor");
   }
 
   public static getStubConfig(): object {
-    return {};
+    return { entity: "" };
   }
 
   @property() public opp?: OpenPeerPower;
@@ -187,7 +195,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -277,7 +285,16 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
+    const oldConfig = changedProps.get("_config") as
+      | SensorCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this.opp.themes, this._config!.theme);
     }
 

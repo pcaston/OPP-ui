@@ -1,7 +1,7 @@
 import { LovelaceConfig, ActionConfig } from "../../../data/lovelace";
 import { OpenPeerPower } from "../../../types";
 
-const EXCLUDED_DOMAINS = ["zone"];
+const EXCLUDED_DOMAINS = ["zone", "persistent_notification"];
 
 const addFromAction = (entities: Set<string>, actionConfig: ActionConfig) => {
   if (
@@ -72,7 +72,7 @@ export const computeUnusedEntities = (
   config: LovelaceConfig
 ): string[] => {
   const usedEntities = computeUsedEntities(config);
-  return Object.keys(opp.states!)
+  return Object.keys(opp.states)
     .filter(
       (entity) =>
         !usedEntities.has(entity) &&

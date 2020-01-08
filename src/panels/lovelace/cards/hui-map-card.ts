@@ -15,24 +15,28 @@ import "../../map/op-entity-marker";
 
 import {
   setupLeafletMap,
+  createTileLayer,
   LeafletModuleType,
 } from "../../../common/dom/setup-leaflet-map";
-import computeStateDomain from "../../../common/entity/compute_state_domain";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { debounce } from "../../../common/util/debounce";
 import parseAspectRatio from "../../../common/util/parse-aspect-ratio";
-import computeDomain from "../../../common/entity/compute_domain";
+import { computeDomain } from "../../../common/entity/compute_domain";
 
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard } from "../types";
 import { EntityConfig } from "../entity-rows/types";
 import { processConfigEntities } from "../common/process-config-entities";
 import { MapCardConfig } from "./types";
+import { classMap } from "lit-html/directives/class-map";
 
 @customElement("hui-map-card")
 class HuiMapCard extends LitElement implements LovelaceCard {
   public static async getConfigElement() {
-    await import(/* webpackChunkName: "hui-map-card-editor" */ "../editor/config-elements/hui-map-card-editor");
+    await import(
+      /* webpackChunkName: "hui-map-card-editor" */ "../editor/config-elements/hui-map-card-editor"
+    );
     return document.createElement("hui-map-card-editor");
   }
 
@@ -137,7 +141,10 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     return html`
       <op-card id="card" .header=${this._config.title}>
         <div id="root">
-          <div id="map"></div>
+          <div
+            id="map"
+            class=${classMap({ dark: this._config.dark_mode === true })}
+          ></div>
           <paper-icon-button
             @click=${this._fitMap}
             icon="opp:image-filter-center-focus"
@@ -146,6 +153,27 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         </div>
       </op-card>
     `;
+  }
+
+  protected shouldUpdate(changedProps) {
+    if (!changedProps.has("opp") || changedProps.size > 1) {
+      return true;
+    }
+
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+
+    if (!oldOpp || !this._configEntities) {
+      return true;
+    }
+
+    // Check if any state has changed
+    for (const entity of this._configEntities) {
+      if (oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   protected firstUpdated(changedProps: PropertyValues): void {
@@ -173,6 +201,12 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     if (changedProps.has("opp")) {
       this._drawEntities();
     }
+    if (
+      changedProps.has("_config") &&
+      changedProps.get("_config") !== undefined
+    ) {
+      this.updateMap(changedProps.get("_config") as MapCardConfig);
+    }
   }
 
   private get _mapEl(): HTMLDivElement {
@@ -189,6 +223,26 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     this._fitMap();
   }
 
+  private updateMap(oldConfig: MapCardConfig): void {
+    const map = this._leafletMap;
+    const config = this._config;
+    const Leaflet = this.Leaflet;
+    if (!map || !config || !Leaflet) {
+      return;
+    }
+    if (config.dark_mode !== oldConfig.dark_mode) {
+      createTileLayer(Leaflet, config.dark_mode === true).addTo(map);
+    }
+    if (
+      config.entities !== oldConfig.entities ||
+      config.geo_location_sources !== oldConfig.geo_location_sources
+    ) {
+      this._drawEntities();
+    }
+    map.invalidateSize();
+    this._fitMap();
+  }
+
   private _fitMap(): void {
     if (!this._leafletMap || !this.Leaflet || !this._config || !this.opp) {
       return;
@@ -197,8 +251,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     if (this._mapItems.length === 0) {
       this._leafletMap.setView(
         new this.Leaflet.LatLng(
-          this.opp.config!.latitude,
-          this.opp.config!.longitude
+          this.opp.config.latitude,
+          this.opp.config.longitude
         ),
         zoom || 14
       );
@@ -234,8 +288,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     // Calculate visible geo location sources
     if (config.geo_location_sources) {
       const includesAll = config.geo_location_sources.includes("all");
-      for (const entityId of Object.keys(opp.states!)) {
-        const stateObj = opp.states![entityId];
+      for (const entityId of Object.keys(opp.states)) {
+        const stateObj = opp.states[entityId];
         if (
           computeDomain(entityId) === "geo_location" &&
           (includesAll ||
@@ -248,7 +302,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
     for (const entity of allEntities) {
       const entityId = entity.entity;
-      const stateObj = opp.states![entityId];
+      const stateObj = opp.states[entityId];
       if (!stateObj) {
         continue;
       }
@@ -273,13 +327,25 @@ class HuiMapCard extends LitElement implements LovelaceCard {
           continue;
         }
 
+        // create icon
+        let iconHTML = "";
+        if (icon) {
+          const el = document.createElement("op-icon");
+          el.setAttribute("icon", icon);
+          iconHTML = el.outerHTML;
+        } else {
+          const el = document.createElement("span");
+          el.innerHTML = title;
+          iconHTML = el.outerHTML;
+        }
+
         // create marker with the icon
         mapItems.push(
           Leaflet.marker([latitude, longitude], {
             icon: Leaflet.divIcon({
-              html: icon ? `<op-icon icon="${icon}"></op-icon>` : title,
+              html: iconHTML,
               iconSize: [24, 24],
-              className: "",
+              className: this._config!.dark_mode === true ? "dark" : "light",
             }),
             interactive: false,
             title,
@@ -383,6 +449,11 @@ class HuiMapCard extends LitElement implements LovelaceCard {
         left: 0;
         width: 100%;
         height: 100%;
+        background: #fafaf8;
+      }
+
+      #map.dark {
+        background: #090909;
       }
 
       paper-icon-button {
@@ -397,6 +468,14 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
       :host([ispanel]) #root {
         height: 100%;
+      }
+
+      .dark {
+        color: #ffffff;
+      }
+
+      .light {
+        color: #000000;
       }
     `;
   }

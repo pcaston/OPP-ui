@@ -23,6 +23,7 @@ const cardConfigStruct = struct({
   name: "string?",
   entity: "string?",
   theme: "string?",
+  icon: "string?",
 });
 
 @customElement("hui-light-card-editor")
@@ -49,6 +50,10 @@ export class HuiLightCardEditor extends LitElement
     return this._config!.entity || "";
   }
 
+  get _icon(): string {
+    return this._config!.icon || "";
+  }
+
   protected render(): TemplateResult | void {
     if (!this.opp) {
       return html``;
@@ -57,28 +62,48 @@ export class HuiLightCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
-        <paper-input
-          label="Name"
-          .value="${this._name}"
-          .configValue="${"name"}"
-          @value-changed="${this._valueChanged}"
-        ></paper-input>
+        <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .opp="${this.opp}"
+          .value="${this._entity}"
+          .configValue=${"entity"}
+          include-domains='["light"]'
+          @change="${this._valueChanged}"
+          allow-custom-entity
+        ></op-entity-picker>
         <div class="side-by-side">
-          <op-entity-picker
-            .opp="${this.opp}"
-            .value="${this._entity}"
-            .configValue=${"entity"}
-            domain-filter="light"
-            @change="${this._valueChanged}"
-            allow-custom-entity
-          ></op-entity-picker>
-          <hui-theme-select-editor
-            .opp="${this.opp}"
-            .value="${this._theme}"
-            .configValue="${"theme"}"
-            @theme-changed="${this._valueChanged}"
-          ></hui-theme-select-editor>
+          <paper-input
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.name"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
+            .value="${this._name}"
+            .configValue="${"name"}"
+            @value-changed="${this._valueChanged}"
+          ></paper-input>
+          <paper-input
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.icon"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
+            .value="${this._icon}"
+            .configValue="${"icon"}"
+            @value-changed="${this._valueChanged}"
+          ></paper-input>
         </div>
+
+        <hui-theme-select-editor
+          .opp="${this.opp}"
+          .value="${this._theme}"
+          .configValue="${"theme"}"
+          @theme-changed="${this._valueChanged}"
+        ></hui-theme-select-editor>
       </div>
     `;
   }

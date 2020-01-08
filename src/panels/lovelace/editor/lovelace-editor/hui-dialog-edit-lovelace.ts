@@ -10,7 +10,7 @@ import {
 import "@polymer/paper-spinner/paper-spinner";
 import "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line:no-duplicate-imports
-import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 
@@ -48,15 +48,22 @@ export class HuiDialogEditLovelace extends LitElement {
     this._dialog.open();
   }
 
-  private get _dialog(): OpPaperDialog {
+  private get _dialog(): HaPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 
   protected render(): TemplateResult | void {
     return html`
-      <op-paper-dialog with-backdrop>
-        <h2>Edit Lovelace</h2>
+      <op-paper-dialog with-backdrop modal>
+        <h2>
+          ${this.opp!.localize(
+            "ui.panel.lovelace.editor.edit_lovelace.header"
+          )}
+        </h2>
         <paper-dialog-scrollable>
+          ${this.opp!.localize(
+            "ui.panel.lovelace.editor.edit_lovelace.explanation"
+          )}
           <hui-lovelace-editor
             .opp="${this.opp}"
             .config="${this._config}"

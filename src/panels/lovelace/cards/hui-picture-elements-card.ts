@@ -6,6 +6,7 @@ import {
   customElement,
   css,
   CSSResult,
+  PropertyValues,
 } from "lit-element";
 
 import { createStyledHuiElement } from "./picture-elements/create-styled-hui-element";
@@ -13,6 +14,7 @@ import { LovelaceCard } from "../types";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceElementConfig, LovelaceElement } from "../elements/types";
 import { PictureElementsCardConfig } from "./types";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-picture-elements-card")
 class HuiPictureElementsCard extends LitElement implements LovelaceCard {
@@ -22,7 +24,9 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
 
   set opp(opp: OpenPeerPower) {
     this._opp = opp;
-    for (const el of this.shadowRoot!.querySelectorAll("#root > *")) {
+    for (const el of Array.from(
+      this.shadowRoot!.querySelectorAll("#root > *")
+    )) {
       const element = el as LovelaceElement;
       element.opp = this._opp;
     }
@@ -47,6 +51,26 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
     this._config = config;
   }
 
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this._opp) {
+      return;
+    }
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | PictureElementsCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
+      applyThemesOnElement(this, this._opp.themes, this._config.theme);
+    }
+  }
+
   protected render(): TemplateResult | void {
     if (!this._config) {
       return html``;
@@ -56,13 +80,14 @@ class HuiPictureElementsCard extends LitElement implements LovelaceCard {
       <op-card .header="${this._config.title}">
         <div id="root">
           <hui-image
-            .opp="${this._opp}"
-            .image="${this._config.image}"
-            .stateImage="${this._config.state_image}"
-            .cameraImage="${this._config.camera_image}"
-            .cameraView="${this._config.camera_view}"
-            .entity="${this._config.entity}"
-            .aspectRatio="${this._config.aspect_ratio}"
+            .opp=${this._opp}
+            .image=${this._config.image}
+            .stateImage=${this._config.state_image}
+            .stateFilter=${this._config.state_filter}
+            .cameraImage=${this._config.camera_image}
+            .cameraView=${this._config.camera_view}
+            .entity=${this._config.entity}
+            .aspectRatio=${this._config.aspect_ratio}
           ></hui-image>
           ${this._config.elements.map(
             (elementConfig: LovelaceElementConfig) => {

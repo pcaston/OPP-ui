@@ -1,11 +1,11 @@
-import computeDomain from "../../../../common/entity/compute_domain";
-import { OpenPeerPower } from "../../../../types";
+import { computeDomain } from "../../../../common/entity/compute_domain";
+import { OpenPeerPower, ServiceCallResponse } from "../../../../types";
 
 export const turnOnOffEntity = (
   opp: OpenPeerPower,
   entityId: string,
   turnOn = true
-): Promise<void> => {
+): Promise<ServiceCallResponse> => {
   const stateDomain = computeDomain(entityId);
   const serviceDomain = stateDomain === "group" ? "openpeerpower" : stateDomain;
 

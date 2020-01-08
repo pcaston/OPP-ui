@@ -1,4 +1,4 @@
-import computeDomain from "../../../../common/entity/compute_domain";
+import { computeDomain } from "../../../../common/entity/compute_domain";
 import { STATES_OFF } from "../../../../common/const";
 import { OpenPeerPower } from "../../../../types";
 
@@ -9,7 +9,7 @@ export const turnOnOffEntities = (
 ): void => {
   const domainsToCall = {};
   entityIds.forEach((entityId) => {
-    if (STATES_OFF.includes(opp.states![entityId].state) === turnOn) {
+    if (STATES_OFF.includes(opp.states[entityId].state) === turnOn) {
       const stateDomain = computeDomain(entityId);
       const serviceDomain = ["cover", "lock"].includes(stateDomain)
         ? stateDomain

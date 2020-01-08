@@ -13,7 +13,7 @@ import "../../../components/paper-time-input.js";
 import { PaperTimeInput } from "../../../components/paper-time-input.js";
 import "../../../components/op-date-input";
 // tslint:disable-next-line:no-duplicate-imports
-import { OpDateInput } from "../../../components/op-date-input";
+import { HaDateInput } from "../../../components/op-date-input";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
@@ -41,7 +41,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -98,12 +98,12 @@ class HuiInputDatetimeEntityRow extends LitElement implements EntityRow {
     return this.shadowRoot!.querySelector("paper-time-input")!;
   }
 
-  private get _dateInputEl(): OpDateInput {
+  private get _dateInputEl(): HaDateInput {
     return this.shadowRoot!.querySelector("op-date-input")!;
   }
 
   private _selectedValueChanged(ev): void {
-    const stateObj = this.opp!.states![this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
 
     const time =
       this._timeInputEl !== null

@@ -11,8 +11,7 @@ import "../components/hui-generic-entity-row";
 import "../../../components/entity/op-entity-toggle";
 import "../components/hui-warning";
 
-import computeStateDisplay from "../../../common/entity/compute_state_display";
-
+import { computeStateDisplay } from "../../../common/entity/compute_state_display";
 import { DOMAINS_TOGGLE } from "../../../common/const";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
@@ -40,7 +39,7 @@ class HuiGroupEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`

@@ -12,22 +12,20 @@ import {
 import "../../../components/op-card";
 import "../components/hui-entities-toggle";
 
-import { fireEvent } from "../../../common/dom/fire_event";
-import { DOMAINS_HIDE_MORE_INFO } from "../../../common/const";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow } from "../entity-rows/types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { processConfigEntities } from "../common/process-config-entities";
 import { createRowElement } from "../common/create-row-element";
 import { EntitiesCardConfig, EntitiesCardEntityConfig } from "./types";
-
-import computeDomain from "../../../common/entity/compute_domain";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-entities-card")
 class HuiEntitiesCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-entities-card-editor" */ "../editor/config-elements/hui-entities-card-editor");
+    await import(
+      /* webpackChunkName: "hui-entities-card-editor" */ "../editor/config-elements/hui-entities-card-editor"
+    );
     return document.createElement("hui-entities-card-editor");
   }
 
@@ -71,9 +69,22 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
     this._configEntities = entities;
   }
 
-  protected updated(changedProperties: PropertyValues): void {
-    super.updated(changedProperties);
-    if (this._opp && this._config) {
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this._opp) {
+      return;
+    }
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | EntitiesCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this._opp.themes, this._config.theme);
     }
   }
@@ -82,16 +93,27 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
     if (!this._config || !this._opp) {
       return html``;
     }
-    const { show_header_toggle, title } = this._config;
 
     return html`
       <op-card>
-        ${!title && !show_header_toggle
+        ${!this._config.title &&
+        !this._config.show_header_toggle &&
+        !this._config.icon
           ? html``
           : html`
               <div class="card-header">
-                <div class="name">${title}</div>
-                ${show_header_toggle === false
+                <div class="name">
+                  ${this._config.icon
+                    ? html`
+                        <op-icon
+                          class="icon"
+                          .icon="${this._config.icon}"
+                        ></op-icon>
+                      `
+                    : ""}
+                  ${this._config.title}
+                </div>
+                ${this._config.show_header_toggle === false
                   ? html``
                   : html`
                       <hui-entities-toggle
@@ -137,8 +159,8 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
         overflow: hidden;
       }
 
-      .state-card-dialog {
-        cursor: pointer;
+      .icon {
+        padding: 0px 18px 0px 8px;
       }
     `;
   }
@@ -148,22 +170,10 @@ class HuiEntitiesCard extends LitElement implements LovelaceCard {
     if (this._opp) {
       element.opp = this._opp;
     }
-    if (
-      entityConf.entity &&
-      !DOMAINS_HIDE_MORE_INFO.includes(computeDomain(entityConf.entity))
-    ) {
-      element.classList.add("state-card-dialog");
-      element.addEventListener("click", () => this._handleClick(entityConf));
-    }
 
     return html`
       <div>${element}</div>
     `;
-  }
-
-  private _handleClick(entityConf: EntitiesCardEntityConfig): void {
-    const entityId = entityConf.entity;
-    fireEvent(this, "opp-more-info", { entityId });
   }
 }
 

@@ -38,7 +38,7 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -73,7 +73,7 @@ class HuiLockEntityRow extends LitElement implements EntityRow {
 
   private _callService(ev): void {
     ev.stopPropagation();
-    const stateObj = this.opp!.states![this._config!.entity];
+    const stateObj = this.opp!.states[this._config!.entity];
     this.opp!.callService(
       "lock",
       stateObj.state === "locked" ? "unlock" : "lock",

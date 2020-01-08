@@ -12,17 +12,18 @@ import "@polymer/paper-tabs/paper-tabs";
 import "../../components/op-cards";
 import "../../components/op-icon";
 import "../../components/op-menu-button";
-import "../../components/op-start-voice-button";
 
 import "../../layouts/op-app-layout";
 
-import extractViews from "../../common/entity/extract_views";
-import getViewEntities from "../../common/entity/get_view_entities";
-import computeStateName from "../../common/entity/compute_state_name";
-import computeStateDomain from "../../common/entity/compute_state_domain";
+import { extractViews } from "../../common/entity/extract_views";
+import { getViewEntities } from "../../common/entity/get_view_entities";
+import { computeStateName } from "../../common/entity/compute_state_name";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
 import computeLocationName from "../../common/config/location_name";
 import NavigateMixin from "../../mixins/navigate-mixin";
 import { EventsMixin } from "../../mixins/events-mixin";
+import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-op-voice-command-dialog";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
 
 const DEFAULT_VIEW_ENTITY_ID = "group.default_view";
 const ALWAYS_SHOW_DOMAIN = ["persistent_notification", "configurator"];
@@ -65,11 +66,19 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
       <op-app-layout id="layout">
         <app-header effects="waterfall" condenses="" fixed="" slot="header">
           <app-toolbar>
-            <op-menu-button></op-menu-button>
+            <op-menu-button
+              opp="[[opp]]"
+              narrow="[[narrow]]"
+            ></op-menu-button>
             <div main-title="">
               [[computeTitle(views, defaultView, locationName)]]
             </div>
-            <op-start-voice-button opp="[[opp]]"></op-start-voice-button>
+            <paper-icon-button
+              hidden$="[[!conversation]]"
+              aria-label="Start conversation"
+              icon="opp:microphone"
+              on-click="_showVoiceCommandDialog"
+            ></paper-icon-button>
           </app-toolbar>
 
           <div sticky="" hidden$="[[areTabsHidden(views, showTabs)]]">
@@ -171,6 +180,11 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
         value: 1,
       },
 
+      conversation: {
+        type: Boolean,
+        computed: "_computeConversation(opp)",
+      },
+
       locationName: {
         type: String,
         value: "",
@@ -234,8 +248,16 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
     // Do -1 column if the menu is docked and open
     this._columns = Math.max(
       1,
-      matchColumns - (!this.narrow && this.opp.dockedSidebar)
+      matchColumns - (!this.narrow && this.opp.dockedSidebar === "docked")
     );
+  }
+
+  _computeConversation(opp) {
+    return isComponentLoaded(opp, "conversation");
+  }
+
+  _showVoiceCommandDialog() {
+    showVoiceCommandDialog(this);
   }
 
   areTabsHidden(views, showTabs) {
