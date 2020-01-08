@@ -8,19 +8,19 @@ import {
   customElement,
   PropertyValues,
 } from "lit-element";
-import { OppEntity } from "open-peer-power-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 import "../../../components/op-card";
 import "../../../components/op-icon";
 
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import computeStateName from "../../../common/entity/compute_state_name";
 
 import { LovelaceCardEditor, LovelaceCard } from "../types";
 import { OpenPeerPower } from "../../../types";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { PlantStatusCardConfig, PlantAttributeTarget } from "./types";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 const SENSORS = {
   moisture: "opp:water",
@@ -88,7 +88,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity];
+    const stateObj = this.opp.states![this._config!.entity];
 
     if (!stateObj) {
       return html`
@@ -240,7 +240,7 @@ class HuiPlantStatusCard extends LitElement implements LovelaceCard {
 
   private _handleMoreInfo(ev: Event): void {
     const target = ev.currentTarget! as PlantAttributeTarget;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (target.value) {
       fireEvent(this, "opp-more-info", {

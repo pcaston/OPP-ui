@@ -25,8 +25,8 @@ import {
   DataTableColumnContainer,
 } from "../../../../components/data-table/op-data-table";
 
-import { computeStateName } from "../../../../common/entity/compute_state_name";
-import { computeDomain } from "../../../../common/entity/compute_domain";
+import computeStateName from "../../../../common/entity/compute_state_name";
+import computeDomain from "../../../../common/entity/compute_domain";
 
 import { computeRTL } from "../../../../common/util/compute_rtl";
 import { computeUnusedEntities } from "../../common/compute-unused-entities";

@@ -11,9 +11,9 @@ import {
 } from "lit-element";
 import "@polymer/paper-spinner/paper-spinner";
 
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
-import { computeStateName } from "../../../common/entity/compute_state_name";
-import { stateIcon } from "../../../common/entity/state_icon";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import computeStateName from "../../../common/entity/compute_state_name";
+import stateIcon from "../../../common/entity/state_icon";
 
 import "../../../components/op-card";
 import "../../../components/op-icon";
@@ -195,7 +195,7 @@ class HuiSensorCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

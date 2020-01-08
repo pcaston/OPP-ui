@@ -18,11 +18,11 @@ import {
   createTileLayer,
   LeafletModuleType,
 } from "../../../common/dom/setup-leaflet-map";
-import { computeStateDomain } from "../../../common/entity/compute_state_domain";
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import computeStateDomain from "../../../common/entity/compute_state_domain";
+import computeStateName from "../../../common/entity/compute_state_name";
 import { debounce } from "../../../common/util/debounce";
 import parseAspectRatio from "../../../common/util/parse-aspect-ratio";
-import { computeDomain } from "../../../common/entity/compute_domain";
+import computeDomain from "../../../common/entity/compute_domain";
 
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard } from "../types";
@@ -168,7 +168,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
     // Check if any state has changed
     for (const entity of this._configEntities) {
-      if (oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]) {
+      if (oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]) {
         return true;
       }
     }
@@ -251,8 +251,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     if (this._mapItems.length === 0) {
       this._leafletMap.setView(
         new this.Leaflet.LatLng(
-          this.opp.config.latitude,
-          this.opp.config.longitude
+          this.opp.config!.latitude,
+          this.opp.config!.longitude
         ),
         zoom || 14
       );
@@ -288,8 +288,8 @@ class HuiMapCard extends LitElement implements LovelaceCard {
     // Calculate visible geo location sources
     if (config.geo_location_sources) {
       const includesAll = config.geo_location_sources.includes("all");
-      for (const entityId of Object.keys(opp.states)) {
-        const stateObj = opp.states[entityId];
+      for (const entityId of Object.keys(opp.states!)) {
+        const stateObj = opp.states![entityId];
         if (
           computeDomain(entityId) === "geo_location" &&
           (includesAll ||
@@ -302,7 +302,7 @@ class HuiMapCard extends LitElement implements LovelaceCard {
 
     for (const entity of allEntities) {
       const entityId = entity.entity;
-      const stateObj = opp.states[entityId];
+      const stateObj = opp.states![entityId];
       if (!stateObj) {
         continue;
       }

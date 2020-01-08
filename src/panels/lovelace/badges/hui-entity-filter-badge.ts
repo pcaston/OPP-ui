@@ -62,7 +62,7 @@ class EntityFilterBadge extends HTMLElement implements LovelaceBadge {
     }
 
     const entitiesList = this._configEntities.filter((entityConf) => {
-      const stateObj = opp.states[entityConf.entity];
+      const stateObj = opp.states![entityConf.entity];
 
       if (!stateObj) {
         return false;
@@ -130,7 +130,7 @@ class EntityFilterBadge extends HTMLElement implements LovelaceBadge {
     }
 
     for (const config of this._configEntities) {
-      if (this._opp.states[config.entity] !== opp.states[config.entity]) {
+      if (this._opp.states![config.entity] !== opp.states![config.entity]) {
         return true;
       }
     }

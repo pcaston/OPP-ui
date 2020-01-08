@@ -11,7 +11,7 @@ import "../components/hui-generic-entity-row";
 import "../../../components/entity/op-entity-toggle";
 import "../components/hui-warning";
 
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { DOMAINS_TOGGLE } from "../../../common/const";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";

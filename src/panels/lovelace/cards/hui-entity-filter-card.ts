@@ -68,7 +68,7 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
     }
 
     const entitiesList = this._configEntities.filter((entityConf) => {
-      const stateObj = opp.states[entityConf.entity];
+      const stateObj = opp.states![entityConf.entity];
 
       if (!stateObj) {
         return false;
@@ -136,7 +136,7 @@ class EntityFilterCard extends HTMLElement implements LovelaceCard {
 
     for (const config of this._configEntities) {
       if (
-        this._opp.states[config.entity] !== opp.states[config.entity] ||
+        this._opp.states![config.entity] !== opp.states![config.entity] ||
         this._opp.localize !== opp.localize
       ) {
         return true;

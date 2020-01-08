@@ -1,4 +1,4 @@
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import computeStateName from "../../../common/entity/compute_state_name";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceElementConfig } from "../elements/types";
 import { ActionConfig } from "../../../data/lovelace";
