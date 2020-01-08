@@ -1,6 +1,5 @@
-import iconSetContent from '../../build/mdi.js';
+import marked_ from "marked";
+import filterXSS_ from "xss";
 
-const documentContainer = document.createElement("template");
-documentContainer.setAttribute("style", "display: none;");
-documentContainer.innerHTML = iconSetContent;
-document.head.appendChild(documentContainer.content);
+export const marked = marked_;
+export const filterXSS = filterXSS_;

@@ -4,10 +4,12 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
+import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
+ * @appliesMixin LocalizeMixin
  */
-class StateCardScene extends PolymerElement {
+class StateCardScene extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -22,7 +24,7 @@ class StateCardScene extends PolymerElement {
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
         <mwc-button on-click="activateScene"
-          >[['ui.card.scene.activate']]</mwc-button
+          >[[localize('ui.card.scene.activate')]]</mwc-button
         >
       </div>
     `;

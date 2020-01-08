@@ -1,42 +1,30 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import "@material/mwc-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../components/entity/op-entity-toggle";
 import "../components/entity/state-info";
 
-/*
- */
-class StateCardScript extends PolymerElement {
+import timerTimeRemaining from "../common/entity/timer_time_remaining";
+import secondsToDuration from "../common/datetime/seconds_to_duration";
+
+class StateCardTimer extends PolymerElement {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
       <style>
-        mwc-button {
-          top: 3px;
-          height: 37px;
-          margin-right: -0.57em;
-        }
+        .state {
+          @apply --paper-font-body1;
+          color: var(--primary-text-color);
 
-        op-entity-toggle {
           margin-left: 16px;
+          text-align: right;
+          line-height: 40px;
         }
       </style>
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <template is="dom-if" if="[[stateObj.attributes.can_cancel]]">
-          <op-entity-toggle
-            state-obj="[[stateObj]]"
-            opp="[[opp]]"
-          ></op-entity-toggle>
-        </template>
-        <template is="dom-if" if="[[!stateObj.attributes.can_cancel]]">
-          <mwc-button on-click="fireScript"
-            >[['ui.card.script.execute']]</mwc-button
-          >
-        </template>
+        <div class="state">[[_secondsToDuration(timeRemaining)]]</div>
       </div>
     `;
   }
@@ -54,7 +42,11 @@ class StateCardScript extends PolymerElement {
   static get properties() {
     return {
       opp: Object,
-      stateObj: Object,
+      stateObj: {
+        type: Object,
+        observer: "stateObjChanged",
+      },
+      timeRemaining: Number,
       inDialog: {
         type: Boolean,
         value: false,
@@ -62,11 +54,45 @@ class StateCardScript extends PolymerElement {
     };
   }
 
-  fireScript(ev) {
-    ev.stopPropagation();
-    this.opp.callService("script", "turn_on", {
-      entity_id: this.stateObj.entity_id,
-    });
+  connectedCallback() {
+    super.connectedCallback();
+    this.startInterval(this.stateObj);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.clearInterval();
+  }
+
+  stateObjChanged(stateObj) {
+    this.startInterval(stateObj);
+  }
+
+  clearInterval() {
+    if (this._updateRemaining) {
+      clearInterval(this._updateRemaining);
+      this._updateRemaining = null;
+    }
+  }
+
+  startInterval(stateObj) {
+    this.clearInterval();
+    this.calculateRemaining(stateObj);
+
+    if (stateObj.state === "active") {
+      this._updateRemaining = setInterval(
+        () => this.calculateRemaining(this.stateObj),
+        1000
+      );
+    }
+  }
+
+  calculateRemaining(stateObj) {
+    this.timeRemaining = timerTimeRemaining(stateObj);
+  }
+
+  _secondsToDuration(time) {
+    return secondsToDuration(time);
   }
 }
-customElements.define("state-card-script", StateCardScript);
+customElements.define("state-card-timer", StateCardTimer);

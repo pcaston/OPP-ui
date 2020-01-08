@@ -1,33 +1,38 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
+import "@material/mwc-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../components/entity/state-info";
-import "../components/op-climate-state";
 
-class StateCardClimate extends PolymerElement {
+import LocalizeMixin from "../mixins/localize-mixin";
+
+/*
+ * @appliesMixin LocalizeMixin
+ */
+class StateCardConfigurator extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
       <style>
-        :host {
-          @apply --paper-font-body1;
-          line-height: 1.5;
-        }
-
-        op-climate-state {
-          margin-left: 16px;
-          text-align: right;
+        mwc-button {
+          top: 3px;
+          height: 37px;
+          margin-right: -0.57em;
         }
       </style>
 
       <div class="horizontal justified layout">
         ${this.stateInfoTemplate}
-        <op-climate-state
-          opp="[[opp]]"
-          state-obj="[[stateObj]]"
-        ></op-climate-state>
+        <mwc-button hidden$="[[inDialog]]"
+          >[[_localizeState(stateObj.state)]]</mwc-button
+        >
       </div>
+
+      <!-- pre load the image so the dialog is rendered the proper size -->
+      <template is="dom-if" if="[[stateObj.attributes.description_image]]">
+        <img hidden="" src="[[stateObj.attributes.description_image]]" />
+      </template>
     `;
   }
 
@@ -51,5 +56,9 @@ class StateCardClimate extends PolymerElement {
       },
     };
   }
+
+  _localizeState(state) {
+    return this.localize(`state.configurator.${state}`);
+  }
 }
-customElements.define("state-card-climate", StateCardClimate);
+customElements.define("state-card-configurator", StateCardConfigurator);
