@@ -4,7 +4,7 @@ import { OppBaseEl } from "./opp-base-mixin";
 import { OPPDomEvent } from "../common/dom/fire_event";
 
 interface DockSidebarParams {
-  dock: boolean;
+  dock: OpenPeerPower["dockedSidebar"];
 }
 
 declare global {

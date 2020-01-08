@@ -10,12 +10,12 @@ import {
 import "../components/hui-generic-entity-row";
 import "../components/hui-warning";
 
-import timerTimeRemaining from "../../../common/entity/timer_time_remaining";
+import { timerTimeRemaining } from "../../../common/entity/timer_time_remaining";
 import secondsToDuration from "../../../common/datetime/seconds_to_duration";
 
 import { OpenPeerPower } from "../../../types";
 import { EntityConfig } from "./types";
-import { OppEntity } from "../../../types";
+import { OppEntity } from "open-peer-power-js-websocket";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 
 @customElement("hui-timer-entity-row")
@@ -40,12 +40,22 @@ class HuiTimerEntityRow extends LitElement {
     this._clearInterval();
   }
 
+  public connectedCallback(): void {
+    super.connectedCallback();
+    if (this._config && this._config.entity) {
+      const stateObj = this.opp!.states[this._config!.entity];
+      if (stateObj) {
+        this._startInterval(stateObj);
+      }
+    }
+  }
+
   protected render(): TemplateResult | void {
     if (!this._config || !this.opp) {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -78,10 +88,10 @@ class HuiTimerEntityRow extends LitElement {
     super.updated(changedProps);
 
     if (changedProps.has("opp")) {
-      const stateObj = this.opp!.states![this._config!.entity];
+      const stateObj = this.opp!.states[this._config!.entity];
       const oldOpp = changedProps.get("opp") as this["opp"];
       const oldStateObj = oldOpp
-        ? oldOpp.states![this._config!.entity]
+        ? oldOpp.states[this._config!.entity]
         : undefined;
 
       if (oldStateObj !== stateObj) {

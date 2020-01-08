@@ -31,6 +31,12 @@ documentContainer.innerHTML = `<custom-style>
       --accent-color: #ff9800;
       --divider-color: rgba(0, 0, 0, .12);
 
+      --scrollbar-thumb-color: rgb(194, 194, 194);
+
+
+      --error-color: #db4437;
+      --error-state-color: var(--error-color);
+
       /* states and badges */
       --state-icon-color: #44739e;
       --state-icon-active-color: #FDD835;
@@ -49,8 +55,12 @@ documentContainer.innerHTML = `<custom-style>
       --sidebar-selected-icon-color: var(--primary-color);
 
       /* controls */
-      --toggle-button-color: var(--primary-color);
-      /* --toggle-button-unchecked-color: var(--accent-color); */
+      --switch-checked-color: var(--primary-color);
+      /* --switch-unchecked-color: var(--accent-color); */
+      --switch-checked-button-color: var(--switch-checked-color, var(--paper-grey-50));
+      --switch-checked-track-color: var(--switch-checked-color, #000000);
+      --switch-unchecked-button-color: var(--switch-unchecked-color, var(--paper-grey-50));
+      --switch-unchecked-track-color: var(--switch-unchecked-color, #000000);
       --slider-color: var(--primary-color);
       --slider-secondary-color: var(--light-primary-color);
       --slider-bar-color: var(--disabled-text-color);
@@ -65,12 +75,12 @@ documentContainer.innerHTML = `<custom-style>
       --label-badge-grey: var(--paper-grey-500);
 
       /*
-        Paper-styles color.html depency is stripped on build.
+        Paper-styles color.html dependency is stripped on build.
         When a default paper-style color is used, it needs to be copied
         from paper-styles/color.html to here.
       */
 
-      --paper-grey-50: #fafafa; /* default for: --paper-toggle-button-unchecked-button-color */
+      --paper-grey-50: #fafafa; /* default for: --mwc-switch-unchecked-button-color */
       --paper-grey-200: #eeeeee;  /* for op-date-picker-style */
       --paper-grey-500: #9e9e9e;  /* --label-badge-grey */
 
@@ -106,12 +116,6 @@ documentContainer.innerHTML = `<custom-style>
       --table-row-background-color: var(--primary-background-color);
       --table-row-alternative-background-color: var(--secondary-background-color);
 
-      /* set our toggle style */
-      --paper-toggle-button-checked-ink-color: var(--toggle-button-color);
-      --paper-toggle-button-checked-button-color: var(--toggle-button-color);
-      --paper-toggle-button-checked-bar-color: var(--toggle-button-color);
-      --paper-toggle-button-unchecked-button-color: var(--toggle-button-unchecked-color, var(--paper-grey-50));
-      --paper-toggle-button-unchecked-bar-color: var(--toggle-button-unchecked-color, #000000);
       /* set our slider style */
       --paper-slider-knob-color: var(--slider-color);
       --paper-slider-knob-start-color: var(--slider-color);
@@ -121,8 +125,31 @@ documentContainer.innerHTML = `<custom-style>
       --paper-slider-container-color: var(--slider-bar-color);
       --op-paper-slider-pin-font-size: 15px;
 
+      /* set data table style */
+      --data-table-background-color: var(--card-background-color);
+
+      /* rgb */
+      --rgb-primary-color: 3, 169, 244;
+      --rgb-accent-color: 255, 152, 0;
+      --rgb-primary-text-color: 33, 33, 33;
+      --rgb-secondary-text-color: 114, 114, 114;
+      --rgb-text-primary-color: 255, 255, 255;
+
       /* mwc */
       --mdc-theme-primary: var(--primary-color);
+      --mdc-theme-secondary: var(--accent-color);
+      --mdc-theme-background: var(--primary-background-color);
+      --mdc-theme-surface: var(--paper-card-background-color, var(--card-background-color));
+
+      /* mwc text styles */
+      --mdc-theme-on-primary: var(--text-primary-color);
+      --mdc-theme-on-secondary: var(--text-primary-color);
+      --mdc-theme-on-surface: var(--primary-text-color);
+
+      /* app header background color */
+      --app-header-text-color: var(--text-primary-color);
+      --app-header-background-color: var(--primary-color);
+
     }
   </style>
 

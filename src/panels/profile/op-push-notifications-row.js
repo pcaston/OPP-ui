@@ -3,7 +3,7 @@ import "@polymer/iron-label/iron-label";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import isComponentLoaded from "../../common/config/is_component_loaded";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
 import { pushSupported } from "../../components/op-push-notifications-toggle";
 
 import LocalizeMixin from "../../mixins/localize-mixin";
@@ -13,7 +13,7 @@ import "./op-settings-row";
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpPushNotificationsRow extends LocalizeMixin(PolymerElement) {
+class HaPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -28,7 +28,7 @@ class OpPushNotificationsRow extends LocalizeMixin(PolymerElement) {
         <span slot="description">
           [[_description(_platformLoaded, _pushSupported)]]
           <a
-            href="https://www.open-peer-power.io/components/notify.html5/"
+            href="https://www.open-peer-power.io/integrations/html5"
             target="_blank"
             >[[localize('ui.panel.profile.push_notifications.link_promo')]]</a
           >
@@ -81,4 +81,4 @@ class OpPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-push-notifications-row", OpPushNotificationsRow);
+customElements.define("op-push-notifications-row", HaPushNotificationsRow);

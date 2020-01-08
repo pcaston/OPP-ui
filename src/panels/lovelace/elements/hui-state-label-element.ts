@@ -9,16 +9,17 @@ import {
   PropertyValues,
 } from "lit-element";
 
-import "../../../components/entity/op-state-label-badge";
 import "../components/hui-warning-element";
 
-import computeStateDisplay from "../../../common/entity/compute_state_display";
+import { computeStateDisplay } from "../../../common/entity/compute_state_display";
 import { computeTooltip } from "../common/compute-tooltip";
-import { handleClick } from "../common/handle-click";
-import { longPress } from "../common/directives/long-press-directive";
 import { LovelaceElement, StateLabelElementConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
+import { actionHandler } from "../common/directives/action-handler-directive";
+import { hasAction } from "../common/has-action";
+import { ActionHandlerEvent } from "../../../data/lovelace";
+import { handleAction } from "../common/handle-action";
 
 @customElement("hui-state-label-element")
 class HuiStateLabelElement extends LitElement implements LovelaceElement {
@@ -42,7 +43,7 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity!];
+    const stateObj = this.opp.states[this._config.entity!];
 
     if (!stateObj) {
       return html`
@@ -59,9 +60,11 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
     return html`
       <div
         .title="${computeTooltip(this.opp, this._config)}"
-        @op-click="${this._handleTap}"
-        @op-hold="${this._handleHold}"
-        .longPress="${longPress()}"
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(this._config!.hold_action),
+          hasDoubleClick: hasAction(this._config!.double_tap_action),
+        })}
       >
         ${this._config.prefix}${stateObj
           ? computeStateDisplay(
@@ -74,12 +77,8 @@ class HuiStateLabelElement extends LitElement implements LovelaceElement {
     `;
   }
 
-  private _handleTap(): void {
-    handleClick(this, this.opp!, this._config!, false);
-  }
-
-  private _handleHold(): void {
-    handleClick(this, this.opp!, this._config!, true);
+  private _handleAction(ev: ActionHandlerEvent) {
+    handleAction(this, this.opp!, this._config!, ev.detail.action!);
   }
 
   static get styles(): CSSResult {

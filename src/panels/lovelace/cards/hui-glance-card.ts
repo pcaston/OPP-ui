@@ -10,26 +10,31 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import computeStateDisplay from "../../../common/entity/compute_state_display";
-import computeStateName from "../../../common/entity/compute_state_name";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import relativeTime from "../../../common/datetime/relative_time";
 
 import "../../../components/entity/state-badge";
 import "../../../components/op-card";
 import "../../../components/op-icon";
 import "../components/hui-warning-element";
 
+import { computeStateDisplay } from "../../../common/entity/compute_state_display";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
-import { longPress } from "../common/directives/long-press-directive";
 import { processConfigEntities } from "../common/process-config-entities";
-import { handleClick } from "../common/handle-click";
-import { GlanceCardConfig, ConfigEntity } from "./types";
+import { GlanceCardConfig, GlanceConfigEntity } from "./types";
+import { actionHandler } from "../common/directives/action-handler-directive";
+import { hasAction } from "../common/has-action";
+import { ActionHandlerEvent } from "../../../data/lovelace";
+import { handleAction } from "../common/handle-action";
 
 @customElement("hui-glance-card")
 export class HuiGlanceCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-glance-card-editor" */ "../editor/config-elements/hui-glance-card-editor");
+    await import(
+      /* webpackChunkName: "hui-glance-card-editor" */ "../editor/config-elements/hui-glance-card-editor"
+    );
     return document.createElement("hui-glance-card-editor");
   }
 
@@ -41,7 +46,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
 
   @property() private _config?: GlanceCardConfig;
 
-  private _configEntities?: ConfigEntity[];
+  private _configEntities?: GlanceConfigEntity[];
 
   public getCardSize(): number {
     return (
@@ -52,7 +57,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
 
   public setConfig(config: GlanceCardConfig): void {
     this._config = { theme: "default", ...config };
-    const entities = processConfigEntities<ConfigEntity>(config.entities);
+    const entities = processConfigEntities<GlanceConfigEntity>(config.entities);
 
     for (const entity of entities) {
       if (
@@ -85,17 +90,23 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldOpp && this._configEntities) {
-      for (const entity of this._configEntities) {
-        if (
-          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
-        ) {
-          return true;
-        }
-      }
-      return false;
+
+    if (
+      !this._configEntities ||
+      !oldOpp ||
+      oldOpp.themes !== this.opp!.themes ||
+      oldOpp.language !== this.opp!.language
+    ) {
+      return true;
     }
-    return true;
+
+    for (const entity of this._configEntities) {
+      if (oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   protected render(): TemplateResult | void {
@@ -115,14 +126,23 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     `;
   }
 
-  protected updated(changedProperties: PropertyValues): void {
-    super.updated(changedProperties);
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
     if (!this._config || !this.opp) {
       return;
     }
 
-    const oldOpp = changedProperties.get("opp") as OpenPeerPower | undefined;
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | GlanceCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
@@ -164,7 +184,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(entityConf): TemplateResult {
-    const stateObj = this.opp!.states![entityConf.entity];
+    const stateObj = this.opp!.states[entityConf.entity];
 
     if (!stateObj) {
       return html`
@@ -181,10 +201,12 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     return html`
       <div
         class="entity"
-        .entityConf="${entityConf}"
-        @op-click="${this._handleTap}"
-        @op-hold="${this._handleHold}"
-        .longPress="${longPress()}"
+        .config="${entityConf}"
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(entityConf.hold_action),
+          hasDoubleClick: hasAction(entityConf.double_tap_action),
+        })}
       >
         ${this._config!.show_name !== false
           ? html`
@@ -198,19 +220,26 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
         ${this._config!.show_icon !== false
           ? html`
               <state-badge
-                .stateObj="${stateObj}"
-                .overrideIcon="${entityConf.icon}"
+                .opp=${this.opp}
+                .stateObj=${stateObj}
+                .overrideIcon=${entityConf.icon}
+                .overrideImage=${entityConf.image}
               ></state-badge>
             `
           : ""}
-        ${this._config!.show_state !== false
+        ${this._config!.show_state !== false && entityConf.show_state !== false
           ? html`
               <div>
-                ${computeStateDisplay(
-                  this.opp!.localize,
-                  stateObj,
-                  this.opp!.language
-                )}
+                ${entityConf.show_last_changed
+                  ? relativeTime(
+                      new Date(stateObj.last_changed),
+                      this.opp!.localize
+                    )
+                  : computeStateDisplay(
+                      this.opp!.localize,
+                      stateObj,
+                      this.opp!.language
+                    )}
               </div>
             `
           : ""}
@@ -218,14 +247,9 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     `;
   }
 
-  private _handleTap(ev: MouseEvent): void {
-    const config = (ev.currentTarget as any).entityConf as ConfigEntity;
-    handleClick(this, this.opp!, config, false);
-  }
-
-  private _handleHold(ev: MouseEvent): void {
-    const config = (ev.currentTarget as any).entityConf as ConfigEntity;
-    handleClick(this, this.opp!, config, true);
+  private _handleAction(ev: ActionHandlerEvent) {
+    const config = (ev.currentTarget as any).config as GlanceConfigEntity;
+    handleAction(this, this.opp!, config, ev.detail.action!);
   }
 }
 

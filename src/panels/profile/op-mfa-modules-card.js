@@ -16,7 +16,7 @@ let registeredDialog = false;
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class OpMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class HaMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -84,7 +84,9 @@ class OpMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
         dialogShowEvent: "show-mfa-module-setup-flow",
         dialogTag: "op-mfa-module-setup-flow",
         dialogImport: () =>
-          import(/* webpackChunkName: "op-mfa-module-setup-flow" */ "./op-mfa-module-setup-flow"),
+          import(
+            /* webpackChunkName: "op-mfa-module-setup-flow" */ "./op-mfa-module-setup-flow"
+          ),
       });
     }
   }
@@ -127,4 +129,4 @@ class OpMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-mfa-modules-card", OpMfaModulesCard);
+customElements.define("op-mfa-modules-card", HaMfaModulesCard);

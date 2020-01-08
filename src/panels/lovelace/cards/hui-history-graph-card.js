@@ -8,6 +8,17 @@ import "../../../data/op-state-history-data";
 import { processConfigEntities } from "../common/process-config-entities";
 
 class HuiHistoryGraphCard extends PolymerElement {
+  static async getConfigElement() {
+    await import(
+      /* webpackChunkName: "hui-history-graph-card-editor" */ "../editor/config-elements/hui-history-graph-card-editor"
+    );
+    return document.createElement("hui-history-graph-card-editor");
+  }
+
+  static getStubConfig() {
+    return { entities: [] };
+  }
+
   static get template() {
     return html`
       <style>
@@ -66,16 +77,16 @@ class HuiHistoryGraphCard extends PolymerElement {
 
     const _entities = [];
     const _names = {};
-    for (const entity of entities) {
+    entities.forEach((entity) => {
       _entities.push(entity.entity);
       if (entity.name) {
         _names[entity.entity] = entity.name;
       }
-    }
+    });
 
     this.setProperties({
       _cacheConfig: {
-        cacheKey: _entities.sort().join(),
+        cacheKey: _entities.join(),
         hoursToShow: config.hours_to_show || 24,
         refresh: config.refresh_interval || 0,
       },

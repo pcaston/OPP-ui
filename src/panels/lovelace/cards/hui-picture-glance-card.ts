@@ -10,38 +10,52 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import computeStateDisplay from "../../../common/entity/compute_state_display";
-import computeStateName from "../../../common/entity/compute_state_name";
-import computeDomain from "../../../common/entity/compute_domain";
-import stateIcon from "../../../common/entity/state_icon";
-
 import "../../../components/op-card";
 import "../../../components/op-icon";
 import "../components/hui-image";
 import "../components/hui-warning-element";
 
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { computeDomain } from "../../../common/entity/compute_domain";
+import { stateIcon } from "../../../common/entity/state_icon";
+import { computeStateDisplay } from "../../../common/entity/compute_state_display";
 import { DOMAINS_TOGGLE } from "../../../common/const";
-import { LovelaceCard } from "../types";
-import { EntityConfig } from "../entity-rows/types";
+import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { OpenPeerPower } from "../../../types";
-import { longPress } from "../common/directives/long-press-directive";
 import { processConfigEntities } from "../common/process-config-entities";
-import { handleClick } from "../common/handle-click";
-import { fireEvent } from "../../../common/dom/fire_event";
-import { toggleEntity } from "../common/entity/toggle-entity";
-import { PictureGlanceCardConfig } from "./types";
+import { PictureGlanceCardConfig, PictureGlanceEntityConfig } from "./types";
+import { hasConfigOrEntityChanged } from "../common/has-changed";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import { actionHandler } from "../common/directives/action-handler-directive";
+import { hasAction } from "../common/has-action";
+import { ActionHandlerEvent } from "../../../data/lovelace";
+import { handleAction } from "../common/handle-action";
 
 const STATES_OFF = new Set(["closed", "locked", "not_home", "off"]);
 
 @customElement("hui-picture-glance-card")
 class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
+  public static async getConfigElement(): Promise<LovelaceCardEditor> {
+    await import(
+      /* webpackChunkName: "hui-picture-glance-card-editor" */ "../editor/config-elements/hui-picture-glance-card-editor"
+    );
+    return document.createElement("hui-picture-glance-card-editor");
+  }
+  public static getStubConfig(): object {
+    return {
+      image:
+        "https://www.open-peer-power.io/images/merchandise/shirt-frontpage.png",
+      entities: [],
+    };
+  }
+
   @property() public opp?: OpenPeerPower;
 
   @property() private _config?: PictureGlanceCardConfig;
 
-  private _entitiesDialog?: EntityConfig[];
+  private _entitiesDialog?: PictureGlanceEntityConfig[];
 
-  private _entitiesToggle?: EntityConfig[];
+  private _entitiesToggle?: PictureGlanceEntityConfig[];
 
   public getCardSize(): number {
     return 3;
@@ -77,19 +91,24 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (changedProps.has("_config")) {
+    if (hasConfigOrEntityChanged(this, changedProps)) {
       return true;
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldOpp) {
+
+    if (
+      !oldOpp ||
+      oldOpp.themes !== this.opp!.themes ||
+      oldOpp.language !== this.opp!.language
+    ) {
       return true;
     }
 
     if (this._entitiesDialog) {
       for (const entity of this._entitiesDialog) {
         if (
-          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
+          oldOpp!.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }
@@ -99,7 +118,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesToggle) {
       for (const entity of this._entitiesToggle) {
         if (
-          oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]
+          oldOpp!.states[entity.entity] !== this.opp!.states[entity.entity]
         ) {
           return true;
         }
@@ -107,6 +126,26 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     }
 
     return false;
+  }
+
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this.opp) {
+      return;
+    }
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | PictureGlanceCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
+      applyThemesOnElement(this, this.opp.themes, this._config.theme);
+    }
   }
 
   protected render(): TemplateResult | void {
@@ -117,23 +156,27 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     return html`
       <op-card>
         <hui-image
-          class="${classMap({
+          class=${classMap({
             clickable: Boolean(
               this._config.tap_action ||
                 this._config.hold_action ||
                 this._config.camera_image
             ),
-          })}"
-          @op-click="${this._handleTap}"
-          @op-hold="${this._handleHold}"
-          .longPress="${longPress()}"
-          .opp="${this.opp}"
-          .image="${this._config.image}"
-          .stateImage="${this._config.state_image}"
-          .cameraImage="${this._config.camera_image}"
-          .cameraView="${this._config.camera_view}"
-          .entity="${this._config.entity}"
-          .aspectRatio="${this._config.aspect_ratio}"
+          })}
+          @action=${this._handleAction}
+          .actionHandler=${actionHandler({
+            hasHold: hasAction(this._config!.hold_action),
+            hasDoubleClick: hasAction(this._config!.double_tap_action),
+          })}
+          .config=${this._config}
+          .opp=${this.opp}
+          .image=${this._config.image}
+          .stateImage=${this._config.state_image}
+          .stateFilter=${this._config.state_filter}
+          .cameraImage=${this._config.camera_image}
+          .cameraView=${this._config.camera_view}
+          .entity=${this._config.entity}
+          .aspectRatio=${this._config.aspect_ratio}
         ></hui-image>
         <div class="box">
           ${this._config.title
@@ -141,12 +184,12 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
                 <div class="title">${this._config.title}</div>
               `
             : ""}
-          <div>
+          <div class="row">
             ${this._entitiesDialog!.map((entityConf) =>
               this.renderEntity(entityConf, true)
             )}
           </div>
-          <div>
+          <div class="row">
             ${this._entitiesToggle!.map((entityConf) =>
               this.renderEntity(entityConf, false)
             )}
@@ -157,10 +200,15 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(
-    entityConf: EntityConfig,
+    entityConf: PictureGlanceEntityConfig,
     dialog: boolean
   ): TemplateResult {
-    const stateObj = this.opp!.states![entityConf.entity];
+    const stateObj = this.opp!.states[entityConf.entity];
+
+    entityConf = {
+      tap_action: { action: dialog ? "more-info" : "toggle" },
+      ...entityConf,
+    };
 
     if (!stateObj) {
       return html`
@@ -175,38 +223,46 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     }
 
     return html`
-      <op-icon
-        .entity="${stateObj.entity_id}"
-        @click="${dialog ? this._openDialog : this._callService}"
-        class="${classMap({
-          "state-on": !STATES_OFF.has(stateObj.state),
-        })}"
-        .icon="${entityConf.icon || stateIcon(stateObj)}"
-        title="${`
+      <div class="wrapper">
+        <op-icon
+          @action=${this._handleAction}
+          .actionHandler=${actionHandler({
+            hasHold: hasAction(entityConf.hold_action),
+            hasDoubleClick: hasAction(entityConf.double_tap_action),
+          })}
+          .config=${entityConf}
+          class="${classMap({
+            "state-on": !STATES_OFF.has(stateObj.state),
+          })}"
+          .icon="${entityConf.icon || stateIcon(stateObj)}"
+          title="${`
             ${computeStateName(stateObj)} : ${computeStateDisplay(
-          this.opp!.localize,
-          stateObj,
-          this.opp!.language
-        )}
+            this.opp!.localize,
+            stateObj,
+            this.opp!.language
+          )}
           `}"
-      ></op-icon>
+        ></op-icon>
+        ${this._config!.show_state !== true && entityConf.show_state !== true
+          ? html`
+              <div class="state"></div>
+            `
+          : html`
+              <div class="state">
+                ${computeStateDisplay(
+                  this.opp!.localize,
+                  stateObj,
+                  this.opp!.language
+                )}
+              </div>
+            `}
+      </div>
     `;
   }
 
-  private _handleTap() {
-    handleClick(this, this.opp!, this._config!, false);
-  }
-
-  private _handleHold() {
-    handleClick(this, this.opp!, this._config!, true);
-  }
-
-  private _openDialog(ev: MouseEvent): void {
-    fireEvent(this, "opp-more-info", { entityId: (ev.target as any).entity });
-  }
-
-  private _callService(ev: MouseEvent): void {
-    toggleEntity(this.opp!, (ev.target as any).entity);
+  private _handleAction(ev: ActionHandlerEvent) {
+    const config = (ev.currentTarget as any).config as any;
+    handleAction(this, this.opp!, config, ev.detail.action!);
   }
 
   static get styles(): CSSResult {
@@ -239,6 +295,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
         color: white;
         display: flex;
         justify-content: space-between;
+        flex-direction: row;
       }
 
       .box .title {
@@ -254,6 +311,30 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
 
       op-icon.state-on {
         color: white;
+      }
+      op-icon.show-state {
+        width: 20px;
+        height: 20px;
+        padding-bottom: 4px;
+        padding-top: 4px;
+      }
+      .state {
+        display: block;
+        font-size: 12px;
+        text-align: center;
+        line-height: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .row {
+        display: flex;
+        flex-direction: row;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 40px;
       }
     `;
   }

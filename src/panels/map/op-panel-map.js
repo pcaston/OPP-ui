@@ -7,15 +7,15 @@ import "../../components/op-icon";
 
 import "./op-entity-marker";
 
-import computeStateDomain from "../../common/entity/compute_state_domain";
-import computeStateName from "../../common/entity/compute_state_name";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { computeStateName } from "../../common/entity/compute_state_name";
 import LocalizeMixin from "../../mixins/localize-mixin";
 import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpPanelMap extends LocalizeMixin(PolymerElement) {
+class HaPanelMap extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -24,10 +24,14 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
           width: 100%;
           z-index: 0;
         }
+
+        .light {
+          color: #000000;
+        }
       </style>
 
       <app-toolbar>
-        <op-menu-button></op-menu-button>
+        <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
         <div main-title>[[localize('panel.map')]]</div>
       </app-toolbar>
 
@@ -41,6 +45,7 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
         type: Object,
         observer: "drawEntities",
       },
+      narrow: Boolean,
     };
   }
 
@@ -119,16 +124,18 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
           el.setAttribute("icon", entity.attributes.icon);
           iconHTML = el.outerHTML;
         } else {
-          iconHTML = title;
+          const el = document.createElement("span");
+          el.innerHTML = title;
+          iconHTML = el.outerHTML;
         }
 
         icon = this.Leaflet.divIcon({
           html: iconHTML,
           iconSize: [24, 24],
-          className: "",
+          className: "light",
         });
 
-        // create market with the icon
+        // create marker with the icon
         mapItems.push(
           this.Leaflet.marker(
             [entity.attributes.latitude, entity.attributes.longitude],
@@ -207,4 +214,4 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-panel-map", OpPanelMap);
+customElements.define("op-panel-map", HaPanelMap);

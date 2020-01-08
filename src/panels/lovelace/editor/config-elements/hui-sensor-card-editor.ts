@@ -87,31 +87,46 @@ export class HuiSensorCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
+        <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .opp="${this.opp}"
+          .value="${this._entity}"
+          .configValue=${"entity"}
+          include-domains='["sensor"]'
+          @change="${this._valueChanged}"
+          allow-custom-entity
+        ></op-entity-picker>
+        <paper-input
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.name"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.optional"
+          )})"
+          .value="${this._name}"
+          .configValue="${"name"}"
+          @value-changed="${this._valueChanged}"
+        ></paper-input>
         <div class="side-by-side">
           <paper-input
-            label="Name"
-            .value="${this._name}"
-            .configValue="${"name"}"
-            @value-changed="${this._valueChanged}"
-          ></paper-input>
-          <op-entity-picker
-            .opp="${this.opp}"
-            .value="${this._entity}"
-            .configValue=${"entity"}
-            domain-filter="sensor"
-            @change="${this._valueChanged}"
-            allow-custom-entity
-          ></op-entity-picker>
-        </div>
-        <div class="side-by-side">
-          <paper-input
-            label="Icon"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.icon"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             .value="${this._icon}"
             .configValue="${"icon"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
           <paper-dropdown-menu
-            label="Graph Type"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.sensor.graph_type"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             .configValue="${"graph"}"
             @value-changed="${this._valueChanged}"
           >
@@ -129,13 +144,21 @@ export class HuiSensorCardEditor extends LitElement
         </div>
         <div class="side-by-side">
           <paper-input
-            label="Units"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.unit"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             .value="${this._unit}"
             .configValue="${"unit"}"
             @value-changed="${this._valueChanged}"
           ></paper-input>
           <paper-input
-            label="Graph Detail"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.sensor.graph_detail"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             type="number"
             .value="${this._detail}"
             .configValue="${"detail"}"
@@ -150,7 +173,11 @@ export class HuiSensorCardEditor extends LitElement
             @theme-changed="${this._valueChanged}"
           ></hui-theme-select-editor>
           <paper-input
-            label="Hours To Show"
+            .label="${this.opp.localize(
+              "ui.panel.lovelace.editor.card.generic.hours_to_show"
+            )} (${this.opp.localize(
+              "ui.panel.lovelace.editor.card.config.optional"
+            )})"
             type="number"
             .value="${this._hours_to_show}"
             .configValue="${"hours_to_show"}"

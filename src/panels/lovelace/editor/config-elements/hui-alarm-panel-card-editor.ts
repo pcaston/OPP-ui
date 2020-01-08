@@ -17,16 +17,18 @@ import { OpenPeerPower } from "../../../../types";
 import { LovelaceCardEditor } from "../../types";
 import { fireEvent } from "../../../../common/dom/fire_event";
 import { configElementStyle } from "./config-elements-style";
+import { AlarmPanelCardConfig } from "../../cards/types";
 
 import "../../../../components/entity/op-entity-picker";
 import "../../../../components/op-icon";
-import { AlarmPanelCardConfig } from "../../cards/types";
+import "../../components/hui-theme-select-editor";
 
 const cardConfigStruct = struct({
   type: "string",
   entity: "string?",
   name: "string?",
   states: "array?",
+  theme: "string?",
 });
 
 @customElement("hui-alarm-panel-card-editor")
@@ -53,6 +55,10 @@ export class HuiAlarmPanelCardEditor extends LitElement
     return this._config!.states || [];
   }
 
+  get _theme(): string {
+    return this._config!.theme || "Backend-selected";
+  }
+
   protected render(): TemplateResult | void {
     if (!this.opp) {
       return html``;
@@ -63,22 +69,29 @@ export class HuiAlarmPanelCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
-        <div class="side-by-side">
-          <paper-input
-            label="Name"
-            .value="${this._name}"
-            .configValue="${"name"}"
-            @value-changed="${this._valueChanged}"
-          ></paper-input>
-          <op-entity-picker
-            .opp="${this.opp}"
-            .value="${this._entity}"
-            .configValue=${"entity"}
-            domain-filter="alarm_control_panel"
-            @change="${this._valueChanged}"
-            allow-custom-entity
-          ></op-entity-picker>
-        </div>
+        <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .opp="${this.opp}"
+          .value="${this._entity}"
+          .configValue=${"entity"}
+          include-domains='["alarm_control_panel"]'
+          @change="${this._valueChanged}"
+          allow-custom-entity
+        ></op-entity-picker>
+        <paper-input
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.name"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.optional"
+          )})"
+          .value="${this._name}"
+          .configValue="${"name"}"
+          @value-changed="${this._valueChanged}"
+        ></paper-input>
         <span>Used States</span> ${this._states.map((state, index) => {
           return html`
             <div class="states">
@@ -93,7 +106,9 @@ export class HuiAlarmPanelCardEditor extends LitElement
           `;
         })}
         <paper-dropdown-menu
-          label="Available States"
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.alarm-panel.available_states"
+          )}"
           @value-changed="${this._stateAdded}"
         >
           <paper-listbox slot="dropdown-content">
@@ -104,6 +119,12 @@ export class HuiAlarmPanelCardEditor extends LitElement
             })}
           </paper-listbox>
         </paper-dropdown-menu>
+        <hui-theme-select-editor
+          .opp="${this.opp}"
+          .value="${this._theme}"
+          .configValue="${"theme"}"
+          @theme-changed="${this._valueChanged}"
+        ></hui-theme-select-editor>
       </div>
     `;
   }

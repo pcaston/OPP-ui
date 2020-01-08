@@ -15,7 +15,7 @@ import "../components/hui-warning";
 
 import { EntityRow, EntityConfig } from "./types";
 import { OpenPeerPower } from "../../../types";
-import { OppEntity } from "../../../types";
+import { OppEntity } from "open-peer-power-js-websocket";
 import { supportsFeature } from "../../../common/entity/supports-feature";
 import {
   SUPPORTS_PLAY,
@@ -48,7 +48,7 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -66,7 +66,7 @@ class HuiMediaPlayerEntityRow extends LitElement implements EntityRow {
       <hui-generic-entity-row
         .opp="${this.opp}"
         .config="${this._config}"
-        .showSecondary="false"
+        .showSecondary=${false}
       >
         ${OFF_STATES.includes(stateObj.state)
           ? html`

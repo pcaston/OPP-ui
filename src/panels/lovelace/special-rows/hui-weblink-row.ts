@@ -37,7 +37,10 @@ class HuiWeblinkRow extends LitElement implements EntityRow {
     }
 
     return html`
-      <a href="${this._config.url}" target="_blank">
+      <a
+        href=${this._config.url}
+        target=${this._config.url.indexOf("://") !== -1 ? "_blank" : ""}
+      >
         <op-icon .icon="${this._config.icon}"></op-icon>
         <div>${this._config.name}</div>
       </a>

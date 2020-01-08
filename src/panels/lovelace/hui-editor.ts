@@ -1,6 +1,14 @@
-import { LitElement, html, TemplateResult, CSSResult, css } from "lit-element";
+import {
+  customElement,
+  LitElement,
+  html,
+  TemplateResult,
+  CSSResult,
+  css,
+  property,
+} from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import yaml from "js-yaml";
+import { safeDump, safeLoad } from "js-yaml";
 
 import "@polymer/app-layout/app-header-layout/app-header-layout";
 import "@polymer/app-layout/app-header/app-header";
@@ -14,11 +22,12 @@ import { Lovelace } from "./types";
 
 import "../../components/op-icon";
 import { opStyle } from "../../resources/styles";
-import "./components/hui-yaml-editor";
+import "../../components/op-code-editor";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HuiYamlEditor } from "./components/hui-yaml-editor";
+import { HaCodeEditor } from "../../components/op-code-editor";
 import { OpenPeerPower } from "../../types";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 const lovelaceStruct = struct.interface({
   title: "string?",
@@ -26,23 +35,15 @@ const lovelaceStruct = struct.interface({
   resources: struct.optional(["object"]),
 });
 
+@customElement("hui-editor")
 class LovelaceFullConfigEditor extends LitElement {
-  public opp?: OpenPeerPower;
-  public lovelace?: Lovelace;
-  public closeEditor?: () => void;
-  private _saving?: boolean;
-  private _changed?: boolean;
-  private _generation?: number;
+  @property() public opp!: OpenPeerPower;
+  @property() public lovelace?: Lovelace;
+  @property() public closeEditor?: () => void;
+  @property() private _saving?: boolean;
+  @property() private _changed?: boolean;
 
-  static get properties() {
-    return {
-      opp: {},
-      lovelace: {},
-      closeEditor: {},
-      _saving: {},
-      _changed: {},
-    };
-  }
+  private _generation = 1;
 
   public render(): TemplateResult | void {
     return html`
@@ -72,7 +73,10 @@ class LovelaceFullConfigEditor extends LitElement {
                     "ui.panel.lovelace.editor.raw_editor.saved"
                   )}
             </div>
-            <mwc-button raised @click="${this._handleSave}"
+            <mwc-button
+              raised
+              @click="${this._handleSave}"
+              .disabled=${!this._changed}
               >${this.opp!.localize(
                 "ui.panel.lovelace.editor.raw_editor.save"
               )}</mwc-button
@@ -80,21 +84,22 @@ class LovelaceFullConfigEditor extends LitElement {
           </app-toolbar>
         </app-header>
         <div class="content">
-          <hui-yaml-editor
+          <op-code-editor
+            mode="yaml"
+            autofocus
+            .rtl=${computeRTL(this.opp)}
             .opp="${this.opp}"
-            @yaml-changed="${this._yamlChanged}"
-            @yaml-save="${this._handleSave}"
+            @value-changed="${this._yamlChanged}"
+            @editor-save="${this._handleSave}"
           >
-          </hui-yaml-editor>
+          </op-code-editor>
         </div>
       </app-header-layout>
     `;
   }
 
   protected firstUpdated() {
-    this.yamlEditor.value = yaml.safeDump(this.lovelace!.config);
-    this.yamlEditor.codemirror.clearHistory();
-    this._generation = this.yamlEditor.codemirror.changeGeneration(true);
+    this.yamlEditor.value = safeDump(this.lovelace!.config);
   }
 
   static get styles(): CSSResult[] {
@@ -112,6 +117,11 @@ class LovelaceFullConfigEditor extends LitElement {
         app-toolbar {
           background-color: var(--dark-background-color, #455a64);
           color: var(--dark-text-color);
+        }
+
+        mwc-button[disabled] {
+          background-color: var(--mdc-theme-on-primary);
+          border-radius: 4px;
         }
 
         .comments {
@@ -140,10 +150,9 @@ class LovelaceFullConfigEditor extends LitElement {
   }
 
   private _yamlChanged() {
-    if (!this._generation) {
-      return;
-    }
-    this._changed = !this.yamlEditor.codemirror.isClean(this._generation);
+    this._changed = !this.yamlEditor
+      .codemirror!.getDoc()
+      .isClean(this._generation);
     if (this._changed && !window.onbeforeunload) {
       window.onbeforeunload = () => {
         return true;
@@ -156,7 +165,11 @@ class LovelaceFullConfigEditor extends LitElement {
   private _closeEditor() {
     if (this._changed) {
       if (
-        !confirm("You have unsaved changes, are you sure you want to exit?")
+        !confirm(
+          this.opp.localize(
+            "ui.panel.lovelace.editor.raw_editor.confirm_unsaved_changes"
+          )
+        )
       ) {
         return;
       }
@@ -173,7 +186,9 @@ class LovelaceFullConfigEditor extends LitElement {
     if (this.yamlEditor.hasComments) {
       if (
         !confirm(
-          "Your config contains comment(s), these will not be saved. Do you want to continue?"
+          this.opp.localize(
+            "ui.panel.lovelace.editor.raw_editor.confirm_unsaved_comments"
+          )
         )
       ) {
         return;
@@ -182,31 +197,51 @@ class LovelaceFullConfigEditor extends LitElement {
 
     let value;
     try {
-      value = yaml.safeLoad(this.yamlEditor.value);
+      value = safeLoad(this.yamlEditor.value);
     } catch (err) {
-      alert(`Unable to parse YAML: ${err}`);
+      alert(
+        this.opp.localize(
+          "ui.panel.lovelace.editor.raw_editor.error_parse_yaml",
+          "error",
+          err
+        )
+      );
       this._saving = false;
       return;
     }
     try {
       value = lovelaceStruct(value);
     } catch (err) {
-      alert(`Your config is not valid: ${err}`);
+      alert(
+        this.opp.localize(
+          "ui.panel.lovelace.editor.raw_editor.error_invalid_config",
+          "error",
+          err
+        )
+      );
       return;
     }
     try {
       await this.lovelace!.saveConfig(value);
     } catch (err) {
-      alert(`Unable to save YAML: ${err}`);
+      alert(
+        this.opp.localize(
+          "ui.panel.lovelace.editor.raw_editor.error_save_yaml",
+          "error",
+          err
+        )
+      );
     }
-    this._generation = this.yamlEditor.codemirror.changeGeneration(true);
+    this._generation = this.yamlEditor
+      .codemirror!.getDoc()
+      .changeGeneration(true);
     window.onbeforeunload = null;
     this._saving = false;
     this._changed = false;
   }
 
-  private get yamlEditor(): HuiYamlEditor {
-    return this.shadowRoot!.querySelector("hui-yaml-editor")!;
+  private get yamlEditor(): HaCodeEditor {
+    return this.shadowRoot!.querySelector("op-code-editor")! as HaCodeEditor;
   }
 }
 
@@ -215,5 +250,3 @@ declare global {
     "hui-editor": LovelaceFullConfigEditor;
   }
 }
-
-customElements.define("hui-editor", LovelaceFullConfigEditor);

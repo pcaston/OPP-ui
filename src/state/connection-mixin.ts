@@ -21,8 +21,8 @@ import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { broadcastConnectionStatus } from "../data/connection-status";
 
-export const connectionMixin = (
-  superClass: Constructor<LitElement & OppBaseEl>
+export const connectionMixin = <T extends Constructor<OppBaseEl>>(
+  superClass: T
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {
@@ -44,8 +44,10 @@ export const connectionMixin = (
         localize: () => "",
 
         translationMetadata,
-        dockedSidebar: false,
+        dockedSidebar: "docked",
+        vibrate: true,
         moreInfoEntityId: null,
+        oppUrl: (path = "") => new URL(path, auth.data.oppUrl).toString(),
         callService: async (domain, service, serviceData = {}) => {
           if (__DEV__) {
             // tslint:disable-next-line: no-console
@@ -88,13 +90,13 @@ export const connectionMixin = (
           conn.sendMessage(msg);
         },
         // For messages that expect a response
-        callWS: <T>(msg) => {
+        callWS: <R>(msg) => {
           if (__DEV__) {
             // tslint:disable-next-line: no-console
             console.log("Sending", msg);
           }
 
-          const resp = conn.sendMessagePromise<T>(msg);
+          const resp = conn.sendMessagePromise<R>(msg);
 
           if (__DEV__) {
             resp.then(

@@ -13,9 +13,10 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
-import "../../components/op-start-voice-button";
 import "../../components/op-card";
 import LocalizeMixin from "../../mixins/localize-mixin";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-op-voice-command-dialog";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -67,12 +68,19 @@ class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button></op-menu-button>
-            <div main-title>[[localize('panel.shopping_list')]]</div>
-            <op-start-voice-button
+            <op-menu-button
               opp="[[opp]]"
-              can-listen="{{canListen}}"
-            ></op-start-voice-button>
+              narrow="[[narrow]]"
+            ></op-menu-button>
+            <div main-title>[[localize('panel.shopping_list')]]</div>
+
+            <paper-icon-button
+              hidden$="[[!conversation]]"
+              aria-label="Start conversation"
+              icon="opp:microphone"
+              on-click="_showVoiceCommandDialog"
+            ></paper-icon-button>
+
             <paper-menu-button
               horizontal-align="right"
               horizontal-offset="-5"
@@ -128,7 +136,7 @@ class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
               </paper-icon-item>
             </template>
           </op-card>
-          <div class="tip" hidden$="[[!canListen]]">
+          <div class="tip" hidden$="[[!conversation]]">
             [[localize('ui.panel.shopping-list.microphone_tip')]]
           </div>
         </div>
@@ -139,7 +147,11 @@ class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
   static get properties() {
     return {
       opp: Object,
-      canListen: Boolean,
+      narrow: Boolean,
+      conversation: {
+        type: Boolean,
+        computed: "_computeConversation(opp)",
+      },
       items: {
         type: Array,
         value: [],
@@ -201,6 +213,14 @@ class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
     if (ev.keyCode === 13) {
       this._addItem();
     }
+  }
+
+  _computeConversation(opp) {
+    return isComponentLoaded(opp, "conversation");
+  }
+
+  _showVoiceCommandDialog() {
+    showVoiceCommandDialog(this);
   }
 
   _saveEdit(ev) {

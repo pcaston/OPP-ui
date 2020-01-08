@@ -16,10 +16,11 @@ import "../components/hui-warning";
 import { OpenPeerPower } from "../../../types";
 import { EntityRow, EntityConfig } from "./types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
+import { activateScene } from "../../../data/scene";
 
 @customElement("hui-scene-entity-row")
 class HuiSceneEntityRow extends LitElement implements EntityRow {
-  @property() public opp?: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
 
   @property() private _config?: EntityConfig;
 
@@ -39,7 +40,7 @@ class HuiSceneEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -79,11 +80,9 @@ class HuiSceneEntityRow extends LitElement implements EntityRow {
     `;
   }
 
-  private _callService(ev): void {
+  private _callService(ev: Event): void {
     ev.stopPropagation();
-    this.opp!.callService("scene", "turn_on", {
-      entity_id: this._config!.entity,
-    });
+    activateScene(this.opp, this._config!.entity);
   }
 }
 

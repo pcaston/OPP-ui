@@ -15,7 +15,7 @@ import "./op-settings-row";
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class OpRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -118,4 +118,4 @@ class OpRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-refresh-tokens-card", OpRefreshTokens);
+customElements.define("op-refresh-tokens-card", HaRefreshTokens);

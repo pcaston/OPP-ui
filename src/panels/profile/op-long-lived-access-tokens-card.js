@@ -15,7 +15,7 @@ import "./op-settings-row";
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class OpLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -155,4 +155,4 @@ class OpLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-long-lived-access-tokens-card", OpLongLivedTokens);
+customElements.define("op-long-lived-access-tokens-card", HaLongLivedTokens);

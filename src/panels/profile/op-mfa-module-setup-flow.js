@@ -5,7 +5,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/dialog/op-paper-dialog";
-import "../../components/op-form";
+import "../../components/op-form/op-form";
 import "../../components/op-markdown";
 import "../../resources/op-style";
 
@@ -18,7 +18,7 @@ let instance = 0;
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -30,6 +30,7 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
         }
         op-markdown img:first-child:last-child,
         op-markdown svg:first-child:last-child {
+          background-color: white;
           display: block;
           margin: 0 auto;
         }
@@ -73,6 +74,7 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
           <template is="dom-if" if="[[_step]]">
             <template is="dom-if" if="[[_equals(_step.type, 'abort')]]">
               <op-markdown
+                allowsvg
                 content="[[_computeStepAbortedReason(localize, _step)]]"
               ></op-markdown>
             </template>
@@ -90,8 +92,8 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
                 if="[[_computeStepDescription(localize, _step)]]"
               >
                 <op-markdown
+                  allowsvg
                   content="[[_computeStepDescription(localize, _step)]]"
-                  allow-svg
                 ></op-markdown>
               </template>
 
@@ -286,9 +288,7 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   _computeStepDescription(localize, step) {
     const args = [
-      `component.auth.mfa_setup.${step.handler}.step.${
-        step.step_id
-      }.description`,
+      `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.description`,
     ];
     const placeholders = step.description_placeholders || {};
     Object.keys(placeholders).forEach((key) => {
@@ -302,9 +302,7 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     // Returns a callback for op-form to calculate labels per schema object
     return (schema) =>
       localize(
-        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.data.${
-          schema.name
-        }`
+        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.data.${schema.name}`
       ) || schema.name;
   }
 
@@ -316,4 +314,4 @@ class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-mfa-module-setup-flow", OpMfaModuleSetupFlow);
+customElements.define("op-mfa-module-setup-flow", HaMfaModuleSetupFlow);

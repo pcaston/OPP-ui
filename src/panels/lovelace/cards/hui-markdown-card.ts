@@ -6,30 +6,47 @@ import {
   property,
   css,
   CSSResult,
+  PropertyValues,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
+import { UnsubscribeFunc } from "open-peer-power-js-websocket";
 
 import "../../../components/op-card";
 import "../../../components/op-markdown";
 
+import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { MarkdownCardConfig } from "./types";
+import { subscribeRenderTemplate } from "../../../data/ws-templates";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-markdown-card")
 export class HuiMarkdownCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-markdown-card-editor" */ "../editor/config-elements/hui-markdown-card-editor");
+    await import(
+      /* webpackChunkName: "hui-markdown-card-editor" */ "../editor/config-elements/hui-markdown-card-editor"
+    );
     return document.createElement("hui-markdown-card-editor");
   }
 
   public static getStubConfig(): object {
-    return { content: " " };
+    return {
+      content:
+        "The **Markdown** card allows you to write any text. You can style it **bold**, *italicized*, ~strikethrough~ etc. You can do images, links, and more.\n\nFor more information see the [Markdown Cheatsheet](https://commonmark.org/help).",
+    };
   }
 
   @property() private _config?: MarkdownCardConfig;
+  @property() private _content?: string = "";
+  @property() private _unsubRenderTemplate?: Promise<UnsubscribeFunc>;
+  @property() private _opp?: OpenPeerPower;
 
   public getCardSize(): number {
-    return this._config!.content.split("\n").length;
+    return this._config === undefined
+      ? 3
+      : this._config.card_size === undefined
+      ? this._config.content.split("\n").length + (this._config.title ? 1 : 0)
+      : this._config.card_size;
   }
 
   public setConfig(config: MarkdownCardConfig): void {
@@ -38,6 +55,20 @@ export class HuiMarkdownCard extends LitElement implements LovelaceCard {
     }
 
     this._config = config;
+    this._disconnect().then(() => {
+      if (this._opp) {
+        this._connect();
+      }
+    });
+  }
+
+  public disconnectedCallback() {
+    this._disconnect();
+  }
+
+  public set opp(opp) {
+    this._opp = opp;
+    this._connect();
   }
 
   protected render(): TemplateResult | void {
@@ -51,23 +82,70 @@ export class HuiMarkdownCard extends LitElement implements LovelaceCard {
           class="markdown ${classMap({
             "no-header": !this._config.title,
           })}"
-          .content="${this._config.content}"
+          .content="${this._content}"
         ></op-markdown>
       </op-card>
     `;
   }
 
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this._opp) {
+      return;
+    }
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
+    const oldConfig = changedProps.get("_config") as
+      | MarkdownCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
+      applyThemesOnElement(this, this._opp.themes, this._config.theme);
+    }
+  }
+
+  private async _connect() {
+    if (!this._unsubRenderTemplate && this._opp && this._config) {
+      this._unsubRenderTemplate = subscribeRenderTemplate(
+        this._opp.connection,
+        (result) => {
+          this._content = result;
+        },
+        {
+          template: this._config.content,
+          entity_ids: this._config.entity_id,
+          variables: { config: this._config },
+        }
+      );
+      this._unsubRenderTemplate.catch(() => {
+        this._content = this._config!.content;
+        this._unsubRenderTemplate = undefined;
+      });
+    }
+  }
+
+  private async _disconnect() {
+    if (this._unsubRenderTemplate) {
+      try {
+        const unsub = await this._unsubRenderTemplate;
+        this._unsubRenderTemplate = undefined;
+        await unsub();
+      } catch (e) {
+        if (e.code === "not_found") {
+          // If we get here, the connection was probably already closed. Ignore.
+        } else {
+          throw e;
+        }
+      }
+    }
+  }
+
   static get styles(): CSSResult {
     return css`
-      :host {
-        /* start paper-font-body1 style */
-        font-family: "Roboto", "Noto", sans-serif;
-        -webkit-font-smoothing: antialiased; /* OS X subpixel AA bleed bug */
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 20px;
-        /* end paper-font-body1 style */
-      }
       op-markdown {
         display: block;
         padding: 0 16px 16px;

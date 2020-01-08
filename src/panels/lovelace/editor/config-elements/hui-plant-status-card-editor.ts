@@ -9,6 +9,7 @@ import "@polymer/paper-input/paper-input";
 
 import "../../../../components/entity/op-entity-picker";
 import "../../../../components/op-icon";
+import "../../components/hui-theme-select-editor";
 
 import { struct } from "../../common/structs/struct";
 import { EntitiesEditorEvent, EditorTarget } from "../types";
@@ -22,6 +23,7 @@ const cardConfigStruct = struct({
   type: "string",
   entity: "string",
   name: "string?",
+  theme: "string?",
 });
 
 @customElement("hui-plant-status-card-editor")
@@ -44,6 +46,10 @@ export class HuiPlantStatusCardEditor extends LitElement
     return this._config!.name || "";
   }
 
+  get _theme(): string {
+    return this._config!.theme || "Backend-selected";
+  }
+
   protected render(): TemplateResult | void {
     if (!this.opp) {
       return html``;
@@ -52,22 +58,35 @@ export class HuiPlantStatusCardEditor extends LitElement
     return html`
       ${configElementStyle}
       <div class="card-config">
-        <div class="side-by-side">
-          <paper-input
-            label="Name"
-            .value="${this._name}"
-            .configValue="${"name"}"
-            @value-changed="${this._valueChanged}"
-          ></paper-input>
-          <op-entity-picker
-            .opp="${this.opp}"
-            .value="${this._entity}"
-            .configValue=${"entity"}
-            domain-filter="plant"
-            @change="${this._valueChanged}"
-            allow-custom-entity
-          ></op-entity-picker>
-        </div>
+        <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
+          .opp="${this.opp}"
+          .value="${this._entity}"
+          .configValue=${"entity"}
+          include-domains='["plant"]'
+          @change="${this._valueChanged}"
+          allow-custom-entity
+        ></op-entity-picker>
+        <paper-input
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.name"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.optional"
+          )})"
+          .value="${this._name}"
+          .configValue="${"name"}"
+          @value-changed="${this._valueChanged}"
+        ></paper-input>
+        <hui-theme-select-editor
+          .opp="${this.opp}"
+          .value="${this._theme}"
+          .configValue="${"theme"}"
+          @theme-changed="${this._valueChanged}"
+        ></hui-theme-select-editor>
       </div>
     `;
   }

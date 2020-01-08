@@ -8,31 +8,35 @@ import {
   customElement,
   property,
 } from "lit-element";
-import { OppEntity } from "../../../types";
+import { OppEntity } from "open-peer-power-js-websocket";
 import { styleMap } from "lit-html/directives/style-map";
 import "@material/mwc-ripple";
 
 import "../../../components/op-card";
 import "../components/hui-warning";
 
-import isValidEntityId from "../../../common/entity/valid_entity_id";
-import stateIcon from "../../../common/entity/state_icon";
-import computeStateDomain from "../../../common/entity/compute_state_domain";
-import computeStateName from "../../../common/entity/compute_state_name";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
-import computeDomain from "../../../common/entity/compute_domain";
+import { isValidEntityId } from "../../../common/entity/valid_entity_id";
+import { stateIcon } from "../../../common/entity/state_icon";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
+import { computeStateName } from "../../../common/entity/compute_state_name";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import { computeDomain } from "../../../common/entity/compute_domain";
 
 import { OpenPeerPower, LightEntity } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
-import { longPress } from "../common/directives/long-press-directive";
-import { handleClick } from "../common/handle-click";
 import { DOMAINS_TOGGLE } from "../../../common/const";
 import { EntityButtonCardConfig } from "./types";
+import { actionHandler } from "../common/directives/action-handler-directive";
+import { hasAction } from "../common/has-action";
+import { handleAction } from "../common/handle-action";
+import { ActionHandlerEvent } from "../../../data/lovelace";
 
 @customElement("hui-entity-button-card")
 class HuiEntityButtonCard extends LitElement implements LovelaceCard {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    await import(/* webpackChunkName: "hui-entity-button-card-editor" */ "../editor/config-elements/hui-entity-button-card-editor");
+    await import(
+      /* webpackChunkName: "hui-entity-button-card-editor" */ "../editor/config-elements/hui-entity-button-card-editor"
+    );
     return document.createElement("hui-entity-button-card-editor");
   }
 
@@ -61,6 +65,7 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     this._config = {
       theme: "default",
       hold_action: { action: "more-info" },
+      double_tap_action: { action: "none" },
       show_icon: true,
       show_name: true,
       ...config,
@@ -89,20 +94,26 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     }
 
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (oldOpp) {
-      return (
-        oldOpp.states![this._config!.entity] !==
-        this.opp!.states![this._config!.entity]
-      );
+
+    if (
+      !oldOpp ||
+      oldOpp.themes !== this.opp!.themes ||
+      oldOpp.language !== this.opp!.language
+    ) {
+      return true;
     }
-    return true;
+
+    return (
+      oldOpp.states[this._config!.entity] !==
+      this.opp!.states[this._config!.entity]
+    );
   }
 
   protected render(): TemplateResult | void {
     if (!this._config || !this.opp) {
       return html``;
     }
-    const stateObj = this.opp.states![this._config.entity];
+    const stateObj = this.opp.states[this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -118,9 +129,11 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
 
     return html`
       <op-card
-        @op-click="${this._handleTap}"
-        @op-hold="${this._handleHold}"
-        .longPress="${longPress()}"
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+          hasHold: hasAction(this._config!.hold_action),
+          hasDoubleClick: hasAction(this._config!.double_tap_action),
+        })}
       >
         ${this._config.show_icon
           ? html`
@@ -156,7 +169,16 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
       return;
     }
     const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-    if (!oldOpp || oldOpp.themes !== this.opp.themes) {
+    const oldConfig = changedProps.get("_config") as
+      | EntityButtonCardConfig
+      | undefined;
+
+    if (
+      !oldOpp ||
+      !oldConfig ||
+      oldOpp.themes !== this.opp.themes ||
+      oldConfig.theme !== this._config.theme
+    ) {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
   }
@@ -212,12 +234,8 @@ class HuiEntityButtonCard extends LitElement implements LovelaceCard {
     return `hsl(${hue}, 100%, ${100 - sat / 2}%)`;
   }
 
-  private _handleTap() {
-    handleClick(this, this.opp!, this._config!, false);
-  }
-
-  private _handleHold() {
-    handleClick(this, this.opp!, this._config!, true);
+  private _handleAction(ev: ActionHandlerEvent) {
+    handleAction(this, this.opp!, this._config!, ev.detail.action!);
   }
 }
 

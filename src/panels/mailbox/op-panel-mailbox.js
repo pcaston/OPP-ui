@@ -23,7 +23,7 @@ let registeredDialog = false;
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class HaPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -80,7 +80,10 @@ class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button></op-menu-button>
+            <op-menu-button
+              opp="[[opp]]"
+              narrow="[[narrow]]"
+            ></op-menu-button>
             <div main-title>[[localize('panel.mailbox')]]</div>
           </app-toolbar>
           <div sticky hidden$="[[areTabsHidden(platforms)]]">
@@ -128,9 +131,8 @@ class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      opp: {
-        type: Object,
-      },
+      opp: Object,
+      narrow: Boolean,
 
       platforms: {
         type: Array,
@@ -155,7 +157,9 @@ class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
         dialogShowEvent: "show-audio-message-dialog",
         dialogTag: "op-dialog-show-audio-message",
         dialogImport: () =>
-          import(/* webpackChunkName: "op-dialog-show-audio-message" */ "./op-dialog-show-audio-message"),
+          import(
+            /* webpackChunkName: "op-dialog-show-audio-message" */ "./op-dialog-show-audio-message"
+          ),
       });
     }
     this.oppChanged = this.oppChanged.bind(this);
@@ -247,4 +251,4 @@ class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-panel-mailbox", OpPanelMailbox);
+customElements.define("op-panel-mailbox", HaPanelMailbox);

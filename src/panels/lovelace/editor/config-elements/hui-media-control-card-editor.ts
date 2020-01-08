@@ -44,10 +44,15 @@ export class HuiMediaControlCardEditor extends LitElement
     return html`
       <div class="card-config">
         <op-entity-picker
+          .label="${this.opp.localize(
+            "ui.panel.lovelace.editor.card.generic.entity"
+          )} (${this.opp.localize(
+            "ui.panel.lovelace.editor.card.config.required"
+          )})"
           .opp="${this.opp}"
           .value="${this._entity}"
           .configValue=${"entity"}
-          domain-filter="media_player"
+          include-domains='["media_player"]'
           @change="${this._valueChanged}"
           allow-custom-entity
         ></op-entity-picker>

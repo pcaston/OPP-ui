@@ -11,12 +11,20 @@ export function hasConfigOrEntityChanged(
   }
 
   const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
-  if (oldOpp) {
-    return (
-      oldOpp.states![element._config!.entity] !==
-      element.opp!.states[element._config!.entity]
-    );
+  if (!oldOpp) {
+    return true;
   }
 
-  return true;
+  if (
+    oldOpp.themes !== element.opp!.themes ||
+    oldOpp.language !== element.opp!.language
+  ) {
+    return true;
+  }
+
+  return (
+    oldOpp.states[element._config!.entity] !==
+      element.opp!.states[element._config!.entity] ||
+    oldOpp.localize !== element.opp.localize
+  );
 }

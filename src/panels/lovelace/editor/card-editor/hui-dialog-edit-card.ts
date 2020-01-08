@@ -1,18 +1,30 @@
 import {
+  css,
   html,
   LitElement,
   TemplateResult,
+  CSSResultArray,
   customElement,
   property,
 } from "lit-element";
 
 import { OpenPeerPower } from "../../../../types";
 import { OPPDomEvent } from "../../../../common/dom/fire_event";
-import { LovelaceCardConfig } from "../../../../data/lovelace";
-import "./hui-edit-card";
-import "./hui-dialog-pick-card";
+import {
+  LovelaceCardConfig,
+  LovelaceViewConfig,
+} from "../../../../data/lovelace";
+import "./hui-card-editor";
+// tslint:disable-next-line
+import { HuiCardEditor } from "./hui-card-editor";
+import "./hui-card-preview";
+import "./hui-card-picker";
 import { EditCardDialogParams } from "./show-edit-card-dialog";
 import { addCard, replaceCard } from "../config-util";
+
+import "../../../../components/dialog/op-paper-dialog";
+import { opStyleDialog } from "../../../../resources/styles";
+import { showSaveSuccessToast } from "../../../../util/toast-saved-success";
 
 declare global {
   // for fire event
@@ -27,78 +39,268 @@ declare global {
 
 @customElement("hui-dialog-edit-card")
 export class HuiDialogEditCard extends LitElement {
-  @property() protected opp?: OpenPeerPower;
+  @property() protected opp!: OpenPeerPower;
 
   @property() private _params?: EditCardDialogParams;
 
   @property() private _cardConfig?: LovelaceCardConfig;
+  @property() private _viewConfig!: LovelaceViewConfig;
 
-  @property() private _newCard?: boolean;
-
-  constructor() {
-    super();
-    this._cardPicked = this._cardPicked.bind(this);
-    this._cancel = this._cancel.bind(this);
-    this._save = this._save.bind(this);
-  }
+  @property() private _saving: boolean = false;
+  @property() private _error?: string;
 
   public async showDialog(params: EditCardDialogParams): Promise<void> {
     this._params = params;
     const [view, card] = params.path;
-    this._newCard = card !== undefined ? false : true;
+    this._viewConfig = params.lovelaceConfig.views[view];
     this._cardConfig =
-      card !== undefined
-        ? params.lovelace.config.views[view].cards![card]
-        : undefined;
+      card !== undefined ? this._viewConfig.cards![card] : undefined;
+  }
+
+  private get _cardEditorEl(): HuiCardEditor | null {
+    return this.shadowRoot!.querySelector("hui-card-editor");
   }
 
   protected render(): TemplateResult | void {
     if (!this._params) {
       return html``;
     }
-    if (!this._cardConfig) {
-      // Card picker
-      return html`
-        <hui-dialog-pick-card
-          .opp="${this.opp}"
-          .cardPicked="${this._cardPicked}"
-          .closeDialog="${this._cancel}"
-        ></hui-dialog-pick-card>
-      `;
+
+    let heading: string;
+    if (this._cardConfig && this._cardConfig.type) {
+      heading = `${this.opp!.localize(
+        `ui.panel.lovelace.editor.card.${this._cardConfig.type}.name`
+      )} ${this.opp!.localize("ui.panel.lovelace.editor.edit_card.header")}`;
+    } else if (!this._cardConfig) {
+      heading = this._viewConfig.title
+        ? this.opp!.localize(
+            "ui.panel.lovelace.editor.edit_card.pick_card_view_title",
+            "name",
+            `"${this._viewConfig.title}"`
+          )
+        : this.opp!.localize("ui.panel.lovelace.editor.edit_card.pick_card");
+    } else {
+      heading = this.opp!.localize(
+        "ui.panel.lovelace.editor.edit_card.header"
+      );
     }
+
     return html`
-      <hui-edit-card
-        .opp="${this.opp}"
-        .lovelace="${this._params.lovelace}"
-        .cardConfig="${this._cardConfig}"
-        .closeDialog="${this._cancel}"
-        .saveCard="${this._save}"
-        .newCard="${this._newCard}"
-      >
-      </hui-edit-card>
+      <op-paper-dialog with-backdrop opened modal>
+        <h2>
+          ${heading}
+        </h2>
+        <paper-dialog-scrollable>
+          ${this._cardConfig === undefined
+            ? html`
+                <hui-card-picker
+                  .opp="${this.opp}"
+                  @config-changed="${this._handleCardPicked}"
+                ></hui-card-picker>
+              `
+            : html`
+                <div class="content">
+                  <div class="element-editor">
+                    <hui-card-editor
+                      .opp="${this.opp}"
+                      .value="${this._cardConfig}"
+                      @config-changed="${this._handleConfigChanged}"
+                    ></hui-card-editor>
+                  </div>
+                  <div class="element-preview">
+                    <hui-card-preview
+                      .opp="${this.opp}"
+                      .config="${this._cardConfig}"
+                      class=${this._error ? "blur" : ""}
+                    ></hui-card-preview>
+                    ${this._error
+                      ? html`
+                          <paper-spinner
+                            active
+                            alt="Can't update card"
+                          ></paper-spinner>
+                        `
+                      : ``}
+                  </div>
+                </div>
+              `}
+        </paper-dialog-scrollable>
+        <div class="paper-dialog-buttons">
+          <mwc-button @click="${this._close}">
+            ${this.opp!.localize("ui.common.cancel")}
+          </mwc-button>
+          ${this._cardConfig !== undefined
+            ? html`
+                <mwc-button
+                  ?disabled="${!this._canSave || this._saving}"
+                  @click="${this._save}"
+                >
+                  ${this._saving
+                    ? html`
+                        <paper-spinner active alt="Saving"></paper-spinner>
+                      `
+                    : this.opp!.localize("ui.common.save")}
+                </mwc-button>
+              `
+            : ``}
+        </div>
+      </op-paper-dialog>
     `;
   }
 
-  private _cardPicked(cardConf: LovelaceCardConfig): void {
-    this._cardConfig = cardConf;
+  static get styles(): CSSResultArray {
+    return [
+      opStyleDialog,
+      css`
+        :host {
+          --code-mirror-max-height: calc(100vh - 176px);
+        }
+
+        @media all and (max-width: 450px), all and (max-height: 500px) {
+          /* overrule the op-style-dialog max-height on small screens */
+          op-paper-dialog {
+            max-height: 100%;
+            height: 100%;
+          }
+        }
+
+        @media all and (min-width: 850px) {
+          op-paper-dialog {
+            width: 845px;
+          }
+        }
+
+        op-paper-dialog {
+          max-width: 845px;
+        }
+
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+          margin: 0 -10px;
+        }
+        .content hui-card-preview {
+          margin: 4px auto;
+          max-width: 390px;
+        }
+        .content .element-editor {
+          margin: 0 10px;
+        }
+
+        @media (min-width: 1200px) {
+          op-paper-dialog {
+            max-width: none;
+            width: 1000px;
+          }
+
+          .content {
+            flex-direction: row;
+          }
+          .content > * {
+            flex-basis: 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
+          }
+          .content hui-card-preview {
+            padding: 8px 0;
+            margin: auto 10px;
+            max-width: 500px;
+          }
+        }
+
+        mwc-button paper-spinner {
+          width: 14px;
+          height: 14px;
+          margin-right: 20px;
+        }
+        .hidden {
+          display: none;
+        }
+        .element-editor {
+          margin-bottom: 8px;
+        }
+        .blur {
+          filter: blur(2px) grayscale(100%);
+        }
+        .element-preview {
+          position: relative;
+        }
+        .element-preview paper-spinner {
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          z-index: 10;
+        }
+        hui-card-preview {
+          padding-top: 8px;
+          margin-bottom: 4px;
+          display: block;
+          width: 100%;
+        }
+      `,
+    ];
   }
 
-  private _cancel(): void {
+  private _handleCardPicked(ev) {
+    this._cardConfig = ev.detail.config;
+    if (this._params!.entities && this._params!.entities.length > 0) {
+      if (Object.keys(this._cardConfig!).includes("entities")) {
+        this._cardConfig!.entities = this._params!.entities;
+      } else if (Object.keys(this._cardConfig!).includes("entity")) {
+        this._cardConfig!.entity = this._params!.entities[0];
+      }
+    }
+    this._error = ev.detail.error;
+  }
+
+  private _handleConfigChanged(ev) {
+    this._cardConfig = ev.detail.config;
+    this._error = ev.detail.error;
+  }
+
+  private _close(): void {
     this._params = undefined;
     this._cardConfig = undefined;
+    this._error = undefined;
   }
 
-  private async _save(cardConf: LovelaceCardConfig): Promise<void> {
-    const lovelace = this._params!.lovelace;
-    await lovelace.saveConfig(
+  private get _canSave(): boolean {
+    if (this._saving) {
+      return false;
+    }
+    if (this._cardConfig === undefined) {
+      return false;
+    }
+    if (this._cardEditorEl && this._cardEditorEl.hasError) {
+      return false;
+    }
+    return true;
+  }
+
+  private async _save(): Promise<void> {
+    this._saving = true;
+    await this._params!.saveConfig(
       this._params!.path.length === 1
-        ? addCard(lovelace.config, this._params!.path as [number], cardConf)
+        ? addCard(
+            this._params!.lovelaceConfig,
+            this._params!.path as [number],
+            this._cardConfig!
+          )
         : replaceCard(
-            lovelace.config,
+            this._params!.lovelaceConfig,
             this._params!.path as [number, number],
-            cardConf
+            this._cardConfig!
           )
     );
+    this._saving = false;
+    showSaveSuccessToast(this, this.opp);
+    this._close();
   }
 }
 
