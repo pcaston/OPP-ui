@@ -24,9 +24,9 @@ import { computeCards } from "../../common/generate-lovelace-config";
 import { SuggestCardDialogParams } from "./show-suggest-card-dialog";
 import { showSaveSuccessToast } from "../../../../util/toast-saved-success";
 // tslint:disable-next-line
-import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line
-import { HaYamlEditor } from "../../../../components/op-yaml-editor";
+import { OpYamlEditor } from "../../../../components/op-yaml-editor";
 
 @customElement("hui-dialog-suggest-card")
 export class HuiDialogSuggestCard extends LitElement {
@@ -35,8 +35,8 @@ export class HuiDialogSuggestCard extends LitElement {
   @property() private _cardConfig?: LovelaceCardConfig[];
   @property() private _saving: boolean = false;
   @property() private _yamlMode: boolean = false;
-  @query("op-paper-dialog") private _dialog?: HaPaperDialog;
-  @query("op-yaml-editor") private _yamlEditor?: HaYamlEditor;
+  @query("op-paper-dialog") private _dialog?: OpPaperDialog;
+  @query("op-yaml-editor") private _yamlEditor?: OpYamlEditor;
 
   public async showDialog(params: SuggestCardDialogParams): Promise<void> {
     this._params = params;

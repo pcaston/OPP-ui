@@ -55,7 +55,7 @@ class HuiInputSelectEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity] as
+    const stateObj = this.opp.states![this._config.entity] as
       | InputSelectEntity
       | undefined;
 

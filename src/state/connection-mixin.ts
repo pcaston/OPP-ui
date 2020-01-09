@@ -47,7 +47,6 @@ export const connectionMixin = (
         dockedSidebar: "docked",
         vibrate: true,
         moreInfoEntityId: null,
-        oppUrl: (path = "") => new URL(path, auth.data.oppUrl).toString(),
         callService: async (domain, service, serviceData = {}) => {
           if (__DEV__) {
             // tslint:disable-next-line: no-console

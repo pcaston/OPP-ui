@@ -20,7 +20,7 @@ import { computeRTL } from "../../../../common/util/compute_rtl";
 import "../../../../components/op-code-editor";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaCodeEditor } from "../../../../components/op-code-editor";
+import { OpCodeEditor } from "../../../../components/op-code-editor";
 import { fireEvent } from "../../../../common/dom/fire_event";
 import { EntityConfig } from "../../entity-rows/types";
 
@@ -88,8 +88,8 @@ export class HuiCardEditor extends LitElement {
     return this._error !== undefined;
   }
 
-  private get _yamlEditor(): HaCodeEditor {
-    return this.shadowRoot!.querySelector("op-code-editor")! as HaCodeEditor;
+  private get _yamlEditor(): OpCodeEditor {
+    return this.shadowRoot!.querySelector("op-code-editor")! as OpCodeEditor;
   }
 
   public toggleMode() {
