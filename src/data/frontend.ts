@@ -1,8 +1,14 @@
-import { OpenPeerPower } from "../types";
+import { Connection } from "../open-peer-power-js-websocket/lib";
+import { getOptimisticCollection } from "./collection";
+
+export interface CoreFrontendUserData {
+  showAdvanced?: boolean;
+}
 
 declare global {
-  // tslint:disable-next-line
-  interface FrontendUserData {}
+  interface FrontendUserData {
+    core: CoreFrontendUserData;
+  }
 }
 
 export type ValidUserDataKey = keyof FrontendUserData;
@@ -10,10 +16,10 @@ export type ValidUserDataKey = keyof FrontendUserData;
 export const fetchFrontendUserData = async <
   UserDataKey extends ValidUserDataKey
 >(
-  opp: OpenPeerPower,
+  conn: Connection,
   key: UserDataKey
 ): Promise<FrontendUserData[UserDataKey] | null> => {
-  const result = await opp.callWS<{
+  const result = await conn.sendMessagePromise<{
     value: FrontendUserData[UserDataKey] | null;
   }>({
     type: "frontend/get_user_data",
@@ -25,12 +31,31 @@ export const fetchFrontendUserData = async <
 export const saveFrontendUserData = async <
   UserDataKey extends ValidUserDataKey
 >(
-  opp: OpenPeerPower,
+  conn: Connection,
   key: UserDataKey,
   value: FrontendUserData[UserDataKey]
 ): Promise<void> =>
-  opp.callWS<void>({
+  conn.sendMessagePromise<void>({
     type: "frontend/set_user_data",
     key,
     value,
   });
+
+export const getOptimisticFrontendUserDataCollection = <
+  UserDataKey extends ValidUserDataKey
+>(
+  conn: Connection,
+  userDataKey: UserDataKey
+) =>
+  getOptimisticCollection(
+    (_conn, data) =>
+      saveFrontendUserData(
+        conn,
+        userDataKey,
+        // @ts-ignore
+        data
+      ),
+    conn,
+    `_frontendUserData-${userDataKey}`,
+    () => fetchFrontendUserData(conn, userDataKey)
+  );

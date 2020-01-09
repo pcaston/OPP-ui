@@ -28,16 +28,16 @@ class MoreInfoCounter extends LitElement {
           .action="${"increment"}"
           @click="${this._handleActionClick}"
         >
-          "ui.card.counter.actions.increment"
+          ${this.opp!.localize("ui.card.counter.actions.increment")}
         </mwc-button>
         <mwc-button
           .action="${"decrement"}"
           @click="${this._handleActionClick}"
         >
-          "ui.card.counter.actions.decrement"
+          ${this.opp!.localize("ui.card.counter.actions.decrement")}
         </mwc-button>
         <mwc-button .action="${"reset"}" @click="${this._handleActionClick}">
-          "ui.card.counter.actions.reset"
+          ${this.opp!.localize("ui.card.counter.actions.reset")}
         </mwc-button>
       </div>
     `;

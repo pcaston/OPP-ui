@@ -1,4 +1,4 @@
-import { OppEntity } from "open-peer-power-js-websocket";
+import { OppEntity } from "../../../types";
 
 export const evaluateFilter = (stateObj: OppEntity, filter: any): boolean => {
   const operator = filter.operator || "==";

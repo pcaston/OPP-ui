@@ -1,5 +1,4 @@
-import { OppEntity } from "../types";
-import { OpenPeerPower } from "../types";
+import { OppEntity, OpenPeerPower } from "../types";
 
 export interface ZHAEntityReference extends OppEntity {
   name: string;
@@ -9,6 +8,9 @@ export interface ZHADevice {
   name: string;
   ieee: string;
   nwk: string;
+  lqi: string;
+  rssi: string;
+  last_seen: string;
   manufacturer: string;
   model: string;
   quirk_applied: boolean;
@@ -48,6 +50,12 @@ export interface ReadAttributeServiceData {
   manufacturer?: number;
 }
 
+export interface ZHAGroup {
+  name: string;
+  group_id: number;
+  members: ZHADevice[];
+}
+
 export const reconfigureNode = (
   opp: OpenPeerPower,
   ieeeAddress: string
@@ -75,6 +83,15 @@ export const fetchAttributesForCluster = (
 export const fetchDevices = (opp: OpenPeerPower): Promise<ZHADevice[]> =>
   opp.callWS({
     type: "zha/devices",
+  });
+
+export const fetchZHADevice = (
+  opp: OpenPeerPower,
+  ieeeAddress: string
+): Promise<ZHADevice> =>
+  opp.callWS({
+    type: "zha/device",
+    ieee: ieeeAddress,
   });
 
 export const fetchBindableDevices = (
@@ -140,4 +157,67 @@ export const fetchClustersForZhaNode = (
   opp.callWS({
     type: "zha/devices/clusters",
     ieee: ieeeAddress,
+  });
+
+export const fetchGroups = (opp: OpenPeerPower): Promise<ZHAGroup[]> =>
+  opp.callWS({
+    type: "zha/groups",
+  });
+
+export const removeGroups = (
+  opp: OpenPeerPower,
+  groupIdsToRemove: number[]
+): Promise<ZHAGroup[]> =>
+  opp.callWS({
+    type: "zha/group/remove",
+    group_ids: groupIdsToRemove,
+  });
+
+export const fetchGroup = (
+  opp: OpenPeerPower,
+  groupId: number
+): Promise<ZHAGroup> =>
+  opp.callWS({
+    type: "zha/group",
+    group_id: groupId,
+  });
+
+export const fetchGroupableDevices = (
+  opp: OpenPeerPower
+): Promise<ZHADevice[]> =>
+  opp.callWS({
+    type: "zha/devices/groupable",
+  });
+
+export const addMembersToGroup = (
+  opp: OpenPeerPower,
+  groupId: number,
+  membersToAdd: string[]
+): Promise<ZHAGroup> =>
+  opp.callWS({
+    type: "zha/group/members/add",
+    group_id: groupId,
+    members: membersToAdd,
+  });
+
+export const removeMembersFromGroup = (
+  opp: OpenPeerPower,
+  groupId: number,
+  membersToRemove: string[]
+): Promise<ZHAGroup> =>
+  opp.callWS({
+    type: "zha/group/members/remove",
+    group_id: groupId,
+    members: membersToRemove,
+  });
+
+export const addGroup = (
+  opp: OpenPeerPower,
+  groupName: string,
+  membersToAdd?: string[]
+): Promise<ZHAGroup> =>
+  opp.callWS({
+    type: "zha/group/add",
+    group_name: groupName,
+    members: membersToAdd,
   });

@@ -9,7 +9,7 @@ import {
   PropertyValues,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import { UnsubscribeFunc } from "open-peer-power-js-websocket";
+import { UnsubscribeFunc } from "../../../open-peer-power-js-websocket/lib";
 
 import "../../../components/op-card";
 import "../../../components/op-markdown";

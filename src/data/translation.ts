@@ -12,12 +12,12 @@ declare global {
 }
 
 export const fetchTranslationPreferences = (opp: OpenPeerPower) =>
-  fetchFrontendUserData(opp, "language");
+  fetchFrontendUserData(opp.connection, "language");
 
 export const saveTranslationPreferences = (
   opp: OpenPeerPower,
   data: FrontendTranslationData
-) => saveFrontendUserData(opp, "language", data);
+) => saveFrontendUserData(opp.connection, "language", data);
 
 export const getOppTranslations = async (
   opp: OpenPeerPower,

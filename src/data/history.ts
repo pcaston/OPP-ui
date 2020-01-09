@@ -3,6 +3,7 @@ import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateDisplay from "../common/entity/compute_state_display";
 import { OpenPeerPower, OppEntity } from "../types";
 import { LocalizeFunc } from "../common/translations/localize";
+import { computeStateDisplay } from "../common/entity/compute_state_display";
 
 const DOMAINS_USE_LAST_UPDATED = ["climate", "water_heater"];
 const LINE_ATTRIBUTES_TO_KEEP = [
@@ -10,6 +11,7 @@ const LINE_ATTRIBUTES_TO_KEEP = [
   "current_temperature",
   "target_temp_low",
   "target_temp_high",
+  "hvac_action",
 ];
 
 export interface LineChartState {
@@ -200,9 +202,9 @@ export const computeHistory = (
     if (stateWithUnit) {
       unit = stateWithUnit.attributes.unit_of_measurement;
     } else if (computeStateDomain(stateInfo[0]) === "climate") {
-      unit = opp.config!.unit_system.temperature;
+      unit = opp.config.unit_system.temperature;
     } else if (computeStateDomain(stateInfo[0]) === "water_heater") {
-      unit = opp.config!.unit_system.temperature;
+      unit = opp.config.unit_system.temperature;
     }
 
     if (!unit) {

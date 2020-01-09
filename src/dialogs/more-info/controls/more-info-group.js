@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../state-summary/state-card-content";
 
-import computeStateDomain from "../../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
 import dynamicContentUpdater from "../../../common/dom/dynamic_content_updater";
 
 class MoreInfoGroup extends PolymerElement {
@@ -79,10 +79,11 @@ class MoreInfoGroup extends PolymerElement {
       // Groups need to be filtered out or we'll show content of
       // first child above the children of the current group
       if (groupDomain !== "group") {
-        groupDomainStateObj = Object.assign({}, baseStateObj, {
+        groupDomainStateObj = {
+          ...baseStateObj,
           entity_id: stateObj.entity_id,
-          attributes: Object.assign({}, baseStateObj.attributes),
-        });
+          attributes: { ...baseStateObj.attributes },
+        };
 
         for (let i = 0; i < states.length; i++) {
           if (groupDomain !== computeStateDomain(states[i])) {

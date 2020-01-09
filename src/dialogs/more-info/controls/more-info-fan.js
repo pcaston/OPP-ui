@@ -2,15 +2,16 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import "@polymer/paper-toggle-button/paper-toggle-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../../components/op-attributes";
 import "../../../components/op-paper-dropdown-menu";
+import "../../../components/op-switch";
 
-import attributeClassNames from "../../../common/entity/attribute_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
+import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
@@ -68,11 +69,11 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
         <div class="container-oscillating">
           <div class="center horizontal layout single-row">
             <div class="flex">[[localize('ui.card.fan.oscillate')]]</div>
-            <paper-toggle-button
+            <op-switch
               checked="[[oscillationToggleChecked]]"
               on-change="oscillationToggleChanged"
             >
-            </paper-toggle-button>
+            </op-switch>
           </div>
         </div>
 
@@ -81,15 +82,15 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
             <div>[[localize('ui.card.fan.direction')]]</div>
             <paper-icon-button
               icon="opp:rotate-left"
-              on-click="onDirectionLeft"
-              title="Left"
-              disabled="[[computeIsRotatingLeft(stateObj)]]"
+              on-click="onDirectionReverse"
+              title="[[localize('ui.card.fan.reverse')]]"
+              disabled="[[computeIsRotatingReverse(stateObj)]]"
             ></paper-icon-button>
             <paper-icon-button
               icon="opp:rotate-right"
-              on-click="onDirectionRight"
-              title="Right"
-              disabled="[[computeIsRotatingRight(stateObj)]]"
+              on-click="onDirectionForward"
+              title="[[localize('ui.card.fan.forward')]]"
+              disabled="[[computeIsRotatingForward(stateObj)]]"
             ></paper-icon-button>
           </div>
         </div>
@@ -164,25 +165,25 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
     });
   }
 
-  onDirectionLeft() {
+  onDirectionReverse() {
     this.opp.callService("fan", "set_direction", {
       entity_id: this.stateObj.entity_id,
       direction: "reverse",
     });
   }
 
-  onDirectionRight() {
+  onDirectionForward() {
     this.opp.callService("fan", "set_direction", {
       entity_id: this.stateObj.entity_id,
       direction: "forward",
     });
   }
 
-  computeIsRotatingLeft(stateObj) {
+  computeIsRotatingReverse(stateObj) {
     return stateObj.attributes.direction === "reverse";
   }
 
-  computeIsRotatingRight(stateObj) {
+  computeIsRotatingForward(stateObj) {
     return stateObj.attributes.direction === "forward";
   }
 }
