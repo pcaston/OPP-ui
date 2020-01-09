@@ -28,7 +28,7 @@ import "../../components/op-paper-icon-button-arrow-next";
 import "../../components/op-paper-icon-button-arrow-prev";
 import "../../components/op-icon";
 import { debounce } from "../../common/util/debounce";
-import { OpenPeerPower, OppEntities } from "../../types";
+import { OpenPeerPower } from "../../types";
 import { LovelaceConfig } from "../../data/lovelace";
 import { navigate } from "../../common/navigate";
 import { fireEvent } from "../../common/dom/fire_event";
@@ -49,7 +49,7 @@ import { opStyle } from "../../resources/styles";
 import { computeRTLDirection } from "../../common/util/compute_rtl";
 import { loadLovelaceResources } from "./common/load-resources";
 import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-op-voice-command-dialog";
-import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import isComponentLoaded from "../../common/config/is_component_loaded";
 import memoizeOne from "memoize-one";
 
 class HUIRoot extends LitElement {
@@ -173,7 +173,7 @@ class HUIRoot extends LitElement {
                     .narrow=${this.narrow}
                   ></op-menu-button>
                   <div main-title>${this.config.title || "Open Peer Power"}</div>
-                  ${this._conversation(this.opp.config.components)
+                  ${this._conversation(this.opp.config!.components)
                     ? html`
                         <paper-icon-button
                           aria-label="Start conversation"

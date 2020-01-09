@@ -75,7 +75,7 @@ class HuiInputTextEntityRow extends LitElement implements EntityRow {
 
   private _selectedValueChanged(ev): void {
     const element = this._inputEl;
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (element.value !== stateObj.state) {
       setValue(this.opp!, stateObj.entity_id, element.value!);
