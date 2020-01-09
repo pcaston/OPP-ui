@@ -17,8 +17,8 @@ import "../../../components/op-card";
 import "../components/hui-warning";
 import "../components/hui-unavailable";
 
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import computeStateName from "../../../common/entity/compute_state_name";
 
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { OpenPeerPower } from "../../../types";
@@ -32,7 +32,7 @@ import {
   compareClimateHvacModes,
   CLIMATE_PRESET_NONE,
 } from "../../../data/climate";
-import { OppEntity } from "open-peer-power-js-websocket";
+import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 
 const modeIcons: { [mode in HvacMode]: string } = {
   auto: "opp:calendar-repeat",
@@ -86,7 +86,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
     if (!this.opp || !this._config) {
       return html``;
     }
-    const stateObj = this.opp.states[this._config.entity] as ClimateEntity;
+    const stateObj = this.opp.states![this._config.entity] as ClimateEntity;
 
     if (!stateObj) {
       return html`
@@ -103,7 +103,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
     const mode = stateObj.state in modeIcons ? stateObj.state : "unknown-mode";
     const name =
       this._config!.name ||
-      computeStateName(this.opp!.states[this._config!.entity]);
+      computeStateName(this.opp!.states![this._config!.entity]);
     const targetTemp =
       stateObj.attributes.temperature !== null &&
       Number.isFinite(Number(stateObj.attributes.temperature))
@@ -140,7 +140,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
             >
               ${stateObj.attributes.current_temperature}
               <tspan dx="-3" dy="-6.5" style="font-size: 4px;">
-                ${this.opp.config.unit_system.temperature}
+                ${this.opp.config!.unit_system.temperature}
               </tspan>
             </text>
           </svg>
@@ -267,7 +267,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
       applyThemesOnElement(this, this.opp.themes, this._config.theme);
     }
 
-    this._setTemp = this._getSetTemp(this.opp!.states[this._config!.entity]);
+    this._setTemp = this._getSetTemp(this.opp!.states![this._config!.entity]);
     this.rescale_svg();
   }
 
@@ -294,12 +294,12 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private get _stepSize(): number {
-    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as ClimateEntity;
 
     if (stateObj.attributes.target_temp_step) {
       return stateObj.attributes.target_temp_step;
     }
-    return this.opp!.config.unit_system.temperature === UNIT_F ? 1 : 0.5;
+    return this.opp!.config!.unit_system.temperature === UNIT_F ? 1 : 0.5;
   }
 
   private _getSetTemp(stateObj: OppEntity) {
@@ -321,7 +321,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private _dragEvent(e): void {
-    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as ClimateEntity;
 
     if (e.detail.low) {
       this._setTemp = [e.detail.low, stateObj.attributes.target_temp_high];
@@ -333,7 +333,7 @@ export class HuiThermostatCard extends LitElement implements LovelaceCard {
   }
 
   private _setTemperature(e): void {
-    const stateObj = this.opp!.states[this._config!.entity] as ClimateEntity;
+    const stateObj = this.opp!.states![this._config!.entity] as ClimateEntity;
 
     if (e.detail.low) {
       this.opp!.callService("climate", "set_temperature", {

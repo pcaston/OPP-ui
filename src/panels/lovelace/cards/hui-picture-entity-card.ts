@@ -14,16 +14,16 @@ import "../../../components/op-card";
 import "../components/hui-image";
 import "../components/hui-warning";
 
-import { computeDomain } from "../../../common/entity/compute_domain";
-import { computeStateName } from "../../../common/entity/compute_state_name";
+import computeDomain from "../../../common/entity/compute_domain";
+import computeStateName from "../../../common/entity/compute_state_name";
 
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { UNAVAILABLE } from "../../../data/entity";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { PictureEntityCardConfig } from "./types";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 import { actionHandler } from "../common/directives/action-handler-directive";
 import { hasAction } from "../common/has-action";
 import { ActionHandlerEvent } from "../../../data/lovelace";

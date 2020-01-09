@@ -12,7 +12,7 @@ import "../../components/op-switch";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
 // tslint:disable-next-line: no-duplicate-imports
-import { HaSwitch } from "../../components/op-switch";
+import { OpSwitch } from "../../components/op-switch";
 
 @customElement("op-force-narrow-row")
 class HaForcedNarrowRow extends LitElement {
@@ -37,7 +37,7 @@ class HaForcedNarrowRow extends LitElement {
   }
 
   private async _checkedChanged(ev: Event) {
-    const newValue = (ev.target as HaSwitch).checked;
+    const newValue = (ev.target as OpSwitch).checked;
     if (newValue === (this.opp.dockedSidebar === "always_hidden")) {
       return;
     }

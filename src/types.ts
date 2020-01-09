@@ -184,8 +184,8 @@ export interface OpenPeerPower {
   resources: Resources;
   localize: LocalizeFunc;
   translationMetadata: TranslationMetadata;
-
-  dockedSidebar: boolean;
+  vibrate: boolean;
+  dockedSidebar: "docked" | "always_hidden" | "auto";
   moreInfoEntityId: string | null;
   user?: CurrentUser;
   callService: (

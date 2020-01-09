@@ -14,6 +14,7 @@ const ext = <T>(baseClass: T, mixins): T =>
   mixins.reduceRight((base, mixin) => mixin(base), baseClass);
 
 export class OppElement extends ext(OppBaseMixin(LitElement), [
+  ThemesMixin,
   TranslationsMixin,
   MoreInfoMixin,
   SidebarMixin,

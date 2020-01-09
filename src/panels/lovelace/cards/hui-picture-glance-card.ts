@@ -15,17 +15,17 @@ import "../../../components/op-icon";
 import "../components/hui-image";
 import "../components/hui-warning-element";
 
-import { computeStateName } from "../../../common/entity/compute_state_name";
-import { computeDomain } from "../../../common/entity/compute_domain";
-import { stateIcon } from "../../../common/entity/state_icon";
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateName from "../../../common/entity/compute_state_name";
+import computeDomain from "../../../common/entity/compute_domain";
+import stateIcon from "../../../common/entity/state_icon";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { DOMAINS_TOGGLE } from "../../../common/const";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { OpenPeerPower } from "../../../types";
 import { processConfigEntities } from "../common/process-config-entities";
 import { PictureGlanceCardConfig, PictureGlanceEntityConfig } from "./types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 import { actionHandler } from "../common/directives/action-handler-directive";
 import { hasAction } from "../common/has-action";
 import { ActionHandlerEvent } from "../../../data/lovelace";
@@ -108,7 +108,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesDialog) {
       for (const entity of this._entitiesDialog) {
         if (
-          oldOpp!.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp!.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -118,7 +118,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     if (this._entitiesToggle) {
       for (const entity of this._entitiesToggle) {
         if (
-          oldOpp!.states[entity.entity] !== this.opp!.states[entity.entity]
+          oldOpp!.states![entity.entity] !== this.opp!.states![entity.entity]
         ) {
           return true;
         }
@@ -203,7 +203,7 @@ class HuiPictureGlanceCard extends LitElement implements LovelaceCard {
     entityConf: PictureGlanceEntityConfig,
     dialog: boolean
   ): TemplateResult {
-    const stateObj = this.opp!.states[entityConf.entity];
+    const stateObj = this.opp!.states![entityConf.entity];
 
     entityConf = {
       tap_action: { action: dialog ? "more-info" : "toggle" },

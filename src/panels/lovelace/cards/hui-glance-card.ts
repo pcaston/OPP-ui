@@ -10,8 +10,8 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import { computeStateName } from "../../../common/entity/compute_state_name";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import computeStateName from "../../../common/entity/compute_state_name";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 import relativeTime from "../../../common/datetime/relative_time";
 
 import "../../../components/entity/state-badge";
@@ -19,7 +19,7 @@ import "../../../components/op-card";
 import "../../../components/op-icon";
 import "../components/hui-warning-element";
 
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { processConfigEntities } from "../common/process-config-entities";
@@ -101,7 +101,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
     }
 
     for (const entity of this._configEntities) {
-      if (oldOpp.states[entity.entity] !== this.opp!.states[entity.entity]) {
+      if (oldOpp.states![entity.entity] !== this.opp!.states![entity.entity]) {
         return true;
       }
     }
@@ -184,7 +184,7 @@ export class HuiGlanceCard extends LitElement implements LovelaceCard {
   }
 
   private renderEntity(entityConf): TemplateResult {
-    const stateObj = this.opp!.states[entityConf.entity];
+    const stateObj = this.opp!.states![entityConf.entity];
 
     if (!stateObj) {
       return html`

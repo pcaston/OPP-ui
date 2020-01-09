@@ -13,9 +13,9 @@ import { styleMap } from "lit-html/directives/style-map";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@thomasloven/round-slider";
 
-import { stateIcon } from "../../../common/entity/state_icon";
-import { computeStateName } from "../../../common/entity/compute_state_name";
-import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
+import stateIcon from "../../../common/entity/state_icon";
+import computeStateName from "../../../common/entity/compute_state_name";
+import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
 
 import "../../../components/op-card";
 import "../components/hui-warning";
@@ -65,7 +65,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config!.entity] as LightEntity;
+    const stateObj = this.opp.states![this._config!.entity] as LightEntity;
 
     if (!stateObj) {
       return html`
@@ -145,7 +145,7 @@ export class HuiLightCard extends LitElement implements LovelaceCard {
       return;
     }
 
-    const stateObj = this.opp!.states[this._config!.entity];
+    const stateObj = this.opp!.states![this._config!.entity];
 
     if (!stateObj) {
       return;

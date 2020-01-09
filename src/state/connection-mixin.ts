@@ -21,8 +21,8 @@ import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { broadcastConnectionStatus } from "../data/connection-status";
 
-export const connectionMixin = <T extends Constructor<OppBaseEl>>(
-  superClass: T
+export const connectionMixin = (
+  superClass: Constructor<LitElement & OppBaseEl>
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {

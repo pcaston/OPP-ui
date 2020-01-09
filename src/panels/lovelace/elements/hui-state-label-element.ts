@@ -11,7 +11,7 @@ import {
 
 import "../components/hui-warning-element";
 
-import { computeStateDisplay } from "../../../common/entity/compute_state_display";
+import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { computeTooltip } from "../common/compute-tooltip";
 import { LovelaceElement, StateLabelElementConfig } from "./types";
 import { OpenPeerPower } from "../../../types";

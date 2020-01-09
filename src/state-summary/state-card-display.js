@@ -7,7 +7,7 @@ import "../components/entity/state-info";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 import { attributeClassNames } from "../common/entity/attribute_class_names";
-import { computeStateDisplay } from "../common/entity/compute_state_display";
+import computeStateDisplay from "../common/entity/compute_state_display";
 import { computeRTL } from "../common/util/compute_rtl";
 
 /*

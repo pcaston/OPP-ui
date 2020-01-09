@@ -2,6 +2,7 @@ import { storeState } from "../util/op-pref-storage";
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { OPPDomEvent } from "../common/dom/fire_event";
+import { OpenPeerPower } from "../types";
 
 interface DockSidebarParams {
   dock: OpenPeerPower["dockedSidebar"];
