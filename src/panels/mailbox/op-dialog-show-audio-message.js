@@ -11,7 +11,7 @@ import LocalizeMixin from "../../mixins/localize-mixin";
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
+class OpDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -183,4 +183,4 @@ class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
     }
   }
 }
-customElements.define("op-dialog-show-audio-message", HaDialogShowAudioMessage);
+customElements.define("op-dialog-show-audio-message", OpDialogShowAudioMessage);

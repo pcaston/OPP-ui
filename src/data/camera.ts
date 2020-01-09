@@ -19,9 +19,7 @@ export interface Stream {
 }
 
 export const computeMJPEGStreamUrl = (entity: CameraEntity) =>
-  `/api/camera_proxy_stream/${entity.entity_id}?token=${
-    entity.attributes.access_token
-  }`;
+  `/api/camera_proxy_stream/${entity.entity_id}?token=${entity.attributes.access_token}`;
 
 export const fetchThumbnailUrlWithCache = (
   opp: OpenPeerPower,
@@ -35,8 +33,13 @@ export const fetchThumbnailUrlWithCache = (
     entityId
   );
 
-export const fetchThumbnailUrl = (opp: OpenPeerPower, entityId: string) =>
-  getSignedPath(opp, `/api/camera_proxy/${entityId}`).then(({ path }) => path);
+export const fetchThumbnailUrl = async (
+  opp: OpenPeerPower,
+  entityId: string
+) => {
+  const path = await getSignedPath(opp, `/api/camera_proxy/${entityId}`);
+  return opp.oppUrl(path.path);
+};
 
 export const fetchThumbnail = (opp: OpenPeerPower, entityId: string) => {
   // tslint:disable-next-line: no-console
@@ -47,7 +50,7 @@ export const fetchThumbnail = (opp: OpenPeerPower, entityId: string) => {
   });
 };
 
-export const fetchStreamUrl = (
+export const fetchStreamUrl = async (
   opp: OpenPeerPower,
   entityId: string,
   format?: "hls"
@@ -60,7 +63,9 @@ export const fetchStreamUrl = (
     // @ts-ignore
     data.format = format;
   }
-  return opp.callWS<Stream>(data);
+  const stream = await opp.callWS<Stream>(data);
+  stream.url = opp.oppUrl(stream.url);
+  return stream;
 };
 
 export const fetchCameraPrefs = (opp: OpenPeerPower, entityId: string) =>

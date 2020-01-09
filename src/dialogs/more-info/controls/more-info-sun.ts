@@ -1,92 +1,83 @@
-import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { OpenPeerPower, SunEntity} from "../../../types";
 import {
-  LitElement,
-  css,
-  html,
   property,
+  LitElement,
   TemplateResult,
+  html,
+  customElement,
+  CSSResult,
+  css,
 } from "lit-element";
+import { OpenPeerPower } from "../../../types";
 
 import "../../../components/op-relative-time";
 
 import formatTime from "../../../common/datetime/format_time";
-import { litLocalizeLiteMixin } from "../../../mixins/lit-localize-lite-mixin";
 
-export class MoreInfoSun extends litLocalizeLiteMixin(LitElement) {
-  @property({ type : Object }) opp!: OpenPeerPower;
-  @property({ type : Array }) stateObj!: SunEntity;
-  @property({ type : Object }) risingDate!: Date;
-  @property({ type : Object }) settingDate!: Date;
-  static get styles() {
-    return [
-      css`
-      <style include="iron-flex iron-flex-alignment"></style>
-      `
-    ];
-  }
+@customElement("more-info-sun")
+class MoreInfoSun extends LitElement {
+  @property() public opp!: OpenPeerPower;
+  @property() public stateObj?: OppEntity;
 
-  protected render(): TemplateResult | void  {
-    debugger;
-    this.risingDate = this.computeRising(this.stateObj);
-    this.settingDate = this.computeSetting(this.stateObj);
-    const items: string[] = this.computeOrder(this.risingDate, this.settingDate);
+  protected render(): TemplateResult | void {
+    if (!this.opp || !this.stateObj) {
+      return html``;
+    }
+
+    const risingDate = new Date(this.stateObj.attributes.next_rising);
+    const settingDate = new Date(this.stateObj.attributes.next_setting);
+    const order = risingDate > settingDate ? ["set", "ris"] : ["ris", "set"];
+
     return html`
-      <div>
-        <p>Show something!</p>
-      </div>
-      ${Object.keys(items).map((key) => {
-        const item: string = items[key];
+      ${order.map((item) => {
         return html`
-          <div class="data-entry layout justified horizontal">
+          <div class="row">
             <div class="key">
-              <span>${this.localize(this.itemCaption(item))}</span>
-                <op-relative-time
-                  .opp="${this.opp}"
-                  .datetime-obj="${this.itemDate(item)}"
-                ></op-relative-time>
-              </div>
-            <div class="value">${this.itemValue(item)}</div>
+              <span
+                >${item === "ris"
+                  ? this.opp.localize(
+                      "ui.dialogs.more_info_control.sun.rising"
+                    )
+                  : this.opp.localize(
+                      "ui.dialogs.more_info_control.sun.setting"
+                    )}</span
+              >
+              <op-relative-time
+                .opp=${this.opp}
+                .datetimeObj=${item === "ris" ? risingDate : settingDate}
+              ></op-relative-time>
+            </div>
+            <div class="value">
+              ${formatTime(
+                item === "ris" ? risingDate : settingDate,
+                this.opp.language
+              )}
+            </div>
           </div>
         `;
-        })
-      }
-      <div class="data-entry layout justified horizontal">
-        <div class="key">elevation
-          ${this.localize('ui.dialogs.more_info_control.sun.elevation')}
+      })}
+      <div class="row">
+        <div class="key">
+          ${this.opp.localize("ui.dialogs.more_info_control.sun.elevation")}
         </div>
-        <div class="value">
-          ${this.stateObj.attributes.elevation}
-        </div>
+        <div class="value">${this.stateObj.attributes.elevation}</div>
       </div>
     `;
   }
 
-  computeRising(stateObj: SunEntity) {
-    return new Date(stateObj.attributes.next_rising);
-  }
-
-  computeSetting(stateObj: SunEntity) {
-    return new Date(stateObj.attributes.next_setting);
-  }
-
-  computeOrder(risingDate: object, settingDate: object) {
-    return risingDate > settingDate ? ["set", "ris"] : ["ris", "set"];
-  }
-
-  itemCaption(type: string) {
-    if (type === "ris") {
-      return this.localize("ui.dialogs.more_info_control.sun.rising");
-    }
-    return this.localize("ui.dialogs.more_info_control.sun.setting");
-  }
-
-  itemDate(type: string) {
-    return type === "ris" ? this.risingDate : this.settingDate;
-  }
-
-  itemValue(type: string) {
-    return formatTime(this.itemDate(type), this.opp.language);
+  static get styles(): CSSResult {
+    return css`
+      .row {
+        margin: 0 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    `;
   }
 }
-customElements.define("more-info-sun", MoreInfoSun);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "more-info-sun": MoreInfoSun;
+  }
+}

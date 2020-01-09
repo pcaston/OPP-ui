@@ -1,6 +1,7 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
+
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
@@ -9,7 +10,7 @@ import "../../../components/op-color-picker";
 import "../../../components/op-labeled-slider";
 import "../../../components/op-paper-dropdown-menu";
 
-import featureClassNames from "../../../common/entity/feature_class_names";
+import { featureClassNames } from "../../../common/entity/feature_class_names";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 

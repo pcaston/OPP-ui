@@ -37,7 +37,9 @@ class DomainTogglerDialog extends LitElement {
         opened
         @opened-changed=${this._openedChanged}
       >
-        <h2>Toggle Domains</h2>
+        <h2>
+          ${this.opp.localize("ui.dialogs.domain_toggler.title")}
+        </h2>
         <div>
           ${domains.map(
             (domain) =>

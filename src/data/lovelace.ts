@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import { Connection, getCollection } from "home-assistant-js-websocket";
+import { Connection, getCollection } from "../../open-peer-power-js-websocket/lib";
 import { OPPDomEvent } from "../common/dom/fire_event";
 
 export interface LovelaceConfig {
