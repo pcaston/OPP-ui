@@ -12,7 +12,7 @@ import LocalizeMixin from "../../mixins/localize-mixin";
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -109,4 +109,4 @@ class HaPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-pick-theme-row", HaPickThemeRow);
+customElements.define("op-pick-theme-row", OpPickThemeRow);

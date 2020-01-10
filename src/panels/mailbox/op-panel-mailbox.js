@@ -23,7 +23,7 @@ let registeredDialog = false;
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -251,4 +251,4 @@ class HaPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-panel-mailbox", HaPanelMailbox);
+customElements.define("op-panel-mailbox", OpPanelMailbox);

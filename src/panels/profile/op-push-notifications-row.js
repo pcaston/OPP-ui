@@ -13,7 +13,7 @@ import "./op-settings-row";
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPushNotificationsRow extends LocalizeMixin(PolymerElement) {
+class OpPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -81,4 +81,4 @@ class HaPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-push-notifications-row", HaPushNotificationsRow);
+customElements.define("op-push-notifications-row", OpPushNotificationsRow);
