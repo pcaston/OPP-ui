@@ -65,7 +65,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       this._updateOpp({ language, selectedLanguage: language });
       storeState(this.opp);
       if (saveToBackend) {
-        saveFrontendUserData(this.opp, "language", { language });
+        saveFrontendUserData(this.opp.connection, "language", { language });
       }
 
       this._applyTranslations(this.opp);

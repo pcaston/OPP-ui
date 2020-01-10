@@ -23,7 +23,7 @@ export function hasConfigOrEntityChanged(
   }
 
   return (
-    oldOpp.states[element._config!.entity] !==
+    oldOpp.states![element._config!.entity] !==
       element.opp!.states[element._config!.entity] ||
     oldOpp.localize !== element.opp.localize
   );
