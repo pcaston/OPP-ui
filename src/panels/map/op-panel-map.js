@@ -15,7 +15,7 @@ import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelMap extends LocalizeMixin(PolymerElement) {
+class OpPanelMap extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="op-style">
@@ -214,4 +214,4 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define("op-panel-map", HaPanelMap);
+customElements.define("op-panel-map", OpPanelMap);

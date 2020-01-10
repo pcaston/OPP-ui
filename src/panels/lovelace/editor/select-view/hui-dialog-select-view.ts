@@ -11,7 +11,7 @@ import { toggleAttribute } from "../../../../common/dom/toggle_attribute";
 import "../../components/hui-views-list";
 
 // tslint:disable-next-line:no-duplicate-imports
-import { HaPaperDialog } from "../../../../components/dialog/op-paper-dialog";
+import { OpPaperDialog } from "../../../../components/dialog/op-paper-dialog";
 
 import { SelectViewDialogParams } from "./show-select-view-dialog";
 import { PolymerChangedEvent } from "../../../../polymer-types";
@@ -55,7 +55,7 @@ export class HuiDialogSelectView extends LitElement {
     `;
   }
 
-  private get _dialog(): HaPaperDialog {
+  private get _dialog(): OpPaperDialog {
     return this.shadowRoot!.querySelector("op-paper-dialog")!;
   }
 

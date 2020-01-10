@@ -41,7 +41,7 @@ export const fallbackDeviceName = (
 ) => {
   for (const entity of entities || []) {
     const entityId = typeof entity === "string" ? entity : entity.entity_id;
-    const stateObj = opp.states[entityId];
+    const stateObj = opp.states![entityId];
     if (stateObj) {
       return computeStateName(stateObj);
     }
