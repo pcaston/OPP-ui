@@ -7,7 +7,7 @@ import {
   CSSResult,
   css,
 } from "lit-element";
-import { OpenPeerPower } from "../../../types";
+import { OpenPeerPower, OppEntity } from "../../../types";
 
 import "../../../components/op-relative-time";
 

@@ -63,7 +63,7 @@ class MoreInfoWeather extends LitElement {
     if (
       !oldOpp ||
       oldOpp.language !== this.opp.language ||
-      oldOpp.config.unit_system !== this.opp.config.unit_system
+      oldOpp.config!.unit_system !== this.opp.config!.unit_system
     ) {
       return true;
     }
@@ -247,7 +247,7 @@ class MoreInfoWeather extends LitElement {
   }
 
   private getUnit(measure: string): string {
-    const lengthUnit = this.opp.config.unit_system.length || "";
+    const lengthUnit = this.opp.config!.unit_system.length || "";
     switch (measure) {
       case "air_pressure":
         return lengthUnit === "km" ? "hPa" : "inHg";
@@ -256,7 +256,7 @@ class MoreInfoWeather extends LitElement {
       case "precipitation":
         return lengthUnit === "km" ? "mm" : "in";
       default:
-        return this.opp.config.unit_system[measure] || "";
+        return this.opp.config!.unit_system[measure] || "";
     }
   }
 

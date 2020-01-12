@@ -40,7 +40,7 @@ class HuiClimateEntityRow extends LitElement implements EntityRow {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

@@ -1,5 +1,5 @@
 import {   OppEntityBase, OppEntityAttributeBase, OpenPeerPower } from "../types";
-import { computeObjectId } from "../common/entity/compute_object_id";
+import  computeObjectId from "../common/entity/compute_object_id";
 import { Condition } from "./automation";
 
 export interface ScriptEntity extends OppEntityBase {

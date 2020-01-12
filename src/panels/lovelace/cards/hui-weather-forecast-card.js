@@ -13,7 +13,7 @@ import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { toggleAttribute } from "../../../common/dom/toggle_attribute";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 const cardinalDirections = [
     "N",
     "NNE",

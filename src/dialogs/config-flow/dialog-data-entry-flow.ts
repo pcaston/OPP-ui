@@ -14,7 +14,7 @@ import "@polymer/paper-tooltip/paper-tooltip";
 import "@polymer/paper-spinner/paper-spinner";
 import { UnsubscribeFunc } from "../../open-peer-power-js-websocket/lib";
 
-import "../../components/op-form";
+import "../../components/op-form/op-form";
 import "../../components/op-markdown";
 import "../../resources/op-style";
 import "../../components/dialog/op-paper-dialog";
@@ -22,14 +22,8 @@ import "../../components/dialog/op-paper-dialog";
 // tslint:disable-next-line
 import { OpPaperDialog } from "../../components/dialog/op-paper-dialog";
 import { opStyleDialog } from "../../resources/styles";
-import {
-  fetchConfigFlow,
-  ConfigFlowStep,
-  deleteConfigFlow,
-  getConfigFlowHandlers,
-} from "../../data/config_entries";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { OpConfigFlowParams } from "./show-dialog-config-flow";
+import { DataEntryFlowDialogParams } from "./show-dialog-data-entry-flow";
 
 import "./step-flow-pick-handler";
 import "./step-flow-loading";
@@ -46,7 +40,7 @@ import {
   subscribeAreaRegistry,
 } from "../../data/area_registry";
 import { OpenPeerPower } from "../../types";
-import { caseInsensitiveCompare } from "../../common/string/compare";
+import { DataEntryFlowStep } from "../../data/data_entry_flow";
 
 let instance = 0;
 
@@ -54,20 +48,20 @@ declare global {
   // for fire event
   interface OPPDomEvents {
     "flow-update": {
-      step?: ConfigFlowStep;
-      stepPromise?: Promise<ConfigFlowStep>;
+      step?: DataEntryFlowStep;
+      stepPromise?: Promise<DataEntryFlowStep>;
     };
   }
 }
 
-@customElement("dialog-config-flow")
-class ConfigFlowDialog extends LitElement {
+@customElement("dialog-data-entry-flow")
+class DataEntryFlowDialog extends LitElement {
   public opp!: OpenPeerPower;
-  @property() private _params?: OpConfigFlowParams;
+  @property() private _params?: DataEntryFlowDialogParams;
   @property() private _loading = true;
   private _instance = instance;
   @property() private _step:
-    | ConfigFlowStep
+    | DataEntryFlowStep
     | undefined
     // Null means we need to pick a config flow
     | null;
@@ -77,12 +71,15 @@ class ConfigFlowDialog extends LitElement {
   private _unsubAreas?: UnsubscribeFunc;
   private _unsubDevices?: UnsubscribeFunc;
 
-  public async showDialog(params: OpConfigFlowParams): Promise<void> {
+  public async showDialog(params: DataEntryFlowDialogParams): Promise<void> {
     this._params = params;
     this._instance = instance++;
 
     // Create a new config flow. Show picker
-    if (!params.continueFlowId) {
+    if (!params.continueFlowId && !params.startFlowHandler) {
+      if (!params.flowConfig.getFlowHandlers) {
+        throw new Error("No getFlowHandlers defined in flow config");
+      }
       this._step = null;
 
       // We only load the handlers once
@@ -90,13 +87,7 @@ class ConfigFlowDialog extends LitElement {
         this._loading = true;
         this.updateComplete.then(() => this._scheduleCenterDialog());
         try {
-          this._handlers = (await getConfigFlowHandlers(this.opp)).sort(
-            (handlerA, handlerB) =>
-              caseInsensitiveCompare(
-                this.opp.localize(`component.${handlerA}.config.title`),
-                this.opp.localize(`component.${handlerB}.config.title`)
-              )
-          );
+          this._handlers = await params.flowConfig.getFlowHandlers(this.opp);
         } finally {
           this._loading = false;
         }
@@ -108,7 +99,9 @@ class ConfigFlowDialog extends LitElement {
 
     this._loading = true;
     const curInstance = this._instance;
-    const step = await fetchConfigFlow(this.opp, params.continueFlowId);
+    const step = await (params.continueFlowId
+      ? params.flowConfig.fetchFlow(this.opp, params.continueFlowId)
+      : params.flowConfig.createFlow(this.opp, params.startFlowHandler!));
 
     // Happens if second showDialog called
     if (curInstance !== this._instance) {
@@ -145,13 +138,16 @@ class ConfigFlowDialog extends LitElement {
           ? // Show handler picker
             html`
               <step-flow-pick-handler
+                .flowConfig=${this._params.flowConfig}
                 .opp=${this.opp}
                 .handlers=${this._handlers}
+                .showAdvanced=${this._params.showAdvanced}
               ></step-flow-pick-handler>
             `
           : this._step.type === "form"
           ? html`
               <step-flow-form
+                .flowConfig=${this._params.flowConfig}
                 .step=${this._step}
                 .opp=${this.opp}
               ></step-flow-form>
@@ -159,6 +155,7 @@ class ConfigFlowDialog extends LitElement {
           : this._step.type === "external"
           ? html`
               <step-flow-external
+                .flowConfig=${this._params.flowConfig}
                 .step=${this._step}
                 .opp=${this.opp}
               ></step-flow-external>
@@ -166,6 +163,7 @@ class ConfigFlowDialog extends LitElement {
           : this._step.type === "abort"
           ? html`
               <step-flow-abort
+                .flowConfig=${this._params.flowConfig}
                 .step=${this._step}
                 .opp=${this.opp}
               ></step-flow-abort>
@@ -177,6 +175,7 @@ class ConfigFlowDialog extends LitElement {
             `
           : html`
               <step-flow-create-entry
+                .flowConfig=${this._params.flowConfig}
                 .step=${this._step}
                 .opp=${this.opp}
                 .devices=${this._devices}
@@ -201,8 +200,13 @@ class ConfigFlowDialog extends LitElement {
       this._step &&
       this._step.type === "create_entry"
     ) {
-      this._fetchDevices(this._step.result);
-      this._fetchAreas();
+      if (this._params!.flowConfig.loadDevicesAndAreas) {
+        this._fetchDevices(this._step.result);
+        this._fetchAreas();
+      } else {
+        this._devices = [];
+        this._areas = [];
+      }
     }
 
     if (changedProps.has("_devices") && this._dialog) {
@@ -236,7 +240,7 @@ class ConfigFlowDialog extends LitElement {
   }
 
   private async _processStep(
-    step: ConfigFlowStep | undefined | Promise<ConfigFlowStep>
+    step: DataEntryFlowStep | undefined | Promise<DataEntryFlowStep>
   ): Promise<void> {
     if (step instanceof Promise) {
       this._loading = true;
@@ -267,12 +271,14 @@ class ConfigFlowDialog extends LitElement {
 
     // If we created this flow, delete it now.
     if (this._step && !flowFinished && !this._params.continueFlowId) {
-      deleteConfigFlow(this.opp, this._step.flow_id);
+      this._params.flowConfig.deleteFlow(this.opp, this._step.flow_id);
     }
 
-    this._params.dialogClosedCallback({
-      flowFinished,
-    });
+    if (this._params.dialogClosedCallback) {
+      this._params.dialogClosedCallback({
+        flowFinished,
+      });
+    }
 
     this._step = undefined;
     this._params = undefined;
@@ -319,6 +325,6 @@ class ConfigFlowDialog extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "dialog-config-flow": ConfigFlowDialog;
+    "dialog-data-entry-flow": DataEntryFlowDialog;
   }
 }

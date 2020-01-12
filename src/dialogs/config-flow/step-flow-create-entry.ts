@@ -12,9 +12,7 @@ import "@polymer/paper-dropdown-menu/paper-dropdown-menu-light";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 
-import { ConfigFlowStepCreateEntry } from "../../data/config_entries";
 import { OpenPeerPower } from "../../types";
-import { localizeKey } from "../../common/translations/localize";
 import { fireEvent } from "../../common/dom/fire_event";
 import { configFlowContentStyles } from "./styles";
 import {
@@ -25,14 +23,18 @@ import {
   AreaRegistryEntry,
   createAreaRegistryEntry,
 } from "../../data/area_registry";
+import { DataEntryFlowStepCreateEntry } from "../../data/data_entry_flow";
+import { FlowConfig } from "./show-dialog-data-entry-flow";
 
 @customElement("step-flow-create-entry")
 class StepFlowCreateEntry extends LitElement {
+  public flowConfig!: FlowConfig;
+
   @property()
   public opp!: OpenPeerPower;
 
   @property()
-  public step!: ConfigFlowStepCreateEntry;
+  public step!: DataEntryFlowStepCreateEntry;
 
   @property()
   public devices!: DeviceRegistryEntry[];
@@ -42,24 +44,11 @@ class StepFlowCreateEntry extends LitElement {
 
   protected render(): TemplateResult | void {
     const localize = this.opp.localize;
-    const step = this.step;
-
-    const description = localizeKey(
-      localize,
-      `component.${step.handler}.config.create_entry.${step.description ||
-        "default"}`,
-      step.description_placeholders
-    );
 
     return html`
       <h2>Success!</h2>
       <div class="content">
-        ${description
-          ? html`
-              <op-markdown .content=${description} allow-svg></op-markdown>
-            `
-          : ""}
-        <p>Created config for ${step.title}.</p>
+        ${this.flowConfig.renderCreateEntryDescription(this.opp, this.step)}
         ${this.devices.length === 0
           ? ""
           : html`
@@ -69,11 +58,14 @@ class StepFlowCreateEntry extends LitElement {
                   (device) =>
                     html`
                       <div class="device">
-                        <b>${device.name}</b><br />
-                        ${device.model} (${device.manufacturer})
-
+                        <div>
+                          <b>${device.name}</b><br />
+                          ${device.model} (${device.manufacturer})
+                        </div>
                         <paper-dropdown-menu-light
-                          label="Area"
+                          label="${localize(
+                            "ui.panel.config.integrations.config_flow.area_picker_label"
+                          )}"
                           .device=${device.id}
                           @selected-item-changed=${this._handleAreaChanged}
                         >
@@ -101,11 +93,19 @@ class StepFlowCreateEntry extends LitElement {
       <div class="buttons">
         ${this.devices.length > 0
           ? html`
-              <mwc-button @click="${this._addArea}">Add Area</mwc-button>
+              <mwc-button @click="${this._addArea}"
+                >${localize(
+                  "ui.panel.config.integrations.config_flow.add_area"
+                )}</mwc-button
+              >
             `
           : ""}
 
-        <mwc-button @click="${this._flowDone}">Finish</mwc-button>
+        <mwc-button @click="${this._flowDone}"
+          >${localize(
+            "ui.panel.config.integrations.config_flow.finish"
+          )}</mwc-button
+        >
       </div>
     `;
   }
@@ -115,7 +115,11 @@ class StepFlowCreateEntry extends LitElement {
   }
 
   private async _addArea() {
-    const name = prompt("Name of the new area?");
+    const name = prompt(
+      this.opp.localize(
+        "ui.panel.config.integrations.config_flow.name_new_area"
+      )
+    );
     if (!name) {
       return;
     }
@@ -125,7 +129,11 @@ class StepFlowCreateEntry extends LitElement {
       });
       this.areas = [...this.areas, area];
     } catch (err) {
-      alert("Failed to create area.");
+      alert(
+        this.opp.localize(
+          "ui.panel.config.integrations.config_flow.failed_create_area"
+        )
+      );
     }
   }
 
@@ -144,7 +152,13 @@ class StepFlowCreateEntry extends LitElement {
         area_id: area,
       });
     } catch (err) {
-      alert(`Error saving area: ${err.message}`);
+      alert(
+        this.opp.localize(
+          "ui.panel.config.integrations.config_flow.error_saving_area",
+          "error",
+          "err.message"
+        )
+      );
       dropdown.value = null;
     }
   }
@@ -157,6 +171,8 @@ class StepFlowCreateEntry extends LitElement {
           display: flex;
           flex-wrap: wrap;
           margin: -4px;
+          max-height: 600px;
+          overflow-y: auto;
         }
         .device {
           border: 1px solid var(--divider-color);
@@ -178,7 +194,7 @@ class StepFlowCreateEntry extends LitElement {
         }
         @media all and (max-width: 450px), all and (max-height: 500px) {
           .device {
-            width: auto;
+            width: 100%;
           }
         }
       `,

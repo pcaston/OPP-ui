@@ -23,7 +23,7 @@ import {
 } from "../../../data/alarm_control_panel";
 import { AlarmPanelCardConfig } from "./types";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 const ICONS = {
   armed_away: "opp:shield-lock",

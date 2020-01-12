@@ -18,7 +18,7 @@ import { OpenPeerPower } from "../../../types";
 import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { MarkdownCardConfig } from "./types";
 import { subscribeRenderTemplate } from "../../../data/ws-templates";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-markdown-card")
 export class HuiMarkdownCard extends LitElement implements LovelaceCard {
