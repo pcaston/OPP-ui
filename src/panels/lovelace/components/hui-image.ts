@@ -15,7 +15,6 @@ import {
 import { OpenPeerPower, CameraEntity } from "../../../types";
 import { styleMap } from "lit-html/directives/style-map";
 import { classMap } from "lit-html/directives/class-map";
-import { fetchThumbnailUrlWithCache } from "../../../data/camera";
 
 const UPDATE_INTERVAL = 10000;
 const DEFAULT_FILTER = "grayscale(100%)";
@@ -100,10 +99,6 @@ export class HuiImage extends LitElement {
       }
     } else {
       imageSrc = this.image;
-    }
-
-    if (imageSrc) {
-      imageSrc = this.opp!.oppUrl(imageSrc);
     }
 
     // Figure out filter to use
@@ -207,11 +202,6 @@ export class HuiImage extends LitElement {
       this._onImageError();
       return;
     }
-
-    this._cameraImageSrc = await fetchThumbnailUrlWithCache(
-      this.opp,
-      this.cameraImage
-    );
   }
 
   static get styles(): CSSResult {

@@ -351,11 +351,11 @@ export const generateLovelaceConfigFromOpp = async (opp: OpenPeerPower) => {
   ]);
 
   return generateLovelaceConfigFromData(
-    opp.config,
+    opp.config!,
     areaEntries,
     deviceEntries,
     entityEntries,
-    opp.states,
+    opp.states!,
     opp.localize
   );
 };

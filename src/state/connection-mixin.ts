@@ -17,7 +17,8 @@ import oppCallApi from "../util/opp-call-api";
 import { subscribePanels } from "../data/ws-panels";
 import { forwardHaptic } from "../data/haptics";
 import { fireEvent } from "../common/dom/fire_event";
-import { Constructor, LitElement } from "lit-element";
+import { Constructor, ServiceCallResponse } from "../types";
+import { LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { broadcastConnectionStatus } from "../data/connection-status";
 
@@ -31,10 +32,11 @@ export const connectionMixin = (
         connection: conn,
         connected: true,
         states: null as any,
+        services: null as any,
         config: null as any,
         themes: null as any,
+        selectedTheme: null as any,
         panels: null as any,
-        services: null as any,
         user: null as any,
         panelUrl: (this as any)._panelUrl,
 
@@ -53,7 +55,12 @@ export const connectionMixin = (
             console.log("Calling service", domain, service, serviceData);
           }
           try {
-            await callService(conn, domain, service, serviceData);
+            return (await callService(
+              conn,
+              domain,
+              service,
+              serviceData
+            )) as Promise<ServiceCallResponse>;
           } catch (err) {
             if (__DEV__) {
               // tslint:disable-next-line: no-console
@@ -67,7 +74,7 @@ export const connectionMixin = (
             }
             forwardHaptic("failure");
             const message =
-              (this as any).opp.localize(
+              (this as any).hass.localize(
                 "ui.notification_toast.service_call_failed",
                 "service",
                 `${domain}/${service}`

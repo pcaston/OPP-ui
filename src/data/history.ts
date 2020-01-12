@@ -202,9 +202,9 @@ export const computeHistory = (
     if (stateWithUnit) {
       unit = stateWithUnit.attributes.unit_of_measurement;
     } else if (computeStateDomain(stateInfo[0]) === "climate") {
-      unit = opp.config.unit_system.temperature;
+      unit = opp.config!.unit_system.temperature;
     } else if (computeStateDomain(stateInfo[0]) === "water_heater") {
-      unit = opp.config.unit_system.temperature;
+      unit = opp.config!.unit_system.temperature;
     }
 
     if (!unit) {

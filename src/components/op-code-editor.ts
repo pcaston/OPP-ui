@@ -15,7 +15,7 @@ declare global {
 }
 
 @customElement("op-code-editor")
-export class HaCodeEditor extends UpdatingElement {
+export class OpCodeEditor extends UpdatingElement {
   public codemirror?: Editor;
   @property() public mode?: string;
   @property() public autofocus = false;
@@ -155,6 +155,6 @@ export class HaCodeEditor extends UpdatingElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-code-editor": HaCodeEditor;
+    "op-code-editor": OpCodeEditor;
   }
 }

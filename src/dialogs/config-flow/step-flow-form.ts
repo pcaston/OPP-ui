@@ -12,24 +12,21 @@ import "@material/mwc-button";
 import "@polymer/paper-tooltip/paper-tooltip";
 import "@polymer/paper-spinner/paper-spinner";
 
-import "../../components/op-form";
+import "../../components/op-form/op-form";
 import "../../components/op-markdown";
 import "../../resources/op-style";
-import {
-  handleConfigFlowStep,
-  FieldSchema,
-  ConfigFlowStepForm,
-} from "../../data/config_entries";
-import { PolymerChangedEvent, applyPolymerEvent } from "../../polymer-types";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
-import { localizeKey } from "../../common/translations/localize";
 import { configFlowContentStyles } from "./styles";
+import { DataEntryFlowStepForm, FieldSchema } from "../../data/data_entry_flow";
+import { FlowConfig } from "./show-dialog-data-entry-flow";
 
 @customElement("step-flow-form")
 class StepFlowForm extends LitElement {
+  public flowConfig!: FlowConfig;
+
   @property()
-  public step!: ConfigFlowStepForm;
+  public step!: DataEntryFlowStepForm;
 
   @property()
   public opp!: OpenPeerPower;
@@ -44,32 +41,23 @@ class StepFlowForm extends LitElement {
   private _errorMsg?: string;
 
   protected render(): TemplateResult | void {
-    const localize = this.opp.localize;
     const step = this.step;
+    const stepData = this._stepDataProcessed;
 
     const allRequiredInfoFilledIn =
-      this._stepData === undefined
+      stepData === undefined
         ? // If no data filled in, just check that any field is required
           step.data_schema.find((field) => !field.optional) === undefined
         : // If data is filled in, make sure all required fields are
-          this._stepData &&
+          stepData &&
           step.data_schema.every(
             (field) =>
-              field.optional ||
-              !["", undefined].includes(this._stepData![field.name])
+              field.optional || !["", undefined].includes(stepData![field.name])
           );
-
-    const description = localizeKey(
-      localize,
-      `component.${step.handler}.config.step.${step.step_id}.description`,
-      step.description_placeholders
-    );
 
     return html`
       <h2>
-        ${localize(
-          `component.${step.handler}.config.step.${step.step_id}.title`
-        )}
+        ${this.flowConfig.renderShowFormStepHeader(this.opp, this.step)}
       </h2>
       <div class="content">
         ${this._errorMsg
@@ -77,14 +65,10 @@ class StepFlowForm extends LitElement {
               <div class="error">${this._errorMsg}</div>
             `
           : ""}
-        ${description
-          ? html`
-              <op-markdown .content=${description} allow-svg></op-markdown>
-            `
-          : ""}
+        ${this.flowConfig.renderShowFormStepDescription(this.opp, this.step)}
         <op-form
-          .data=${this._stepDataProcessed}
-          @data-changed=${this._stepDataChanged}
+          .data=${stepData}
+          @value-changed=${this._stepDataChanged}
           .schema=${step.data_schema}
           .error=${step.errors}
           .computeLabel=${this._labelCallback}
@@ -103,14 +87,17 @@ class StepFlowForm extends LitElement {
                 <mwc-button
                   @click=${this._submitStep}
                   .disabled=${!allRequiredInfoFilledIn}
-                >
-                  Submit
+                  >${this.opp.localize(
+                    "ui.panel.config.integrations.config_flow.submit"
+                  )}
                 </mwc-button>
 
                 ${!allRequiredInfoFilledIn
                   ? html`
-                      <paper-tooltip position="left">
-                        Not all required fields are filled in.
+                      <paper-tooltip position="left"
+                        >${this.opp.localize(
+                          "ui.panel.config.integrations.config_flow.not_all_required_fields"
+                        )}
                       </paper-tooltip>
                     `
                   : html``}
@@ -122,6 +109,7 @@ class StepFlowForm extends LitElement {
 
   protected firstUpdated(changedProps: PropertyValues) {
     super.firstUpdated(changedProps);
+    setTimeout(() => this.shadowRoot!.querySelector("op-form")!.focus(), 0);
     this.addEventListener("keypress", (ev) => {
       if (ev.keyCode === 13) {
         this._submitStep();
@@ -161,7 +149,7 @@ class StepFlowForm extends LitElement {
     });
 
     try {
-      const step = await handleConfigFlowStep(
+      const step = await this.flowConfig.handleFlowStep(
         this.opp,
         this.step.flow_id,
         toSendData
@@ -184,22 +172,15 @@ class StepFlowForm extends LitElement {
     }
   }
 
-  private _stepDataChanged(ev: PolymerChangedEvent<any>): void {
-    this._stepData = applyPolymerEvent(ev, this._stepData);
+  private _stepDataChanged(ev: CustomEvent): void {
+    this._stepData = ev.detail.value;
   }
 
-  private _labelCallback = (schema: FieldSchema): string => {
-    const step = this.step as ConfigFlowStepForm;
-
-    return this.opp.localize(
-      `component.${step.handler}.config.step.${step.step_id}.data.${
-        schema.name
-      }`
-    );
-  };
+  private _labelCallback = (field: FieldSchema): string =>
+    this.flowConfig.renderShowFormStepFieldLabel(this.opp, this.step, field);
 
   private _errorCallback = (error: string) =>
-    this.opp.localize(`component.${this.step.handler}.config.error.${error}`);
+    this.flowConfig.renderShowFormStepFieldError(this.opp, this.step, error);
 
   static get styles(): CSSResultArray {
     return [

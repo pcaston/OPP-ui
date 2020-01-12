@@ -14,7 +14,7 @@ import "../../../components/op-card";
 import "../components/hui-warning";
 
 import isValidEntityId from "../../../common/entity/valid_entity_id";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 import computeStateName from "../../../common/entity/compute_state_name";
 
 import { OpenPeerPower } from "../../../types";
@@ -73,7 +73,7 @@ class HuiGaugeCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

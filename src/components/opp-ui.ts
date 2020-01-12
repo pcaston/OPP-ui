@@ -28,7 +28,7 @@ export class OPPui extends LitElement {
   @property({type: String}) _page = '';
   @property({type: Boolean}) _drawerOpened = false;
   @property({type: Boolean}) _offline = false;
-  @property({type: Object}) opp: OpenPeerPower = {};
+  @property({ type : Object }) opp!: OpenPeerPower;
   @property({type: Array}) private appliances: Appliances = {};
   @property({type: Object}) wsp!: WebSocket | null;
 

@@ -143,7 +143,7 @@ export class HuiUnusedEntities extends LitElement {
       <op-data-table
         .columns=${this._columns(this.narrow!)}
         .data=${this._unusedEntities.map((entity) => {
-          const stateObj = this.opp!.states[entity];
+          const stateObj = this.opp!.states![entity];
           return {
             entity_id: entity,
             entity: {
