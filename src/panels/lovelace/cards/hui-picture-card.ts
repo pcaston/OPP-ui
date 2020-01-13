@@ -15,7 +15,7 @@ import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { OpenPeerPower } from "../../../types";
 import { classMap } from "lit-html/directives/class-map";
 import { PictureCardConfig } from "./types";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 import { actionHandler } from "../common/directives/action-handler-directive";
 import { hasAction } from "../common/has-action";
 import { ActionHandlerEvent } from "../../../data/lovelace";
@@ -92,7 +92,6 @@ export class HuiPictureCard extends LitElement implements LovelaceCard {
           ),
         })}"
       >
-        <img src="${this.opp.oppUrl(this._config.image)}" />
       </op-card>
     `;
   }

@@ -1,7 +1,7 @@
 import {
   OppEntityBase,
   OppEntityAttributeBase,
-} from "open-peer-power-js-websocket";
+} from "../open-peer-power-js-websocket/lib";
 
 import { OpenPeerPower, ServiceCallResponse } from "../types";
 

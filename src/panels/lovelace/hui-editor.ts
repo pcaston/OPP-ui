@@ -25,7 +25,7 @@ import { opStyle } from "../../resources/styles";
 import "../../components/op-code-editor";
 // This is not a duplicate import, one is for types, one is for element.
 // tslint:disable-next-line
-import { HaCodeEditor } from "../../components/op-code-editor";
+import { OpCodeEditor } from "../../components/op-code-editor";
 import { OpenPeerPower } from "../../types";
 import { computeRTL } from "../../common/util/compute_rtl";
 
@@ -240,8 +240,8 @@ class LovelaceFullConfigEditor extends LitElement {
     this._changed = false;
   }
 
-  private get yamlEditor(): HaCodeEditor {
-    return this.shadowRoot!.querySelector("op-code-editor")! as HaCodeEditor;
+  private get yamlEditor(): OpCodeEditor {
+    return this.shadowRoot!.querySelector("op-code-editor")! as OpCodeEditor;
   }
 }
 

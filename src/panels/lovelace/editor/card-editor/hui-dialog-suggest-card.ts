@@ -47,7 +47,7 @@ export class HuiDialogSuggestCard extends LitElement {
       computeCards(
         params.entities.map((entityId) => [
           entityId,
-          this.opp.states[entityId],
+          this.opp.states![entityId],
         ]),
         {}
       );

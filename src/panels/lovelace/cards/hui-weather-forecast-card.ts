@@ -22,7 +22,7 @@ import { WeatherForecastCardConfig } from "./types";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { fireEvent } from "../../../common/dom/fire_event";
 import { toggleAttribute } from "../../../common/dom/toggle_attribute";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 const cardinalDirections = [
   "N",
@@ -122,7 +122,7 @@ class HuiWeatherForecastCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`
@@ -279,7 +279,7 @@ class HuiWeatherForecastCard extends LitElement implements LovelaceCard {
   }
 
   private getUnit(measure: string): string {
-    const lengthUnit = this.opp!.config.unit_system.length || "";
+    const lengthUnit = this.opp!.config!.unit_system.length || "";
     switch (measure) {
       case "air_pressure":
         return lengthUnit === "km" ? "hPa" : "inHg";
@@ -288,7 +288,7 @@ class HuiWeatherForecastCard extends LitElement implements LovelaceCard {
       case "precipitation":
         return lengthUnit === "km" ? "mm" : "in";
       default:
-        return this.opp!.config.unit_system[measure] || "";
+        return this.opp!.config!.unit_system[measure] || "";
     }
   }
 

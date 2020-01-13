@@ -25,7 +25,7 @@ import { OpenPeerPower } from "../../../types";
 import { processConfigEntities } from "../common/process-config-entities";
 import { PictureGlanceCardConfig, PictureGlanceEntityConfig } from "./types";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 import { actionHandler } from "../common/directives/action-handler-directive";
 import { hasAction } from "../common/has-action";
 import { ActionHandlerEvent } from "../../../data/lovelace";

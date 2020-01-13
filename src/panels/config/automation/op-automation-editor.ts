@@ -1,80 +1,48 @@
-import {
-  LitElement,
-  TemplateResult,
-  html,
-  CSSResult,
-  css,
-  PropertyDeclarations,
-  PropertyValues,
-} from "lit-element";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-icon-button/paper-icon-button";
-import "@polymer/paper-fab/paper-fab";
-import { classMap } from "lit-html/directives/class-map";
-
-import { h, render } from "preact";
-
-import "../../../components/op-paper-icon-button-arrow-prev";
-import "../../../layouts/op-app-layout";
-
-import Automation from "../js/automation";
-import unmountPreact from "../../../common/preact/unmount";
-import computeStateName from "../../../common/entity/compute_state_name";
-
-import { opStyle } from "../../../resources/styles";
-import { OpenPeerPower } from "../../../types";
 import {
-  AutomationEntity,
-  AutomationConfig,
-  deleteAutomation,
-} from "../../../data/automation";
+  css,
+  CSSResult,
+  html,
+  LitElement,
+  property,
+  PropertyValues,
+  TemplateResult,
+} from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { navigate } from "../../../common/navigate";
 import { computeRTL } from "../../../common/util/compute_rtl";
+import "../../../components/op-fab";
+import "../../../components/op-paper-icon-button-arrow-prev";
+import {
+  AutomationConfig,
+  AutomationEntity,
+  Condition,
+  deleteAutomation,
+  getAutomationEditorInitData,
+  Trigger,
+} from "../../../data/automation";
+import { Action } from "../../../data/script";
+import { showConfirmationDialog } from "../../../dialogs/confirmation/show-dialog-confirmation";
+import "../../../layouts/op-app-layout";
+import { opStyle } from "../../../resources/styles";
+import { OpenPeerPower } from "../../../types";
+import "./action/op-automation-action";
+import "./condition/op-automation-condition";
+import "./trigger/op-automation-trigger";
 
-function AutomationEditor(mountEl, props, mergeEl) {
-  return render(h(Automation, props), mountEl, mergeEl);
-}
-
-class OpAutomationEditor extends LitElement {
-  public opp!: OpenPeerPower;
-  public automation!: AutomationEntity;
-  public isWide?: boolean;
-  public creatingNew?: boolean;
-  private _config?: AutomationConfig;
-  private _dirty?: boolean;
-  private _rendered?: unknown;
-  private _errors?: string;
-
-  static get properties(): PropertyDeclarations {
-    return {
-      opp: {},
-      automation: {},
-      creatingNew: {},
-      isWide: {},
-      _errors: {},
-      _dirty: {},
-      _config: {},
-    };
-  }
-
-  constructor() {
-    super();
-    this._configChanged = this._configChanged.bind(this);
-  }
-
-  public disconnectedCallback(): void {
-    super.disconnectedCallback();
-    if (this._rendered) {
-      unmountPreact(this._rendered);
-      this._rendered = undefined;
-    }
-  }
+export class OpAutomationEditor extends LitElement {
+  @property() public opp!: OpenPeerPower;
+  @property() public automation!: AutomationEntity;
+  @property() public isWide?: boolean;
+  @property() public creatingNew?: boolean;
+  @property() private _config?: AutomationConfig;
+  @property() private _dirty?: boolean;
+  @property() private _errors?: string;
 
   protected render(): TemplateResult | void {
-    if (!this.opp) {
-      return;
-    }
     return html`
       <op-app-layout has-scrolling-region>
         <app-header slot="header" fixed>
@@ -93,6 +61,9 @@ class OpAutomationEditor extends LitElement {
               ? ""
               : html`
                   <paper-icon-button
+                    title="${this.opp.localize(
+                      "ui.panel.config.automation.picker.delete_automation"
+                    )}"
                     icon="opp:delete"
                     @click=${this._delete}
                   ></paper-icon-button>
@@ -107,13 +78,133 @@ class OpAutomationEditor extends LitElement {
               `
             : ""}
           <div
-            id="root"
             class="${classMap({
               rtl: computeRTL(this.opp),
             })}"
-          ></div>
+          >
+            ${this._config
+              ? html`
+                  <op-config-section .isWide=${this.isWide}>
+                    <span slot="header">${this._config.alias}</span>
+                    <span slot="introduction">
+                      ${this.opp.localize(
+                        "ui.panel.config.automation.editor.introduction"
+                      )}
+                    </span>
+                    <op-card>
+                      <div class="card-content">
+                        <paper-input
+                          .label=${this.opp.localize(
+                            "ui.panel.config.automation.editor.alias"
+                          )}
+                          name="alias"
+                          .value=${this._config.alias}
+                          @value-changed=${this._valueChanged}
+                        >
+                        </paper-input>
+                        <op-textarea
+                          .label=${this.opp.localize(
+                            "ui.panel.config.automation.editor.description.label"
+                          )}
+                          .placeholder=${this.opp.localize(
+                            "ui.panel.config.automation.editor.description.placeholder"
+                          )}
+                          name="description"
+                          .value=${this._config.description}
+                          @value-changed=${this._valueChanged}
+                        ></op-textarea>
+                      </div>
+                    </op-card>
+                  </op-config-section>
+
+                  <op-config-section .isWide=${this.isWide}>
+                    <span slot="header">
+                      ${this.opp.localize(
+                        "ui.panel.config.automation.editor.triggers.header"
+                      )}
+                    </span>
+                    <span slot="introduction">
+                      <p>
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.triggers.introduction"
+                        )}
+                      </p>
+                      <a
+                        href="https://home-assistant.io/docs/automation/trigger/"
+                        target="_blank"
+                      >
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.triggers.learn_more"
+                        )}
+                      </a>
+                    </span>
+                    <op-automation-trigger
+                      .triggers=${this._config.trigger}
+                      @value-changed=${this._triggerChanged}
+                      .opp=${this.opp}
+                    ></op-automation-trigger>
+                  </op-config-section>
+
+                  <op-config-section .isWide=${this.isWide}>
+                    <span slot="header">
+                      ${this.opp.localize(
+                        "ui.panel.config.automation.editor.conditions.header"
+                      )}
+                    </span>
+                    <span slot="introduction">
+                      <p>
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.conditions.introduction"
+                        )}
+                      </p>
+                      <a
+                        href="https://home-assistant.io/docs/scripts/conditions/"
+                        target="_blank"
+                      >
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.conditions.learn_more"
+                        )}
+                      </a>
+                    </span>
+                    <op-automation-condition
+                      .conditions=${this._config.condition || []}
+                      @value-changed=${this._conditionChanged}
+                      .opp=${this.opp}
+                    ></op-automation-condition>
+                  </op-config-section>
+
+                  <op-config-section .isWide=${this.isWide}>
+                    <span slot="header">
+                      ${this.opp.localize(
+                        "ui.panel.config.automation.editor.actions.header"
+                      )}
+                    </span>
+                    <span slot="introduction">
+                      <p>
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.actions.introduction"
+                        )}
+                      </p>
+                      <a
+                        href="https://home-assistant.io/docs/automation/action/"
+                        target="_blank"
+                      >
+                        ${this.opp.localize(
+                          "ui.panel.config.automation.editor.actions.learn_more"
+                        )}
+                      </a>
+                    </span>
+                    <op-automation-action
+                      .actions=${this._config.action}
+                      @value-changed=${this._actionChanged}
+                      .opp=${this.opp}
+                    ></op-automation-action>
+                  </op-config-section>
+                `
+              : ""}
+          </div>
         </div>
-        <paper-fab
+        <op-fab
           slot="fab"
           ?is-wide="${this.isWide}"
           ?dirty="${this._dirty}"
@@ -125,7 +216,7 @@ class OpAutomationEditor extends LitElement {
           class="${classMap({
             rtl: computeRTL(this.opp),
           })}"
-        ></paper-fab>
+        ></op-fab>
       </op-app-layout>
     `;
   }
@@ -178,56 +269,78 @@ class OpAutomationEditor extends LitElement {
     }
 
     if (changedProps.has("creatingNew") && this.creatingNew && this.opp) {
-      this._dirty = false;
+      const initData = getAutomationEditorInitData();
+      this._dirty = initData ? true : false;
       this._config = {
         alias: this.opp.localize(
           "ui.panel.config.automation.editor.default_name"
         ),
+        description: "",
         trigger: [{ platform: "state" }],
         condition: [],
         action: [{ service: "" }],
+        ...initData,
       };
-    }
-
-    if (changedProps.has("_config") && this.opp) {
-      this._rendered = AutomationEditor(
-        this.shadowRoot!.querySelector("#root"),
-        {
-          automation: this._config,
-          onChange: this._configChanged,
-          isWide: this.isWide,
-          opp: this.opp,
-          localize: this.opp.localize,
-        },
-        this._rendered
-      );
     }
   }
 
-  private _configChanged(config: AutomationConfig): void {
-    // onChange gets called a lot during initial rendering causing recursing calls.
-    if (!this._rendered) {
+  private _valueChanged(ev: CustomEvent) {
+    ev.stopPropagation();
+    const name = (ev.target as any)?.name;
+    if (!name) {
       return;
     }
-    this._config = config;
+    const newVal = ev.detail.value;
+
+    if ((this._config![name] || "") === newVal) {
+      return;
+    }
+    this._config = { ...this._config!, [name]: newVal };
+    this._dirty = true;
+  }
+
+  private _triggerChanged(ev: CustomEvent): void {
+    this._config = { ...this._config!, trigger: ev.detail.value as Trigger[] };
+    this._errors = undefined;
+    this._dirty = true;
+  }
+
+  private _conditionChanged(ev: CustomEvent): void {
+    this._config = {
+      ...this._config!,
+      condition: ev.detail.value as Condition[],
+    };
+    this._errors = undefined;
+    this._dirty = true;
+  }
+
+  private _actionChanged(ev: CustomEvent): void {
+    this._config = { ...this._config!, action: ev.detail.value as Action[] };
     this._errors = undefined;
     this._dirty = true;
   }
 
   private _backTapped(): void {
-    if (
-      this._dirty &&
-      !confirm(
-        this.opp!.localize("ui.panel.config.automation.editor.unsaved_confirm")
-      )
-    ) {
-      return;
+    if (this._dirty) {
+      showConfirmationDialog(this, {
+        text: this.opp!.localize(
+          "ui.panel.config.automation.editor.unsaved_confirm"
+        ),
+        confirmBtnText: this.opp!.localize("ui.common.yes"),
+        cancelBtnText: this.opp!.localize("ui.common.no"),
+        confirm: () => history.back(),
+      });
+    } else {
+      history.back();
     }
-    history.back();
   }
 
   private async _delete() {
-    if (!confirm("Are you sure you want to delete this automation?")) {
+    if (
+      !confirm(
+        this.opp.localize("ui.panel.config.automation.picker.delete_confirm")
+      )
+    ) {
       return;
     }
     await deleteAutomation(this.opp, this.automation.attributes.id!);
@@ -272,36 +385,10 @@ class OpAutomationEditor extends LitElement {
         .content {
           padding-bottom: 20px;
         }
-        .triggers,
-        .script {
-          margin-top: -16px;
-        }
-        .triggers op-card,
-        .script op-card {
-          margin-top: 16px;
-        }
-        .add-card mwc-button {
-          display: block;
-          text-align: center;
-        }
-        .card-menu {
-          position: absolute;
-          top: 0;
-          right: 0;
-          z-index: 1;
-          color: var(--primary-text-color);
-        }
-        .rtl .card-menu {
-          right: auto;
-          left: 0;
-        }
-        .card-menu paper-item {
-          cursor: pointer;
-        }
         span[slot="introduction"] a {
           color: var(--primary-color);
         }
-        paper-fab {
+        op-fab {
           position: fixed;
           bottom: 16px;
           right: 16px;
@@ -310,21 +397,21 @@ class OpAutomationEditor extends LitElement {
           transition: margin-bottom 0.3s;
         }
 
-        paper-fab[is-wide] {
+        op-fab[is-wide] {
           bottom: 24px;
           right: 24px;
         }
 
-        paper-fab[dirty] {
+        op-fab[dirty] {
           margin-bottom: 0;
         }
 
-        paper-fab.rtl {
+        op-fab.rtl {
           right: auto;
           left: 16px;
         }
 
-        paper-fab[is-wide].rtl {
+        op-fab[is-wide].rtl {
           bottom: 24px;
           right: auto;
           left: 24px;

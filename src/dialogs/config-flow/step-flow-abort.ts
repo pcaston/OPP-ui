@@ -8,41 +8,38 @@ import {
 } from "lit-element";
 import "@material/mwc-button";
 
-import { ConfigFlowStepAbort } from "../../data/config_entries";
+import { DataEntryFlowStepAbort } from "../../data/data_entry_flow";
 import { OpenPeerPower } from "../../types";
-import { localizeKey } from "../../common/translations/localize";
 import { fireEvent } from "../../common/dom/fire_event";
 import { configFlowContentStyles } from "./styles";
+import { FlowConfig } from "./show-dialog-data-entry-flow";
 
 @customElement("step-flow-abort")
 class StepFlowAbort extends LitElement {
+  public flowConfig!: FlowConfig;
+
   @property()
   public opp!: OpenPeerPower;
 
   @property()
-  private step!: ConfigFlowStepAbort;
+  private step!: DataEntryFlowStepAbort;
 
   protected render(): TemplateResult | void {
-    const localize = this.opp.localize;
-    const step = this.step;
-
-    const description = localizeKey(
-      localize,
-      `component.${step.handler}.config.abort.${step.reason}`,
-      step.description_placeholders
-    );
-
     return html`
-      <h2>Aborted</h2>
+      <h2>
+        ${this.opp.localize(
+          "ui.panel.config.integrations.config_flow.aborted"
+        )}
+      </h2>
       <div class="content">
-        ${description
-          ? html`
-              <op-markdown .content=${description} allow-svg></op-markdown>
-            `
-          : ""}
+        ${this.flowConfig.renderAbortDescription(this.opp, this.step)}
       </div>
       <div class="buttons">
-        <mwc-button @click="${this._flowDone}">Close</mwc-button>
+        <mwc-button @click="${this._flowDone}"
+          >${this.opp.localize(
+            "ui.panel.config.integrations.config_flow.close"
+          )}</mwc-button
+        >
       </div>
     `;
   }

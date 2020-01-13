@@ -23,7 +23,7 @@ import { LovelaceCard, LovelaceCardEditor } from "../types";
 import { UNAVAILABLE } from "../../../data/entity";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { PictureEntityCardConfig } from "./types";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 import { actionHandler } from "../common/directives/action-handler-directive";
 import { hasAction } from "../common/has-action";
 import { ActionHandlerEvent } from "../../../data/lovelace";
@@ -99,7 +99,7 @@ class HuiPictureEntityCard extends LitElement implements LovelaceCard {
       return html``;
     }
 
-    const stateObj = this.opp.states[this._config.entity];
+    const stateObj = this.opp.states![this._config.entity];
 
     if (!stateObj) {
       return html`

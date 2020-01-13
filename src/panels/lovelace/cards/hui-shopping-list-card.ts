@@ -25,7 +25,7 @@ import {
   addItem,
 } from "../../../data/shopping-list";
 import { ShoppingListCardConfig, SensorCardConfig } from "./types";
-import applyThemesOnElement from "../../../common/dom/apply_themes_on_element";
+import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 
 @customElement("hui-shopping-list-card")
 class HuiShoppingListCard extends LitElement implements LovelaceCard {

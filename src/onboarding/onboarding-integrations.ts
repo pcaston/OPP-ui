@@ -14,43 +14,40 @@ import {
   showConfigFlowDialog,
 } from "../dialogs/config-flow/show-dialog-config-flow";
 import { OpenPeerPower } from "../types";
-import {
-  getConfigFlowsInProgress,
-  getConfigEntries,
-  ConfigEntry,
-  ConfigFlowProgress,
-} from "../data/config_entries";
+import { getConfigEntries, ConfigEntry } from "../data/config_entries";
 import { compare } from "../common/string/compare";
 import "./integration-badge";
-import { debounce } from "../common/util/debounce";
+import { LocalizeFunc } from "../common/translations/localize";
 import { fireEvent } from "../common/dom/fire_event";
 import { onboardIntegrationStep } from "../data/onboarding";
 import { genClientId } from "../open-peer-power-js-websocket/lib";
+import { DataEntryFlowProgress } from "../data/data_entry_flow";
+import {
+  localizeConfigFlowTitle,
+  subscribeConfigFlowInProgress,
+  getConfigFlowInProgressCollection,
+} from "../data/config_flow";
 
 @customElement("onboarding-integrations")
 class OnboardingIntegrations extends LitElement {
   @property() public opp!: OpenPeerPower;
-
+  @property() public onboardingLocalize!: LocalizeFunc;
   @property() private _entries?: ConfigEntry[];
-  @property() private _discovered?: ConfigFlowProgress[];
+  @property() private _discovered?: DataEntryFlowProgress[];
   private _unsubEvents?: () => void;
 
   public connectedCallback() {
     super.connectedCallback();
-    this.opp.connection
-      .subscribeEvents(
-        debounce(() => this._loadData(), 500),
-        "config_entry_discovered"
-      )
-      .then((unsub) => {
-        this._unsubEvents = unsub;
-      });
+    this._unsubEvents = subscribeConfigFlowInProgress(this.opp, (flows) => {
+      this._discovered = flows;
+    });
   }
 
   public disconnectedCallback() {
     super.disconnectedCallback();
     if (this._unsubEvents) {
       this._unsubEvents();
+      this._unsubEvents = undefined;
     }
   }
 
@@ -58,12 +55,12 @@ class OnboardingIntegrations extends LitElement {
     if (!this._entries || !this._discovered) {
       return html``;
     }
-    // Render discovered and existing entries together sorted by title.
+    // Render discovered and existing entries together sorted by localized title.
     const entries: Array<[string, TemplateResult]> = this._entries.map(
       (entry) => {
-        const title = 
+        const title = this.opp.localize(
           `component.${entry.domain}.config.title`
-        ;
+        );
         return [
           title,
           html`
@@ -77,7 +74,7 @@ class OnboardingIntegrations extends LitElement {
     );
     const discovered: Array<[string, TemplateResult]> = this._discovered.map(
       (flow) => {
-        const title = flow;
+        const title = localizeConfigFlowTitle(this.opp.localize, flow);
         return [
           title,
           html`
@@ -98,21 +95,25 @@ class OnboardingIntegrations extends LitElement {
 
     return html`
       <p>
-      Devices and services are represented in Open Peer Power as integrations. You can set them up now, or do it later from the configuration screen.
+        ${this.onboardingLocalize("ui.panel.page-onboarding.integration.intro")}
       </p>
       <div class="badges">
         ${content}
         <button @click=${this._createFlow}>
           <integration-badge
             clickable
-            title="More"
+            title=${this.onboardingLocalize(
+              "ui.panel.page-onboarding.integration.more_integrations"
+            )}
             icon="opp:dots-horizontal"
           ></integration-badge>
         </button>
       </div>
       <div class="footer">
         <mwc-button @click=${this._finish}>
-          Finish
+          ${this.onboardingLocalize(
+            "ui.panel.page-onboarding.integration.finish"
+          )}
         </mwc-button>
       </div>
     `;
@@ -121,31 +122,38 @@ class OnboardingIntegrations extends LitElement {
   protected firstUpdated(changedProps: PropertyValues) {
     super.firstUpdated(changedProps);
     loadConfigFlowDialog();
-    this._loadData();
+    this._loadConfigEntries();
     /* polyfill for paper-dropdown */
-    import(/* webpackChunkName: "polyfill-web-animations-next" */ "web-animations-js/web-animations-next-lite.min");
+    import(
+      /* webpackChunkName: "polyfill-web-animations-next" */ "web-animations-js/web-animations-next-lite.min"
+    );
   }
 
   private _createFlow() {
     showConfigFlowDialog(this, {
-      dialogClosedCallback: () => this._loadData(),
+      dialogClosedCallback: () => {
+        this._loadConfigEntries();
+        getConfigFlowInProgressCollection(this.opp!.connection).refresh();
+      },
     });
   }
 
   private _continueFlow(ev) {
     showConfigFlowDialog(this, {
       continueFlowId: ev.currentTarget.flowId,
-      dialogClosedCallback: () => this._loadData(),
+      dialogClosedCallback: () => {
+        this._loadConfigEntries();
+        getConfigFlowInProgressCollection(this.opp!.connection).refresh();
+      },
     });
   }
 
-  private async _loadData() {
-    const [discovered, entries] = await Promise.all([
-      getConfigFlowsInProgress(this.opp!),
-      getConfigEntries(this.opp!),
-    ]);
-    this._discovered = discovered;
-    this._entries = entries;
+  private async _loadConfigEntries() {
+    const entries = await getConfigEntries(this.opp!);
+    // We filter out the config entry for the local weather.
+    // It is one that we create automatically and it will confuse the user
+    // if it starts showing up during onboarding.
+    this._entries = entries.filter((entry) => entry.domain !== "met");
   }
 
   private async _finish() {
