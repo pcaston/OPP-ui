@@ -15,7 +15,7 @@ import "../components/hui-image";
 import "../components/hui-warning";
 
 import computeDomain from "../../../common/entity/compute_domain";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 import computeStateDisplay from "../../../common/entity/compute_state_display";
 import { OpenPeerPower } from "../../../types";

@@ -4,7 +4,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/op-card";
 import "../components/op-icon";
 
-import computeStateName from "../common/entity/compute_state_name";
+import { computeStateName } from "../common/entity/compute_state_name";
 import { EventsMixin } from "../mixins/events-mixin";
 
 class OpPlantCard extends EventsMixin(PolymerElement) {

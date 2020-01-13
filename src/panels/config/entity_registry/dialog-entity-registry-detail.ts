@@ -17,7 +17,7 @@ import { opStyleDialog } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import computeDomain from "../../../common/entity/compute_domain";
 import { OppEntity } from "../../../types";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 class DialogEntityRegistryDetail extends LitElement {
   public opp!: OpenPeerPower;

@@ -18,7 +18,7 @@ import { computeRTL } from "../../../common/util/compute_rtl";
 import "../op-config-section";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import {
   loadConfigFlowDialog,
   showConfigFlowDialog,

@@ -10,7 +10,7 @@ import {
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
 import relativeTime from "../../../common/datetime/relative_time";
 

@@ -12,7 +12,7 @@ import "../op-config-section";
 import "../op-entity-config";
 import "./op-form-customize";
 
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import computeStateDomain from "../../../common/entity/compute_state_domain";
 import sortByName from "../../../common/entity/states_sort_by_name";
 import LocalizeMixin from "../../../mixins/localize-mixin";

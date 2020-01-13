@@ -13,7 +13,7 @@ import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
 import "../../../components/op-card";
 import "../../../components/op-icon";
 
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 import { LovelaceCardEditor, LovelaceCard } from "../types";
 import { OpenPeerPower } from "../../../types";

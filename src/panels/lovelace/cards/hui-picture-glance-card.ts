@@ -15,7 +15,7 @@ import "../../../components/op-icon";
 import "../components/hui-image";
 import "../components/hui-warning-element";
 
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import computeDomain from "../../../common/entity/compute_domain";
 import stateIcon from "../../../common/entity/state_icon";
 import computeStateDisplay from "../../../common/entity/compute_state_display";

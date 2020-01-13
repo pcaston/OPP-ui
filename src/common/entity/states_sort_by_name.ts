@@ -6,7 +6,7 @@
  *   states.sort(statesSortByName);
  */
 import { OppEntity } from "../../types";
-import computeStateName from "./compute_state_name";
+import { computeStateName } from "./compute_state_name";
 
 export default function sortStatesByName(
   entityA: OppEntity,
