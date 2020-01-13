@@ -13,7 +13,7 @@ import "@polymer/paper-item/paper-item-body";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
 import memoizeOne from "memoize-one";
-import * as Fuse from "fuse.js";
+import * as Fuse from "fuse";
 
 import "../../components/op-icon-next";
 import "../../common/search/search-input";

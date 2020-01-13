@@ -84,6 +84,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     };
 
     // Auth is mandatory, so we can send the auth message right away.
+    // @ts-ignore
     const handleOpen = async (event: MessageEventInit) => {
       try {
         if (auth.expired) {

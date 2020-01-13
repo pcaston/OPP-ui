@@ -9,6 +9,7 @@ type Action<State> = (
   state: State,
   ...args: any[]
 ) => Partial<State> | Promise<Partial<State>> | null;
+// @ts-ignore
 type BoundAction<State> = (...args: any[]) => void;
 
 export type Store<State> = {

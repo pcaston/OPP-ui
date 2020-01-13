@@ -1745,6 +1745,13 @@
   resolved "https://registry.npmjs.org/@types/freeport/-/freeport-1.0.21.tgz#73f6543ed67d3ca3fff97b985591598b7092066f"
   integrity sha1-c/ZUPtZ9PKP/+XuYVZFZi3CSBm8=
 
+"@types/fuse@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/@types/fuse/-/fuse-2.6.0.tgz#e03e0a22ce0cf6a3f0cf9cf7f1a3881a705d7f2d"
+  integrity sha512-U7h2Yz7+fd7fr0ilTDtZmC+zyi3D7BuHMz3ULEO7xNBA83edP8NIHdSmOHeQV+v69oWsCjckKXSCRK9kE59XJg==
+  dependencies:
+    fuse "*"
+
 "@types/glob-stream@*":
   version "6.1.0"
   resolved "https://registry.npmjs.org/@types/glob-stream/-/glob-stream-6.1.0.tgz#7ede8a33e59140534f8d8adfb8ac9edfb31897bc"
@@ -5363,7 +5370,7 @@ function-bind@^1.1.1:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-fuse@^0.4.0:
+fuse@*, fuse@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/fuse/-/fuse-0.4.0.tgz#2c38eaf888abb0a9ba7960cfe3339d1f3f53f6e6"
   integrity sha1-LDjq+IirsKm6eWDP4zOdHz9T9uY=

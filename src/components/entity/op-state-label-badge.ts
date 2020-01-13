@@ -15,7 +15,7 @@ import { fireEvent } from "../../common/dom/fire_event";
 import { OpenPeerPower } from "../../types";
 
 import computeStateDomain from "../../common/entity/compute_state_domain";
-import computeStateName from "../../common/entity/compute_state_name";
+import { computeStateName } from "../../common/entity/compute_state_name";
 import domainIcon from "../../common/entity/domain_icon";
 import stateIcon from "../../common/entity/state_icon";
 import timerTimeRemaining from "../../common/entity/timer_time_remaining";

@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import computeStateName from "../common/entity/compute_state_name";
+import { computeStateName } from "../common/entity/compute_state_name";
 
 export interface DeviceAutomation {
   device_id: string;

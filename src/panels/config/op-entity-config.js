@@ -7,7 +7,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../components/op-card";
 
-import computeStateName from "../../common/entity/compute_state_name";
+import { computeStateName } from "../../common/entity/compute_state_name";
 
 class OpEntityConfig extends PolymerElement {
   static get template() {

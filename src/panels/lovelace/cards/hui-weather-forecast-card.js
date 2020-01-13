@@ -8,7 +8,7 @@ import { html, LitElement, css, property, customElement, } from "lit-element";
 import "../../../components/op-card";
 import "../components/hui-warning";
 import isValidEntityId from "../../../common/entity/valid_entity_id";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { fireEvent } from "../../../common/dom/fire_event";

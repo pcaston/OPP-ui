@@ -2,7 +2,7 @@ import { OpenPeerPower } from "../types";
 import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
 import { debounce } from "../common/util/debounce";
 import { EntityRegistryEntry } from "./entity_registry";
-import computeStateName from "../common/entity/compute_state_name";
+import { computeStateName } from "../common/entity/compute_state_name";
 
 export interface DeviceRegistryEntry {
   id: string;

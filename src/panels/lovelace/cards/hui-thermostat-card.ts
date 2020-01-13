@@ -18,7 +18,7 @@ import "../components/hui-warning";
 import "../components/hui-unavailable";
 
 import { applyThemesOnElement } from "../../../common/dom/apply_themes_on_element";
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 import { hasConfigOrEntityChanged } from "../common/has-changed";
 import { OpenPeerPower } from "../../../types";

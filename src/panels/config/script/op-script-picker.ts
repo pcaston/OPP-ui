@@ -20,7 +20,7 @@ import "../../../components/op-card";
 
 import "../op-config-section";
 
-import computeStateName from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { triggerScript } from "../../../data/script";

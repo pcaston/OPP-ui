@@ -1,4 +1,4 @@
-import computeStateName from "../common/entity/compute_state_name";
+import { computeStateName } from "../common/entity/compute_state_name";
 import computeStateDomain from "../common/entity/compute_state_domain";
 import computeStateDisplay from "../common/entity/compute_state_display";
 import { OpenPeerPower, OppEntity } from "../types";

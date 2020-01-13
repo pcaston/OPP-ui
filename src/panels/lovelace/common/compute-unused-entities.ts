@@ -72,6 +72,7 @@ export const computeUnusedEntities = (
   config: LovelaceConfig
 ): string[] => {
   const usedEntities = computeUsedEntities(config);
+  // @ts-ignore
   return Object.keys(opp.states)
     .filter(
       (entity) =>
