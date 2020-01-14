@@ -1,10 +1,10 @@
-import "@polymer/paper-toggle-button/paper-toggle-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { getAppKey } from "../data/notify_html5";
-
 import { EventsMixin } from "../mixins/events-mixin";
+
+import "./op-switch";
 
 export const pushSupported =
   "serviceWorker" in navigator &&
@@ -19,11 +19,11 @@ export const pushSupported =
 class OpPushNotificationsToggle extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
-      <paper-toggle-button
+      <op-switch
         disabled="[[_compDisabled(disabled, loading)]]"
         checked="{{pushChecked}}"
         on-change="handlePushChange"
-      ></paper-toggle-button>
+      ></op-switch>
     `;
   }
 

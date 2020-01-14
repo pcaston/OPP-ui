@@ -104,7 +104,7 @@ class StepFlowPickHandler extends LitElement {
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     setTimeout(
-      () => this.shadowRoot!.querySelector("search-input")!.focus(),
+      () => this.shadowRoot!.querySelector<HTMLElement>("search-input")!.focus(),
       0
     );
   }

@@ -18,6 +18,7 @@ class OpCoverTiltControls extends PolymerElement {
         }
       </style>
       <paper-icon-button
+        aria-label="Open cover tilt"
         icon="opp:arrow-top-right"
         on-click="onOpenTiltTap"
         title="Open tilt"
@@ -25,12 +26,14 @@ class OpCoverTiltControls extends PolymerElement {
         disabled="[[computeOpenDisabled(stateObj, entityObj)]]"
       ></paper-icon-button>
       <paper-icon-button
+        aria-label="Stop cover from moving"
         icon="opp:stop"
         on-click="onStopTiltTap"
         invisible$="[[!entityObj.supportsStopTilt]]"
         title="Stop tilt"
       ></paper-icon-button>
       <paper-icon-button
+        aria-label="Close cover tilt"
         icon="opp:arrow-bottom-left"
         on-click="onCloseTiltTap"
         title="Close tilt"
