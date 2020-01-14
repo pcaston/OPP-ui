@@ -3,11 +3,12 @@ import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-item";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
-import "@vaadin/vaadin-combo-box/vaadin-combo-box-light";
+import "@vaadin/vaadin-combo-box/theme/material/vaadin-combo-box-light";
+
 import { EventsMixin } from "../mixins/events-mixin";
 class OpComboBox extends EventsMixin(PolymerElement) {
-    static get template() {
-        return html `
+  static get template() {
+    return html`
       <style>
         paper-input > paper-icon-button {
           width: 24px;
@@ -60,50 +61,56 @@ class OpComboBox extends EventsMixin(PolymerElement) {
         </template>
       </vaadin-combo-box-light>
     `;
+  }
+
+  static get properties() {
+    return {
+      allowCustomValue: Boolean,
+      items: {
+        type: Object,
+        observer: "_itemsChanged",
+      },
+      _items: Object,
+      itemLabelPath: String,
+      itemValuePath: String,
+      autofocus: Boolean,
+      label: String,
+      opened: {
+        type: Boolean,
+        value: false,
+        observer: "_openedChanged",
+      },
+      value: {
+        type: String,
+        notify: true,
+      },
+    };
+  }
+
+  _openedChanged(newVal) {
+    if (!newVal) {
+      this._items = this.items;
     }
-    static get properties() {
-        return {
-            allowCustomValue: Boolean,
-            items: {
-                type: Object,
-                observer: "_itemsChanged",
-            },
-            _items: Object,
-            itemLabelPath: String,
-            itemValuePath: String,
-            autofocus: Boolean,
-            label: String,
-            opened: {
-                type: Boolean,
-                value: false,
-                observer: "_openedChanged",
-            },
-            value: {
-                type: String,
-                notify: true,
-            },
-        };
+  }
+
+  _itemsChanged(newVal) {
+    if (!this.opened) {
+      this._items = newVal;
     }
-    _openedChanged(newVal) {
-        if (!newVal) {
-            this._items = this.items;
-        }
-    }
-    _itemsChanged(newVal) {
-        if (!this.opened) {
-            this._items = newVal;
-        }
-    }
-    _computeToggleIcon(opened) {
-        return opened ? "opp:menu-up" : "opp:menu-down";
-    }
-    _computeItemLabel(item, itemLabelPath) {
-        return itemLabelPath ? item[itemLabelPath] : item;
-    }
-    _fireChanged(ev) {
-        ev.stopPropagation();
-        this.fire("change");
-    }
+  }
+
+  _computeToggleIcon(opened) {
+    return opened ? "opp:menu-up" : "opp:menu-down";
+  }
+
+  _computeItemLabel(item, itemLabelPath) {
+    return itemLabelPath ? item[itemLabelPath] : item;
+  }
+
+  _fireChanged(ev) {
+    ev.stopPropagation();
+    this.fire("change");
+  }
 }
+
 customElements.define("op-combo-box", OpComboBox);
-//# sourceMappingURL=op-combo-box.js.map

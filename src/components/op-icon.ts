@@ -1,4 +1,5 @@
-import { Constructor } from "lit-element";
+import { Constructor } from "../types";
+
 import "@polymer/iron-icon/iron-icon";
 // Not duplicate, this is for typing.
 // tslint:disable-next-line
@@ -19,6 +20,7 @@ export class OpIcon extends ironIconClass {
     methodName: string
   ): void {
     super.listen(node, eventName, methodName);
+
     if (!loaded && this._iconsetName === "mdi") {
       loaded = true;
       import("../resources/mdi-icons");

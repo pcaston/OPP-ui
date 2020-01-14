@@ -18,13 +18,13 @@ const isEmpty = (obj: object) => {
   return true;
 };
 
-@customElement("ha-yaml-editor")
+@customElement("op-yaml-editor")
 export class OpYamlEditor extends LitElement {
   @property() public value?: any;
   @property() public isValid = true;
   @property() public label?: string;
   @property() private _yaml?: string;
-  @query("ha-code-editor") private _editor?: OpCodeEditor;
+  @query("op-code-editor") private _editor?: OpCodeEditor;
 
   public setValue(value) {
     try {
@@ -53,7 +53,7 @@ export class OpYamlEditor extends LitElement {
             <p>${this.label}</p>
           `
         : ""}
-      <ha-code-editor
+      <op-code-editor
         .value=${this._yaml}
         mode="yaml"
         .error=${this.isValid === false}
@@ -91,6 +91,6 @@ export class OpYamlEditor extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-yaml-editor": OpYamlEditor;
+    "op-yaml-editor": OpYamlEditor;
   }
 }

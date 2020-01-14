@@ -11,6 +11,7 @@ class OpAttributes extends PolymerElement {
       <style>
         .data-entry .value {
           max-width: 200px;
+          overflow-wrap: break-word;
         }
         .attribution {
           color: var(--secondary-text-color);

@@ -21,13 +21,19 @@ export class OpTextarea extends PolymerElement {
           display: block;
         }
       </style>
-      <paper-textarea label="[[label]]" value="{{value}}"></paper-textarea>
+      <paper-textarea
+        label="[[label]]"
+        placeholder="[[placeholder]]"
+        value="{{value}}"
+      ></paper-textarea>
     `;
   }
 
   static get properties() {
     return {
+      name: String,
       label: String,
+      placeholder: String,
       value: {
         type: String,
         notify: true,
