@@ -14,7 +14,6 @@ import { OpenPeerPower, CameraEntity } from "../types";
 import { fireEvent } from "../common/dom/fire_event";
 import {
   CAMERA_SUPPORT_STREAM,
-  fetchStreamUrl,
   computeMJPEGStreamUrl,
 } from "../data/camera";
 import { supportsFeature } from "../common/entity/supports-feature";

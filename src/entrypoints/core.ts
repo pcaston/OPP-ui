@@ -30,9 +30,9 @@ declare global {
 async function authProm() {
   return await loadTokens();
 }
-        
+//@ts-ignore
 const access_token = authProm();
-
+//@ts-ignore
 const connProm = async () => {
   try {
     const conn = await createConnection();
