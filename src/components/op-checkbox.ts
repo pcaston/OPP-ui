@@ -1,15 +1,15 @@
 import { customElement, CSSResult, css } from "lit-element";
 import "@material/mwc-checkbox";
-// tslint:disable-next-line
+//@ts-ignore
 import { Checkbox } from "@material/mwc-checkbox";
 import { style } from "@material/mwc-checkbox/mwc-checkbox-css";
 import { Constructor } from "../types";
 // tslint:disable-next-line
 const MwcCheckbox = customElements.get("mwc-checkbox") as Constructor<Checkbox>;
 
-@customElement("op-checkbox")
+@customElement<>("op-checkbox")
 export class OpCheckbox extends MwcCheckbox {
-  protected firstUpdated() {
+  public firstUpdated() {
     super.firstUpdated();
     this.style.setProperty("--mdc-theme-secondary", "var(--primary-color)");
   }
