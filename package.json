@@ -72,6 +72,7 @@
     "@polymer/paper-toggle-button": "^3.0.1",
     "@polymer/paper-tooltip": "^3.0.1",
     "@polymer/polymer": "^3.2.0",
+    "@thomasloven/round-slider": "^0.3.7",
     "@vaadin/vaadin-combo-box": "^5.0.2",
     "@vaadin/vaadin-date-picker": "^4.0.1",
     "@webcomponents/shadycss": "^1.9.1",
