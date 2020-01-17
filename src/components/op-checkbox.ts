@@ -7,7 +7,7 @@ import { Constructor } from "../types";
 // tslint:disable-next-line
 const MwcCheckbox = customElements.get("mwc-checkbox") as Constructor<Checkbox>;
 
-@customElement<>("op-checkbox")
+@customElement("op-checkbox")
 export class OpCheckbox extends MwcCheckbox {
   public firstUpdated() {
     super.firstUpdated();
