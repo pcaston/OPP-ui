@@ -293,7 +293,7 @@ export class Connection {
         }
     }
   }
-
+//@ts-ignore
   private _handleClose(ev: CloseEvent) {
     // Reject in-flight sendMessagePromise requests
     this.commands.forEach(info => {

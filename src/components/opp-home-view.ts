@@ -1,4 +1,5 @@
 import { html, css, property, customElement } from 'lit-element';
+//@ts-ignore
 import { PageViewElement } from './page-view-element';
 import { OppElement } from "../state/opp-element";
 
