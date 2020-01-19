@@ -11,6 +11,7 @@ export * from "./entities";
 export * from "./errors";
 export * from "../../types";
 export * from "./commands";
+export * from "./store";
 
 const defaultConnectionOptions: ConnectionOptions = {
   setupRetry: 0,

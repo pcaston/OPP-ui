@@ -138,6 +138,7 @@ class OpCameraStream extends LitElement {
     }
 
     try {
+      //@ts-ignore
       const { url } = await fetchStreamUrl(
         this.opp!,
         this.stateObj!.entity_id

@@ -4,7 +4,7 @@ import {
   getCollection,
   UnsubscribeFunc,
 } from "../open-peer-power-js-websocket/lib";
-import { Store } from "../open-peer-power-js-websocket/dist/store";
+import { Store } from "../open-peer-power-js-websocket/lib";
 
 interface OptimisticCollection<T> extends Collection<T> {
   save(data: T): Promise<unknown>;

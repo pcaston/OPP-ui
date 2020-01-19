@@ -11,7 +11,7 @@ const MwcSwitch = customElements.get("mwc-switch") as Constructor<Switch>;
 export class OpSwitch extends MwcSwitch {
   @query("slot") private _slot!: HTMLSlotElement;
 
-  protected firstUpdated() {
+  public firstUpdated() {
     super.firstUpdated();
     this.style.setProperty(
       "--mdc-theme-secondary",
