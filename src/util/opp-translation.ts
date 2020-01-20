@@ -58,6 +58,7 @@ export async function getUserLanguage(opp: OpenPeerPower) {
  * Get browser specific language
  */
 export function getLocalLanguage() {
+  debugger;
   let language = null;
   if (STORAGE.selectedLanguage) {
     try {
