@@ -117,6 +117,7 @@
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
+    "gulp-append-prepend": "^1.0.8",
     "gulp-foreach": "^0.1.0",
     "gulp-hash": "^4.2.2",
     "gulp-hash-filename": "^2.0.1",
