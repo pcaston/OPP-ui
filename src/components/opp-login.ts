@@ -122,6 +122,7 @@ export class OppLogin extends LitElement {
       }
     });
     this.addEventListener('authorised', e => {
+      //@ts-ignore
       this._saveAuth(e.detail.item)
     });
   }

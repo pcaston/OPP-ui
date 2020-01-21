@@ -82,8 +82,8 @@ export interface DataTableRowData {
   [key: string]: any;
 }
 
-@customElement("ha-data-table")
-export class HaDataTable extends BaseElement {
+@customElement("op-data-table")
+export class OpDataTable extends BaseElement {
   @property({ type: Object }) public columns: DataTableColumnContainer = {};
   @property({ type: Array }) public data: DataTableRowData[] = [];
   @property({ type: Boolean }) public selectable = false;
@@ -166,7 +166,7 @@ export class HaDataTable extends BaseElement {
       this._filterData();
     }
   }
-
+  //@ts-ignore
   protected render() {
     return html`
       <div class="mdc-data-table">
@@ -402,7 +402,7 @@ export class HaDataTable extends BaseElement {
 
   private _handleRowClick(ev: Event) {
     const target = ev.target as HTMLElement;
-    if (target.tagName === "HA-CHECKBOX") {
+    if (target.tagName === "OP-CHECKBOX") {
       return;
     }
     const rowId = target.closest("tr")!.getAttribute("data-row-id")!;
@@ -618,6 +618,6 @@ export class HaDataTable extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ha-data-table": HaDataTable;
+    "op-data-table": OpDataTable;
   }
 }
