@@ -375,7 +375,7 @@ gulp.task(
             }
             if (data[key]) newData[key] = value;
           });
-          return newData;
+          return `const translationMetadata_ = ${newData}`;
         })
       )
       .pipe(
@@ -384,7 +384,7 @@ gulp.task(
           translations: data,
         }))
       )
-      .pipe(rename("translationMetadata.json"))
+      .pipe(rename("translationMetadata.js"))
       .pipe(gulp.dest(workDir));
   })
 );
