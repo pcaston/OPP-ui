@@ -5850,6 +5850,15 @@ gud@^1.0.0:
   resolved "https://registry.npmjs.org/gud/-/gud-1.0.0.tgz#a489581b17e6a70beca9abe3ae57de7a499852c0"
   integrity sha512-zGEOVKFM5sVPPrYs7J5/hYEw2Pof8KCyOwyhG8sAF26mCAeUFAcYPu1mwB7hhpIP29zOIBaDqwuHdLp0jvZXjw==
 
+gulp-append-prepend@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/gulp-append-prepend/-/gulp-append-prepend-1.0.8.tgz#f44efc6b667d784d4b7d932931ff6d072a7d24cd"
+  integrity sha512-dmlju9nEC4PRBdfwaGsTrDQCx/7hVyPfbBNJ8rNSIrY7O4fdiPb2ei7N0mxXcxrsxA/BftTGMEdRZrSH8g9cfg==
+  dependencies:
+    plugin-error "^1.0.1"
+    read-file "^0.2.0"
+    through2 "^2.0.1"
+
 gulp-cli@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/gulp-cli/-/gulp-cli-2.2.0.tgz#5533126eeb7fe415a7e3e84a297d334d5cf70ebc"
@@ -9309,6 +9318,11 @@ read-chunk@^3.0.0:
   dependencies:
     pify "^4.0.1"
     with-open-file "^0.1.6"
+
+read-file@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/read-file/-/read-file-0.2.0.tgz#70c6baf8842ec7d1540f981fd0e6aed4c81bd545"
+  integrity sha1-cMa6+IQux9FUD5gf0Oau1Mgb1UU=
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
