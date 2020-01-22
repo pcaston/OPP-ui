@@ -8,7 +8,7 @@ import {
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
-import { translationMetadata } from "../resources/translations-metadata";
+import translationMetadata  from "../../build-translations/translationMetadata.js";
 
 import { getState } from "../util/op-pref-storage";
 import { getLocalLanguage } from "../util/opp-translation";

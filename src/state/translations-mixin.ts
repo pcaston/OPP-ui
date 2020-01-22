@@ -1,4 +1,4 @@
-import { translationMetadata } from "../resources/translations-metadata";
+import translationMetadata  from "../../build-translations/translationMetadata.js";
 import {
   getTranslation,
   getLocalLanguage,
