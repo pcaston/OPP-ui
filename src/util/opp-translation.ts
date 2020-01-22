@@ -1,4 +1,5 @@
-import { translationMetadata } from "../resources/translations-metadata";
+import translationMetadata  from "../../build-translations/translationMetadata.js";
+import { TranslationMetadata } from "../types.js";
 import { fetchFrontendUserData } from "../data/frontend";
 import { OpenPeerPower } from "../types";
 
