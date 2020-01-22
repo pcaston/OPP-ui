@@ -9,6 +9,7 @@ const merge = require("gulp-merge-json");
 const minify = require("gulp-jsonminify");
 const rename = require("gulp-rename");
 const transform = require("gulp-json-transform");
+const gap = require('gulp-append-prepend');
 
 const inDir = "translations";
 const workDir = "build-translations";
@@ -375,7 +376,7 @@ gulp.task(
             }
             if (data[key]) newData[key] = value;
           });
-          return `const translationMetadata_ = ${newData}`;
+          return newData;
         })
       )
       .pipe(
@@ -384,6 +385,7 @@ gulp.task(
           translations: data,
         }))
       )
+      .pipe(gap.prependText('export default '))
       .pipe(rename("translationMetadata.js"))
       .pipe(gulp.dest(workDir));
   })
