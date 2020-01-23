@@ -74,7 +74,7 @@ export const connectionMixin = (
             }
             forwardHaptic("failure");
             const message =
-              (this as any).hass.localize(
+              (this as any).opp.localize(
                 "ui.notification_toast.service_call_failed",
                 "service",
                 `${domain}/${service}`

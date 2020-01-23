@@ -226,8 +226,8 @@ export class OpDataTable extends BaseElement {
                       ? html`
                           <ha-icon
                             .icon=${sorted && this._sortDirection === "desc"
-                              ? "hass:arrow-down"
-                              : "hass:arrow-up"}
+                              ? "opp:arrow-down"
+                              : "opp:arrow-up"}
                           ></op-icon>
                         `
                       : ""}

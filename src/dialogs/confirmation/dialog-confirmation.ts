@@ -20,7 +20,7 @@ import { opStyleDialog } from "../../resources/styles";
 
 @customElement("dialog-confirmation")
 class DialogConfirmation extends LitElement {
-  @property() public hass!: OpenPeerPower;
+  @property() public opp!: OpenPeerPower;
   @property() private _params?: ConfirmationDialogParams;
 
   public async showDialog(params: ConfirmationDialogParams): Promise<void> {
@@ -42,7 +42,7 @@ class DialogConfirmation extends LitElement {
         <h2>
           ${this._params.title
             ? this._params.title
-            : this.hass.localize("ui.dialogs.confirmation.title")}
+            : this.opp.localize("ui.dialogs.confirmation.title")}
         </h2>
         <paper-dialog-scrollable>
           <p>${this._params.text}</p>
@@ -51,12 +51,12 @@ class DialogConfirmation extends LitElement {
           <mwc-button @click="${this._dismiss}">
             ${this._params.cancelBtnText
               ? this._params.cancelBtnText
-              : this.hass.localize("ui.dialogs.confirmation.cancel")}
+              : this.opp.localize("ui.dialogs.confirmation.cancel")}
           </mwc-button>
           <mwc-button @click="${this._confirm}">
             ${this._params.confirmBtnText
               ? this._params.confirmBtnText
-              : this.hass.localize("ui.dialogs.confirmation.ok")}
+              : this.opp.localize("ui.dialogs.confirmation.ok")}
           </mwc-button>
         </div>
       </op-paper-dialog>
