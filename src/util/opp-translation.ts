@@ -59,7 +59,6 @@ export async function getUserLanguage(opp: OpenPeerPower) {
  * Get browser specific language
  */
 export function getLocalLanguage() {
-  debugger;
   let language = null;
   if (STORAGE.selectedLanguage) {
     try {
@@ -102,9 +101,11 @@ export function getLocalLanguage() {
 const translations = {};
 
 async function fetchTranslation(fingerprint) {
-  const response = await fetch(`/static/translations/${fingerprint}`, {
+  //const response = await fetch(`/static/translations/${fingerprint}`, {
+  const response = await fetch(`/build-translations/output/${fingerprint}`, {
     credentials: "same-origin",
   });
+  debugger;
   if (!response.ok) {
     throw new Error(
       `Fail to fetch translation ${fingerprint}: HTTP response status is ${
