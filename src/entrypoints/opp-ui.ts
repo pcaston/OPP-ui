@@ -13,9 +13,9 @@ import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
-import { menuIcon } from './my-icons';
+import { menuIcon } from '../components/my-icons';
 
-import { Appliances } from './appliance-list';
+import { Appliances } from '../components/appliance-list';
 
 declare global {
     interface Window {

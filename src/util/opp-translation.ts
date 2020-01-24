@@ -105,7 +105,6 @@ async function fetchTranslation(fingerprint) {
   const response = await fetch(`/build-translations/output/${fingerprint}`, {
     credentials: "same-origin",
   });
-  debugger;
   if (!response.ok) {
     throw new Error(
       `Fail to fetch translation ${fingerprint}: HTTP response status is ${
