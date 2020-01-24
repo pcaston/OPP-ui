@@ -35,6 +35,7 @@ const access_token = authProm();
 //@ts-ignore
 const connProm = async () => {
   try {
+    debugger;
     const conn = await createConnection();
     return conn;
   } catch (err) {

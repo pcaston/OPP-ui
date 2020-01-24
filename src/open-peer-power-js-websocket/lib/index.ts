@@ -24,6 +24,7 @@ export async function createConnection(options?: Partial<ConnectionOptions>) {
     defaultConnectionOptions,
     options
   );
+  debugger;
   const socket = await connOptions.createSocket(connOptions);
   const conn = new Connection(socket, connOptions);
   return conn;
