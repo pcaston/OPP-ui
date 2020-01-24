@@ -6,7 +6,7 @@ import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
 import { saveTokens } from "../common/auth/token_storage";
-import "./op-iconset-svg";
+import "../components/op-iconset-svg";
 
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
