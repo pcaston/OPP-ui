@@ -80,7 +80,6 @@ function findMDIIcons() {
 
 // Find all icons used by the project.
 function findOppIcons() {
-  debugger;
   const path = "./src";
   const iconsetName = "opp";
   const iconRegex = new RegExp(`${iconsetName}:[\\w-]+`, "g");
