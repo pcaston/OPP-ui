@@ -83,19 +83,23 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       );
     };
 
-    // Auth is mandatory, so we can send the auth message right away.
+    // Auth is mandatory, if an access toek is available send it right away.
+    // Otherwise redirect to the login screen
     // @ts-ignore
     const handleOpen = async (event: MessageEventInit) => {
-      try {
-        if (auth.expired) {
-          await (authRefreshTask ? authRefreshTask : auth.refreshAccessToken());
+      if (auth!.accessToken) 
+        try {
+          socket.send(JSON.stringify(messages.auth(auth.accessToken)));
+        } catch (err) {
+          // Refresh token failed
+          invalidAuth = err === ERR_INVALID_AUTH;
+          socket.close();
         }
-        socket.send(JSON.stringify(messages.auth(auth.accessToken)));
-      } catch (err) {
-        // Refresh token failed
-        invalidAuth = err === ERR_INVALID_AUTH;
-        socket.close();
-      }
+      else {
+        const newLocation = `/login`;
+        window.history.pushState({}, '', newLocation);
+        this._locationChanged(window.location);
+      };
     };
 
     const handleMessage = async (event: MessageEvent) => {
