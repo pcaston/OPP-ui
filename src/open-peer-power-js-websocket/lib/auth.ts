@@ -4,10 +4,10 @@ import { ERR_OPP_HOST_REQUIRED, ERR_INVALID_AUTH } from "./errors";
 export type AuthData = {
   oppUrl: string;
   clientId: string;
-  expires: number;
-  refresh_token: string;
-  access_token: string;
-  expires_in: number;
+  expires?: number;
+  refresh_token?: string;
+  access_token?: string;
+  expires_in?: number;
 };
 
 export type SaveTokensFunc = (data: AuthData | null) => void;
@@ -16,7 +16,6 @@ export type LoadTokensFunc = () => Promise<AuthData | null | undefined>;
 export type getAuthOptions = {
   oppUrl?: string;
   clientId?: string;
-  redirectUrl?: string;
   authCode?: string;
   saveTokens?: SaveTokensFunc;
   loadTokens?: LoadTokensFunc;
@@ -147,8 +146,10 @@ export class Auth {
   }
 
   get wsUrl() {
+    debugger;
     // Convert from http:// -> ws://, https:// -> wss://
-    return `ws${this.data.oppUrl.substr(4)}/api/websocket`;
+    //return `ws${this.data.oppUrl.substr(4)}/api/websocket`;
+    return `ws://127.0.0.1:8123/api/websocket`;
   }
 
   get accessToken() {
@@ -202,42 +203,8 @@ export async function getAuth(options: getAuthOptions = {}): Promise<Auth> {
   if (oppUrl && oppUrl[oppUrl.length - 1] === "/") {
     oppUrl = oppUrl.substr(0, oppUrl.length - 1);
   }
-  const clientId = options.clientId || genClientId();
-
-  // Use auth code if it was passed in
-  if (!data && options.authCode && oppUrl && clientId) {
-    try {
-      data = await fetchToken(oppUrl, clientId, options.authCode);
-      if (options.saveTokens) {
-        options.saveTokens(data);
-      }
-    } catch (err) {
-      // Do we want to tell user we were unable to fetch tokens?
-      // For now we don't do anything, having rest of code pick it up.
-      console.log("Unable to fetch access token", err);
-    }
-  }
-
-  // Check if we came back from an authorize redirect
-  if (!data) {
-    const query = parseQuery<QueryCallbackData>(location.search.substr(1));
-
-    // Check if we got redirected here from authorize page
-    if ("auth_callback" in query) {
-      // Restore state
-      const state = decodeOAuthState(query.state);
-      try {
-        data = await fetchToken(state.oppUrl, state.clientId, query.code);
-        if (options.saveTokens) {
-          options.saveTokens(data);
-        }
-      } catch (err) {
-        // Do we want to tell user we were unable to fetch tokens?
-        // For now we don't do anything, having rest of code pick it up.
-        console.log("Unable to fetch access token", err);
-      }
-    }
-  }
+  const clientId =
+  options.clientId !== undefined ? options.clientId : genClientId();
 
   // Check for stored tokens
   if (!data && options.loadTokens) {
@@ -253,15 +220,20 @@ export async function getAuth(options: getAuthOptions = {}): Promise<Auth> {
   }
 
   // If no tokens found but a oppUrl was passed in, let's go get some tokens!
-  redirectAuthorize(
-    oppUrl,
-    clientId,
-    options.redirectUrl || genRedirectUrl(),
-    encodeOAuthState({
-      oppUrl,
-      clientId
-    })
-  );
+  //redirectAuthorize(
+  //  oppUrl,
+  //  clientId,
+  //  options.redirectUrl || genRedirectUrl(),
+  //  encodeOAuthState({
+  //    oppUrl,
+  //   clientId
+  // })
+  //);
   // Just don't resolve while we navigate to next page
-  return new Promise<Auth>(() => {});
+  //return new Promise<Auth>(() => {});
+  data = 
+    {oppUrl: oppUrl = oppUrl,
+     clientId: oppUrl = clientId
+    };
+  return new Auth(data, options.saveTokens);
 }
