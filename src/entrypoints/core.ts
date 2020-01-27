@@ -1,49 +1,78 @@
 import {
+  getAuth,
   createConnection,
+  subscribeConfig,
+  subscribeEntities,
+  subscribeServices,
   ERR_INVALID_AUTH,
+  Auth,
   Connection,
 } from "../open-peer-power-js-websocket/lib";
 
-import { loadTokens } from "../common/auth/token_storage";
+import { loadTokens, saveTokens } from "../common/auth/token_storage";
+import { subscribePanels } from "../data/ws-panels";
+import { subscribeThemes } from "../data/ws-themes";
+import { subscribeUser } from "../data/ws-user";
+import { OpenPeerPower } from "../types";
+import { oppUrl } from "../data/auth";
+import { fetchConfig, WindowWithLovelaceProm } from "../data/lovelace";
 
 declare global {
   interface Window {
-    oppConnection: Promise<{ conn: Connection }>;
+    oppConnection: Promise<{ auth: Auth; conn: Connection }>;
   }
 }
 
-declare global {
-  interface Window {
-    __tokenCache: {
-      // undefined: we haven't loaded yet
-      // null: none stored
-      tokens?: String | null;
-    };
-  }
-}
-declare global {
-  interface Window {
-    wsx: WebSocket;
-  }
-};
+const authProm = () =>
+      getAuth({
+        oppUrl,
+        saveTokens,
+        loadTokens: () => Promise.resolve(loadTokens()),
+      });
 
-async function authProm() {
-  return await loadTokens();
-}
-//@ts-ignore
-const access_token = authProm();
-//@ts-ignore
-const connProm = async () => {
+
+const connProm = async (auth) => {
   try {
-    debugger;
-    const conn = await createConnection();
-    return conn;
+    const conn = await createConnection({ auth });
+
+    // Clear url if we have been able to establish a connection
+    if (location.search.includes("auth_callback=1")) {
+      history.replaceState(null, "", location.pathname);
+    }
+
+    return { auth, conn };
   } catch (err) {
     if (err !== ERR_INVALID_AUTH) {
       throw err;
     }
-    return null;
+    // We can get invalid auth if auth tokens were stored that are no longer valid
+    // Clear stored tokens.
+    saveTokens(null);
+    auth = await authProm();
+    const conn = await createConnection({ auth });
+    return { auth, conn };
   }
 };
 
-window.wsx = new WebSocket("ws://127.0.0.1:8123/api/websocket");
+debugger;
+window.oppConnection = authProm().then(connProm);
+
+// Start fetching some of the data that we will need.
+window.oppConnection.then(({ conn }) => {
+  const noop = () => {
+    // do nothing
+  };
+  subscribeEntities(conn, noop);
+  subscribeConfig(conn, noop);
+  subscribeServices(conn, noop);
+  subscribePanels(conn, noop);
+  subscribeThemes(conn, noop);
+  subscribeUser(conn, noop);
+
+  if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
+    (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
+  }
+});
+
+window.addEventListener("error", (e) => {
+});

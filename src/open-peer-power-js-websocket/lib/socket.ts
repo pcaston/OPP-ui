@@ -16,26 +16,26 @@ const MSG_TYPE_AUTH_INVALID = "auth_invalid";
 const MSG_TYPE_AUTH_OK = "auth_ok";
 
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
-  if (!options.auth) {
-    throw ERR_OPP_HOST_REQUIRED;
-  }
+  //if (!options.auth) {
+  //  throw ERR_OPP_HOST_REQUIRED;
+ // }
   const auth = options.auth;
 
   // Start refreshing expired tokens even before the WS connection is open.
   // We know that we will need auth anyway.
-  let authRefreshTask = auth.expired
-    ? auth.refreshAccessToken().then(
-        () => {
-          authRefreshTask = undefined;
-        },
-        () => {
-          authRefreshTask = undefined;
-        }
-      )
-    : undefined;
+ // let authRefreshTask = auth.expired
+ //   ? auth.refreshAccessToken().then(
+ //       () => {
+ //         authRefreshTask = undefined;
+ //       },
+ //       () => {
+ //         authRefreshTask = undefined;
+ //       }
+ //     )
+ //   : undefined;
 
   // Convert from http:// -> ws://, https:// -> wss://
-  const url = auth.wsUrl;
+  const url = auth!.wsUrl;
 
   if (DEBUG) {
     console.log("[Auth phase] Initializing", url);
@@ -49,7 +49,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     if (DEBUG) {
       console.log("[Auth Phase] New connection", url);
     }
-
+    debugger;
     const socket = new WebSocket(url);
 
     // If invalid auth, we will not try to reconnect.

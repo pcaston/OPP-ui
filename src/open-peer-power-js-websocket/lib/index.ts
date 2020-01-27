@@ -14,7 +14,7 @@ export * from "./commands";
 export * from "./store";
 
 const defaultConnectionOptions: ConnectionOptions = {
-  setupRetry: 0,
+  setupRetry: 3,
   createSocket
 };
 
