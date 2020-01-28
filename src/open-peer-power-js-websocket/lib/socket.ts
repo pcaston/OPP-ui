@@ -98,7 +98,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       else {
         const newLocation = `/login`;
         window.history.pushState({}, '', newLocation);
-        this._locationChanged(window.location);
+        //this._locationChanged(window.location);
       };
     };
 
