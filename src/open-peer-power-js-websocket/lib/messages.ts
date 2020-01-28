@@ -7,6 +7,12 @@ export function auth(accessToken: string) {
   };
 }
 
+export function login() {
+  return {
+    type: "login",
+  };
+}
+
 export function states() {
   return {
     type: "get_states"
