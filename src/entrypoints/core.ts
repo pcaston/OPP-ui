@@ -63,11 +63,11 @@ window.oppConnection.then(({ conn }) => {
     // do nothing
   };
   subscribeEntities(conn, noop);
-  subscribeConfig(conn, noop);
-  subscribeServices(conn, noop);
-  subscribePanels(conn, noop);
-  subscribeThemes(conn, noop);
-  subscribeUser(conn, noop);
+  //subscribeConfig(conn, noop);
+  //subscribeServices(conn, noop);
+  //subscribePanels(conn, noop);
+  //subscribeThemes(conn, noop);
+  //subscribeUser(conn, noop);
 
   if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
     (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
