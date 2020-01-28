@@ -2,6 +2,9 @@ import { Connection } from "./connection";
 import * as messages from "./messages";
 import { OppServices, OppUser, OppEntity, OppConfig } from "../../types";
 
+export const loginUser = (connection: Connection) =>
+  connection.sendMessagePromise<OppUser>(messages.login());
+
 export const getStates = (connection: Connection) =>
   connection.sendMessagePromise<OppEntity[]>(messages.states());
 

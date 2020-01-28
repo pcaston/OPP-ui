@@ -54,7 +54,6 @@ const connProm = async (auth) => {
   }
 };
 
-debugger;
 window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
