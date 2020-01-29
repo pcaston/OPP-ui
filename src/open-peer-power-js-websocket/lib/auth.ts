@@ -146,7 +146,6 @@ export class Auth {
   }
 
   get wsUrl() {
-    debugger;
     // Convert from http:// -> ws://, https:// -> wss://
     //return `ws${this.data.oppUrl.substr(4)}/api/websocket`;
     return `ws://127.0.0.1:8123/api/websocket`;

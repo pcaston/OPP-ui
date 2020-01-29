@@ -49,7 +49,6 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     if (DEBUG) {
       console.log("[Auth Phase] New connection", url);
     }
-    debugger;
     const socket = new WebSocket(url);
 
     // If invalid auth, we will not try to reconnect.
@@ -87,6 +86,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     // Otherwise redirect to the login screen
     // @ts-ignore
     const handleOpen = async (event: MessageEventInit) => {
+      debugger;
       if (auth!.accessToken) 
         try {
           socket.send(JSON.stringify(messages.auth(auth.accessToken)));
