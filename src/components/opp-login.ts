@@ -12,7 +12,8 @@ import {
   TemplateResult,
 } from "lit-element";
 import { genClientId,
-         loginUser } from "../open-peer-power-js-websocket/lib";
+         loginUser,
+       } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
 
@@ -167,7 +168,7 @@ export class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
-    this.wsp!.send(JSON.stringify(result));
+    const User = await loginUser(conn);
   }
 
   private async _saveAuth(item: string): Promise<void> {
