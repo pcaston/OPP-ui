@@ -1,5 +1,8 @@
 import { parseQuery } from "./util";
 import { ERR_OPP_HOST_REQUIRED, ERR_INVALID_AUTH } from "./errors";
+import { Connection } from "./connection";
+import * as messages from "./messages";
+import { OppUser } from "../../types";
 
 export type AuthData = {
   oppUrl: string;
@@ -20,6 +23,9 @@ export type getAuthOptions = {
   saveTokens?: SaveTokensFunc;
   loadTokens?: LoadTokensFunc;
 };
+
+export const loginUser = (connection: Connection) =>
+  connection.sendMessagePromise<OppUser>(messages.login());
 
 type QueryCallbackData =
   | {}
