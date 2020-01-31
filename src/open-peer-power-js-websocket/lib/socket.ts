@@ -3,8 +3,7 @@
  */
 import {
   ERR_INVALID_AUTH,
-  ERR_CANNOT_CONNECT,
-  ERR_OPP_HOST_REQUIRED
+  ERR_CANNOT_CONNECT
 } from "./errors";
 import { ConnectionOptions, Error } from "../../types";
 import * as messages from "./messages";
@@ -86,20 +85,14 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     // Otherwise redirect to the login screen
     // @ts-ignore
     const handleOpen = async (event: MessageEventInit) => {
-      debugger;
       if (auth!.accessToken) 
         try {
-          socket.send(JSON.stringify(messages.auth(auth.accessToken)));
+          socket.send(JSON.stringify(messages.auth(auth!.accessToken)));
         } catch (err) {
           // Refresh token failed
           invalidAuth = err === ERR_INVALID_AUTH;
           socket.close();
         }
-      else {
-        const newLocation = `/login`;
-        window.history.pushState({}, '', newLocation);
-        //this._locationChanged(window.location);
-      };
     };
 
     const handleMessage = async (event: MessageEvent) => {

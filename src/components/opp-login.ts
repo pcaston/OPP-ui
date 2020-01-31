@@ -168,6 +168,7 @@ export class OppLogin extends LitElement {
       username: this._username,
       password: this._password,
     };
+    debugger;
     const User = await loginUser(conn);
   }
 

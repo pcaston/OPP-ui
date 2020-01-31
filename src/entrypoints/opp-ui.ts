@@ -229,8 +229,16 @@ export class OPPui extends LitElement {
     super();
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
+    debugger;
     setPassiveTouchGestures(true);
-    let tokenCache = window.__tokenCache;  
+    let tokenCache = window.__tokenCache;
+    const oppcon = window.oppConnection
+    const auth = options.auth;
+    if (!auth.accessToken) {
+      const newLocation = `/login`;
+      window.history.pushState({}, '', newLocation);
+      this._locationChanged(window.location);
+    }
   }
 
   protected firstUpdated() {
@@ -267,6 +275,7 @@ export class OPPui extends LitElement {
   }
 
   protected _locationChanged(location: Location) {
+    debugger;
     const path = window.decodeURIComponent(location.pathname);
     const page = path === '/' ? 'view_appliances' : path.slice(1);
     this._loadPage(page);
