@@ -8,6 +8,7 @@ import { OpenPeerPower, OppEntities } from '../types';
 import { saveTokens } from "../common/auth/token_storage";
 import "../components/op-iconset-svg";
 
+
 // These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/app-layout/app-header/app-header';
@@ -18,10 +19,16 @@ import { menuIcon } from '../components/my-icons';
 import { Appliances } from '../components/appliance-list';
 
 declare global {
-    interface Window {
+  interface Window {
     decodeURIComponent(pathname: string): any;
   }
 }
+
+export let invalidAuth: boolean = true;
+export function ToggleinvalidAuth() {
+  invalidAuth = false;
+}
+
 @customElement('opp-ui')
 export class OPPui extends LitElement {
   @property({type: String}) appTitle = '';
@@ -229,16 +236,8 @@ export class OPPui extends LitElement {
     super();
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
-    debugger;
     setPassiveTouchGestures(true);
-    let tokenCache = window.__tokenCache;
-    const oppcon = window.oppConnection
-    const auth = options.auth;
-    if (!auth.accessToken) {
-      const newLocation = `/login`;
-      window.history.pushState({}, '', newLocation);
-      this._locationChanged(window.location);
-    }
+    //const oppcon = window.oppConnection
   }
 
   protected firstUpdated() {
@@ -246,6 +245,12 @@ export class OPPui extends LitElement {
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
       () => this._layoutChanged());
+      debugger;
+      if (invalidAuth) {
+        const newLocation = `/login`;
+        window.history.pushState({}, '', newLocation);
+        this._locationChanged(window.location);
+      }
   }
 
   protected updated(changedProps: PropertyValues) {

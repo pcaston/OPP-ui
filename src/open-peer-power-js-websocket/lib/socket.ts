@@ -7,7 +7,7 @@ import {
 } from "./errors";
 import { ConnectionOptions, Error } from "../../types";
 import * as messages from "./messages";
-
+import { invalidAuth, ToggleinvalidAuth } from "../../entrypoints/opp-ui"
 const DEBUG = false;
 
 const MSG_TYPE_AUTH_REQUIRED = "auth_required";
@@ -51,7 +51,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     const socket = new WebSocket(url);
 
     // If invalid auth, we will not try to reconnect.
-    let invalidAuth = false;
+    //let invalidAuth = false;
 
     const closeMessage = () => {
       // If we are in error handler make sure close handler doesn't also fire.
@@ -101,6 +101,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       if (DEBUG) {
         console.log("[Auth phase] Received", message);
       }
+      ToggleinvalidAuth();
       switch (message.type) {
         case MSG_TYPE_AUTH_INVALID:
           invalidAuth = true;
