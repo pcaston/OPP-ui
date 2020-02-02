@@ -7,7 +7,7 @@ import { ERR_INVALID_AUTH, ERR_CONNECTION_LOST } from "./errors";
 import { MessageBase, ConnectionOptions, OppEvent } from "../../types";
 const DEBUG = false;
 
-export type ConnectionEventListener = (
+type ConnectionEventListener = (
   conn: Connection,
   eventData?: any
 ) => void;

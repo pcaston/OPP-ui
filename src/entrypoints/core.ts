@@ -30,7 +30,6 @@ const authProm = () =>
         loadTokens: () => Promise.resolve(loadTokens()),
       });
 
-
 const connProm = async (auth) => {
   try {
     const conn = await createConnection({ auth });
@@ -54,6 +53,7 @@ const connProm = async (auth) => {
   }
 };
 
+debugger
 window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
