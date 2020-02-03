@@ -5,7 +5,6 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
-import { saveTokens } from "../common/auth/token_storage";
 import "../components/op-iconset-svg";
 
 
@@ -24,10 +23,7 @@ declare global {
   }
 }
 
-export let invalidAuth: boolean = true;
-export function ToggleinvalidAuth() {
-  invalidAuth = false;
-}
+import { invalidAuth } from "../open-peer-power-js-websocket/lib"
 
 @customElement('opp-ui')
 export class OPPui extends LitElement {
@@ -202,7 +198,9 @@ export class OPPui extends LitElement {
           <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
       </app-header>
-
+      <script type="module">
+        import "./entrypoints/core";
+      </script>
       <!-- Drawer content -->
       <app-drawer
           .opened="${this._drawerOpened}"
@@ -225,7 +223,6 @@ export class OPPui extends LitElement {
         <p>Open Peer Power</p>
       </footer>
       <script type="module">
-        import "./entrypoints/core";
         import "./entrypoints/app";
         window.customPanelJS = "./entrypoints/custom-panel";
       </script>
