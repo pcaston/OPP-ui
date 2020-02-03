@@ -193,7 +193,5 @@ export class OppLogin extends LitElement {
   }
   constructor() {
     super();
-    console.log('login constructor');
-    console.log(this.opp);
   }
 }
