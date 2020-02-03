@@ -53,6 +53,7 @@ async def unregister(websocket):
 async def counter(websocket, path):
     # register(websocket) sends user_event() to websocket
     await register(websocket)
+    print(f"Websocket Registered")
     await websocket.send(json.dumps(
         {'type': 'auth_required'}
     ))
