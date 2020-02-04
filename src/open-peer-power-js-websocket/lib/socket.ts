@@ -118,6 +118,15 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
           socket.close();
           break;
 
+        case MSG_TYPE_AUTH_REQUIRED:
+            invalidAuth = true;
+            socket.removeEventListener("open", handleOpen);
+            socket.removeEventListener("message", handleMessage);
+            socket.removeEventListener("close", closeMessage);
+            socket.removeEventListener("error", closeMessage);
+            promResolve(socket);
+            break;
+
         case MSG_TYPE_AUTH_OK:
           socket.removeEventListener("open", handleOpen);
           socket.removeEventListener("message", handleMessage);
@@ -128,10 +137,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
 
         default:
           if (DEBUG) {
-            // We already send this message when socket opens
-            if (message.type !== MSG_TYPE_AUTH_REQUIRED) {
-              console.warn("[Auth phase] Unhandled message", message);
-            }
+            console.warn("[Auth phase] Unhandled message", message);
           }
       }
     };

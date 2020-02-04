@@ -1,4 +1,16 @@
+import { AuthData } from "../../open-peer-power-js-websocket/lib";
+
 const storage = window.localStorage || {};
+declare global {
+  interface Window {
+    __tokenCache: {
+      // undefined: we haven't loaded yet
+      // null: none stored
+      tokens?: AuthData | null;
+      writeEnabled?: boolean;
+    };
+  }
+}
 
 let tokenCache = window.__tokenCache;
 if (!tokenCache) {
@@ -13,21 +25,33 @@ export function askWrite() {
   );
 }
 
-export function saveTokens(tokens: String | null) {
+export function saveTokens(tokens: AuthData | null) {
   tokenCache.tokens = tokens;
-  try {
-    storage.Tokens = tokens;
-  } catch (err) {
-    // write failed, ignore it. Happens if storage is full or private mode.
+  if (tokenCache.writeEnabled) {
+    try {
+      storage.Tokens = JSON.stringify(tokens);
+    } catch (err) {
+      // write failed, ignore it. Happens if storage is full or private mode.
+    }
+  }
+}
+
+export function enableWrite() {
+  tokenCache.writeEnabled = true;
+  if (tokenCache.tokens) {
+    saveTokens(tokenCache.tokens);
   }
 }
 
 export function loadTokens() {
   if (tokenCache.tokens === undefined) {
     try {
-      const tokens = storage.Tokens;
+      // Delete the old token cache.
+      delete storage.tokens;
+      const tokens = storage.hassTokens;
       if (tokens) {
-        tokenCache.tokens = tokens;
+        tokenCache.tokens = JSON.parse(tokens);
+        tokenCache.writeEnabled = true;
       } else {
         tokenCache.tokens = null;
       }
