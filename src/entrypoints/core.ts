@@ -52,8 +52,7 @@ const connProm = async (auth) => {
     return { auth, conn };
   }
 };
-
-debugger
+debugger;
 window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
@@ -61,6 +60,7 @@ window.oppConnection.then(({ conn }) => {
   const noop = () => {
     // do nothing
   };
+
   subscribeEntities(conn, noop);
   //subscribeConfig(conn, noop);
   //subscribeServices(conn, noop);
