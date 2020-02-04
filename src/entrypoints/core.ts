@@ -20,6 +20,7 @@ import { fetchConfig, WindowWithLovelaceProm } from "../data/lovelace";
 declare global {
   interface Window {
     oppConnection: Promise<{ auth: Auth; conn: Connection }>;
+    oppSocket: WebSocket;
   }
 }
 
