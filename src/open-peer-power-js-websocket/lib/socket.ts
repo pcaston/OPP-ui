@@ -52,6 +52,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       console.log("[Auth Phase] New connection", url);
     }
     const socket = new WebSocket(url);
+    oppSocket = socket;
 
     // If invalid auth, we will not try to reconnect.
     //let invalidAuth = false;
