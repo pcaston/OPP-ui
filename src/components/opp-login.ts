@@ -11,11 +11,10 @@ import {
   customElement,
   TemplateResult,
 } from "lit-element";
-import { genClientId,
-         loginUser,
-       } from "../open-peer-power-js-websocket/lib";
+import { genClientId } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
+import { loginUser } from "../data/auth";
 
 @customElement("opp-login")
 export class OppLogin extends LitElement {
@@ -165,14 +164,7 @@ export class OppLogin extends LitElement {
       const noop = () => {
         // do nothing
       };
-      const result = {
-        type: "login",
-        client_id: clientId,
-        name: this._name,
-        username: this._username,
-        password: this._password,
-      };
-      //const User = await loginUser(conn);
+      const User = loginUser(conn, clientId, this._name, this._username, this._password);
     });
   }
 

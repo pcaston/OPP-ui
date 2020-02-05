@@ -14,7 +14,7 @@ import { subscribePanels } from "../data/ws-panels";
 import { subscribeThemes } from "../data/ws-themes";
 import { subscribeUser } from "../data/ws-user";
 import { OpenPeerPower } from "../types";
-import { oppUrl } from "../data/auth";
+import { oppUrl, invalidAuth } from "../data/auth";
 import { fetchConfig, WindowWithLovelaceProm } from "../data/lovelace";
 
 declare global {
@@ -55,14 +55,14 @@ window.oppConnection.then(({ conn }) => {
   const noop = () => {
     // do nothing
   };
-
-  subscribeEntities(conn, noop);
-  //subscribeConfig(conn, noop);
-  //subscribeServices(conn, noop);
-  //subscribePanels(conn, noop);
-  //subscribeThemes(conn, noop);
-  //subscribeUser(conn, noop);
-
+  if (!invalidAuth) {
+    subscribeEntities(conn, noop);
+    //subscribeConfig(conn, noop);
+    //subscribeServices(conn, noop);
+    //subscribePanels(conn, noop);
+    //subscribeThemes(conn, noop);
+    //subscribeUser(conn, noop);
+  }
   if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
     (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
   }
