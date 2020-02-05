@@ -34,12 +34,6 @@ const authProm = () =>
 const connProm = async (auth) => {
   try {
     const conn = await createConnection({ auth });
-
-    // Clear url if we have been able to establish a connection
-    if (location.search.includes("auth_callback=1")) {
-      history.replaceState(null, "", location.pathname);
-    }
-
     return { auth, conn };
   } catch (err) {
     if (err !== ERR_INVALID_AUTH) {
