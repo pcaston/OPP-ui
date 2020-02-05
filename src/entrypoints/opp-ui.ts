@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-import { invalidAuth } from "../open-peer-power-js-websocket/lib"
+import { invalidAuth } from "../data/auth"
 
 @customElement('opp-ui')
 export class OPPui extends LitElement {

@@ -7,6 +7,8 @@ import {
 } from "./errors";
 import { ConnectionOptions, Error } from "../../types";
 import * as messages from "./messages";
+import { invalidAuth, SetinvalidAuth } from "../../data/auth";
+
 const DEBUG = false;
 
 const MSG_TYPE_AUTH_REQUIRED = "auth_required";
@@ -18,10 +20,7 @@ declare global {
     oppSocket: WebSocket;
   }
 }
-export let invalidAuth: boolean = true;
-export function ToggleinvalidAuth() {
-  invalidAuth = false;
-}
+
 
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
   //if (!options.auth) {
@@ -100,7 +99,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
           socket.send(JSON.stringify(messages.auth(auth!.accessToken)));
         } catch (err) {
           // Refresh token failed
-          invalidAuth = err === ERR_INVALID_AUTH;
+          SetinvalidAuth(err === ERR_INVALID_AUTH);
           socket.close();
         }
     };
@@ -111,15 +110,14 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       if (DEBUG) {
         console.log("[Auth phase] Received", message);
       }
-      invalidAuth = true;
       switch (message.type) {
         case MSG_TYPE_AUTH_INVALID:
-          invalidAuth = true;
+          SetinvalidAuth(true);
           socket.close();
           break;
 
         case MSG_TYPE_AUTH_REQUIRED:
-            invalidAuth = true;
+            SetinvalidAuth(true);
             socket.removeEventListener("open", handleOpen);
             socket.removeEventListener("message", handleMessage);
             socket.removeEventListener("close", closeMessage);
@@ -128,6 +126,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
             break;
 
         case MSG_TYPE_AUTH_OK:
+          SetinvalidAuth(false);
           socket.removeEventListener("open", handleOpen);
           socket.removeEventListener("message", handleMessage);
           socket.removeEventListener("close", closeMessage);

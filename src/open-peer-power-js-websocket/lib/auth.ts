@@ -8,7 +8,7 @@ export type AuthData = {
   oppUrl: string;
   clientId: string;
   expires?: number;
-  refresh_token?: string;
+  refresh_token: string | Blob;
   access_token?: string;
   expires_in?: number;
 };
@@ -24,16 +24,8 @@ export type getAuthOptions = {
   loadTokens?: LoadTokensFunc;
 };
 
-export const loginUser = (connection: Connection) =>
-  connection.sendMessagePromise<OppUser>(messages.login());
-
-type QueryCallbackData =
-  | {}
-  | {
-      state: string;
-      code: string;
-      auth_callback: string;
-    };
+//export const loginUser = (connection: Connection) =>
+//  connection.sendMessagePromise<OppUser>(messages.login());
 
 type OAuthState = {
   oppUrl: string;
@@ -57,12 +49,6 @@ export const genExpires = (expires_in: number): number => {
   return expires_in * 1000 + Date.now();
 };
 
-function genRedirectUrl() {
-  // Get current url but without # part.
-  const { protocol, host, pathname, search } = location;
-  return `${protocol}//${host}${pathname}${search}`;
-}
-
 function genAuthorizeUrl(
   oppUrl: string,
   clientId: string,
@@ -77,23 +63,6 @@ function genAuthorizeUrl(
     authorizeUrl += `&state=${encodeURIComponent(state)}`;
   }
   return authorizeUrl;
-}
-
-function redirectAuthorize(
-  oppUrl: string,
-  clientId: string,
-  redirectUrl: string,
-  state: string
-) {
-  // Add either ?auth_callback=1 or &auth_callback=1
-  redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + "auth_callback=1";
-
-  document.location!.href = genAuthorizeUrl(
-    oppUrl,
-    clientId,
-    redirectUrl,
-    state
-  );
 }
 
 async function tokenRequest(
@@ -162,7 +131,7 @@ export class Auth {
   }
 
   get expired() {
-    return Date.now() > this.data.expires;
+    return Date.now() > this.data.expires!;
   }
 
   /**
