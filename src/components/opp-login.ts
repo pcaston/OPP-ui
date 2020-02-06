@@ -160,12 +160,7 @@ export class OppLogin extends LitElement {
     this._errorMsg = "";
     const clientId = genClientId();
     debugger;
-    window.oppConnection.then(({ conn }) => {
-      const noop = () => {
-        // do nothing
-      };
-      const User = loginUser(conn, clientId, this._name, this._username, this._password);
-    });
+    const User = loginUser((await window.oppConnection).conn, clientId, this._name, this._username, this._password);
   }
 
   private async _saveAuth(item: string): Promise<void> {

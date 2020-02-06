@@ -1,5 +1,6 @@
 import { OpenPeerPower } from "../types";
 import { Connection } from "../open-peer-power-js-websocket/lib";
+import { showConfirmationDialog } from "../dialogs/confirmation/show-dialog-confirmation";
 
 export interface AuthProvider {
   name: string;
@@ -40,9 +41,17 @@ export const fetchAuthProviders = () =>
   });
 
 export const loginUser = (
-  conn: Connection
+  conn: Connection,
+  clientId: String,
+  name: String,
+  username: String,
+  password: String
   ): Promise<LoginUser> =>
     conn.sendMessagePromise({
-      type: "login"
+      type: "login",
+      clientId,
+      name,
+      username,
+      password
   });
 
