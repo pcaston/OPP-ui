@@ -63,6 +63,7 @@ async def counter(websocket, path):
             msg = json.loads(message)
             print(msg['type'] )
             if msg['type'] == 'login' or msg['type'] == 'auth':
+                print("login event: {}", msg)
                 await websocket.send(json.dumps(
                     {'type': 'auth_ok',
                         'version': '0.1.0',
