@@ -105,6 +105,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     };
 
     const handleMessage = async (event: MessageEvent) => {
+      debugger;
       const message = JSON.parse(event.data);
 
       if (DEBUG) {

@@ -50,10 +50,6 @@ export const connectionMixin = (
         vibrate: true,
         moreInfoEntityId: null,
         callService: async (domain, service, serviceData = {}) => {
-          if (__DEV__) {
-            // tslint:disable-next-line: no-console
-            console.log("Calling service", domain, service, serviceData);
-          }
           try {
             return (await callService(
               conn,
@@ -62,16 +58,6 @@ export const connectionMixin = (
               serviceData
             )) as Promise<ServiceCallResponse>;
           } catch (err) {
-            if (__DEV__) {
-              // tslint:disable-next-line: no-console
-              console.error(
-                "Error calling service",
-                domain,
-                service,
-                serviceData,
-                err
-              );
-            }
             forwardHaptic("failure");
             const message =
               (this as any).opp.localize(
@@ -89,29 +75,11 @@ export const connectionMixin = (
           fetchWithAuth(auth, `${auth.data.oppUrl}${path}`, init),
         // For messages that do not get a response
         sendWS: (msg) => {
-          if (__DEV__) {
-            // tslint:disable-next-line: no-console
-            console.log("Sending", msg);
-          }
           conn.sendMessage(msg);
         },
         // For messages that expect a response
         callWS: <R>(msg) => {
-          if (__DEV__) {
-            // tslint:disable-next-line: no-console
-            console.log("Sending", msg);
-          }
-
           const resp = conn.sendMessagePromise<R>(msg);
-
-          if (__DEV__) {
-            resp.then(
-              // tslint:disable-next-line: no-console
-              (result) => console.log("Received", result),
-              // tslint:disable-next-line: no-console
-              (err) => console.error("Error", err)
-            );
-          }
           return resp;
         },
         ...getState(),
