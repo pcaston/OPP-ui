@@ -13,6 +13,7 @@ import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import "../resources/op-style";
 let OppStoreAuth = class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
     render() {
+        debugger;
         return html `
       <style include="op-style">
         paper-card {

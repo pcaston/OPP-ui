@@ -41,7 +41,7 @@ export const computeLocalize = (
 ): LocalizeFunc => {
   // Everytime any of the parameters change, invalidate the strings cache.
   cache._localizationCache = {};
-
+  debugger;
   return (key, ...args) => {
     if (!key || !resources || !language || !resources[language]) {
       return "";

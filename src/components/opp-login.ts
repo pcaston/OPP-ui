@@ -168,11 +168,11 @@ export class OppLogin extends LitElement {
     const User = loginUser(conn, clientId, this._name, this._username, this._password);
   }
 
-  private async _saveAuth(item: string): Promise<void> {
+  private async _saveAuth(access_token: string): Promise<void> {
     const el = document.createElement("op-store-auth-card");
-    el.setAttribute('access_token', item);
+    el.setAttribute('access_token', access_token);
     this.shadowRoot!.appendChild(el);
-    console.log(item);
+    console.log(access_token);
   }
 
   static get styles(): CSSResult {
@@ -202,7 +202,7 @@ export class OppLogin extends LitElement {
       case "auth_ok":
         SetinvalidAuth(false);
         socket.removeEventListener("message", socket );
-        this._saveAuth(message.token)
+        this._saveAuth(message.access_token)
         break;
       default:
       }
