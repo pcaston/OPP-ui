@@ -1,10 +1,11 @@
-import { LitElement, html, css, property, PropertyValues, customElement } from 'lit-element';
+import { html, css, property, PropertyValues, customElement } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
 import { installOfflineWatcher } from 'pwa-helpers/network';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { OpenPeerPower, OppEntities } from '../types';
+import { OppElement } from "../state/opp-element";
 import "../components/op-iconset-svg";
 
 
@@ -26,7 +27,7 @@ declare global {
 import { invalidAuth } from "../data/auth"
 
 @customElement('opp-ui')
-export class OPPui extends LitElement {
+export class OPPui extends OppElement {
   @property({type: String}) appTitle = '';
   @property({type: String}) _page = '';
   @property({type: Boolean}) _drawerOpened = false;
@@ -216,7 +217,7 @@ export class OPPui extends LitElement {
       <main role="main" class="main-content">
         <opp-home-view .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
-        <opp-login .opp="${this.opp}" .wsp=${this.wsp} class="page" ?active="${this._page === 'login'}"></opp-login>
+        <opp-login .opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
       <footer>
@@ -236,16 +237,18 @@ export class OPPui extends LitElement {
     setPassiveTouchGestures(true);
   }
 
-  protected firstUpdated() {
+  protected async firstUpdated() {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
       () => this._layoutChanged());
-      if (invalidAuth) {
-        const newLocation = `/login`;
-        window.history.pushState({}, '', newLocation);
-        this._locationChanged(window.location);
-      }
+    debugger;
+    //this.initializeOpp((await window.oppConnection).auth, (await window.oppConnection).conn)
+    if (invalidAuth) {
+      const newLocation = `/login`;
+      window.history.pushState({}, '', newLocation);
+      this._locationChanged(window.location);
+    }
   }
 
   protected updated(changedProps: PropertyValues) {

@@ -14,7 +14,7 @@ import {
 import { genClientId } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
-import { loginUser } from "../data/auth";
+import { loginUser, SetinvalidAuth } from "../data/auth";
 
 @customElement("opp-login")
 export class OppLogin extends LitElement {
@@ -25,7 +25,6 @@ export class OppLogin extends LitElement {
   @property( {type: String} ) _loading = false;
   @property( {type: String} ) _errorMsg?: string = undefined;
   @property( {type: Object} ) opp!: OpenPeerPower;
-  @property( {type: Object} ) wsp!: WebSocket | null;
 
   protected render(): TemplateResult | void {
     return html`
@@ -122,10 +121,6 @@ export class OppLogin extends LitElement {
         this._submitForm(ev);
       }
     });
-    this.addEventListener('authorised', e => {
-      //@ts-ignore
-      this._saveAuth(e.detail.item)
-    });
   }
 
   private _handleValueChanged(ev: PolymerChangedEvent<string>): void {
@@ -160,7 +155,17 @@ export class OppLogin extends LitElement {
     this._errorMsg = "";
     const clientId = genClientId();
     debugger;
-    const User = loginUser((await window.oppConnection).conn, clientId, this._name, this._username, this._password);
+    //const token  = await this.opp.callWS({
+    //  type: "login",
+    //  clientId,
+    //  name: this._name,
+    //  username: this._username,
+    //  password: this._password
+    //});
+    let conn = (await window.oppConnection).conn;
+    let socket = conn.socket;
+    socket.addEventListener("message", ev => this._handleMessage(ev, socket));
+    const User = loginUser(conn, clientId, this._name, this._username, this._password);
   }
 
   private async _saveAuth(item: string): Promise<void> {
@@ -185,4 +190,22 @@ export class OppLogin extends LitElement {
   constructor() {
     super();
   }
+  _handleMessage(event: MessageEvent, socket: WebSocket) {
+    debugger;
+    const message = JSON.parse(event.data);
+    switch (message.type) {
+      case "auth_invalid":
+        this._errorMsg = "login id or password invalid";
+        SetinvalidAuth(true);
+        break;
+
+      case "auth_ok":
+        SetinvalidAuth(false);
+        socket.removeEventListener("message", socket );
+        this._saveAuth(message.token)
+        break;
+      default:
+      }
+    };
+
 }

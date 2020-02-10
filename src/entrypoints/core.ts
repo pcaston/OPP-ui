@@ -47,7 +47,6 @@ const connProm = async (auth) => {
     return { auth, conn };
   }
 };
-debugger;
 window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
@@ -63,9 +62,9 @@ window.oppConnection.then(({ conn }) => {
     //subscribeThemes(conn, noop);
     //subscribeUser(conn, noop);
   }
-  if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
-    (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
-  }
+  //if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
+  //  (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
+  //}
 });
 
 window.addEventListener("error", (e) => {
