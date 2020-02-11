@@ -164,8 +164,8 @@ export class OppLogin extends LitElement {
     //});
     let conn = (await window.oppConnection).conn;
     let socket = conn.socket;
-    socket.addEventListener("message", ev => this._handleMessage(ev, socket));
-    const User = loginUser(conn, clientId, this._name, this._username, this._password);
+    socket.addEventListener("message", ev => this._handleMessage(ev, socket), {once: true});
+    loginUser(conn, clientId, this._name, this._username, this._password);
   }
 
   private async _saveAuth(access_token: string): Promise<void> {

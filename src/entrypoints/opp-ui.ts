@@ -242,7 +242,8 @@ export class OPPui extends OppElement {
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
       () => this._layoutChanged());
-    //this.initializeOpp((await window.oppConnection).auth, (await window.oppConnection).conn)
+    this.initializeOpp((await window.oppConnection).auth, (await window.oppConnection).conn)
+    debugger;
     if (invalidAuth) {
       const newLocation = `/login`;
       window.history.pushState({}, '', newLocation);

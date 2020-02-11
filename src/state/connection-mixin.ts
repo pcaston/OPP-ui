@@ -21,6 +21,8 @@ import { Constructor, ServiceCallResponse } from "../types";
 import { LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { broadcastConnectionStatus } from "../data/connection-status";
+import { invalidAuth } from "../data/auth"
+
 
 export const connectionMixin = (
   superClass: Constructor<LitElement & OppBaseEl>
@@ -105,11 +107,12 @@ export const connectionMixin = (
           location.reload();
         }
       });
-
-      subscribeEntities(conn, (states) => this._updateOpp({ states }));
-      subscribeConfig(conn, (config) => this._updateOpp({ config }));
-      subscribeServices(conn, (services) => this._updateOpp({ services }));
-      subscribePanels(conn, (panels) => this._updateOpp({ panels }));
+      if (!invalidAuth) {
+        subscribeEntities(conn, (states) => this._updateOpp({ states }));
+        subscribeConfig(conn, (config) => this._updateOpp({ config }));
+        subscribeServices(conn, (services) => this._updateOpp({ services }));
+        subscribePanels(conn, (panels) => this._updateOpp({ panels }));
+      }
     }
 
     protected oppReconnected() {
