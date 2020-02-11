@@ -20,7 +20,6 @@ export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
   @property() public access_token!: String;
 
   render(){
-    debugger;
     return html`
       <style include="op-style">
         paper-card {

@@ -111,7 +111,6 @@ typings/
 !src/data/op-state-history-data.js
 
 !src/dialogs/op-more-info-dialog.js
-!src/dialogs/op-store-auth-card.js
 !src/dialogs/more-info/more-info-controls.js
 !src/dialogs/more-info/more-info-settings.js
 !src/dialogs/more-info/controls/more-info-alarm_control_panel.js
