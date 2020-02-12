@@ -172,6 +172,7 @@ export class OppLogin extends LitElement {
     const el = document.createElement("op-store-auth-card");
     el.setAttribute('access_token', access_token);
     this.shadowRoot!.appendChild(el);
+    this.provideOpp(el);
     console.log(access_token);
   }
 
