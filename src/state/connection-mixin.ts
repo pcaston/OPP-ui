@@ -29,7 +29,6 @@ export const connectionMixin = (
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {
-      debugger;
       this.opp = {
         auth,
         connection: conn,

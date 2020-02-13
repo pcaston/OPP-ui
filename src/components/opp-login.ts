@@ -168,7 +168,6 @@ export class OppLogin extends OppElement {
   }
 
   private async _saveAuth(access_token: string): Promise<void> {
-    debugger;
     const el = document.createElement("op-store-auth-card");
     el.setAttribute('access_token', access_token);
     this.shadowRoot!.appendChild(el);
@@ -191,7 +190,6 @@ export class OppLogin extends OppElement {
     super();
   }
   _handleMessage(event: MessageEvent, socket: WebSocket) {
-    debugger;
     const message = JSON.parse(event.data);
     switch (message.type) {
       case "auth_invalid":
