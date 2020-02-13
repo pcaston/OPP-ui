@@ -131,7 +131,6 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
       if (this.opp && language === this.opp.language) {
         changes.localize = computeLocalize(this, language, resources);
       }
-      debugger;
       this._updateOpp(changes);
     }
   };
