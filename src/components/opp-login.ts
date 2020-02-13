@@ -2,7 +2,6 @@ import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
 import "../dialogs/op-store-auth-card";
 import {
-  LitElement,
   CSSResult,
   css,
   html,
@@ -15,9 +14,10 @@ import { genClientId } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
 import { loginUser, SetinvalidAuth } from "../data/auth";
+import { OppElement } from "../state/opp-element";
 
 @customElement("opp-login")
-export class OppLogin extends LitElement {
+export class OppLogin extends OppElement {
   @property( {type: String} ) _name = "";
   @property( {type: String} ) _username = "";
   @property( {type: String} ) _password = "";
@@ -154,7 +154,6 @@ export class OppLogin extends LitElement {
     this._loading = true;
     this._errorMsg = "";
     const clientId = genClientId();
-    debugger;
     //const token  = await this.opp.callWS({
     //  type: "login",
     //  clientId,
@@ -169,11 +168,11 @@ export class OppLogin extends LitElement {
   }
 
   private async _saveAuth(access_token: string): Promise<void> {
+    debugger;
     const el = document.createElement("op-store-auth-card");
     el.setAttribute('access_token', access_token);
     this.shadowRoot!.appendChild(el);
     this.provideOpp(el);
-    console.log(access_token);
   }
 
   static get styles(): CSSResult {
@@ -202,7 +201,6 @@ export class OppLogin extends LitElement {
 
       case "auth_ok":
         SetinvalidAuth(false);
-        socket.removeEventListener("message", socket );
         this._saveAuth(message.access_token)
         break;
       default:
