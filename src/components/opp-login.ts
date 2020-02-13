@@ -170,8 +170,8 @@ export class OppLogin extends OppElement {
   private async _saveAuth(access_token: string): Promise<void> {
     const el = document.createElement("op-store-auth-card");
     el.setAttribute('access_token', access_token);
-    this.shadowRoot!.appendChild(el);
     this.provideOpp(el);
+    this.shadowRoot!.appendChild(el);
   }
 
   static get styles(): CSSResult {

@@ -44,6 +44,7 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
     public connectedCallback(): void {
       super.connectedCallback();
       this._initializeLocalizeLite();
+      this.resources = this.opp.resources;
       this.localize = computeLocalize(
         this.constructor.prototype,
         this.language!,
