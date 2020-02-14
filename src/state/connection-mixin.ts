@@ -107,6 +107,7 @@ export const connectionMixin = (
           location.reload();
         }
       });
+      debugger;
       if (!invalidAuth) {
         subscribeEntities(conn, (states) => this._updateOpp({ states }));
         subscribeConfig(conn, (config) => this._updateOpp({ config }));

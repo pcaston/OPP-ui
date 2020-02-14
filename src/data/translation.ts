@@ -11,8 +11,10 @@ declare global {
   }
 }
 
-export const fetchTranslationPreferences = (opp: OpenPeerPower) =>
+export const fetchTranslationPreferences = (opp: OpenPeerPower) => {
+  debugger;
   fetchFrontendUserData(opp.connection, "language");
+}
 
 export const saveTranslationPreferences = (
   opp: OpenPeerPower,
@@ -23,6 +25,7 @@ export const getOppTranslations = async (
   opp: OpenPeerPower,
   language: string
 ): Promise<{}> => {
+  debugger;
   const result = await opp.callWS<{ resources: {} }>({
     type: "frontend/get_translations",
     language,
