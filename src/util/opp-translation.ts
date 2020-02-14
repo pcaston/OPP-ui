@@ -43,6 +43,7 @@ function findAvailableLanguage(language: string) {
  * Get user selected language from backend
  */
 export async function getUserLanguage(opp: OpenPeerPower) {
+  debugger;
   const result = await fetchFrontendUserData(opp.connection, "language");
   const language = result ? result.language : null;
   if (language) {

@@ -12,6 +12,7 @@ import { OpenPeerPower } from "../types";
 import { saveFrontendUserData } from "../data/frontend";
 import { storeState } from "../util/op-pref-storage";
 import { getOppTranslations } from "../data/translation";
+import { invalidAuth } from "../data/auth";
 
 /*
  * superClass needs to contain `this.opp` and `this._updateOpp`.
@@ -38,7 +39,9 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
           this._selectLanguage(language, false);
         }
       });
+      if (!invalidAuth) {
       this._applyTranslations(this.opp!);
+      }
     }
 
     protected oppReconnected() {
