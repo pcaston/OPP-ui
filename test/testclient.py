@@ -15,15 +15,31 @@ chkpathw = 'C:\\Users\\s69171'
 
 ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZmNlNDZmMjhlMDM0Njg1YWI3OTkxMWRjNTVhNzNkNCIsImlhdCI6MTU2NjAzNjcyNywiZXhwIjoxNTk3NTcyNzI3fQ.29NB-zX8nawoaWE03qpIfEoGHxFlz0m95AN8XYqV-kk'
 if os.path.exists(chkpathw):
-    aName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    cName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    sName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
-    vName = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    access_token_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    state_change_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
+    services_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    state_changed_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
+    events_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
+    panels_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
+    user_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
+    language_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    themes_updated_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
+    themes_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes.txt'                
 else:
-    aName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    cName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    sName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
-    vName = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    access_token_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    state_change_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
+    services_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    state_changed_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
+    events_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
+    panels_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
+    user_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
+    language_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    themes_updated_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
+    themes_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes.txt' 
 
 async def main():
     """Simple WebSocket client """
@@ -34,8 +50,8 @@ async def main():
         msg = json.loads(message)
         
         if msg['type'] == 'auth_required':
-            if os.path.exists(aName):
-                with open(aName, 'r') as f:
+            if os.path.exists(access_token_file):
+                with open(access_token_file, 'r') as f:
                     ACCESS_TOKEN = f.read()
                 await websocket.send(json.dumps(
                 {'type': 'auth',
@@ -47,11 +63,11 @@ async def main():
                 ))
         
         if msg['type'] == 'auth_ok':
-            if os.path.exists(aName):
+            if os.path.exists(access_token_file):
                 pass
             else:
                 ACCESS_TOKEN = msg['access_token']
-                with open(aName, 'w') as f:
+                with open(access_token_file, 'w') as f:
                     f.write(ACCESS_TOKEN)
             await websocket.send(json.dumps(
                     {'id': 2, 'type': 'get_states'}
@@ -60,10 +76,10 @@ async def main():
             #{"id": 1, "type": "auth/long_lived_access_token", "client_name": "paul", "client_icon": '', "lifespan": 365}
         if msg['type'] == 'result' and msg['id'] == 2:
             States = json.dumps(msg)
-            if os.path.exists(sName):
+            if os.path.exists(states_file):
                 pass
             else:
-                with open(sName, 'w') as g:
+                with open(states_file, 'w') as g:
                     g.write(States)
             await websocket.send(json.dumps(
             {'id': 3, 'type': 'get_config'}
@@ -71,10 +87,10 @@ async def main():
 
         if msg['type'] == 'result' and msg['id'] == 3:
             Config = json.dumps(msg)
-            if os.path.exists(cName):
+            if os.path.exists(config_file):
                 pass
             else:
-                with open(cName, 'w') as h:
+                with open(config_file, 'w') as h:
                     h.write(Config)
             await websocket.send(json.dumps(
             {'id': 4, 'type': 'get_services'}
@@ -82,16 +98,85 @@ async def main():
 
         if msg['type'] == 'result' and msg['id'] == 4:
             Services = json.dumps(msg)
-            if os.path.exists(vName):
+            if os.path.exists(services_file):
                 pass
             else:
-                with open(vName, 'w') as h:
+                with open(services_file, 'w') as h:
                     h.write(Services)
             await websocket.send(json.dumps(
             {'id': 5, 'type': 'subscribe_events', 'event_type': 'state_changed'}
             ))
 
+        #############################
         if msg['type'] == 'result' and msg['id'] == 5:
+            State_Changed = json.dumps(msg)
+            if os.path.exists(state_changed_file):
+                pass
+            else:
+                with open(state_changed_file, 'w') as h:
+                    h.write(State_Changed)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'state_changed'}
+            ))
+
+        if msg['type'] == 'result' and msg['id'] == 6:
+            Panels_Updated = json.dumps(msg)
+            if os.path.exists(services_file):
+                pass
+            else:
+                with open(events_file, 'w') as h:
+                    h.write(Panels_Updated)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'panels_updated'}
+            ))
+            
+        if msg['type'] == 'result' and msg['id'] == 7:
+            Get_Panels = json.dumps(msg)
+            if os.path.exists(services_file):
+                pass
+            else:
+                with open(services_file, 'w') as h:
+                    h.write(Get_Panels)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'get_panels'}
+            ))
+            
+        if msg['type'] == 'result' and msg['id'] == 8:
+            Language = json.dumps(msg)
+            if os.path.exists(services_file):
+                pass
+            else:
+                with open(services_file, 'w') as h:
+                    h.write(Language)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'language'}
+            ))
+            
+        if msg['type'] == 'result' and msg['id'] == 9:
+            Themes_Updated = json.dumps(msg)
+            if os.path.exists(services_file):
+                pass
+            else:
+                with open(services_file, 'w') as h:
+                    h.write(Themes_Updated)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'themes_updated'}
+            ))
+            
+        if msg['type'] == 'result' and msg['id'] == 10:
+            Get_Themes = json.dumps(msg)
+            if os.path.exists(services_file):
+                pass
+            else:
+                with open(services_file, 'w') as h:
+                    h.write(Get_Themes)
+            await websocket.send(json.dumps(
+            {'id': 5, 'type': 'subscribe_events', 'event_type': 'get_themes'}
+            ))
+
+        #############################
+
+        if msg['type'] == 'result' and msg['id'] == 11:
             print(message)
 
         print(message)
