@@ -248,7 +248,6 @@ export class Connection {
   }
 
   private _handleMessage(event: MessageEvent) {
-    debugger;
     const message: WebSocketResponse = JSON.parse(event.data);
 
     if (DEBUG) {

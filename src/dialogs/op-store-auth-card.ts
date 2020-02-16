@@ -67,7 +67,6 @@ export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _save() {
-    debugger;
     enableWrite();
     saveTokens(this.opp!.auth.data);
     this._done();
