@@ -9,15 +9,17 @@ import "../components/entity/op-state-label-badge"
 import { OpenPeerPower } from '../types';
 import "@polymer/paper-card/paper-card";
 import "@material/mwc-button";
-import { saveTokens } from "../common/auth/token_storage";
 import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
+import { enableWrite, saveTokens  } from "../common/auth/token_storage";
 
 import "../resources/op-style";
+import { Auth, AuthData } from "../open-peer-power-js-websocket/lib";
   
 @customElement("op-store-auth-card")
 export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
   @property() public opp?: OpenPeerPower;
-  @property() public access_token!: String;
+  @property() public access_token!: Auth;
+  @property() public data!: AuthData;
 
   render(){
     return html`
@@ -64,9 +66,10 @@ export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
     this.classList.toggle("small", window.innerWidth < 600);
   }
 
-  private _save(event: Event) {
-    console.log(event.target);
-    saveTokens(this.access_token);
+  private _save() {
+    debugger;
+    enableWrite();
+    saveTokens(this.opp!.auth.data);
     this._done();
   }
 

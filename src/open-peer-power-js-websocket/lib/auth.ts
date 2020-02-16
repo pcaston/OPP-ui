@@ -1,8 +1,4 @@
-import { parseQuery } from "./util";
 import { ERR_OPP_HOST_REQUIRED, ERR_INVALID_AUTH } from "./errors";
-import { Connection } from "./connection";
-import * as messages from "./messages";
-import { OppUser } from "../../types";
 
 export type AuthData = {
   oppUrl: string;
@@ -27,11 +23,6 @@ export type getAuthOptions = {
 //export const loginUser = (connection: Connection) =>
 //  connection.sendMessagePromise<OppUser>(messages.login());
 
-type OAuthState = {
-  oppUrl: string;
-  clientId: string;
-};
-
 type AuthorizationCodeRequest = {
   grant_type: "authorization_code";
   code: string;
@@ -48,22 +39,6 @@ export const genClientId = (): string =>
 export const genExpires = (expires_in: number): number => {
   return expires_in * 1000 + Date.now();
 };
-
-function genAuthorizeUrl(
-  oppUrl: string,
-  clientId: string,
-  redirectUrl: string,
-  state: string
-) {
-  let authorizeUrl = `${oppUrl}/auth/authorize?response_type=code&client_id=${encodeURIComponent(
-    clientId
-  )}&redirect_uri=${encodeURIComponent(redirectUrl)}`;
-
-  if (state) {
-    authorizeUrl += `&state=${encodeURIComponent(state)}`;
-  }
-  return authorizeUrl;
-}
 
 async function tokenRequest(
   oppUrl: string,
@@ -92,7 +67,7 @@ async function tokenRequest(
   const tokens: AuthData = await resp.json();
   tokens.oppUrl = oppUrl;
   tokens.clientId = clientId;
-  tokens.expires = genExpires(tokens.expires_in);
+  tokens.expires = genExpires(tokens.expires_in!);
   return tokens;
 }
 
@@ -101,14 +76,6 @@ function fetchToken(oppUrl: string, clientId: string, code: string) {
     code,
     grant_type: "authorization_code"
   });
-}
-
-function encodeOAuthState(state: OAuthState): string {
-  return btoa(JSON.stringify(state));
-}
-
-function decodeOAuthState(encoded: string): OAuthState {
-  return JSON.parse(atob(encoded));
 }
 
 export class Auth {

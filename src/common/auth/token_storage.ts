@@ -15,13 +15,14 @@ declare global {
 let tokenCache = window.__tokenCache;
 if (!tokenCache) {
   tokenCache = window.__tokenCache = {
-    tokens: undefined
+    tokens: undefined,
+    writeEnabled: undefined,
   };
 }
 
 export function askWrite() {
   return (
-    tokenCache.tokens !== undefined
+    tokenCache.tokens !== undefined && tokenCache.writeEnabled === undefined
   );
 }
 
@@ -29,7 +30,7 @@ export function saveTokens(tokens: AuthData | null) {
   tokenCache.tokens = tokens;
   if (tokenCache.writeEnabled) {
     try {
-      storage.Tokens = JSON.stringify(tokens);
+      storage.oppTokens = JSON.stringify(tokens);
     } catch (err) {
       // write failed, ignore it. Happens if storage is full or private mode.
     }
@@ -40,15 +41,13 @@ export function enableWrite() {
   tokenCache.writeEnabled = true;
   if (tokenCache.tokens) {
     saveTokens(tokenCache.tokens);
-  }
+    }
 }
 
 export function loadTokens() {
   if (tokenCache.tokens === undefined) {
     try {
-      // Delete the old token cache.
-      delete storage.tokens;
-      const tokens = storage.hassTokens;
+      const tokens = storage.oppTokens;
       if (tokens) {
         tokenCache.tokens = JSON.parse(tokens);
         tokenCache.writeEnabled = true;
