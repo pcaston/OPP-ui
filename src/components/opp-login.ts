@@ -10,7 +10,7 @@ import {
   customElement,
   TemplateResult,
 } from "lit-element";
-import { genClientId } from "../open-peer-power-js-websocket/lib";
+import { genClientId, AuthData } from "../open-peer-power-js-websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
 import { loginUser, SetinvalidAuth } from "../data/auth";
@@ -163,13 +163,13 @@ export class OppLogin extends OppElement {
     //});
     let conn = (await window.oppConnection).conn;
     let socket = conn.socket;
-    socket.addEventListener("message", ev => this._handleMessage(ev, socket), {once: true});
+    //socket.addEventListener("message", ev => this._handleMessage(ev), {once: true});
+    socket.addEventListener("message", ev => this._handleMessage(ev));
     loginUser(conn, clientId, this._name, this._username, this._password);
   }
 
-  private async _saveAuth(access_token: string): Promise<void> {
+  private async _saveAuth(): Promise<void> {
     const el = document.createElement("op-store-auth-card");
-    el.setAttribute('access_token', access_token);
     this.provideOpp(el);
     this.shadowRoot!.appendChild(el);
   }
@@ -189,7 +189,7 @@ export class OppLogin extends OppElement {
   constructor() {
     super();
   }
-  _handleMessage(event: MessageEvent, socket: WebSocket) {
+  _handleMessage(event: MessageEvent) {
     const message = JSON.parse(event.data);
     switch (message.type) {
       case "auth_invalid":
@@ -199,7 +199,10 @@ export class OppLogin extends OppElement {
 
       case "auth_ok":
         SetinvalidAuth(false);
-        this._saveAuth(message.access_token)
+        let auth = this.opp.auth;
+        auth.data.access_token = message.access_token;
+        this._updateOpp({ auth });
+        this._saveAuth()
         break;
       default:
       }
