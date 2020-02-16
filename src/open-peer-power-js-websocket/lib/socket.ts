@@ -26,6 +26,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
   //if (!options.auth) {
   //  throw ERR_OPP_HOST_REQUIRED;
  // }
+  debugger;
   const auth = options.auth;
 
   // Start refreshing expired tokens even before the WS connection is open.
@@ -94,6 +95,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     // Otherwise redirect to the login screen
     // @ts-ignore
     const handleOpen = async (event: MessageEventInit) => {
+      debugger;
       if (auth!.accessToken) 
         try {
           socket.send(JSON.stringify(messages.auth(auth!.accessToken)));
@@ -105,6 +107,7 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     };
 
     const handleMessage = async (event: MessageEvent) => {
+      debugger;
       const message = JSON.parse(event.data);
 
       if (DEBUG) {

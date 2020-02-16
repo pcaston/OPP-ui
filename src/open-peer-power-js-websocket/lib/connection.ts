@@ -5,6 +5,8 @@
 import * as messages from "./messages";
 import { ERR_INVALID_AUTH, ERR_CONNECTION_LOST } from "./errors";
 import { MessageBase, ConnectionOptions, OppEvent } from "../../types";
+import { invalidAuth, SetinvalidAuth } from "../../data/auth";
+
 const DEBUG = false;
 
 type ConnectionEventListener = (
@@ -13,6 +15,12 @@ type ConnectionEventListener = (
 ) => void;
 
 type Events = "ready" | "disconnected" | "reconnect-error";
+
+type WebSocketAuthOKResponse = {
+  type: "auth_ok";
+  version: string;
+  access_token: string;
+};
 
 type WebSocketPongResponse = {
   id: number;
@@ -43,6 +51,7 @@ type WebSocketResultErrorResponse = {
 };
 
 type WebSocketResponse =
+  | WebSocketAuthOKResponse
   | WebSocketPongResponse
   | WebSocketEventResponse
   | WebSocketResultResponse
@@ -239,6 +248,7 @@ export class Connection {
   }
 
   private _handleMessage(event: MessageEvent) {
+    debugger;
     const message: WebSocketResponse = JSON.parse(event.data);
 
     if (DEBUG) {
@@ -248,6 +258,10 @@ export class Connection {
     const info = this.commands.get(message.id);
 
     switch (message.type) {
+      case "auth_ok":
+        SetinvalidAuth(false);
+        break;
+
       case "event":
         if (info) {
           (info as SubscribeEventCommmandInFlight<any>).callback(message.event);
