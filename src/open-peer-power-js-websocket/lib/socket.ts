@@ -21,7 +21,6 @@ declare global {
   }
 }
 
-
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
   //if (!options.auth) {
   //  throw ERR_OPP_HOST_REQUIRED;

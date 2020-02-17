@@ -34,7 +34,6 @@ export class OPPui extends OppElement {
   @property({type: Boolean}) _offline = false;
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({type: Array}) private appliances: Appliances = {};
-  @property({type: Object}) wsp!: WebSocket | null;
 
   static get styles() {
     return [
@@ -215,7 +214,7 @@ export class OPPui extends OppElement {
 
       <!-- Main content -->
       <main role="main" class="main-content">
-        <opp-home-view .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></opp-home-view>
+        <op-panel-lovelace .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></op-panel-lovelace>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login .opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
