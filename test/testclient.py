@@ -109,7 +109,6 @@ async def main():
             {'id': 5, 'type': 'subscribe_events', 'event_type': 'state_changed'}
             ))
 
-        #############################
         if msg['type'] == 'result' and msg['id'] == 5:
             State_Changed = json.dumps(msg)
             if os.path.exists(state_changed_file):
@@ -117,50 +116,6 @@ async def main():
             else:
                 with open(state_changed_file, 'w') as h:
                     h.write(State_Changed)
-            await websocket.send(json.dumps(
-            {'id': 6, 'type': 'subscribe_events', 'event_type': 'panels_updated'}
-            ))
-
-        if msg['type'] == 'result' and msg['id'] == 6:
-            Panels_Updated = json.dumps(msg)
-            if os.path.exists(services_file):
-                pass
-            else:
-                with open(events_file, 'w') as h:
-                    h.write(Panels_Updated)
-            await websocket.send(json.dumps(
-            {'id': 7, 'type': 'get_panels'}
-            ))
-            
-        if msg['type'] == 'result' and msg['id'] == 7:
-            Get_Panels = json.dumps(msg)
-            if os.path.exists(services_file):
-                pass
-            else:
-                with open(services_file, 'w') as h:
-                    h.write(Get_Panels)
-            await websocket.send(json.dumps(
-            {'id': 8, 'type': 'frontend/get_user_data', 'key': 'language'}
-            ))
-            
-        if msg['type'] == 'result' and msg['id'] == 8:
-            User = json.dumps(msg)
-            if os.path.exists(user_file):
-                pass
-            else:
-                with open(user_file, 'w') as h:
-                    h.write(User)
-            await websocket.send(json.dumps(
-            {'id': 9, 'type': 'frontend/get_translations', 'language': 'en'}
-            ))
-            
-        if msg['type'] == 'result' and msg['id'] == 9:
-            Translations = json.dumps(msg)
-            if os.path.exists(translations_file):
-                pass
-            else:
-                with open(translations_file, 'w') as h:
-                    h.write(Translations)
             await websocket.send(json.dumps(
             {'id': 10, 'type': 'subscribe_events', 'event_type': 'themes_updated'}
             ))
@@ -175,14 +130,6 @@ async def main():
             await websocket.send(json.dumps(
             {'id': 11, 'type': 'frontend/get_themes'}
             ))
-
-        if msg['type'] == 'result' and msg['id'] == 11:
-            Get_Themes = json.dumps(msg)
-            if os.path.exists(themes_file):
-                pass
-            else:
-                with open(themes_file, 'w') as h:
-                    h.write(Get_Themes)
 
         #############################
 
