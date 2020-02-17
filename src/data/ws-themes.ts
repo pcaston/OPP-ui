@@ -13,15 +13,3 @@ const subscribeUpdates = (conn, store) => {
     "themes_updated"
   );
 }
-
-export const subscribeThemes = (
-  conn: Connection,
-  onChange: (themes: Themes) => void
-) =>
-  createCollection<Themes>(
-    "_thm",
-    fetchThemes,
-    subscribeUpdates,
-    conn,
-    onChange
-  );

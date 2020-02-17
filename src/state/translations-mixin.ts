@@ -2,7 +2,6 @@ import translationMetadata  from "../../build-translations/translationMetadata.j
 import {
   getTranslation,
   getLocalLanguage,
-  getUserLanguage,
 } from "../util/opp-translation";
 import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
@@ -11,7 +10,6 @@ import { computeRTL } from "../common/util/compute_rtl";
 import { OpenPeerPower } from "../types";
 import { saveFrontendUserData } from "../data/frontend";
 import { storeState } from "../util/op-pref-storage";
-import { getOppTranslations } from "../data/translation";
 import { invalidAuth } from "../data/auth";
 
 /*
@@ -33,12 +31,6 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
 
     protected oppConnected() {
       super.oppConnected();
-      getUserLanguage(this.opp!).then((language) => {
-        if (language && this.opp!.language !== language) {
-          // We just get language from backend, no need to save back
-          this._selectLanguage(language, false);
-        }
-      });
       if (!invalidAuth) {
       this._applyTranslations(this.opp!);
       }
@@ -77,19 +69,7 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
     private _applyTranslations(opp: OpenPeerPower) {
       this.style.direction = computeRTL(opp) ? "rtl" : "ltr";
       this._loadCoreTranslations(opp.language);
-      this._loadOppTranslations(opp.language);
       this._loadFragmentTranslations(opp.language, opp.panelUrl);
-    }
-
-    private async _loadOppTranslations(language: string) {
-      const resources = await getOppTranslations(this.opp!, language);
-
-      // Ignore the repsonse if user switched languages before we got response
-      if (this.opp!.language !== language) {
-        return;
-      }
-
-      this._updateResources(language, resources);
     }
 
     private async _loadFragmentTranslations(

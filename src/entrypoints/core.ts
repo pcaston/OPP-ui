@@ -10,8 +10,6 @@ import {
 } from "../open-peer-power-js-websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
-import { subscribePanels } from "../data/ws-panels";
-import { subscribeThemes } from "../data/ws-themes";
 import { subscribeUser } from "../data/ws-user";
 import { OpenPeerPower } from "../types";
 import { oppUrl, invalidAuth } from "../data/auth";
@@ -58,9 +56,6 @@ window.oppConnection.then(({ conn }) => {
     subscribeEntities(conn, noop);
     //subscribeConfig(conn, noop);
     //subscribeServices(conn, noop);
-    //subscribePanels(conn, noop);
-    //subscribeThemes(conn, noop);
-    //subscribeUser(conn, noop);
   }
   //if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
   //  (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
