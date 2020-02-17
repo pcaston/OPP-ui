@@ -9,28 +9,64 @@ import os
 
 chkpath = 'C:\\Users\\Paul'
 chkpathw = 'C:\\Users\\s69171'
-
+  
 if os.path.exists(chkpathw):
-    token = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    config = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    states = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
-    services = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    access_token_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    state_change_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
+    services_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    state_changed_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
+    events_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
+    panels_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
+    user_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
+    language_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    translations_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
+    themes_updated_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
+    themes_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes.txt'                
 else:
-    token = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
-    config = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
-    states = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
-    services = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    access_token_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
+    config_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
+    states_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
+    state_change_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
+    services_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
+    state_changed_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
+    events_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
+    panels_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
+    user_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
+    language_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    translations_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
+    themes_updated_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
+    themes_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes.txt' 
+
 
 USERS = set()
 
-with open(token, 'r') as f:
+with open(access_token_file, 'r') as f:
     ACCESS_TOKEN = f.read()
-with open(states, 'r') as f:
-    STATES_TEXT = f.read()
-with open(config, 'r') as f:
+with open(config_file, 'r') as f:
     CONFIG_TEXT = f.read()
-with open(services, 'r') as f:
+with open(states_file, 'r') as f:
+    STATES_TEXT = f.read()
+with open(services_file, 'r') as f:
     SERVICES_TEXT = f.read()
+    
+with open(state_changed_file, 'r') as f:
+    STATE_CHANGED_TEXT = f.read()
+with open(events_file, 'r') as f:
+    EVENTS_TEXT = f.read()
+with open(panels_file, 'r') as f:
+    PANELS_TEXT = f.read()
+with open(user_file, 'r') as f:
+    USER_TEXT = f.read()
+with open(language_file, 'r') as f:
+    LANGUAGE_TEXT = f.read()
+with open(translations_file, 'r') as f:
+    TRANSLATIONS_TEXT = f.read()
+with open(themes_updated_file, 'r') as f:
+    THEMES_UPDATED_TEXT = f.read()
+with open(themes_file, 'r') as f:
+    THEMES_TEXT = f.read()
 
 async def notify_states():
     if USERS:       # asyncio.wait doesn't accept an empty list
