@@ -25,6 +25,7 @@ if os.path.exists(chkpathw):
     panels_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
     user_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
     language_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    translations_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
     themes_updated_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
     themes_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes.txt'                
 else:
@@ -38,6 +39,7 @@ else:
     panels_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
     user_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
     language_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
+    translations_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
     themes_updated_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
     themes_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes.txt' 
 
@@ -116,7 +118,7 @@ async def main():
                 with open(state_changed_file, 'w') as h:
                     h.write(State_Changed)
             await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'state_changed'}
+            {'id': 6, 'type': 'subscribe_events', 'event_type': 'panels_updated'}
             ))
 
         if msg['type'] == 'result' and msg['id'] == 6:
@@ -127,7 +129,7 @@ async def main():
                 with open(events_file, 'w') as h:
                     h.write(Panels_Updated)
             await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'panels_updated'}
+            {'id': 7, 'type': 'get_panels'}
             ))
             
         if msg['type'] == 'result' and msg['id'] == 7:
@@ -138,41 +140,49 @@ async def main():
                 with open(services_file, 'w') as h:
                     h.write(Get_Panels)
             await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'get_panels'}
+            {'id': 8, 'type': 'frontend/get_user_data', 'key': 'language'}
             ))
             
         if msg['type'] == 'result' and msg['id'] == 8:
-            Language = json.dumps(msg)
-            if os.path.exists(services_file):
+            User = json.dumps(msg)
+            if os.path.exists(user_file):
                 pass
             else:
-                with open(services_file, 'w') as h:
-                    h.write(Language)
+                with open(user_file, 'w') as h:
+                    h.write(User)
             await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'language'}
+            {'id': 9, 'type': 'frontend/get_translations', 'language': 'en'}
             ))
             
         if msg['type'] == 'result' and msg['id'] == 9:
+            Translations = json.dumps(msg)
+            if os.path.exists(translations_file):
+                pass
+            else:
+                with open(translations_file, 'w') as h:
+                    h.write(Translations)
+            await websocket.send(json.dumps(
+            {'id': 10, 'type': 'subscribe_events', 'event_type': 'themes_updated'}
+            ))
+
+        if msg['type'] == 'result' and msg['id'] == 10:
             Themes_Updated = json.dumps(msg)
-            if os.path.exists(services_file):
+            if os.path.exists(language_file):
                 pass
             else:
                 with open(services_file, 'w') as h:
                     h.write(Themes_Updated)
             await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'themes_updated'}
+            {'id': 11, 'type': 'frontend/get_themes'}
             ))
-            
-        if msg['type'] == 'result' and msg['id'] == 10:
+
+        if msg['type'] == 'result' and msg['id'] == 11:
             Get_Themes = json.dumps(msg)
-            if os.path.exists(services_file):
+            if os.path.exists(themes_file):
                 pass
             else:
-                with open(services_file, 'w') as h:
+                with open(themes_file, 'w') as h:
                     h.write(Get_Themes)
-            await websocket.send(json.dumps(
-            {'id': 5, 'type': 'subscribe_events', 'event_type': 'get_themes'}
-            ))
 
         #############################
 
