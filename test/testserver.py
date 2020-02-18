@@ -16,8 +16,7 @@ if os.path.exists(chkpathw):
     states_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\states.txt'
     state_change_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
     services_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
-    state_changed_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
-    translations_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'            
+    state_changed_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'       
 else:
     access_token_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     config_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
@@ -25,7 +24,6 @@ else:
     state_change_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
     services_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
     state_changed_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
-    translations_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
 
 
 USERS = set()
@@ -41,8 +39,6 @@ with open(services_file, 'r') as f:
     
 with open(state_changed_file, 'r') as f:
     STATE_CHANGED_TEXT = f.read()
-with open(translations_file, 'r') as f:
-    TRANSLATIONS_TEXT = f.read()
 
 async def notify_states():
     if USERS:       # asyncio.wait doesn't accept an empty list

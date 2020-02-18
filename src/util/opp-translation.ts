@@ -1,6 +1,5 @@
 import translationMetadata from "../../build-translations/translationMetadata.js";
 import { fetchFrontendUserData } from "../data/frontend";
-import { OpenPeerPower } from "../types";
 
 const STORAGE = window.localStorage || {};
 

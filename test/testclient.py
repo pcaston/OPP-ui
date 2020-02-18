@@ -116,22 +116,6 @@ async def main():
             else:
                 with open(state_changed_file, 'w') as h:
                     h.write(State_Changed)
-            await websocket.send(json.dumps(
-            {'id': 10, 'type': 'subscribe_events', 'event_type': 'themes_updated'}
-            ))
-
-        if msg['type'] == 'result' and msg['id'] == 10:
-            Themes_Updated = json.dumps(msg)
-            if os.path.exists(language_file):
-                pass
-            else:
-                with open(services_file, 'w') as h:
-                    h.write(Themes_Updated)
-            await websocket.send(json.dumps(
-            {'id': 11, 'type': 'frontend/get_themes'}
-            ))
-
-        #############################
 
         if msg['type'] == 'result' and msg['id'] == 11:
             print(message)
