@@ -40,21 +40,6 @@ function findAvailableLanguage(language: string) {
 }
 
 /**
- * Get user selected language from backend
- */
-export async function getUserLanguage(opp: OpenPeerPower) {
-  const result = await fetchFrontendUserData(opp.connection, "language");
-  const language = result ? result.language : null;
-  if (language) {
-    const availableLanguage = findAvailableLanguage(language);
-    if (availableLanguage) {
-      return availableLanguage;
-    }
-  }
-  return null;
-}
-
-/**
  * Get browser specific language
  */
 export function getLocalLanguage() {

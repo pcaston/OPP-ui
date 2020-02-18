@@ -17,13 +17,7 @@ if os.path.exists(chkpathw):
     state_change_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
     services_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
     state_changed_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
-    events_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
-    panels_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
-    user_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
-    language_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
-    translations_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
-    themes_updated_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
-    themes_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\themes.txt'                
+    translations_file = chkpathw + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'            
 else:
     access_token_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\access_token.txt'
     config_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\config.txt'
@@ -31,13 +25,7 @@ else:
     state_change_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_change.txt'
     services_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\services.txt'
     state_changed_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\state_changed.txt'
-    events_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\events.txt'
-    panels_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\panels.txt'
-    user_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\user.txt'
-    language_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\language.txt'
     translations_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\translations.txt'
-    themes_updated_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes_updated.txt'
-    themes_file = chkpath + '\\AppData\\Roaming\\.openpeerpower\\themes.txt' 
 
 
 USERS = set()
@@ -53,20 +41,8 @@ with open(services_file, 'r') as f:
     
 with open(state_changed_file, 'r') as f:
     STATE_CHANGED_TEXT = f.read()
-with open(events_file, 'r') as f:
-    EVENTS_TEXT = f.read()
-with open(panels_file, 'r') as f:
-    PANELS_TEXT = f.read()
-with open(user_file, 'r') as f:
-    USER_TEXT = f.read()
-with open(language_file, 'r') as f:
-    LANGUAGE_TEXT = f.read()
 with open(translations_file, 'r') as f:
     TRANSLATIONS_TEXT = f.read()
-with open(themes_updated_file, 'r') as f:
-    THEMES_UPDATED_TEXT = f.read()
-with open(themes_file, 'r') as f:
-    THEMES_TEXT = f.read()
 
 async def notify_states():
     if USERS:       # asyncio.wait doesn't accept an empty list
