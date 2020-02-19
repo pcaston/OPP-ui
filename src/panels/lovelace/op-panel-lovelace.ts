@@ -54,10 +54,12 @@ class LovelacePanel extends LitElement {
 
   constructor() {
     super();
+    debugger;
     this._closeEditor = this._closeEditor.bind(this);
   }
 
   public render(): TemplateResult | void {
+    debugger;
     const state = this._state!;
 
     if (state === "loaded") {
@@ -127,6 +129,7 @@ class LovelacePanel extends LitElement {
   }
 
   public firstUpdated() {
+    debugger;
     this._fetchConfig(false);
     // we don't want to unsub as we want to stay informed of updates
     subscribeLovelaceUpdates(this.opp!.connection, () =>
@@ -149,6 +152,7 @@ class LovelacePanel extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
+    debugger;
     if (
       this.lovelace &&
       this.opp &&
