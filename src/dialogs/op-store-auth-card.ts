@@ -73,9 +73,12 @@ export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {
   }
 
   private _done() {
+    debugger;
     const card = this.shadowRoot!.querySelector("paper-card");
     card!.style.transition = "bottom .25s";
     card!.style.bottom = `-${card!.offsetHeight + 8}px`;
     setTimeout(() => this.parentNode!.removeChild(this), 300);
+    const newLocation = `/`;
+    window.location.pathname = newLocation;
   }
 }

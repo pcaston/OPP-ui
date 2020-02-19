@@ -1,5 +1,4 @@
 import translationMetadata from "../../build-translations/translationMetadata.js";
-import { fetchFrontendUserData } from "../data/frontend";
 
 const STORAGE = window.localStorage || {};
 

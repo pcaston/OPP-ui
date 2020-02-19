@@ -255,7 +255,7 @@ export class Connection {
     }
 
     const info = this.commands.get(message.id);
-
+    debugger;
     switch (message.type) {
       case "auth_ok":
         SetinvalidAuth(false);
