@@ -15,7 +15,7 @@ import { AppDrawerElement } from "@polymer/app-layout/app-drawer/app-drawer";
 import "@polymer/iron-media-query/iron-media-query";
 
 import "./partial-panel-resolver";
-import { HomeAssistant, Route } from "../types";
+import { OpenPeerPower, Route } from "../types";
 import { fireEvent } from "../common/dom/fire_event";
 import { PolymerChangedEvent } from "../polymer-types";
 // tslint:disable-next-line: no-duplicate-imports
@@ -33,8 +33,8 @@ declare global {
   }
 }
 
-class HomeAssistantMain extends LitElement {
-  @property() public opp!: HomeAssistant;
+class OpenPeerPowerMain extends LitElement {
+  @property() public opp!: OpenPeerPower;
   @property() public route?: Route;
   @property({ type: Boolean }) private narrow?: boolean;
 
@@ -125,7 +125,7 @@ class HomeAssistantMain extends LitElement {
       this.drawer.close();
     }
 
-    const oldOpp = changedProps.get("opp") as HomeAssistant | undefined;
+    const oldOpp = changedProps.get("opp") as OpenPeerPower | undefined;
 
     // Make app-drawer adjust to a potential LTR/RTL change
     if (oldOpp && oldOpp.language !== this.opp!.language) {
@@ -172,4 +172,4 @@ class HomeAssistantMain extends LitElement {
   }
 }
 
-customElements.define("open-peer-power-main", HomeAssistantMain);
+customElements.define("open-peer-power-main", OpenPeerPowerMain);
