@@ -8,11 +8,11 @@ import "../resources/custom-card-support";
 import { registerServiceWorker } from "../util/register-service-worker";
 import { DEFAULT_PANEL } from "../common/const";
 
-import { Route, HomeAssistant } from "../types";
+import { Route, OpenPeerPower } from "../types";
 import { navigate } from "../common/navigate";
 import { OppElement } from "../state/opp-element";
 
-export class HomeAssistantAppEl extends OppElement {
+export class OpenPeerPowerAppEl extends OppElement {
   @property() private _route?: Route;
   @property() private _error = false;
   @property() private _panelUrl?: string;
@@ -59,7 +59,7 @@ export class HomeAssistantAppEl extends OppElement {
     if (changedProps.has("opp")) {
       this.oppChanged(
         this.opp!,
-        changedProps.get("opp") as HomeAssistant | undefined
+        changedProps.get("opp") as OpenPeerPower | undefined
       );
     }
   }
@@ -100,4 +100,4 @@ export class HomeAssistantAppEl extends OppElement {
   }
 }
 
-customElements.define("open-peer-power", HomeAssistantAppEl);
+customElements.define("open-peer-power", OpenPeerPowerAppEl);
