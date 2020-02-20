@@ -130,7 +130,7 @@ export class OpAutomationEditor extends LitElement {
                         )}
                       </p>
                       <a
-                        href="https://home-assistant.io/docs/automation/trigger/"
+                        href="https://open-peer-power.io/docs/automation/trigger/"
                         target="_blank"
                       >
                         ${this.opp.localize(
@@ -158,7 +158,7 @@ export class OpAutomationEditor extends LitElement {
                         )}
                       </p>
                       <a
-                        href="https://home-assistant.io/docs/scripts/conditions/"
+                        href="https://open-peer-power.io/docs/scripts/conditions/"
                         target="_blank"
                       >
                         ${this.opp.localize(
@@ -186,7 +186,7 @@ export class OpAutomationEditor extends LitElement {
                         )}
                       </p>
                       <a
-                        href="https://home-assistant.io/docs/automation/action/"
+                        href="https://open-peer-power.io/docs/automation/action/"
                         target="_blank"
                       >
                         ${this.opp.localize(

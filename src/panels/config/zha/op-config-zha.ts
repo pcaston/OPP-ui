@@ -1,10 +1,10 @@
 import "../../../components/op-paper-icon-button-arrow-prev";
 import "../../../layouts/opp-subpage";
-import "./zha-binding";
-import "./zha-cluster-attributes";
-import "./zha-cluster-commands";
-import "./zha-network";
-import "./zha-node";
+import "./zop-binding";
+import "./zop-cluster-attributes";
+import "./zop-cluster-commands";
+import "./zop-network";
+import "./zop-node";
 import "@polymer/paper-icon-button/paper-icon-button";
 
 import {
@@ -40,42 +40,42 @@ export class OpConfigZha extends LitElement {
   protected render(): TemplateResult | void {
     return html`
       <opp-subpage header="Zigbee Home Automation">
-        <zha-network
+        <zop-network
           .isWide="${this.isWide}"
           .opp="${this.opp}"
-        ></zha-network>
+        ></zop-network>
 
-        <zha-node
+        <zop-node
           .isWide="${this.isWide}"
           .opp="${this.opp}"
-          @zha-cluster-selected="${this._onClusterSelected}"
-          @zha-node-selected="${this._onDeviceSelected}"
-        ></zha-node>
+          @zop-cluster-selected="${this._onClusterSelected}"
+          @zop-node-selected="${this._onDeviceSelected}"
+        ></zop-node>
         ${this._selectedCluster
           ? html`
-              <zha-cluster-attributes
+              <zop-cluster-attributes
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedNode="${this._selectedDevice}"
                 .selectedCluster="${this._selectedCluster}"
-              ></zha-cluster-attributes>
+              ></zop-cluster-attributes>
 
-              <zha-cluster-commands
+              <zop-cluster-commands
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedNode="${this._selectedDevice}"
                 .selectedCluster="${this._selectedCluster}"
-              ></zha-cluster-commands>
+              ></zop-cluster-commands>
             `
           : ""}
         ${this._selectedDevice && this._bindableDevices.length > 0
           ? html`
-              <zha-binding-control
+              <zop-binding-control
                 .isWide="${this.isWide}"
                 .opp="${this.opp}"
                 .selectedDevice="${this._selectedDevice}"
                 .bindableDevices="${this._bindableDevices}"
-              ></zha-binding-control>
+              ></zop-binding-control>
             `
           : ""}
       </opp-subpage>

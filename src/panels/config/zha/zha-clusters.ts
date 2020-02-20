@@ -26,7 +26,7 @@ import { ItemSelectedEvent } from "./types";
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "zha-cluster-selected": {
+    "zop-cluster-selected": {
       cluster?: Cluster;
     };
   }
@@ -68,7 +68,7 @@ export class ZHAClusters extends LitElement {
     if (changedProperties.has("selectedDevice")) {
       this._clusters = [];
       this._selectedClusterIndex = -1;
-      fireEvent(this, "zha-cluster-selected", {
+      fireEvent(this, "zop-cluster-selected", {
         cluster: undefined,
       });
       this._fetchClustersForZhaNode();
@@ -117,7 +117,7 @@ export class ZHAClusters extends LitElement {
 
   private _selectedClusterChanged(event: ItemSelectedEvent): void {
     this._selectedClusterIndex = event.target!.selected;
-    fireEvent(this, "zha-cluster-selected", {
+    fireEvent(this, "zop-cluster-selected", {
       cluster: this._clusters[this._selectedClusterIndex],
     });
   }
@@ -161,8 +161,8 @@ export class ZHAClusters extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zha-cluster": ZHAClusters;
+    "zop-cluster": ZHAClusters;
   }
 }
 
-customElements.define("zha-clusters", ZHAClusters);
+customElements.define("zop-clusters", ZHAClusters);

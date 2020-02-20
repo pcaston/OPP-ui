@@ -191,7 +191,7 @@ export class OpDataTable extends BaseElement {
                       role="columnheader"
                       scope="col"
                     >
-                      <ha-checkbox
+                      <op-checkbox
                         class="mdc-data-table__row-checkbox"
                         @change=${this._handleHeaderRowCheckboxChange}
                         .indeterminate=${this._headerIndeterminate}
@@ -224,7 +224,7 @@ export class OpDataTable extends BaseElement {
                   >
                     ${column.sortable
                       ? html`
-                          <ha-icon
+                          <op-icon
                             .icon=${sorted && this._sortDirection === "desc"
                               ? "opp:arrow-down"
                               : "opp:arrow-up"}
@@ -252,7 +252,7 @@ export class OpDataTable extends BaseElement {
                         <td
                           class="mdc-data-table__cell mdc-data-table__cell--checkbox"
                         >
-                          <ha-checkbox
+                          <op-checkbox
                             class="mdc-data-table__row-checkbox"
                             @change=${this._handleRowCheckboxChange}
                             .checked=${this._checkedRows.includes(row[this.id])}
@@ -599,14 +599,14 @@ export class OpDataTable extends BaseElement {
       .mdc-data-table__header-cell.not-sorted > * {
         transition: left 0.2s ease 0s;
       }
-      .mdc-data-table__header-cell.not-sorted ha-icon {
+      .mdc-data-table__header-cell.not-sorted op-icon {
         left: -36px;
       }
       .mdc-data-table__header-cell.not-sorted:not(.mdc-data-table__header-cell--numeric):not(.mdc-data-table__header-cell--icon):hover
         span {
         left: 0px;
       }
-      .mdc-data-table__header-cell:hover.not-sorted ha-icon {
+      .mdc-data-table__header-cell:hover.not-sorted op-icon {
         left: 0px;
       }
       .table-header {
