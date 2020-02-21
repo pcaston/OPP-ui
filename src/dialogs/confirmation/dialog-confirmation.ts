@@ -33,7 +33,7 @@ class DialogConfirmation extends LitElement {
     }
 
     return html`
-      <ha-paper-dialog
+      <op-paper-dialog
         with-backdrop
         opened
         modal
@@ -82,12 +82,12 @@ class DialogConfirmation extends LitElement {
     return [
       opStyleDialog,
       css`
-        ha-paper-dialog {
+        op-paper-dialog {
           min-width: 400px;
           max-width: 500px;
         }
         @media (max-width: 400px) {
-          ha-paper-dialog {
+          op-paper-dialog {
             min-width: initial;
           }
         }

@@ -76,9 +76,9 @@ class OpPanelConfig extends OppRouterPage {
           import(/* webpackChunkName: "panel-config-users" */ "./users/op-config-users"),
       },
       zha: {
-        tag: "zha-config-panel",
+        tag: "zop-config-panel",
         load: () =>
-          import(/* webpackChunkName: "panel-config-zha" */ "./zha/zha-config-panel"),
+          import(/* webpackChunkName: "panel-config-zha" */ "./zha/zop-config-panel"),
       },
       zwave: {
         tag: "op-config-zwave",

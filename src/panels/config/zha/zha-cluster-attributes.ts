@@ -342,8 +342,8 @@ export class ZHAClusterAttributes extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zha-cluster-attributes": ZHAClusterAttributes;
+    "zop-cluster-attributes": ZHAClusterAttributes;
   }
 }
 
-customElements.define("zha-cluster-attributes", ZHAClusterAttributes);
+customElements.define("zop-cluster-attributes", ZHAClusterAttributes);

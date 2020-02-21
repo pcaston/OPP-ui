@@ -41,13 +41,13 @@ import { formatAsPaddedHex } from "./functions";
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "zha-device-removed": {
+    "zop-device-removed": {
       device?: ZHADevice;
     };
   }
 }
 
-@customElement("zha-device-card")
+@customElement("zop-device-card")
 class ZHADeviceCard extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow?: boolean;
@@ -104,7 +104,7 @@ class ZHADeviceCard extends LitElement {
   protected serviceCalled(ev): void {
     // Check if this is for us
     if (ev.detail.success && ev.detail.service === "remove") {
-      fireEvent(this, "zha-device-removed", {
+      fireEvent(this, "zop-device-removed", {
         device: this.device,
       });
     }
@@ -132,14 +132,14 @@ class ZHADeviceCard extends LitElement {
         <div class="card-content">
           <dl>
             <dt>IEEE:</dt>
-            <dd class="zha-info">${this.device!.ieee}</dd>
+            <dd class="zop-info">${this.device!.ieee}</dd>
             <dt>Nwk:</dt>
-            <dd class="zha-info">${formatAsPaddedHex(this.device!.nwk)}</dd>
+            <dd class="zop-info">${formatAsPaddedHex(this.device!.nwk)}</dd>
             ${
               this.device!.quirk_applied
                 ? html`
                     <dt>Quirk:</dt>
-                    <dd class="zha-info">${this.device!.quirk_class}</dd>
+                    <dd class="zop-info">${this.device!.quirk_class}</dd>
                   `
                 : ""
             }
@@ -350,7 +350,7 @@ class ZHADeviceCard extends LitElement {
           margin-top: 8px;
         }
         .manuf,
-        .zha-info,
+        .zop-info,
         .entity-id {
           color: var(--secondary-text-color);
         }
@@ -408,6 +408,6 @@ class ZHADeviceCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zha-device-card": ZHADeviceCard;
+    "zop-device-card": ZHADeviceCard;
   }
 }

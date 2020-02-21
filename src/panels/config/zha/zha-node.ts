@@ -2,8 +2,8 @@ import "../../../components/buttons/op-call-service-button";
 import "../../../components/op-service-description";
 import "../../../components/op-card";
 import "../op-config-section";
-import "./zha-clusters";
-import "./zha-device-card";
+import "./zop-clusters";
+import "./zop-device-card";
 import "@material/mwc-button";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
@@ -30,13 +30,13 @@ import { ItemSelectedEvent, ZHADeviceRemovedEvent } from "./types";
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "zha-node-selected": {
+    "zop-node-selected": {
       node?: ZHADevice;
     };
   }
 }
 
-@customElement("zha-node")
+@customElement("zop-node")
 export class ZHANode extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public isWide?: boolean;
@@ -75,7 +75,7 @@ export class ZHANode extends LitElement {
             <paper-dropdown-menu
               label="Devices"
               class="flex"
-              id="zha-device-selector"
+              id="zop-device-selector"
             >
               <paper-listbox
                 slot="dropdown-content"
@@ -103,16 +103,16 @@ export class ZHANode extends LitElement {
             : ""}
           ${this._selectedDeviceIndex !== -1
             ? html`
-                <zha-device-card
+                <zop-device-card
                   class="card"
                   .opp="${this.opp}"
                   .device="${this._selectedDevice}"
                   .narrow="${!this.isWide}"
                   .showHelp="${this._showHelp}"
                   .showActions="${true}"
-                  @zha-device-removed="${this._onDeviceRemoved}"
+                  @zop-device-removed="${this._onDeviceRemoved}"
                   .isJoinPage="${false}"
-                ></zha-device-card>
+                ></zop-device-card>
               `
             : ""}
           ${this._selectedDevice ? this._renderClusters() : ""}
@@ -123,11 +123,11 @@ export class ZHANode extends LitElement {
 
   private _renderClusters(): TemplateResult {
     return html`
-      <zha-clusters
+      <zop-clusters
         .opp="${this.opp}"
         .selectedDevice="${this._selectedDevice}"
         .showHelp="${this._showHelp}"
-      ></zha-clusters>
+      ></zop-clusters>
     `;
   }
 
@@ -138,7 +138,7 @@ export class ZHANode extends LitElement {
   private _selectedDeviceChanged(event: ItemSelectedEvent): void {
     this._selectedDeviceIndex = event!.target!.selected;
     this._selectedDevice = this._nodes[this._selectedDeviceIndex];
-    fireEvent(this, "zha-node-selected", { node: this._selectedDevice });
+    fireEvent(this, "zop-node-selected", { node: this._selectedDevice });
   }
 
   private async _fetchDevices() {
@@ -149,7 +149,7 @@ export class ZHANode extends LitElement {
     this._selectedDeviceIndex = -1;
     this._nodes.splice(this._nodes.indexOf(event.detail!.device!), 1);
     this._selectedDevice = undefined;
-    fireEvent(this, "zha-node-selected", { node: this._selectedDevice });
+    fireEvent(this, "zop-node-selected", { node: this._selectedDevice });
   }
 
   static get styles(): CSSResult[] {
@@ -237,6 +237,6 @@ export class ZHANode extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zha-node": ZHANode;
+    "zop-node": ZHANode;
   }
 }
