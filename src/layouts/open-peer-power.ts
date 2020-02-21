@@ -5,7 +5,6 @@ import "./open-peer-power-main";
 import "./op-init-page";
 import "../resources/op-style";
 import "../resources/custom-card-support";
-import { registerServiceWorker } from "../util/register-service-worker";
 import { DEFAULT_PANEL } from "../common/const";
 
 import { Route, OpenPeerPower } from "../types";
@@ -19,11 +18,11 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected render() {
     const opp = this.opp;
+    debugger;
 
     return html`
       <app-location
         @route-changed=${this._routeChanged}
-        ?use-hash-as-path=${__DEMO__}
       ></app-location>
       ${this._panelUrl === undefined || this._route === undefined
         ? ""
@@ -43,11 +42,6 @@ export class OpenPeerPowerAppEl extends OppElement {
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     this._initialize();
-    setTimeout(registerServiceWorker, 1000);
-    /* polyfill for paper-dropdown */
-    import(
-      /* webpackChunkName: "polyfill-web-animations-next" */ "web-animations-js/web-animations-next-lite.min"
-    );
   }
 
   protected updated(changedProps: PropertyValues): void {
