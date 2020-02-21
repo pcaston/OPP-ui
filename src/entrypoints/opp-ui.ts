@@ -16,8 +16,6 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import { menuIcon } from '../components/my-icons';
 
-import { Appliances } from '../components/appliance-list';
-
 declare global {
   interface Window {
     decodeURIComponent(pathname: string): any;
@@ -33,7 +31,6 @@ export class OPPui extends OppElement {
   @property({type: Boolean}) _drawerOpened = false;
   @property({type: Boolean}) _offline = false;
   @property({ type : Object }) opp!: OpenPeerPower;
-  @property({type: Array}) private appliances: Appliances = {};
 
   static get styles() {
     return [
@@ -193,7 +190,7 @@ export class OPPui extends OppElement {
 
         <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
-          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>
+          <a ?selected="${this._page === 'home'}" href="/home">Home</a>
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>
         </nav>
@@ -206,7 +203,7 @@ export class OPPui extends OppElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'view_appliances'}" href="/view_appliances">View Appliances</a>    
+          <a ?selected="${this._page === 'home'}" href="/home">View Appliances</a>    
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
@@ -214,7 +211,7 @@ export class OPPui extends OppElement {
 
       <!-- Main content -->
       <main role="main" class="main-content">
-        <op-panel-lovelace .appliances="${this.appliances}" .opp="${this.opp}" class="page" ?active="${this._page === 'view_appliances'}"></op-panel-lovelace>
+        <open-peer-power-main .opp="${this.opp}" class="page" ?active="${this._page === 'home'}"></open-peer-power-main>
         <about-page class="page" ?active="${this._page === 'about'}"></about-page>
         <opp-login .opp="${this.opp}" class="page" ?active="${this._page === 'login'}"></opp-login>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
@@ -277,7 +274,7 @@ export class OPPui extends OppElement {
 
   protected _locationChanged(location: Location) {
     const path = window.decodeURIComponent(location.pathname);
-    const page = path === '/' ? 'view_appliances' : path.slice(1);
+    const page = path === '/' ? 'home' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
     // you can do here.
@@ -301,11 +298,11 @@ export class OPPui extends OppElement {
 
   protected _loadPage(page: string) {
     switch(page) {
-      case 'view_appliances':
+      case 'home':
           import('../panels/lovelace/op-panel-lovelace').then(() => {
           //import('../components/opp-home-view').then(() => {
           // Put code in here that you want to run every time when
-          // navigating to view1 after view_appliances is loaded.
+          // navigating to view1 after home is loaded.
         });
         break;
       case 'about':
@@ -332,31 +329,6 @@ export class OPPui extends OppElement {
 // Tests
   connectedCallback() {
     super.connectedCallback();
-  }
-  protected _getAllAppliances(): Appliances {
-    const APPLIANCE_LIST = [
-      {'id': '1', 'name': 'fridge', 'type': 'A',
-       'usage': {'value': 10.99},
-       'cost': {'currency': 'AUD', 'value': 3}}
-      ,
-      {'id': '2', 'name': 'dishwasher', 'type': 'B',
-       'usage': {'value': 29.99},
-       'cost': {'currency': 'AUD', 'value': 4}}
-      ,
-      {'id': '3', 'name': 'aircon', 'type': 'C',
-       'usage': {'value': 30.17},
-       'cost': {'currency': 'AUD', 'value': 5}}
-      ,
-      {'id': '4', 'name': 'Dryer', 'type': 'D',
-       'usage': {'value': 12.39},
-       'cost': {'currency': 'AUD', 'value': 7}}
-    ];
-    const appliances = APPLIANCE_LIST.reduce((obj, appliance) => {
-      obj[appliance.id] = appliance
-      return obj
-    }, {} as Appliances);
-
-    return appliances;
   }
   protected _getAllEntities(states): OppEntities {
     const entities = states.reduce((obj, entity) => {

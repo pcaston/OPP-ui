@@ -20,7 +20,6 @@ import { fireEvent } from "../common/dom/fire_event";
 import { PolymerChangedEvent } from "../polymer-types";
 // tslint:disable-next-line: no-duplicate-imports
 import { AppDrawerLayoutElement } from "@polymer/app-layout/app-drawer-layout/app-drawer-layout";
-import { showNotificationDrawer } from "../dialogs/notifications/show-notification-drawer";
 import { toggleAttribute } from "../common/dom/toggle_attribute";
 
 const NON_SWIPABLE_PANELS = ["kiosk", "map"];
@@ -29,7 +28,6 @@ declare global {
   // for fire event
   interface OPPDomEvents {
     "opp-toggle-menu": undefined;
-    "opp-show-notifications": undefined;
   }
 }
 
@@ -103,12 +101,6 @@ class OpenPeerPowerMain extends LitElement {
         });
         setTimeout(() => this.appLayout.resetLayout());
       }
-    });
-
-    this.addEventListener("opp-show-notifications", () => {
-      showNotificationDrawer(this, {
-        narrow: this.narrow!,
-      });
     });
   }
 
