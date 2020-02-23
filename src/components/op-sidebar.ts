@@ -23,7 +23,7 @@ declare global {
   // for fire event
   interface OPPDomEvents {
     "opp-show-notifications": {};
-    "opp-toggle-menu": {};
+    "opp-toggle-menu": {} | undefined;
   }
 }
 

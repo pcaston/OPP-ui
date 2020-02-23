@@ -27,7 +27,6 @@ export function askWrite() {
 }
 
 export function saveTokens(tokens: AuthData | null) {
-  debugger;
   tokenCache.tokens = tokens;
   if (tokenCache.writeEnabled) {
     try {
@@ -46,7 +45,6 @@ export function enableWrite() {
 }
 
 export function loadTokens() {
-  debugger;
   if (tokenCache.tokens === undefined) {
     try {
       const tokens = storage.oppTokens;

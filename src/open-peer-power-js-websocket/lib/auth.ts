@@ -71,16 +71,9 @@ async function tokenRequest(
   return tokens;
 }
 
-function fetchToken(oppUrl: string, clientId: string, code: string) {
-  return tokenRequest(oppUrl, clientId, {
-    code,
-    grant_type: "authorization_code"
-  });
-}
-
 export class Auth {
   private _saveTokens?: SaveTokensFunc;
-  data: AuthData;
+  data: AuthData | null | undefined;
 
   constructor(data: AuthData, saveTokens?: SaveTokensFunc) {
     this.data = data;
@@ -94,11 +87,11 @@ export class Auth {
   }
 
   get accessToken() {
-    return this.data.access_token;
+    return this.data!.access_token;
   }
 
   get expired() {
-    return Date.now() > this.data.expires!;
+    return Date.now() > this.data!.expires!;
   }
 
   /**
@@ -124,7 +117,7 @@ export class Auth {
     formData.append("token", this.data.refresh_token);
 
     // There is no error checking, as revoke will always return 200
-    await fetch(`${this.data.oppUrl}/auth/token`, {
+    await fetch(`${this.data!.oppUrl}/auth/token`, {
       method: "POST",
       credentials: "same-origin",
       body: formData
@@ -176,5 +169,5 @@ export async function getAuth(options: getAuthOptions = {}): Promise<Auth> {
     {oppUrl: oppUrl = oppUrl,
      clientId: oppUrl = clientId
     };
-  return new Auth(data, options.saveTokens);
+  return new Auth(data!, options.saveTokens);
 }
