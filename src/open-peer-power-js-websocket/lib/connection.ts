@@ -5,7 +5,7 @@
 import * as messages from "./messages";
 import { ERR_INVALID_AUTH, ERR_CONNECTION_LOST } from "./errors";
 import { MessageBase, ConnectionOptions, OppEvent } from "../../types";
-import { invalidAuth, SetinvalidAuth } from "../../data/auth";
+import { SetinvalidAuth } from "../../data/auth";
 
 const DEBUG = false;
 
@@ -255,7 +255,6 @@ export class Connection {
     }
 
     const info = this.commands.get(message.id);
-    debugger;
     switch (message.type) {
       case "auth_ok":
         SetinvalidAuth(false);

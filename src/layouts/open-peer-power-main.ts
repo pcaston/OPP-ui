@@ -27,7 +27,8 @@ const NON_SWIPABLE_PANELS = ["kiosk", "map"];
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "opp-toggle-menu": undefined;
+    "opp-show-notifications": {};
+    "opp-toggle-menu": {} | undefined;
   }
 }
 
@@ -37,6 +38,7 @@ class OpenPeerPowerMain extends LitElement {
   @property({ type: Boolean }) private narrow?: boolean;
 
   protected render(): TemplateResult | void {
+    debugger;
     const opp = this.opp;
 
     if (!opp) {
@@ -86,6 +88,7 @@ class OpenPeerPowerMain extends LitElement {
   }
 
   protected firstUpdated() {
+    debugger;
     import(/* webpackChunkName: "op-sidebar" */ "../components/op-sidebar");
 
     this.addEventListener("opp-toggle-menu", () => {
@@ -106,7 +109,7 @@ class OpenPeerPowerMain extends LitElement {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
-
+    debugger;
     toggleAttribute(
       this,
       "expanded",

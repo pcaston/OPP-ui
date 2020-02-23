@@ -54,8 +54,9 @@ window.oppConnection.then(({ conn }) => {
   };
   if (!invalidAuth) {
     subscribeEntities(conn, noop);
-    //subscribeConfig(conn, noop);
-    //subscribeServices(conn, noop);
+    subscribeConfig(conn, noop);
+    subscribeServices(conn, noop);
+    subscribeUser(conn, noop);
   }
   //if (location.pathname === "/" || location.pathname.startsWith("/lovelace/")) {
   //  (window as WindowWithLovelaceProm).llConfProm = fetchConfig(conn, false);
