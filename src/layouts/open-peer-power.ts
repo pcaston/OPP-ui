@@ -41,7 +41,6 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
-    debugger;
     this._initialize();
   }
 
@@ -72,7 +71,6 @@ export class OpenPeerPowerAppEl extends OppElement {
   private async _routeChanged(ev) {
     // routeChanged event listener is called while we're doing the fist render,
     // causing the update to be ignored. So delay it to next task (Lit render is sync).
-    debugger;
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     const route = ev.detail.value as Route;

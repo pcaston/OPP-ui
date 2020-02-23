@@ -58,7 +58,6 @@ class LovelacePanel extends LitElement {
   }
 
   public render(): TemplateResult | void {
-    debugger;
     const state = this._state!;
 
     if (state === "loaded") {
