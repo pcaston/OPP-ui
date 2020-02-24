@@ -203,7 +203,7 @@ export class OPPui extends OppElement {
           .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}">
         <nav class="drawer-list">
-          <a ?selected="${this._page === 'home'}" href="/home">View Appliances</a>    
+          <a ?selected="${this._page === 'home'}" href="/home">Home</a>    
           <a ?selected="${this._page === 'about'}" href="/about">About</a>
           <a ?selected="${this._page === 'login'}" href="/login">login</a>       
         </nav>
@@ -299,7 +299,7 @@ export class OPPui extends OppElement {
   protected _loadPage(page: string) {
     switch(page) {
       case 'home':
-          import('../panels/lovelace/op-panel-lovelace').then(() => {
+          import('../layouts/open-peer-power').then(() => {
           //import('../components/opp-home-view').then(() => {
           // Put code in here that you want to run every time when
           // navigating to view1 after home is loaded.

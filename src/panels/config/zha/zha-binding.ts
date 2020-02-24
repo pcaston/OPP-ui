@@ -24,7 +24,7 @@ import { OpenPeerPower } from "../../../types";
 import { ItemSelectedEvent } from "./types";
 import "@polymer/paper-item/paper-item";
 
-@customElement("zop-binding-control")
+@customElement("zha-binding-control")
 export class ZHABindingControl extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public isWide?: boolean;
@@ -216,6 +216,6 @@ export class ZHABindingControl extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-binding-control": ZHABindingControl;
+    "zha-binding-control": ZHABindingControl;
   }
 }

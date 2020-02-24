@@ -27,7 +27,8 @@ const NON_SWIPABLE_PANELS = ["kiosk", "map"];
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "opp-toggle-menu": undefined;
+    "opp-show-notifications": {};
+    "opp-toggle-menu": {} | undefined;
   }
 }
 
@@ -106,7 +107,6 @@ class OpenPeerPowerMain extends LitElement {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
-
     toggleAttribute(
       this,
       "expanded",

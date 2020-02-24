@@ -1,3 +1,4 @@
+
 import { property, customElement, PropertyValues } from "lit-element";
 import { PolymerElement } from "@polymer/polymer";
 
@@ -75,7 +76,6 @@ class PartialPanelResolver extends OppRouterPage {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
-
     if (!changedProps.has("opp")) {
       return;
     }

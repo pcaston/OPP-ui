@@ -123,8 +123,8 @@ export class ZHANetwork extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "zop-network": ZHANetwork;
+    "zha-network": ZHANetwork;
   }
 }
 
-customElements.define("zop-network", ZHANetwork);
+customElements.define("zha-network", ZHANetwork);

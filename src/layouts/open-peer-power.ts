@@ -69,7 +69,7 @@ export class OpenPeerPowerAppEl extends OppElement {
   }
 
   private async _routeChanged(ev) {
-    // routeChangged event listener is called while we're doing the fist render,
+    // routeChanged event listener is called while we're doing the fist render,
     // causing the update to be ignored. So delay it to next task (Lit render is sync).
     await new Promise((resolve) => setTimeout(resolve, 0));
 

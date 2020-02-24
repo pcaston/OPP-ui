@@ -15,12 +15,6 @@ const MSG_TYPE_AUTH_REQUIRED = "auth_required";
 const MSG_TYPE_AUTH_INVALID = "auth_invalid";
 const MSG_TYPE_AUTH_OK = "auth_ok";
 
-declare global {
-  interface Window {
-    oppSocket: WebSocket;
-  }
-}
-
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
   //if (!options.auth) {
   //  throw ERR_OPP_HOST_REQUIRED;
@@ -56,7 +50,6 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       console.log("[Auth Phase] New connection", url);
     }
     const socket = new WebSocket(url);
-    window.oppSocket = socket;
 
     // If invalid auth, we will not try to reconnect.
     //let invalidAuth = false;
