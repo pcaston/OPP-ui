@@ -47,17 +47,20 @@ export default <T>(superClass: Constructor<T>): Constructor<T & OppBaseEl> =>
     }
 
     protected oppChanged(opp, _oldOpp) {
+      debugger;
       this.__provideOpp.forEach((el) => {
         (el as any).opp = opp;
       });
     }
 
     public provideOpp(el) {
+      debugger;
       this.__provideOpp.push(el);
       el.opp = this.opp;
     }
 
     protected async _updateOpp(obj: Partial<OpenPeerPower>) {
+      debugger;
       if (!this.opp) {
         this._pendingOpp = { ...this._pendingOpp, ...obj };
         return;

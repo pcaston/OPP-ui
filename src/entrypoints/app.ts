@@ -11,6 +11,8 @@ import "../resources/roboto";
 // properly into iron-meta, which is used to transfer iconsets to iron-icon.
 import "../components/op-iconset-svg";
 
+import "../layouts/open-peer-power";
+
 setPassiveTouchGestures(true);
 /* LastPass createElement workaround. See #428 */
 document.createElement = Document.prototype.createElement;

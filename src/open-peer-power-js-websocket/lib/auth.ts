@@ -4,7 +4,7 @@ export type AuthData = {
   oppUrl: string;
   clientId: string;
   expires?: number;
-  refresh_token: string | Blob;
+  refresh_token?: string | Blob;
   access_token?: string;
   expires_in?: number;
 };

@@ -46,6 +46,7 @@ export class OpenPeerPowerAppEl extends OppElement {
 
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
+    debugger;
     if (changedProps.has("_panelUrl")) {
       this.panelUrlChanged(this._panelUrl!);
       this._updateOpp({ panelUrl: this._panelUrl });
