@@ -249,7 +249,6 @@ export class Connection {
 
   private _handleMessage(event: MessageEvent) {
     const message: WebSocketResponse = JSON.parse(event.data);
-
     if (DEBUG) {
       console.log("Received", message);
     }

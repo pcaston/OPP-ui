@@ -39,7 +39,7 @@ class OpenPeerPowerMain extends LitElement {
 
   protected render(): TemplateResult | void {
     const opp = this.opp;
-
+    debugger;
     if (!opp) {
       return;
     }

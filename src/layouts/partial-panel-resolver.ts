@@ -11,6 +11,7 @@ import {
 import { removeInitSkeleton } from "../util/init-skeleton";
 
 const CACHE_COMPONENTS = ["lovelace", "states"];
+debugger;
 const COMPONENTS = {
   calendar: () =>
     import(/* webpackChunkName: "panel-calendar" */ "../panels/calendar/op-panel-calendar"),
@@ -53,14 +54,18 @@ const COMPONENTS = {
 };
 
 const getRoutes = (panels: Panels): RouterOptions => {
-  const routes: { [route: string]: RouteOptions } = {};
+  debugger;
+  const routes: RouterOptions["routes"] = {};
 
   Object.values(panels).forEach((panel) => {
-    routes[panel.url_path] = {
-      load: COMPONENTS[panel.component_name],
+    const data: RouteOptions = {
       tag: `op-panel-${panel.component_name}`,
       cache: CACHE_COMPONENTS.includes(panel.component_name),
     };
+    if (panel.component_name in COMPONENTS) {
+      data.load = COMPONENTS[panel.component_name];
+    }
+    routes[panel.url_path] = data;
   });
 
   return {
@@ -76,6 +81,7 @@ class PartialPanelResolver extends OppRouterPage {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
+    debugger;
     if (!changedProps.has("opp")) {
       return;
     }
@@ -91,12 +97,16 @@ class PartialPanelResolver extends OppRouterPage {
   }
 
   protected createLoadingScreen() {
+    debugger;
     const el = super.createLoadingScreen();
     el.rootnav = true;
+    el.opp = this.opp;
+    el.narrow = this.narrow;
     return el;
   }
 
   protected updatePageEl(el) {
+    debugger;
     const opp = this.opp!;
 
     if ("setProperties" in el) {
@@ -116,6 +126,7 @@ class PartialPanelResolver extends OppRouterPage {
   }
 
   private async _updateRoutes() {
+    debugger;
     this.routerOptions = getRoutes(this.opp!.panels);
     await this.rebuild();
     await this.pageRendered;
