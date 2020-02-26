@@ -24,9 +24,7 @@ export class OpenPeerPowerAppEl extends OppElement {
       <app-location
         @route-changed=${this._routeChanged}
       ></app-location>
-      ${this._panelUrl === undefined || this._route === undefined
-        ? ""
-        : opp && opp.states && opp.config && opp.services
+      ${opp && opp.states && opp.config && opp.services
         ? html`
             <open-peer-power-main
               .opp=${this.opp}
@@ -42,6 +40,19 @@ export class OpenPeerPowerAppEl extends OppElement {
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     this._initialize();
+  }
+
+  /**
+  * Only update element if prop1 changed.
+  */
+  protected shouldUpdate(changedProps: PropertyValues): boolean {
+    debugger;
+    if (
+      changedProps.has("opp")
+    ) {
+      return true;
+    }
+    return true;
   }
 
   protected updated(changedProps: PropertyValues): void {

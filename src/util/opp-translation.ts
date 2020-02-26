@@ -84,7 +84,6 @@ const translations = {};
 
 async function fetchTranslation(fingerprint) {
   //const response = await fetch(`/static/translations/${fingerprint}`, {
-  debugger;
   const response = await fetch(`/build-translations/output/${fingerprint}`, {
     credentials: "same-origin",
   });
