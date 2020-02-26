@@ -10,12 +10,7 @@ import {
 } from "../open-peer-power-js-websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
-import { subscribePanels } from "../data/ws-panels";
-import { subscribeThemes } from "../data/ws-themes";
-import { subscribeUser } from "../data/ws-user";
-import { OpenPeerPower } from "../types";
 import { oppUrl } from "../data/auth";
-import { fetchConfig, WindowWithLovelaceProm } from "../data/lovelace";
 
 declare global {
   interface Window {
@@ -76,10 +71,6 @@ window.oppConnection.then(({ conn }) => {
   subscribeEntities(conn, noop);
   subscribeConfig(conn, noop);
   subscribeServices(conn, noop);
-  subscribePanels(conn, noop);
-  subscribeThemes(conn, noop);
-  subscribeUser(conn, noop);
-
 });
 
 window.addEventListener("error", (e) => {

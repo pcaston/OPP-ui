@@ -14,7 +14,6 @@ import { getState } from "../util/op-pref-storage";
 import { getLocalLanguage } from "../util/opp-translation";
 import { fetchWithAuth } from "../util/fetch-with-auth";
 import oppCallApi from "../util/opp-call-api";
-import { subscribePanels } from "../data/ws-panels";
 import { forwardHaptic } from "../data/haptics";
 import { fireEvent } from "../common/dom/fire_event";
 import { Constructor, ServiceCallResponse } from "../types";

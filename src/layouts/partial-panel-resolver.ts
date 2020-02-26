@@ -79,7 +79,6 @@ class PartialPanelResolver extends OppRouterPage {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
-    debugger;
     if (!changedProps.has("opp")) {
       return;
     }
@@ -95,7 +94,6 @@ class PartialPanelResolver extends OppRouterPage {
   }
 
   protected createLoadingScreen() {
-    debugger;
     const el = super.createLoadingScreen();
     el.rootnav = true;
     el.opp = this.opp;
