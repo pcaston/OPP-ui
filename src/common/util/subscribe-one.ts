@@ -1,4 +1,4 @@
-import { UnsubscribeFunc, Connection } from "../../open-peer-power-js-websocket/lib";
+import { UnsubscribeFunc, Connection } from "../../websocket/lib";
 
 export const subscribeOne = async <T>(
   conn: Connection,

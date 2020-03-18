@@ -14,6 +14,7 @@ import { OpenPeerPower, CameraEntity } from "../types";
 import { fireEvent } from "../common/dom/fire_event";
 import {
   CAMERA_SUPPORT_STREAM,
+  fetchStreamUrl,
   computeMJPEGStreamUrl,
 } from "../data/camera";
 import { supportsFeature } from "../common/entity/supports-feature";
@@ -41,7 +42,7 @@ class OpCameraStream extends LitElement {
     this._attached = false;
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this.stateObj || !this._attached) {
       return html``;
     }
@@ -110,7 +111,7 @@ class OpCameraStream extends LitElement {
   private get _shouldRenderMJPEG() {
     return (
       this._forceMJPEG === this.stateObj!.entity_id ||
-      !this.opp!.config!.components.includes("stream") ||
+      !this.opp!.config.components.includes("stream") ||
       !supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     );
   }
@@ -138,11 +139,7 @@ class OpCameraStream extends LitElement {
     }
 
     try {
-      //@ts-ignore
-      const { url } = await fetchStreamUrl(
-        this.opp!,
-        this.stateObj!.entity_id
-      );
+      const { url } = await fetchStreamUrl(this.opp!, this.stateObj!.entity_id);
 
       if (Hls.isSupported()) {
         this._renderHLSPolyfill(videoEl, Hls, url);

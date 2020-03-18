@@ -1,4 +1,4 @@
-import { Connection, UnsubscribeFunc } from "../open-peer-power-js-websocket/lib";
+import { Connection, UnsubscribeFunc } from "../websocket/lib";
 
 interface RenderTemplateResult {
   result: string;

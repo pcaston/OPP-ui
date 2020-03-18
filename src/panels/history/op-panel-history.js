@@ -8,7 +8,7 @@ import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
-import "@vaadin/vaadin-date-picker/vaadin-date-picker";
+import "@vaadin/vaadin-date-picker/theme/material/vaadin-date-picker";
 
 import "../../components/op-menu-button";
 import "../../components/state-history-charts";
@@ -16,7 +16,7 @@ import "../../data/op-state-history-data";
 import "../../resources/op-date-picker-style";
 import "../../resources/op-style";
 
-import formatDate from "../../common/datetime/format_date";
+import { formatDate } from "../../common/datetime/format_date";
 import LocalizeMixin from "../../mixins/localize-mixin";
 import { computeRTL } from "../../common/util/compute_rtl";
 
@@ -38,8 +38,8 @@ class OpPanelHistory extends LocalizeMixin(PolymerElement) {
 
         paper-dropdown-menu {
           max-width: 100px;
-          margin-top: 13px;
           margin-right: 16px;
+          margin-top: 5px;
           --paper-input-container-label-floating: {
             padding-bottom: 10px;
           }
@@ -51,6 +51,7 @@ class OpPanelHistory extends LocalizeMixin(PolymerElement) {
 
         paper-item {
           cursor: pointer;
+          white-space: nowrap;
         }
       </style>
 
@@ -65,7 +66,7 @@ class OpPanelHistory extends LocalizeMixin(PolymerElement) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button></op-menu-button>
+            <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
             <div main-title>[[localize('panel.history')]]</div>
           </app-toolbar>
         </app-header>
@@ -116,9 +117,8 @@ class OpPanelHistory extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      opp: {
-        type: Object,
-      },
+      opp: Object,
+      narrow: Boolean,
 
       stateHistory: {
         type: Object,

@@ -1,7 +1,7 @@
 import { OpenPeerPower } from "../../types";
 
-export default function canToggleDomain(opp: OpenPeerPower, domain: string) {
-  const services = opp.services![domain];
+export const canToggleDomain = (opp: OpenPeerPower, domain: string) => {
+  const services = opp.services[domain];
   if (!services) {
     return false;
   }
@@ -13,4 +13,4 @@ export default function canToggleDomain(opp: OpenPeerPower, domain: string) {
     return "open_cover" in services;
   }
   return "turn_on" in services;
-}
+};

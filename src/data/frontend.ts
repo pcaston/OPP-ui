@@ -1,4 +1,4 @@
-import { Connection } from "../open-peer-power-js-websocket/lib";
+import { Connection } from "../websocket/lib";
 import { getOptimisticCollection } from "./collection";
 
 export interface CoreFrontendUserData {

@@ -1,4 +1,4 @@
-import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection } from "../websocket/lib";
 import { OpenPeerPower } from "../types";
 import { computeStateName } from "../common/entity/compute_state_name";
 import { debounce } from "../common/util/debounce";
@@ -25,7 +25,7 @@ export const computeEntityRegistryName = (
   if (entry.name) {
     return entry.name;
   }
-  const state = opp.states![entry.entity_id];
+  const state = opp.states[entry.entity_id];
   return state ? computeStateName(state) : null;
 };
 

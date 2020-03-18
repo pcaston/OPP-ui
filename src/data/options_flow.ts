@@ -2,13 +2,9 @@ import { OpenPeerPower } from "../types";
 import { DataEntryFlowStep } from "./data_entry_flow";
 
 export const createOptionsFlow = (opp: OpenPeerPower, handler: string) =>
-  opp.callApi<DataEntryFlowStep>(
-    "POST",
-    "config/config_entries/options/flow",
-    {
-      handler,
-    }
-  );
+  opp.callApi<DataEntryFlowStep>("POST", "config/config_entries/options/flow", {
+    handler,
+  });
 
 export const fetchOptionsFlow = (opp: OpenPeerPower, flowId: string) =>
   opp.callApi<DataEntryFlowStep>(

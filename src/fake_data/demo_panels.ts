@@ -1,12 +1,12 @@
 import { Panels } from "../types";
 
 export const demoPanels: Panels = {
-  lovelace: {
-    component_name: "lovelace",
+  devcon: {
+    component_name: "devcon",
     icon: null,
     title: null,
     config: { mode: "storage" },
-    url_path: "lovelace",
+    url_path: "devcon",
   },
   "dev-state": {
     component_name: "dev-state",
@@ -79,13 +79,13 @@ export const demoPanels: Panels = {
   //   config: null,
   //   url_path: "history",
   // },
-  // map: {
-  //   component_name: "map",
-  //   icon: "opp:tooltip-account",
-  //   title: "map",
-  //   config: null,
-  //   url_path: "map",
-  // },
+  map: {
+    component_name: "map",
+    icon: "opp:tooltip-account",
+    title: "map",
+    config: null,
+    url_path: "map",
+  },
   // config: {
   //   component_name: "config",
   //   icon: "opp:settings",

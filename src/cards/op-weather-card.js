@@ -281,6 +281,7 @@ class OpWeatherCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
     this.weatherIcons = {
       "clear-night": "opp:weather-night",
       cloudy: "opp:weather-cloudy",
+      exceptional: "opp:alert-circle-outline",
       fog: "opp:weather-fog",
       hail: "opp:weather-hail",
       lightning: "opp:weather-lightning",

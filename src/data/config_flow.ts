@@ -1,7 +1,7 @@
 import { OpenPeerPower } from "../types";
 import { DataEntryFlowStep, DataEntryFlowProgress } from "./data_entry_flow";
 import { debounce } from "../common/util/debounce";
-import { getCollection, Connection } from "../open-peer-power-js-websocket/lib";
+import { getCollection, Connection } from "../websocket/lib";
 import { LocalizeFunc } from "../common/translations/localize";
 
 export const DISCOVERY_SOURCES = ["unignore", "homekit", "ssdp", "zeroconf"];
@@ -12,10 +12,7 @@ export const createConfigFlow = (opp: OpenPeerPower, handler: string) =>
   });
 
 export const fetchConfigFlow = (opp: OpenPeerPower, flowId: string) =>
-  opp.callApi<DataEntryFlowStep>(
-    "GET",
-    `config/config_entries/flow/${flowId}`
-  );
+  opp.callApi<DataEntryFlowStep>("GET", `config/config_entries/flow/${flowId}`);
 
 export const handleConfigFlowStep = (
   opp: OpenPeerPower,

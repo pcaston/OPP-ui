@@ -6,10 +6,9 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../resources/op-style";
 
 import "./more-info/more-info-controls";
-import "./more-info/more-info-settings";
 
-import computeStateDomain from "../common/entity/compute_state_domain";
-import isComponentLoaded from "../common/config/is_component_loaded";
+import { computeStateDomain } from "../common/entity/compute_state_domain";
+import { isComponentLoaded } from "../common/config/is_component_loaded";
 
 import DialogMixin from "../mixins/dialog-mixin";
 
@@ -26,8 +25,7 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
           border-radius: 2px;
         }
 
-        more-info-controls,
-        more-info-settings {
+        more-info-controls {
           --more-info-header-background: var(--secondary-background-color);
           --more-info-header-color: var(--primary-text-color);
           --op-more-info-app-toolbar-title: {
@@ -46,8 +44,7 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
 
         /* overrule the op-style-dialog max-height on small screens */
         @media all and (max-width: 450px), all and (max-height: 500px) {
-          more-info-controls,
-          more-info-settings {
+          more-info-controls {
             --more-info-header-background: var(--primary-color);
             --more-info-header-color: var(--text-primary-color);
           }
@@ -79,24 +76,14 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
         }
       </style>
 
-      <template is="dom-if" if="[[!_page]]">
-        <more-info-controls
-          class="no-padding"
-          opp="[[opp]]"
-          state-obj="[[stateObj]]"
-          dialog-element="[[_dialogElement]]"
-          can-configure="[[_registryInfo]]"
-          large="{{large}}"
-        ></more-info-controls>
-      </template>
-      <template is="dom-if" if='[[_equals(_page, "settings")]]'>
-        <more-info-settings
-          class="no-padding"
-          opp="[[opp]]"
-          state-obj="[[stateObj]]"
-          registry-info="{{_registryInfo}}"
-        ></more-info-settings>
-      </template>
+      <more-info-controls
+        class="no-padding"
+        opp="[[opp]]"
+        state-obj="[[stateObj]]"
+        dialog-element="[[_dialogElement()]]"
+        registry-entry="[[_registryInfo]]"
+        large="{{large}}"
+      ></more-info-controls>
     `;
   }
 
@@ -115,13 +102,7 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
         observer: "_largeChanged",
       },
 
-      _dialogElement: Object,
       _registryInfo: Object,
-
-      _page: {
-        type: String,
-        value: null,
-      },
 
       dataDomain: {
         computed: "_computeDomain(stateObj)",
@@ -134,12 +115,8 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
     return ["_dialogOpenChanged(opened)"];
   }
 
-  ready() {
-    super.ready();
-    this._dialogElement = this;
-    this.addEventListener("more-info-page", (ev) => {
-      this._page = ev.detail.page;
-    });
+  _dialogElement() {
+    return this;
   }
 
   _computeDomain(stateObj) {
@@ -154,7 +131,6 @@ class OpMoreInfoDialog extends DialogMixin(PolymerElement) {
     if (!newVal) {
       this.setProperties({
         opened: false,
-        _page: null,
         _registryInfo: null,
         large: false,
       });

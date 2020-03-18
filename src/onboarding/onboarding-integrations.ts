@@ -20,7 +20,7 @@ import "./integration-badge";
 import { LocalizeFunc } from "../common/translations/localize";
 import { fireEvent } from "../common/dom/fire_event";
 import { onboardIntegrationStep } from "../data/onboarding";
-import { genClientId } from "../open-peer-power-js-websocket/lib";
+import { genClientId } from "../websocket/lib";
 import { DataEntryFlowProgress } from "../data/data_entry_flow";
 import {
   localizeConfigFlowTitle,
@@ -51,7 +51,7 @@ class OnboardingIntegrations extends LitElement {
     }
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this._entries || !this._discovered) {
       return html``;
     }

@@ -7,14 +7,17 @@ import { DEFAULT_DOMAIN_ICON } from "../const";
 
 const fixedIcons = {
   alert: "opp:alert",
-  automation: "opp:playlist-play",
+  alexa: "opp:amazon-alexa",
+  automation: "opp:robot",
   calendar: "opp:calendar",
   camera: "opp:video",
   climate: "opp:thermostat",
   configurator: "opp:settings",
   conversation: "opp:text-to-speech",
+  counter: "opp:counter",
   device_tracker: "opp:account",
   fan: "opp:fan",
+  google_assistant: "opp:google-assistant",
   group: "opp:google-circles-communities",
   history_graph: "opp:chart-line",
   openpeerpower: "opp:open-peer-power",
@@ -28,12 +31,13 @@ const fixedIcons = {
   light: "opp:lightbulb",
   mailbox: "opp:mailbox",
   notify: "opp:comment-alert",
+  persistent_notification: "opp:bell",
   person: "opp:account",
   plant: "opp:flower",
   proximity: "opp:apple-safari",
   remote: "opp:remote",
-  scene: "opp:google-pages",
-  script: "opp:file-document",
+  scene: "opp:palette",
+  script: "opp:script-text",
   sensor: "opp:eye",
   simple_alarm: "opp:bell",
   sun: "opp:white-balance-sunny",
@@ -44,9 +48,10 @@ const fixedIcons = {
   water_heater: "opp:thermometer",
   weather: "opp:weather-cloudy",
   weblink: "opp:open-in-new",
+  zone: "opp:map-marker-radius",
 };
 
-export default function domainIcon(domain: string, state?: string): string {
+export const domainIcon = (domain: string, state?: string): string => {
   if (domain in fixedIcons) {
     return fixedIcons[domain];
   }
@@ -101,4 +106,4 @@ export default function domainIcon(domain: string, state?: string): string {
       );
       return DEFAULT_DOMAIN_ICON;
   }
-}
+};

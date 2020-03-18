@@ -25,7 +25,7 @@ import {
 } from "../../data/conversation";
 import { classMap } from "lit-html/directives/class-map";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
-import { opStyleDialog } from "../../resources/styles";
+import { haStyleDialog } from "../../resources/styles";
 // tslint:disable-next-line
 import { PaperDialogScrollableElement } from "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import { uid } from "../../common/util/uid";
@@ -42,7 +42,7 @@ interface Results {
 }
 
 @customElement("op-voice-command-dialog")
-export class OpVoiceCommandDialog extends LitElement {
+export class OpUoiceCommandDialog extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public results: Results | null = null;
   @property() private _conversation: Message[] = [
@@ -246,9 +246,7 @@ export class OpVoiceCommandDialog extends LitElement {
         const text =
           this.results && this.results.transcript
             ? this.results.transcript
-            : `<${this.opp.localize(
-                "ui.dialogs.voice_command.did_not_hear"
-              )}>`;
+            : `<${this.opp.localize("ui.dialogs.voice_command.did_not_hear")}>`;
         this._addMessage({ who: "user", text, error: true });
       }
       this.results = null;
@@ -294,11 +292,7 @@ export class OpVoiceCommandDialog extends LitElement {
     // To make sure the answer is placed at the right user text, we add it before we process it
     this._addMessage(message);
     try {
-      const response = await processText(
-        this.opp,
-        text,
-        this._conversationId!
-      );
+      const response = await processText(this.opp, text, this._conversationId!);
       const plain = response.speech.plain;
       message.text = plain.speech;
 
@@ -354,7 +348,7 @@ export class OpVoiceCommandDialog extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      opStyleDialog,
+      haStyleDialog,
       css`
         :host {
           z-index: 103;
@@ -503,6 +497,6 @@ export class OpVoiceCommandDialog extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-voice-command-dialog": OpVoiceCommandDialog;
+    "op-voice-command-dialog": OpUoiceCommandDialog;
   }
 }

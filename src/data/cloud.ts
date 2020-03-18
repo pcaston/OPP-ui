@@ -1,5 +1,7 @@
 import { OpenPeerPower } from "../types";
 import { EntityFilter } from "../common/entity/entity_filter";
+import { AutomationConfig } from "./automation";
+import { PlaceholderContainer } from "../panels/config/automation/thingtalk/dialog-thingtalk";
 
 interface CloudStatusBase {
   logged_in: boolean;
@@ -63,6 +65,11 @@ export interface CloudWebhook {
   managed?: boolean;
 }
 
+export interface ThingTalkConversion {
+  config: Partial<AutomationConfig>;
+  placeholders: PlaceholderContainer;
+}
+
 export const fetchCloudStatus = (opp: OpenPeerPower) =>
   opp.callWS<CloudStatus>({ type: "cloud/status" });
 
@@ -90,6 +97,9 @@ export const disconnectCloudRemote = (opp: OpenPeerPower) =>
 
 export const fetchCloudSubscriptionInfo = (opp: OpenPeerPower) =>
   opp.callWS<SubscriptionInfo>({ type: "cloud/subscription" });
+
+export const convertThingTalk = (opp: OpenPeerPower, query: string) =>
+  opp.callWS<ThingTalkConversion>({ type: "cloud/thingtalk/convert", query });
 
 export const updateCloudPref = (
   opp: OpenPeerPower,

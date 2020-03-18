@@ -13,10 +13,11 @@ class OpPanelIframe extends PolymerElement {
           border: 0;
           width: 100%;
           height: calc(100% - 64px);
+          background-color: var(--primary-background-color);
         }
       </style>
       <app-toolbar>
-        <op-menu-button></op-menu-button>
+        <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
         <div main-title>[[panel.title]]</div>
       </app-toolbar>
 
@@ -32,9 +33,9 @@ class OpPanelIframe extends PolymerElement {
 
   static get properties() {
     return {
-      panel: {
-        type: Object,
-      },
+      opp: Object,
+      narrow: Boolean,
+      panel: Object,
     };
   }
 }

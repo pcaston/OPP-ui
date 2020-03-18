@@ -24,12 +24,10 @@ class StepFlowAbort extends LitElement {
   @property()
   private step!: DataEntryFlowStepAbort;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <h2>
-        ${this.opp.localize(
-          "ui.panel.config.integrations.config_flow.aborted"
-        )}
+        ${this.opp.localize("ui.panel.config.integrations.config_flow.aborted")}
       </h2>
       <div class="content">
         ${this.flowConfig.renderAbortDescription(this.opp, this.step)}

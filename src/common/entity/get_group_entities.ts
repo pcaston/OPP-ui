@@ -1,9 +1,7 @@
-import { OppEntities, GroupEntity } from "../../types";
+import { OppEntities } from "../../websocket/lib";
+import { GroupEntity } from "../../types";
 
-export default function getGroupEntities(
-  entities: OppEntities,
-  group: GroupEntity
-) {
+export const getGroupEntities = (entities: OppEntities, group: GroupEntity) => {
   const result = {};
 
   group.attributes.entity_id.forEach((entityId) => {
@@ -15,4 +13,4 @@ export default function getGroupEntities(
   });
 
   return result;
-}
+};

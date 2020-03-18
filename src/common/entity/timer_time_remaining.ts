@@ -1,7 +1,7 @@
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import durationToSeconds from "../datetime/duration_to_seconds";
 
-export default function timerTimeRemaining(stateObj: OppEntity) {
+export const timerTimeRemaining = (stateObj: OppEntity) => {
   let timeRemaining = durationToSeconds(stateObj.attributes.remaining);
 
   if (stateObj.state === "active") {
@@ -11,4 +11,4 @@ export default function timerTimeRemaining(stateObj: OppEntity) {
   }
 
   return timeRemaining;
-}
+};

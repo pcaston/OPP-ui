@@ -1,25 +1,23 @@
 import {
-  LitElement,
   html,
+  LitElement,
   PropertyValues,
   TemplateResult,
   CSSResult,
   css,
   property,
-  customElement
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import "./op-icon";
 
-@customElement('op-label-badge')
-export class OpLabelBadge extends LitElement {
-  @property( { type : String }  ) value?: string;
-  @property( { type : String }  ) icon?: string;
-  @property( { type : String }  ) label?: string;
-  @property( { type : String }  ) description?: string;
-  @property( { type : String }  ) image?: string;
+class OpLabelBadge extends LitElement {
+  @property() public value?: string;
+  @property() public icon?: string;
+  @property() public label?: string;
+  @property() public description?: string;
+  @property() public image?: string;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <div class="badge-container">
         <div class="label-badge" id="badge">
@@ -153,3 +151,5 @@ declare global {
     "op-label-badge": OpLabelBadge;
   }
 }
+
+customElements.define("op-label-badge", OpLabelBadge);

@@ -13,7 +13,7 @@ import "@polymer/paper-input/paper-textarea";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-export class OpTextarea extends PolymerElement {
+class OpTextarea extends PolymerElement {
   static get template() {
     return html`
       <style>

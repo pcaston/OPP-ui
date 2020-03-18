@@ -1,7 +1,4 @@
-import {
-  OppEntityAttributeBase,
-  OppEntities,
-} from "../open-peer-power-js-websocket/lib";
+import { OppEntityAttributeBase, OppEntity } from "../websocket/lib";
 
 /* tslint:disable:max-classes-per-file */
 
@@ -203,17 +200,49 @@ class CoverEntity extends Entity {
   }
 }
 
+class InputNumberEntity extends Entity {
+  public async handleService(
+    domain,
+    service,
+    // @ts-ignore
+    data
+  ) {
+    if (domain !== this.domain) {
+      return;
+    }
+
+    if (service === "set_value") {
+      this.update("" + data.value);
+    } else {
+      super.handleService(domain, service, data);
+    }
+  }
+}
+
 class ClimateEntity extends Entity {
   public async handleService(domain, service, data) {
     if (domain !== this.domain) {
       return;
     }
 
-    if (service === "set_operation_mode") {
-      this.update(
-        data.operation_mode === "heat" ? "heat" : data.operation_mode,
-        { ...this.attributes, operation_mode: data.operation_mode }
-      );
+    if (service === "set_hvac_mode") {
+      this.update(data.hvac_mode, this.attributes);
+    } else if (
+      [
+        "set_temperature",
+        "set_humidity",
+        "set_hvac_mode",
+        "set_fan_mode",
+        "set_preset_mode",
+        "set_swing_mode",
+        "set_aux_heat",
+      ].includes(service)
+    ) {
+      const { entity_id, ...toSet } = data;
+      this.update(this.state, {
+        ...this.attributes,
+        ...toSet,
+      });
     } else {
       super.handleService(domain, service, data);
     }
@@ -243,6 +272,7 @@ const TYPES = {
   cover: CoverEntity,
   group: GroupEntity,
   input_boolean: ToggleEntity,
+  input_number: InputNumberEntity,
   light: LightEntity,
   lock: LockEntity,
   media_player: MediaPlayerEntity,
@@ -257,7 +287,11 @@ export const getEntity = (
 ): Entity =>
   new (TYPES[domain] || Entity)(domain, objectId, state, baseAttributes);
 
-export const convertEntities = (states: OppEntities): Entity[] =>
+type LimitedEntity = Pick<OppEntity, "state" | "attributes" | "entity_id">;
+
+export const convertEntities = (states: {
+  [entityId: string]: LimitedEntity;
+}): Entity[] =>
   Object.keys(states).map((entId) => {
     const stateObj = states[entId];
     const [domain, objectId] = entId.split(".", 2);

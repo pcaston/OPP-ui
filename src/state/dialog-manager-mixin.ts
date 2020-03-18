@@ -1,7 +1,7 @@
-import { Constructor, LitElement } from "lit-element";
 import { OPPDomEvent } from "../common/dom/fire_event";
 import { OppBaseEl } from "./opp-base-mixin";
 import { makeDialogManager, showDialog } from "../dialogs/make-dialog-manager";
+import { Constructor } from "../types";
 
 interface RegisterDialogParams {
   dialogShowEvent: keyof OPPDomEvents;
@@ -20,8 +20,8 @@ declare global {
   }
 }
 
-export const dialogManagerMixin = (
-  superClass: Constructor<LitElement & OppBaseEl>
+export const dialogManagerMixin = <T extends Constructor<OppBaseEl>>(
+  superClass: T
 ) =>
   class extends superClass {
     protected firstUpdated(changedProps) {

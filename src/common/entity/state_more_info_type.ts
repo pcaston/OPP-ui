@@ -1,8 +1,8 @@
-import { OppEntity } from "../../types";
-import computeStateDomain from "./compute_state_domain";
+import { OppEntity } from "../../websocket/lib";
+import { computeStateDomain } from "./compute_state_domain";
 import { DOMAINS_HIDE_MORE_INFO, DOMAINS_WITH_MORE_INFO } from "../const";
 
-export default function stateMoreInfoType(stateObj: OppEntity) {
+export const stateMoreInfoType = (stateObj: OppEntity) => {
   const domain = computeStateDomain(stateObj);
 
   if (DOMAINS_WITH_MORE_INFO.includes(domain)) {
@@ -12,4 +12,4 @@ export default function stateMoreInfoType(stateObj: OppEntity) {
     return "hidden";
   }
   return "default";
-}
+};

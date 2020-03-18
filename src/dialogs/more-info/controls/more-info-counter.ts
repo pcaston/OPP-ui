@@ -8,7 +8,7 @@ import {
   customElement,
 } from "lit-element";
 import "@material/mwc-button";
-import { OppEntity } from "../../../open-peer-power-js-websocket/lib";
+import { OppEntity } from "../../../websocket/lib";
 
 import { OpenPeerPower } from "../../../types";
 
@@ -17,7 +17,7 @@ class MoreInfoCounter extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public stateObj?: OppEntity;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this.opp || !this.stateObj) {
       return html``;
     }

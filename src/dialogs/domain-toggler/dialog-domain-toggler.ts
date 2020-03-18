@@ -11,7 +11,7 @@ import "../../components/dialog/op-paper-dialog";
 import { OpenPeerPower } from "../../types";
 import { OpDomainTogglerDialogParams } from "./show-dialog-domain-toggler";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { opStyleDialog } from "../../resources/styles";
+import { haStyleDialog } from "../../resources/styles";
 
 @customElement("dialog-domain-toggler")
 class DomainTogglerDialog extends LitElement {
@@ -22,7 +22,7 @@ class DomainTogglerDialog extends LitElement {
     this._params = params;
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this._params) {
       return html``;
     }
@@ -77,7 +77,7 @@ class DomainTogglerDialog extends LitElement {
 
   static get styles(): CSSResultArray {
     return [
-      opStyleDialog,
+      haStyleDialog,
       css`
         op-paper-dialog {
           max-width: 500px;

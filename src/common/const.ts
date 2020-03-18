@@ -8,7 +8,7 @@
 export const DEFAULT_DOMAIN_ICON = "opp:bookmark";
 
 /** Panel to show when no panel is picked. */
-export const DEFAULT_PANEL = "lovelace";
+export const DEFAULT_PANEL = "devcon";
 
 /** Domains that have a state card. */
 export const DOMAINS_WITH_CARD = [
@@ -44,6 +44,7 @@ export const DOMAINS_WITH_MORE_INFO = [
   "light",
   "lock",
   "media_player",
+  "person",
   "script",
   "sun",
   "timer",
@@ -73,7 +74,7 @@ export const DOMAINS_MORE_INFO_NO_HISTORY = [
 /** States that we consider "off". */
 export const STATES_OFF = ["closed", "locked", "off"];
 
-/** Domains where we allow toggle in Lovelace. */
+/** Domains where we allow toggle in Devcon. */
 export const DOMAINS_TOGGLE = new Set([
   "fan",
   "input_boolean",

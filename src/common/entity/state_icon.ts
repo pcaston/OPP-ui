@@ -1,14 +1,13 @@
 /** Return an icon representing a state. */
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { DEFAULT_DOMAIN_ICON } from "../const";
+import { binarySensorIcon } from "./binary_sensor_icon";
 
-import computeDomain from "./compute_domain";
-import domainIcon from "./domain_icon";
-
-import binarySensorIcon from "./binary_sensor_icon";
-import coverIcon from "./cover_icon";
-import sensorIcon from "./sensor_icon";
-import inputDateTimeIcon from "./input_dateteime_icon";
+import { computeDomain } from "./compute_domain";
+import { domainIcon } from "./domain_icon";
+import { coverIcon } from "./cover_icon";
+import { sensorIcon } from "./sensor_icon";
+import { inputDateTimeIcon } from "./input_dateteime_icon";
 
 const domainIcons = {
   binary_sensor: binarySensorIcon,
@@ -17,7 +16,7 @@ const domainIcons = {
   input_datetime: inputDateTimeIcon,
 };
 
-export default function stateIcon(state: OppEntity) {
+export const stateIcon = (state: OppEntity) => {
   if (!state) {
     return DEFAULT_DOMAIN_ICON;
   }
@@ -31,4 +30,4 @@ export default function stateIcon(state: OppEntity) {
     return domainIcons[domain](state);
   }
   return domainIcon(domain, state.state);
-}
+};

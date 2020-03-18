@@ -1,5 +1,5 @@
-import { OppEntity } from "../../types";
-import computeObjectId from "./compute_object_id";
+import { OppEntity } from "../../websocket/lib";
+import { computeObjectId } from "./compute_object_id";
 
 export const computeStateName = (stateObj: OppEntity): string => {
   return stateObj.attributes.friendly_name === undefined

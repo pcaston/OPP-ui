@@ -15,11 +15,11 @@ import { fireEvent } from "../../common/dom/fire_event";
 import { OpSwitch } from "../../components/op-switch";
 
 @customElement("op-force-narrow-row")
-class HaForcedNarrowRow extends LitElement {
+class OpForcedNarrowRow extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow!: boolean;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <op-settings-row .narrow=${this.narrow}>
         <span slot="heading">
@@ -49,6 +49,6 @@ class HaForcedNarrowRow extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "op-force-narrow-row": HaForcedNarrowRow;
+    "op-force-narrow-row": OpForcedNarrowRow;
   }
 }

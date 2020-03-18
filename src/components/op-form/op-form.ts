@@ -12,6 +12,7 @@ import "./op-form-integer";
 import "./op-form-float";
 import "./op-form-boolean";
 import "./op-form-select";
+import "./op-form-multi_select";
 import "./op-form-positive_time_period_dict";
 import { fireEvent } from "../../common/dom/fire_event";
 import { dynamicElement } from "../../common/dom/dynamic-element-directive";
@@ -22,6 +23,7 @@ export type OpFormSchema =
   | OpFormFloatSchema
   | OpFormBooleanSchema
   | OpFormSelectSchema
+  | OpFormMultiSelectSchema
   | OpFormTimeSchema;
 
 export interface OpFormBaseSchema {
@@ -41,7 +43,12 @@ export interface OpFormIntegerSchema extends OpFormBaseSchema {
 
 export interface OpFormSelectSchema extends OpFormBaseSchema {
   type: "select";
-  options?: string[];
+  options?: string[] | Array<[string, string]>;
+}
+
+export interface OpFormMultiSelectSchema extends OpFormBaseSchema {
+  type: "multi_select";
+  options?: { [key: string]: string } | string[] | Array<[string, string]>;
 }
 
 export interface OpFormFloatSchema extends OpFormBaseSchema {
@@ -71,6 +78,7 @@ export type OpFormData =
   | OpFormFloatData
   | OpFormBooleanData
   | OpFormSelectData
+  | OpFormMultiSelectData
   | OpFormTimeData;
 
 export type OpFormStringData = string;
@@ -78,6 +86,7 @@ export type OpFormIntegerData = number;
 export type OpFormFloatData = number;
 export type OpFormBooleanData = boolean;
 export type OpFormSelectData = string;
+export type OpFormMultiSelectData = string[];
 export interface OpFormTimeData {
   hours?: number;
   minutes?: number;

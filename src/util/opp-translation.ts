@@ -1,17 +1,8 @@
-import translationMetadata from "../../build-translations/translationMetadata.js";
+import { translationMetadata } from "../resources/translations-metadata";
+import { OpenPeerPower } from "../types";
+import { fetchTranslationPreferences } from "../data/translation";
 
 const STORAGE = window.localStorage || {};
-
-// Chinese locales need map to Simplified or Traditional Chinese
-const LOCALE_LOOKUP = {
-  "zh-cn": "zh-Hans",
-  "zh-sg": "zh-Hans",
-  "zh-my": "zh-Hans",
-  "zh-tw": "zh-Hant",
-  "zh-hk": "zh-Hant",
-  "zh-mo": "zh-Hant",
-  zh: "zh-Hant", // all other Chinese locales map to Traditional Chinese
-};
 
 /**
  * Search for a matching translation from most specific to general
@@ -26,15 +17,27 @@ function findAvailableLanguage(language: string) {
   // report languages with specific cases.
   const langLower = language.toLowerCase();
 
-  if (langLower in LOCALE_LOOKUP) {
-    return LOCALE_LOOKUP[langLower];
-  }
-
   for (const lang in Object.keys(translationMetadata.translations)) {
     if (lang.toLowerCase() === langLower) {
       return lang;
     }
   }
+  return null;
+}
+
+/**
+ * Get user selected language from backend
+ */
+export async function getUserLanguage(opp: OpenPeerPower) {
+  const result = await fetchTranslationPreferences(opp);
+  const language = result ? result.language : null;
+  if (language) {
+    const availableLanguage = findAvailableLanguage(language);
+    if (availableLanguage) {
+      return availableLanguage;
+    }
+  }
+  return null;
 }
 
 /**
@@ -83,15 +86,12 @@ export function getLocalLanguage() {
 const translations = {};
 
 async function fetchTranslation(fingerprint) {
-  //const response = await fetch(`/static/translations/${fingerprint}`, {
-  const response = await fetch(`/build-translations/output/${fingerprint}`, {
+  const response = await fetch(`/static/translations/${fingerprint}`, {
     credentials: "same-origin",
   });
   if (!response.ok) {
     throw new Error(
-      `Fail to fetch translation ${fingerprint}: HTTP response status is ${
-        response.status
-      }`
+      `Fail to fetch translation ${fingerprint}: HTTP response status is ${response.status}`
     );
   }
   return response.json();

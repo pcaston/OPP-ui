@@ -18,22 +18,23 @@ import { fireEvent } from "../../common/dom/fire_event";
 import { User, fetchUsers } from "../../data/user";
 import { compare } from "../../common/string/compare";
 
-class OpEntityPicker extends LitElement {
+class OpUserPicker extends LitElement {
   public opp?: OpenPeerPower;
   @property() public label?: string;
   @property() public value?: string;
   @property() public users?: User[];
 
   private _sortedUsers = memoizeOne((users?: User[]) => {
-    if (!users || users.length === 1) {
-      return users || [];
+    if (!users) {
+      return [];
     }
-    const sorted = [...users];
-    sorted.sort((a, b) => compare(a.name, b.name));
-    return sorted;
+
+    return users
+      .filter((user) => !user.system_generated)
+      .sort((a, b) => compare(a.name, b.name));
   });
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <paper-dropdown-menu-light .label=${this.label}>
         <paper-listbox
@@ -101,4 +102,4 @@ class OpEntityPicker extends LitElement {
   }
 }
 
-customElements.define("op-user-picker", OpEntityPicker);
+customElements.define("op-user-picker", OpUserPicker);

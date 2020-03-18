@@ -4,18 +4,19 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
-import formatDateTime from "../../common/datetime/format_date_time";
+import { formatDateTime } from "../../common/datetime/format_date_time";
 import "../../components/op-card";
 
 import "../../resources/op-style";
 
 import "./op-settings-row";
+import { showAlertDialog } from "../../dialogs/generic/show-dialog-box";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style">
@@ -121,9 +122,11 @@ class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
     } catch (err) {
       // eslint-disable-next-line
       console.error(err);
-      alert(
-        this.localize("ui.panel.profile.long_lived_access_tokens.create_failed")
-      );
+      showAlertDialog(this, {
+        text: this.localize(
+          "ui.panel.profile.long_lived_access_tokens.create_failed"
+        ),
+      });
     }
   }
 
@@ -148,11 +151,13 @@ class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
     } catch (err) {
       // eslint-disable-next-line
       console.error(err);
-      alert(
-        this.localize("ui.panel.profile.long_lived_access_tokens.delete_failed")
-      );
+      showAlertDialog(this, {
+        text: this.localize(
+          "ui.panel.profile.long_lived_access_tokens.delete_failed"
+        ),
+      });
     }
   }
 }
 
-customElements.define("op-long-lived-access-tokens-card", HaLongLivedTokens);
+customElements.define("op-long-lived-access-tokens-card", OpLongLivedTokens);

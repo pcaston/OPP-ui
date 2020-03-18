@@ -1,9 +1,9 @@
-import { OppEntities } from "../../types";
+import { OppEntities } from "../../websocket/lib";
 import { DEFAULT_VIEW_ENTITY_ID } from "../const";
 import { GroupEntity } from "../../types";
 
 // Return an ordered array of available views
-export default function extractViews(entities: OppEntities): GroupEntity[] {
+export const extractViews = (entities: OppEntities): GroupEntity[] => {
   const views: GroupEntity[] = [];
 
   Object.keys(entities).forEach((entityId) => {
@@ -24,4 +24,4 @@ export default function extractViews(entities: OppEntities): GroupEntity[] {
   });
 
   return views;
-}
+};

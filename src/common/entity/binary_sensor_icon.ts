@@ -1,8 +1,8 @@
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 
 /** Return an icon representing a binary sensor state. */
 
-export default function binarySensorIcon(state: OppEntity) {
+export const binarySensorIcon = (state: OppEntity) => {
   const activated = state.state && state.state === "off";
   switch (state.attributes.device_class) {
     case "battery":
@@ -48,4 +48,4 @@ export default function binarySensorIcon(state: OppEntity) {
     default:
       return activated ? "opp:radiobox-blank" : "opp:checkbox-marked-circle";
   }
-}
+};

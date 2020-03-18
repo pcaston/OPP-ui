@@ -1,3 +1,5 @@
+import { OpFormSchema } from "../components/op-form/op-form";
+
 export interface DataEntryFlowProgressedEvent {
   type: "data_entry_flow_progressed";
   data: {
@@ -5,12 +7,6 @@ export interface DataEntryFlowProgressedEvent {
     flow_id: string;
     refresh: boolean;
   };
-}
-
-export interface FieldSchema {
-  name: string;
-  default?: any;
-  optional: boolean;
 }
 
 export interface DataEntryFlowProgress {
@@ -27,7 +23,7 @@ export interface DataEntryFlowStepForm {
   flow_id: string;
   handler: string;
   step_id: string;
-  data_schema: FieldSchema[];
+  data_schema: OpFormSchema[];
   errors: { [key: string]: string };
   description_placeholders: { [key: string]: string };
 }

@@ -6,25 +6,23 @@ import {
   callService,
   Auth,
   Connection,
-} from "../open-peer-power-js-websocket/lib";
+} from "../websocket/lib";
 
-import translationMetadata  from "../../build-translations/translationMetadata.js";
+import { translationMetadata } from "../resources/translations-metadata";
 
 import { getState } from "../util/op-pref-storage";
 import { getLocalLanguage } from "../util/opp-translation";
 import { fetchWithAuth } from "../util/fetch-with-auth";
 import oppCallApi from "../util/opp-call-api";
+import { subscribePanels } from "../data/ws-panels";
 import { forwardHaptic } from "../data/haptics";
 import { fireEvent } from "../common/dom/fire_event";
 import { Constructor, ServiceCallResponse } from "../types";
-import { LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { broadcastConnectionStatus } from "../data/connection-status";
-import { invalidAuth } from "../data/auth"
 
-
-export const connectionMixin = (
-  superClass: Constructor<LitElement & OppBaseEl>
+export const connectionMixin = <T extends Constructor<OppBaseEl>>(
+  superClass: T
 ) =>
   class extends superClass {
     protected initializeOpp(auth: Auth, conn: Connection) {
@@ -33,11 +31,10 @@ export const connectionMixin = (
         connection: conn,
         connected: true,
         states: null as any,
-        services: null as any,
         config: null as any,
         themes: null as any,
-        selectedTheme: null as any,
         panels: null as any,
+        services: null as any,
         user: null as any,
         panelUrl: (this as any)._panelUrl,
 
@@ -50,7 +47,12 @@ export const connectionMixin = (
         dockedSidebar: "docked",
         vibrate: true,
         moreInfoEntityId: null,
+        oppUrl: (path = "") => new URL(path, auth.data.oppUrl).toString(),
         callService: async (domain, service, serviceData = {}) => {
+          if (__DEV__) {
+            // tslint:disable-next-line: no-console
+            console.log("Calling service", domain, service, serviceData);
+          }
           try {
             return (await callService(
               conn,
@@ -59,6 +61,16 @@ export const connectionMixin = (
               serviceData
             )) as Promise<ServiceCallResponse>;
           } catch (err) {
+            if (__DEV__) {
+              // tslint:disable-next-line: no-console
+              console.error(
+                "Error calling service",
+                domain,
+                service,
+                serviceData,
+                err
+              );
+            }
             forwardHaptic("failure");
             const message =
               (this as any).opp.localize(
@@ -76,19 +88,36 @@ export const connectionMixin = (
           fetchWithAuth(auth, `${auth.data.oppUrl}${path}`, init),
         // For messages that do not get a response
         sendWS: (msg) => {
+          if (__DEV__) {
+            // tslint:disable-next-line: no-console
+            console.log("Sending", msg);
+          }
           conn.sendMessage(msg);
         },
         // For messages that expect a response
         callWS: <R>(msg) => {
+          if (__DEV__) {
+            // tslint:disable-next-line: no-console
+            console.log("Sending", msg);
+          }
+
           const resp = conn.sendMessagePromise<R>(msg);
+
+          if (__DEV__) {
+            resp.then(
+              // tslint:disable-next-line: no-console
+              (result) => console.log("Received", result),
+              // tslint:disable-next-line: no-console
+              (err) => console.error("Error", err)
+            );
+          }
           return resp;
         },
         ...getState(),
         ...this._pendingOpp,
       };
-      if (!invalidAuth) {
+
       this.oppConnected();
-      }
     }
 
     protected oppConnected() {
@@ -107,11 +136,11 @@ export const connectionMixin = (
           location.reload();
         }
       });
-      if (!invalidAuth) {
-        subscribeEntities(conn, (states) => this._updateOpp({ states }));
-        subscribeConfig(conn, (config) => this._updateOpp({ config }));
-        subscribeServices(conn, (services) => this._updateOpp({ services }));
-      }
+
+      subscribeEntities(conn, (states) => this._updateOpp({ states }));
+      subscribeConfig(conn, (config) => this._updateOpp({ config }));
+      subscribeServices(conn, (services) => this._updateOpp({ services }));
+      subscribePanels(conn, (panels) => this._updateOpp({ panels }));
     }
 
     protected oppReconnected() {

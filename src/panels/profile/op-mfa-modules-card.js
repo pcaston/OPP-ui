@@ -16,7 +16,7 @@ let registeredDialog = false;
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class OpMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex op-style">
@@ -129,4 +129,4 @@ class HaMfaModulesCard extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-mfa-modules-card", HaMfaModulesCard);
+customElements.define("op-mfa-modules-card", OpMfaModulesCard);

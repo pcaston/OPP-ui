@@ -81,7 +81,7 @@ export class OpFormString extends LitElement implements OpFormElement {
     });
   }
 
-  private _stringType() {
+  private get _stringType() {
     if (this.schema.format) {
       if (["email", "url"].includes(this.schema.format)) {
         return this.schema.format;

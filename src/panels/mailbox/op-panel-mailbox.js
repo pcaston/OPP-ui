@@ -14,7 +14,7 @@ import "../../components/op-menu-button";
 import "../../components/op-card";
 import "../../resources/op-style";
 
-import formatDateTime from "../../common/datetime/format_date_time";
+import { formatDateTime } from "../../common/datetime/format_date_time";
 import LocalizeMixin from "../../mixins/localize-mixin";
 import { EventsMixin } from "../../mixins/events-mixin";
 
@@ -80,10 +80,7 @@ class OpPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button
-              opp="[[opp]]"
-              narrow="[[narrow]]"
-            ></op-menu-button>
+            <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
             <div main-title>[[localize('panel.mailbox')]]</div>
           </app-toolbar>
           <div sticky hidden$="[[areTabsHidden(platforms)]]">

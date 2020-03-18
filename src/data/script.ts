@@ -1,6 +1,8 @@
-import {   OppEntityBase, OppEntityAttributeBase, OpenPeerPower } from "../types";
-import  computeObjectId from "../common/entity/compute_object_id";
+import { OpenPeerPower } from "../types";
+import { computeObjectId } from "../common/entity/compute_object_id";
 import { Condition } from "./automation";
+import { OppEntityBase, OppEntityAttributeBase } from "../websocket/lib";
+import { navigate } from "../common/navigate";
 
 export interface ScriptEntity extends OppEntityBase {
   attributes: OppEntityAttributeBase & {
@@ -61,3 +63,19 @@ export const triggerScript = (
 
 export const deleteScript = (opp: OpenPeerPower, objectId: string) =>
   opp.callApi("DELETE", `config/script/config/${objectId}`);
+
+let inititialScriptEditorData: Partial<ScriptConfig> | undefined;
+
+export const showScriptEditor = (
+  el: HTMLElement,
+  data?: Partial<ScriptConfig>
+) => {
+  inititialScriptEditorData = data;
+  navigate(el, "/config/script/new");
+};
+
+export const getScriptEditorInitData = () => {
+  const data = inititialScriptEditorData;
+  inititialScriptEditorData = undefined;
+  return data;
+};
