@@ -1,9 +1,9 @@
 import marked from "marked";
-
+// @ts-ignore
 import filterXSS from "xss";
 
 interface WhiteList {
-  [tag: string]: string[] | undefined;
+  [tag: string]: string[];
 }
 
 let whiteListNormal: WhiteList | undefined;
@@ -38,7 +38,7 @@ export const renderMarkdown = (
   } else {
     whiteList = whiteListNormal;
   }
-// @ts-ignore
+
   return filterXSS(marked(content, markedOptions), {
     whiteList,
   });

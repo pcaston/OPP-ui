@@ -6,7 +6,7 @@ import "@polymer/paper-input/paper-input";
 import "@polymer/paper-spinner/paper-spinner";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
-import "@vaadin/vaadin-date-picker/vaadin-date-picker";
+import "@vaadin/vaadin-date-picker/theme/material/vaadin-date-picker";
 
 import "../../components/op-menu-button";
 import "../../components/entity/op-entity-picker";
@@ -16,7 +16,7 @@ import "../../resources/op-style";
 import "./op-logbook-data";
 import "./op-logbook";
 
-import formatDate from "../../common/datetime/format_date";
+import { formatDate } from "../../common/datetime/format_date";
 import LocalizeMixin from "../../mixins/localize-mixin";
 import { computeRTL } from "../../common/util/compute_rtl";
 
@@ -28,7 +28,15 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
     return html`
       <style include="op-style">
         .content {
-          padding: 0 16px 16px;
+          padding: 0 16px 0 16px;
+        }
+
+        op-logbook {
+          height: calc(100vh - 136px);
+        }
+
+        :host([narrow]) op-logbook {
+          height: calc(100vh - 198px);
         }
 
         paper-spinner {
@@ -42,12 +50,23 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
           margin-bottom: 24px;
         }
 
+        .filters {
+          display: flex;
+          align-items: center;
+        }
+
+        :host([narrow]) .filters {
+          flex-wrap: wrap;
+        }
+
         vaadin-date-picker {
-          --vaadin-date-picker-clear-icon: {
-            display: none;
-          }
           max-width: 200px;
           margin-right: 16px;
+        }
+
+        :host([rtl]) vaadin-date-picker {
+          margin-right: 0;
+          margin-left: 16px;
         }
 
         paper-dropdown-menu {
@@ -60,16 +79,24 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
 
         :host([rtl]) paper-dropdown-menu {
           text-align: right;
+          margin-right: 0;
+          margin-left: 16px;
         }
 
         paper-item {
           cursor: pointer;
+          white-space: nowrap;
         }
 
         op-entity-picker {
           display: inline-block;
-          width: 100%;
+          flex-grow: 1;
           max-width: 400px;
+        }
+
+        :host([narrow]) op-entity-picker {
+          max-width: none;
+          width: 100%;
         }
 
         [hidden] {
@@ -89,7 +116,7 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button></op-menu-button>
+            <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
             <div main-title>[[localize('panel.logbook')]]</div>
             <paper-icon-button
               icon="opp:refresh"
@@ -106,7 +133,7 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
             alt="[[localize('ui.common.loading')]]"
           ></paper-spinner>
 
-          <div class="flex layout horizontal wrap">
+          <div class="filters">
             <vaadin-date-picker
               id="picker"
               value="{{_currentDate}}"
@@ -157,9 +184,9 @@ class OpPanelLogbook extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      opp: {
-        type: Object,
-      },
+      opp: Object,
+
+      narrow: { type: Boolean, reflectToAttribute: true },
 
       // ISO8601 formatted date string
       _currentDate: {

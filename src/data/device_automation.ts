@@ -99,49 +99,65 @@ export const deviceAutomationsEqual = (
 export const localizeDeviceAutomationAction = (
   opp: OpenPeerPower,
   action: DeviceAction
-) => {
-  const state = action.entity_id ? opp.states![action.entity_id] : undefined;
-  return opp.localize(
-    `component.${action.domain}.device_automation.action_type.${action.type}`,
-    "entity_name",
-    state ? computeStateName(state) : "<unknown>",
-    "subtype",
+): string => {
+  const state = action.entity_id ? opp.states[action.entity_id] : undefined;
+  return (
     opp.localize(
-      `component.${action.domain}.device_automation.action_subtype.${action.subtype}`
-    )
+      `component.${action.domain}.device_automation.action_type.${action.type}`,
+      "entity_name",
+      state ? computeStateName(state) : action.entity_id || "<unknown>",
+      "subtype",
+      action.subtype
+        ? opp.localize(
+            `component.${action.domain}.device_automation.action_subtype.${action.subtype}`
+          ) || action.subtype
+        : ""
+    ) || (action.subtype ? `"${action.subtype}" ${action.type}` : action.type!)
   );
 };
 
 export const localizeDeviceAutomationCondition = (
   opp: OpenPeerPower,
   condition: DeviceCondition
-) => {
+): string => {
   const state = condition.entity_id
-    ? opp.states![condition.entity_id]
+    ? opp.states[condition.entity_id]
     : undefined;
-  return opp.localize(
-    `component.${condition.domain}.device_automation.condition_type.${condition.type}`,
-    "entity_name",
-    state ? computeStateName(state) : "<unknown>",
-    "subtype",
+  return (
     opp.localize(
-      `component.${condition.domain}.device_automation.condition_subtype.${condition.subtype}`
-    )
+      `component.${condition.domain}.device_automation.condition_type.${condition.type}`,
+      "entity_name",
+      state ? computeStateName(state) : condition.entity_id || "<unknown>",
+      "subtype",
+      condition.subtype
+        ? opp.localize(
+            `component.${condition.domain}.device_automation.condition_subtype.${condition.subtype}`
+          ) || condition.subtype
+        : ""
+    ) ||
+    (condition.subtype
+      ? `"${condition.subtype}" ${condition.type}`
+      : condition.type!)
   );
 };
 
 export const localizeDeviceAutomationTrigger = (
   opp: OpenPeerPower,
   trigger: DeviceTrigger
-) => {
-  const state = trigger.entity_id ? opp.states![trigger.entity_id] : undefined;
-  return opp.localize(
-    `component.${trigger.domain}.device_automation.trigger_type.${trigger.type}`,
-    "entity_name",
-    state ? computeStateName(state) : "<unknown>",
-    "subtype",
+): string => {
+  const state = trigger.entity_id ? opp.states[trigger.entity_id] : undefined;
+  return (
     opp.localize(
-      `component.${trigger.domain}.device_automation.trigger_subtype.${trigger.subtype}`
-    )
+      `component.${trigger.domain}.device_automation.trigger_type.${trigger.type}`,
+      "entity_name",
+      state ? computeStateName(state) : trigger.entity_id || "<unknown>",
+      "subtype",
+      trigger.subtype
+        ? opp.localize(
+            `component.${trigger.domain}.device_automation.trigger_subtype.${trigger.subtype}`
+          ) || trigger.subtype
+        : ""
+    ) ||
+    (trigger.subtype ? `"${trigger.subtype}" ${trigger.type}` : trigger.type!)
   );
 };

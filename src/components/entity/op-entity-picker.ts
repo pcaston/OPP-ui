@@ -2,7 +2,7 @@ import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-icon-item";
 import "@polymer/paper-item/paper-item-body";
-import "@vaadin/vaadin-combo-box/vaadin-combo-box-light";
+import "@vaadin/vaadin-combo-box/theme/material/vaadin-combo-box-light";
 import memoizeOne from "memoize-one";
 
 import "./state-badge";
@@ -18,17 +18,14 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
+import { computeDomain } from "../../common/entity/compute_domain";
 
 export type OpEntityPickerEntityFilterFunc = (entityId: OppEntity) => boolean;
 
-const rowRenderer = (
-  root: HTMLElement,
-  _owner,
-  model: { item: OppEntity }
-) => {
+const rowRenderer = (root: HTMLElement, _owner, model: { item: OppEntity }) => {
   if (!root.firstElementChild) {
     root.innerHTML = `
       <style>
@@ -60,7 +57,27 @@ class OpEntityPicker extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public label?: string;
   @property() public value?: string;
-  @property({ attribute: "domain-filter" }) public domainFilter?: string;
+  /**
+   * Show entities from specific domains.
+   * @type {Array}
+   * @attr include-domains
+   */
+  @property({ type: Array, attribute: "include-domains" })
+  public includeDomains?: string[];
+  /**
+   * Show no entities of these domains.
+   * @type {Array}
+   * @attr exclude-domains
+   */
+  @property({ type: Array, attribute: "exclude-domains" })
+  public excludeDomains?: string[];
+  /**
+   * Show only entities of these device classes.
+   * @type {Array}
+   * @attr include-device-classes
+   */
+  @property({ type: Array, attribute: "include-device-classes" })
+  public includeDeviceClasses?: string[];
   @property() public entityFilter?: OpEntityPickerEntityFilterFunc;
   @property({ type: Boolean }) private _opened?: boolean;
   @property() private _opp?: OpenPeerPower;
@@ -68,23 +85,41 @@ class OpEntityPicker extends LitElement {
   private _getStates = memoizeOne(
     (
       opp: this["opp"],
-      domainFilter: this["domainFilter"],
-      entityFilter: this["entityFilter"]
+      includeDomains: this["includeDomains"],
+      excludeDomains: this["excludeDomains"],
+      entityFilter: this["entityFilter"],
+      includeDeviceClasses: this["includeDeviceClasses"]
     ) => {
       let states: OppEntity[] = [];
 
       if (!opp) {
         return [];
       }
-      let entityIds = Object.keys(opp.states!);
+      let entityIds = Object.keys(opp.states);
 
-      if (domainFilter) {
-        entityIds = entityIds.filter(
-          (eid) => eid.substr(0, eid.indexOf(".")) === domainFilter
+      if (includeDomains) {
+        entityIds = entityIds.filter((eid) =>
+          includeDomains.includes(computeDomain(eid))
         );
       }
 
-      states = entityIds.sort().map((key) => opp!.states![key]);
+      if (excludeDomains) {
+        entityIds = entityIds.filter(
+          (eid) => !excludeDomains.includes(computeDomain(eid))
+        );
+      }
+
+      states = entityIds.sort().map((key) => opp!.states[key]);
+
+      if (includeDeviceClasses) {
+        states = states.filter(
+          (stateObj) =>
+            // We always want to include the entity of the current value
+            stateObj.entity_id === this.value ||
+            (stateObj.attributes.device_class &&
+              includeDeviceClasses.includes(stateObj.attributes.device_class))
+        );
+      }
 
       if (entityFilter) {
         states = states.filter(
@@ -93,6 +128,7 @@ class OpEntityPicker extends LitElement {
             stateObj.entity_id === this.value || entityFilter!(stateObj)
         );
       }
+
       return states;
     }
   );
@@ -105,11 +141,13 @@ class OpEntityPicker extends LitElement {
     }
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const states = this._getStates(
       this._opp,
-      this.domainFilter,
-      this.entityFilter
+      this.includeDomains,
+      this.excludeDomains,
+      this.entityFilter,
+      this.includeDeviceClasses
     );
 
     return html`
@@ -139,9 +177,13 @@ class OpEntityPicker extends LitElement {
           ${this.value
             ? html`
                 <paper-icon-button
+                  aria-label=${this.opp!.localize(
+                    "ui.components.entity.entity-picker.clear"
+                  )}
                   slot="suffix"
                   class="clear-button"
                   icon="opp:close"
+                  @click=${this._clearValue}
                   no-ripple
                 >
                   Clear
@@ -151,6 +193,9 @@ class OpEntityPicker extends LitElement {
           ${states.length > 0
             ? html`
                 <paper-icon-button
+                  aria-label=${this.opp!.localize(
+                    "ui.components.entity.entity-picker.show_entities"
+                  )}
                   slot="suffix"
                   class="toggle-button"
                   .icon=${this._opened ? "opp:menu-up" : "opp:menu-down"}
@@ -164,6 +209,11 @@ class OpEntityPicker extends LitElement {
     `;
   }
 
+  private _clearValue(ev: Event) {
+    ev.stopPropagation();
+    this._setValue("");
+  }
+
   private get _value() {
     return this.value || "";
   }
@@ -175,12 +225,16 @@ class OpEntityPicker extends LitElement {
   private _valueChanged(ev: PolymerChangedEvent<string>) {
     const newValue = ev.detail.value;
     if (newValue !== this._value) {
-      this.value = ev.detail.value;
-      setTimeout(() => {
-        fireEvent(this, "value-changed", { value: this.value });
-        fireEvent(this, "change");
-      }, 0);
+      this._setValue(newValue);
     }
+  }
+
+  private _setValue(value: string) {
+    this.value = value;
+    setTimeout(() => {
+      fireEvent(this, "value-changed", { value });
+      fireEvent(this, "change");
+    }, 0);
   }
 
   static get styles(): CSSResult {
@@ -199,3 +253,9 @@ class OpEntityPicker extends LitElement {
 }
 
 customElements.define("op-entity-picker", OpEntityPicker);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "op-entity-picker": OpEntityPicker;
+  }
+}

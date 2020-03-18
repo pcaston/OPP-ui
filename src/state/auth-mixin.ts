@@ -1,8 +1,8 @@
 import { clearState } from "../util/op-pref-storage";
 import { askWrite } from "../common/auth/token_storage";
 import { subscribeUser, userCollection } from "../data/ws-user";
-import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
+import { Constructor } from "../types";
 
 declare global {
   // for fire event
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export default (superClass: Constructor<LitElement & OppBaseEl>) =>
+export default <T extends Constructor<OppBaseEl>>(superClass: T) =>
   class extends superClass {
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);
@@ -23,14 +23,14 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
 
     protected oppConnected() {
       super.oppConnected();
-      subscribeUser(this.opp!.connection, (user) =>
-        this._updateOpp({ user })
-      );
+      subscribeUser(this.opp!.connection, (user) => this._updateOpp({ user }));
 
       if (askWrite()) {
         this.updateComplete
           .then(() =>
-            import(/* webpackChunkName: "op-store-auth-card" */ "../dialogs/op-store-auth-card")
+            import(
+              /* webpackChunkName: "op-store-auth-card" */ "../dialogs/op-store-auth-card"
+            )
           )
           .then(() => {
             const el = document.createElement("op-store-auth-card");

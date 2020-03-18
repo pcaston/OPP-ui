@@ -1,25 +1,3 @@
-import "@polymer/app-layout/app-header-layout/app-header-layout";
-import "@polymer/app-layout/app-header/app-header";
-import "@polymer/paper-item/paper-item-body";
-import "@polymer/paper-item/paper-item";
-import "@material/mwc-button";
-import "@polymer/app-layout/app-toolbar/app-toolbar";
-
-import "../../components/op-card";
-import "../../components/op-menu-button";
-import "../../resources/op-style";
-
-import "./op-change-password-card";
-import "./op-mfa-modules-card";
-import "./op-advanced-mode-card";
-import "./op-refresh-tokens-card";
-import "./op-long-lived-access-tokens-card";
-
-import "./op-pick-language-row";
-import "./op-pick-theme-row";
-import "./op-push-notifications-row";
-import "./op-force-narrow-row";
-import "./op-set-vibrate-row";
 import {
   LitElement,
   TemplateResult,
@@ -28,20 +6,53 @@ import {
   css,
   property,
 } from "lit-element";
-import { opStyle } from "../../resources/styles";
+import "@polymer/app-layout/app-header-layout/app-header-layout";
+import "@polymer/app-layout/app-header/app-header";
+import "@polymer/paper-item/paper-item-body";
+import "@polymer/paper-item/paper-item";
+import "@material/mwc-button";
+import "@polymer/app-layout/app-toolbar/app-toolbar";
+
+import "./op-change-password-card";
+import "./op-mfa-modules-card";
+import "./op-refresh-tokens-card";
+import "./op-long-lived-access-tokens-card";
+import "./op-advanced-mode-row";
+import "./op-pick-language-row";
+import "./op-pick-theme-row";
+import "./op-push-notifications-row";
+import "./op-force-narrow-row";
+import "./op-set-vibrate-row";
+import "../../components/op-card";
+import "../../components/op-menu-button";
+import "../../resources/op-style";
+
+import {
+  getOptimisticFrontendUserDataCollection,
+  CoreFrontendUserData,
+} from "../../data/frontend";
+import { haStyle } from "../../resources/styles";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
-import { UnsubscribeFunc } from "../../open-peer-power-js-websocket/lib";
+import { UnsubscribeFunc } from "../../websocket/lib";
+import { showConfirmationDialog } from "../../dialogs/generic/show-dialog-box";
 
 class OpPanelProfile extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow!: boolean;
   @property() private _refreshTokens?: unknown[];
+  @property() private _coreUserData?: CoreFrontendUserData | null;
   private _unsubCoreData?: UnsubscribeFunc;
 
   public connectedCallback() {
     super.connectedCallback();
     this._refreshRefreshTokens();
+    this._unsubCoreData = getOptimisticFrontendUserDataCollection(
+      this.opp.connection,
+      "core"
+    ).subscribe((coreUserData) => {
+      this._coreUserData = coreUserData;
+    });
   }
 
   public disconnectedCallback() {
@@ -52,7 +63,7 @@ class OpPanelProfile extends LitElement {
     }
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
@@ -102,10 +113,21 @@ class OpPanelProfile extends LitElement {
                   ></op-set-vibrate-row>
                 `
               : ""}
-            <op-push-notifications-row
-              .narrow=${this.narrow}
-              .opp=${this.opp}
-            ></op-push-notifications-row>
+            ${html`
+              <op-push-notifications-row
+                .narrow=${this.narrow}
+                .opp=${this.opp}
+              ></op-push-notifications-row>
+            `}
+            ${this.opp.user!.is_admin
+              ? html`
+                  <op-advanced-mode-row
+                    .opp=${this.opp}
+                    .narrow=${this.narrow}
+                    .coreUserData=${this._coreUserData}
+                  ></op-advanced-mode-row>
+                `
+              : ""}
 
             <div class="card-actions">
               <mwc-button class="warning" @click=${this._handleLogOut}>
@@ -114,7 +136,7 @@ class OpPanelProfile extends LitElement {
             </div>
           </op-card>
 
-          ${this.opp.user!.credentials!.some(
+          ${this.opp.user!.credentials.some(
             (cred) => cred.auth_provider_type === "openpeerpower"
           )
             ? html`
@@ -124,13 +146,10 @@ class OpPanelProfile extends LitElement {
               `
             : ""}
 
-          ${this.opp.user!.is_admin
-            ? html`
-                <op-advanced-mode-card
-                  .opp=${this.opp}
-                ></op-advanced-mode-card>
-              `
-            : ""}
+          <op-mfa-modules-card
+            .opp=${this.opp}
+            .mfaModules=${this.opp.user!.mfa_modules}
+          ></op-mfa-modules-card>
 
           <op-refresh-tokens-card
             .opp=${this.opp}
@@ -155,12 +174,17 @@ class OpPanelProfile extends LitElement {
   }
 
   private _handleLogOut() {
-    fireEvent(this, "opp-logout");
+    showConfirmationDialog(this, {
+      title: this.opp.localize("ui.panel.profile.logout_title"),
+      text: this.opp.localize("ui.panel.profile.logout_text"),
+      confirmText: this.opp.localize("ui.panel.profile.logout"),
+      confirm: () => fireEvent(this, "opp-logout"),
+    });
   }
 
   static get styles(): CSSResultArray {
     return [
-      opStyle,
+      haStyle,
       css`
         :host {
           -ms-user-select: initial;

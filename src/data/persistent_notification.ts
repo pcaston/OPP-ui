@@ -1,8 +1,4 @@
-import {
-  createCollection,
-  Connection,
-  OppEntity,
-} from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection, OppEntity } from "../websocket/lib";
 
 export interface PersitentNotificationEntity extends OppEntity {
   notification_id?: string;

@@ -1,9 +1,7 @@
 import { OpenPeerPower } from "../../types";
 
 /** Return if a component is loaded. */
-export default function isComponentLoaded(
+export const isComponentLoaded = (
   opp: OpenPeerPower,
   component: string
-): boolean {
-  return opp && opp.config!.components.indexOf(component) !== -1;
-}
+): boolean => opp && opp.config.components.indexOf(component) !== -1;

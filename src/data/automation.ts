@@ -1,4 +1,5 @@
-import { OppEntityBase, OppEntityAttributeBase, OpenPeerPower } from "../types";
+import { OppEntityBase, OppEntityAttributeBase } from "../websocket/lib";
+import { OpenPeerPower } from "../types";
 import { navigate } from "../common/navigate";
 import { DeviceCondition, DeviceTrigger } from "./device_automation";
 import { Action } from "./script";
@@ -168,6 +169,12 @@ export type Condition =
   | TemplateCondition
   | DeviceCondition
   | LogicalCondition;
+
+export const triggerAutomation = (opp: OpenPeerPower, entityId: string) => {
+  opp.callService("automation", "trigger", {
+    entity_id: entityId,
+  });
+};
 
 export const deleteAutomation = (opp: OpenPeerPower, id: string) =>
   opp.callApi("DELETE", `config/automation/config/${id}`);

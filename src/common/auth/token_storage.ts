@@ -1,6 +1,7 @@
-import { AuthData } from "../../open-peer-power-js-websocket/lib";
+import { AuthData } from "../../websocket/lib";
 
 const storage = window.localStorage || {};
+
 declare global {
   interface Window {
     __tokenCache: {
@@ -12,6 +13,7 @@ declare global {
   }
 }
 
+// So that core.js and main app hit same shared object.
 let tokenCache = window.__tokenCache;
 if (!tokenCache) {
   tokenCache = window.__tokenCache = {
@@ -41,12 +43,14 @@ export function enableWrite() {
   tokenCache.writeEnabled = true;
   if (tokenCache.tokens) {
     saveTokens(tokenCache.tokens);
-    }
+  }
 }
 
 export function loadTokens() {
   if (tokenCache.tokens === undefined) {
     try {
+      // Delete the old token cache.
+      delete storage.tokens;
       const tokens = storage.oppTokens;
       if (tokens) {
         tokenCache.tokens = JSON.parse(tokens);

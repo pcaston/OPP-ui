@@ -1,4 +1,5 @@
-import { OppEntity, OpenPeerPower } from "../types";
+import { OppEntity } from "../websocket/lib";
+import { OpenPeerPower } from "../types";
 
 export interface ZHAEntityReference extends OppEntity {
   name: string;
@@ -21,6 +22,7 @@ export interface ZHADevice {
   user_given_name?: string;
   power_source?: string;
   area_id?: string;
+  device_type: string;
 }
 
 export interface Attribute {
@@ -123,6 +125,32 @@ export const unbindDevices = (
     type: "zha/devices/unbind",
     source_ieee: sourceIEEE,
     target_ieee: targetIEEE,
+  });
+
+export const bindDeviceToGroup = (
+  opp: OpenPeerPower,
+  deviceIEEE: string,
+  groupId: number,
+  clusters: Cluster[]
+): Promise<void> =>
+  opp.callWS({
+    type: "zha/groups/bind",
+    source_ieee: deviceIEEE,
+    group_id: groupId,
+    bindings: clusters,
+  });
+
+export const unbindDeviceFromGroup = (
+  opp: OpenPeerPower,
+  deviceIEEE: string,
+  groupId: number,
+  clusters: Cluster[]
+): Promise<void> =>
+  opp.callWS({
+    type: "zha/groups/unbind",
+    source_ieee: deviceIEEE,
+    group_id: groupId,
+    bindings: clusters,
   });
 
 export const readAttributeValue = (

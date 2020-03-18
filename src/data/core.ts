@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import { OppConfig } from "../open-peer-power-js-websocket/lib";
+import { OppConfig } from "../websocket/lib";
 
 export interface ConfigUpdateValues {
   location_name: string;

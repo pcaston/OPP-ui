@@ -1,8 +1,4 @@
-import {
-  getUser,
-  Connection,
-  getCollection,
-} from "../open-peer-power-js-websocket/lib";
+import { getUser, Connection, getCollection } from "../websocket/lib";
 import { CurrentUser } from "../types";
 
 export const userCollection = (conn: Connection) =>

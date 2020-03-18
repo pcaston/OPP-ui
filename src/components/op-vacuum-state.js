@@ -34,7 +34,7 @@ const STATES_INTERCEPTABLE = {
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpVacuumState extends PolymerElement {
+class OpVacuumState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>

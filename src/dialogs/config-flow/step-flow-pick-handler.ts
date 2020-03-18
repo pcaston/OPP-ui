@@ -13,12 +13,14 @@ import "@polymer/paper-item/paper-item-body";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
 import memoizeOne from "memoize-one";
-import * as Fuse from "fuse";
+import * as Fuse from "fuse.js";
 
 import "../../components/op-icon-next";
 import "../../common/search/search-input";
 import { styleMap } from "lit-html/directives/style-map";
 import { FlowConfig } from "./show-dialog-data-entry-flow";
+import { configFlowContentStyles } from "./styles";
+import { classMap } from "lit-html/directives/class-map";
 
 interface HandlerObj {
   name: string;
@@ -38,7 +40,7 @@ class StepFlowPickHandler extends LitElement {
   private _getHandlers = memoizeOne((h: string[], filter?: string) => {
     const handlers: HandlerObj[] = h.map((handler) => {
       return {
-        name: this.opp.localize(`component.${handler}.config.title`),
+        name: this.opp.localize(`component.${handler}.config.title`) || handler,
         slug: handler,
       };
     });
@@ -58,7 +60,7 @@ class StepFlowPickHandler extends LitElement {
     );
   });
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const handlers = this._getHandlers(this.handlers, this.filter);
 
     return html`
@@ -67,7 +69,10 @@ class StepFlowPickHandler extends LitElement {
         .filter=${this.filter}
         @value-changed=${this._filterChanged}
       ></search-input>
-      <div style=${styleMap({ width: `${this._width}px` })}>
+      <div
+        style=${styleMap({ width: `${this._width}px` })}
+        class=${classMap({ advanced: Boolean(this.showAdvanced) })}
+      >
         ${handlers.map(
           (handler: HandlerObj) =>
             html`
@@ -104,7 +109,7 @@ class StepFlowPickHandler extends LitElement {
   protected firstUpdated(changedProps) {
     super.firstUpdated(changedProps);
     setTimeout(
-      () => this.shadowRoot!.querySelector<HTMLElement>("search-input")!.focus(),
+      () => this.shadowRoot!.querySelector("search-input")!.focus(),
       0
     );
   }
@@ -133,28 +138,35 @@ class StepFlowPickHandler extends LitElement {
     });
   }
 
-  static get styles(): CSSResult {
-    return css`
-      h2 {
-        margin-bottom: 2px;
-        padding-left: 16px;
-      }
-      div {
-        overflow: auto;
-        max-height: 600px;
-      }
-      paper-item {
-        cursor: pointer;
-      }
-      p {
-        text-align: center;
-        padding: 16px;
-        margin: 0;
-      }
-      p > a {
-        color: var(--primary-color);
-      }
-    `;
+  static get styles(): CSSResult[] {
+    return [
+      configFlowContentStyles,
+      css`
+        div {
+          overflow: auto;
+          max-height: 600px;
+        }
+        @media all and (max-height: 1px) {
+          div {
+            max-height: calc(100vh - 205px);
+          }
+          div.advanced {
+            max-height: calc(100vh - 300px);
+          }
+        }
+        paper-item {
+          cursor: pointer;
+        }
+        p {
+          text-align: center;
+          padding: 16px;
+          margin: 0;
+        }
+        p > a {
+          color: var(--primary-color);
+        }
+      `,
+    ];
   }
 }
 

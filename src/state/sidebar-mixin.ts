@@ -1,8 +1,7 @@
 import { storeState } from "../util/op-pref-storage";
-import { Constructor, LitElement } from "lit-element";
 import { OppBaseEl } from "./opp-base-mixin";
 import { OPPDomEvent } from "../common/dom/fire_event";
-import { OpenPeerPower } from "../types";
+import { OpenPeerPower, Constructor } from "../types";
 
 interface DockSidebarParams {
   dock: OpenPeerPower["dockedSidebar"];
@@ -19,7 +18,7 @@ declare global {
   }
 }
 
-export default (superClass: Constructor<LitElement & OppBaseEl>) =>
+export default <T extends Constructor<OppBaseEl>>(superClass: T) =>
   class extends superClass {
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);

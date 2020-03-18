@@ -73,9 +73,7 @@ class OpPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   _compHasThemes(opp) {
     return (
-      opp.themes &&
-      opp.themes.themes &&
-      Object.keys(opp.themes.themes).length
+      opp.themes && opp.themes.themes && Object.keys(opp.themes.themes).length
     );
   }
 

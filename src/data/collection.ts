@@ -3,8 +3,8 @@ import {
   Connection,
   getCollection,
   UnsubscribeFunc,
-} from "../open-peer-power-js-websocket/lib";
-import { Store } from "../open-peer-power-js-websocket/lib";
+} from "../websocket/lib";
+import { Store } from "websocket/dist/store";
 
 interface OptimisticCollection<T> extends Collection<T> {
   save(data: T): Promise<unknown>;

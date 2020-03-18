@@ -1,5 +1,5 @@
 import { OpenPeerPower } from "../types";
-import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection } from "../websocket/lib";
 import { debounce } from "../common/util/debounce";
 import { EntityRegistryEntry } from "./entity_registry";
 import { computeStateName } from "../common/entity/compute_state_name";
@@ -15,6 +15,10 @@ export interface DeviceRegistryEntry {
   via_device_id?: string;
   area_id?: string;
   name_by_user?: string;
+}
+
+export interface DeviceEntityLookup {
+  [deviceId: string]: EntityRegistryEntry[];
 }
 
 export interface DeviceRegistryEntryMutableParams {
@@ -41,7 +45,7 @@ export const fallbackDeviceName = (
 ) => {
   for (const entity of entities || []) {
     const entityId = typeof entity === "string" ? entity : entity.entity_id;
-    const stateObj = opp.states![entityId];
+    const stateObj = opp.states[entityId];
     if (stateObj) {
       return computeStateName(stateObj);
     }

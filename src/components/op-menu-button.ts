@@ -11,9 +11,9 @@ import {
 
 import { fireEvent } from "../common/dom/fire_event";
 import { OpenPeerPower } from "../types";
-import { UnsubscribeFunc } from "../open-peer-power-js-websocket/lib";
+import { UnsubscribeFunc } from "../websocket/lib";
 import { subscribeNotifications } from "../data/persistent_notification";
-import computeDomain from "../common/entity/compute_domain";
+import { computeDomain } from "../common/entity/compute_domain";
 
 @customElement("op-menu-button")
 class OpMenuButton extends LitElement {
@@ -42,11 +42,11 @@ class OpMenuButton extends LitElement {
     }
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const hasNotifications =
       (this.narrow || this.opp.dockedSidebar === "always_hidden") &&
       (this._hasNotifications ||
-        Object.keys(this.opp.states!).some(
+        Object.keys(this.opp.states).some(
           (entityId) => computeDomain(entityId) === "configurator"
         ));
     return html`
@@ -86,8 +86,7 @@ class OpMenuButton extends LitElement {
     const oldNarrow =
       changedProps.get("narrow") ||
       (oldOpp && oldOpp.dockedSidebar === "always_hidden");
-    const newNarrow =
-      this.narrow || this.opp.dockedSidebar === "always_hidden";
+    const newNarrow = this.narrow || this.opp.dockedSidebar === "always_hidden";
 
     if (oldNarrow === newNarrow) {
       return;
@@ -135,7 +134,7 @@ class OpMenuButton extends LitElement {
         top: 5px;
         right: 2px;
         border-radius: 50%;
-        border: 2px solid var(--primary-color);
+        border: 2px solid var(--app-header-background-color);
       }
     `;
   }

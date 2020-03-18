@@ -23,7 +23,7 @@ export class OpIcon extends ironIconClass {
 
     if (!loaded && this._iconsetName === "mdi") {
       loaded = true;
-      import("../resources/mdi-icons");
+      import(/* webpackChunkName: "mdi-icons" */ "../resources/mdi-icons");
     }
   }
 }

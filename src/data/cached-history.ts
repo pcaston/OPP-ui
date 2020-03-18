@@ -6,10 +6,10 @@ import {
   LineChartUnit,
 } from "./history";
 import { OpenPeerPower } from "../types";
-import { OppEntity } from "../types";
+import { OppEntity } from "../websocket/lib";
 import { LocalizeFunc } from "../common/translations/localize";
 
-interface CacheConfig {
+export interface CacheConfig {
   refresh: number;
   cacheKey: string;
   hoursToShow: number;
@@ -128,13 +128,7 @@ export const getRecentWithCache = (
     try {
       const results = await Promise.all([
         curCacheProm,
-        fetchRecent(
-          opp,
-          entityId,
-          toFetchStartTime,
-          endTime,
-          appendingToCache
-        ),
+        fetchRecent(opp, entityId, toFetchStartTime, endTime, appendingToCache),
       ]);
       fetchedHistory = results[1];
     } catch (err) {

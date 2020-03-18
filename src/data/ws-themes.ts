@@ -1,4 +1,4 @@
-import { createCollection, Connection } from "../open-peer-power-js-websocket/lib";
+import { createCollection, Connection } from "../websocket/lib";
 import { Themes } from "../types";
 
 const fetchThemes = (conn) =>
@@ -8,7 +8,7 @@ const fetchThemes = (conn) =>
 
 const subscribeUpdates = (conn, store) =>
   conn.subscribeEvents(
-    (event) => store.setState(event.data, true),
+    () => fetchThemes(conn).then((data) => store.setState(data, true)),
     "themes_updated"
   );
 

@@ -7,7 +7,7 @@ import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
-import formatDateTime from "../../common/datetime/format_date_time";
+import { formatDateTime } from "../../common/datetime/format_date_time";
 
 import "./op-settings-row";
 
@@ -15,7 +15,7 @@ import "./op-settings-row";
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -118,4 +118,4 @@ class HaRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-refresh-tokens-card", HaRefreshTokens);
+customElements.define("op-refresh-tokens-card", OpRefreshTokens);

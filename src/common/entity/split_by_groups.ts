@@ -1,10 +1,11 @@
-import computeDomain from "./compute_domain";
-import { OppEntities, GroupEntity } from "../../types";
+import { computeDomain } from "./compute_domain";
+import { OppEntities } from "../../websocket/lib";
+import { GroupEntity } from "../../types";
 
 // Split a collection into a list of groups and a 'rest' list of ungrouped
 // entities.
 // Returns { groups: [], ungrouped: {} }
-export default function splitByGroups(entities: OppEntities) {
+export const splitByGroups = (entities: OppEntities) => {
   const groups: GroupEntity[] = [];
   const ungrouped: OppEntities = {};
 
@@ -25,4 +26,4 @@ export default function splitByGroups(entities: OppEntities) {
   );
 
   return { groups, ungrouped };
-}
+};

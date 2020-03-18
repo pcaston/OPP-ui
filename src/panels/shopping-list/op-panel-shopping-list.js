@@ -68,10 +68,7 @@ class OpPanelShoppingList extends LocalizeMixin(PolymerElement) {
       <app-header-layout has-scrolling-region>
         <app-header slot="header" fixed>
           <app-toolbar>
-            <op-menu-button
-              opp="[[opp]]"
-              narrow="[[narrow]]"
-            ></op-menu-button>
+            <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
             <div main-title>[[localize('panel.shopping_list')]]</div>
 
             <paper-icon-button

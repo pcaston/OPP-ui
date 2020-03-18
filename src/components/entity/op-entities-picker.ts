@@ -10,27 +10,41 @@ import "@polymer/paper-icon-button/paper-icon-button-light";
 import { OpenPeerPower } from "../../types";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { fireEvent } from "../../common/dom/fire_event";
-import isValidEntityId from "../../common/entity/valid_entity_id";
+import { isValidEntityId } from "../../common/entity/valid_entity_id";
 
 import "./op-entity-picker";
 // Not a duplicate, type import
 // tslint:disable-next-line
 import { OpEntityPickerEntityFilterFunc } from "./op-entity-picker";
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 
 @customElement("op-entities-picker")
 class OpEntitiesPickerLight extends LitElement {
   @property() public opp?: OpenPeerPower;
   @property() public value?: string[];
-  @property({ attribute: "domain-filter" }) public domainFilter?: string;
+  /**
+   * Show entities from specific domains.
+   * @type {string}
+   * @attr include-domains
+   */
+  @property({ type: Array, attribute: "include-domains" })
+  public includeDomains?: string[];
+  /**
+   * Show no entities of these domains.
+   * @type {Array}
+   * @attr exclude-domains
+   */
+  @property({ type: Array, attribute: "exclude-domains" })
+  public excludeDomains?: string[];
   @property({ attribute: "picked-entity-label" })
   public pickedEntityLabel?: string;
   @property({ attribute: "pick-entity-label" }) public pickEntityLabel?: string;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this.opp) {
-      return;
+      return html``;
     }
+
     const currentEntities = this._currentEntities;
     return html`
       ${currentEntities.map(
@@ -40,7 +54,8 @@ class OpEntitiesPickerLight extends LitElement {
               allow-custom-entity
               .curValue=${entityId}
               .opp=${this.opp}
-              .domainFilter=${this.domainFilter}
+              .includeDomains=${this.includeDomains}
+              .excludeDomains=${this.excludeDomains}
               .entityFilter=${this._entityFilter}
               .value=${entityId}
               .label=${this.pickedEntityLabel}
@@ -52,7 +67,8 @@ class OpEntitiesPickerLight extends LitElement {
       <div>
         <op-entity-picker
           .opp=${this.opp}
-          .domainFilter=${this.domainFilter}
+          .includeDomains=${this.includeDomains}
+          .excludeDomains=${this.excludeDomains}
           .entityFilter=${this._entityFilter}
           .label=${this.pickEntityLabel}
           @value-changed=${this._addEntity}

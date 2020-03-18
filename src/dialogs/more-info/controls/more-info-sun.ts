@@ -7,18 +7,19 @@ import {
   CSSResult,
   css,
 } from "lit-element";
-import { OpenPeerPower, OppEntity } from "../../../types";
+import { OppEntity } from "../../../websocket/lib";
 
 import "../../../components/op-relative-time";
 
-import formatTime from "../../../common/datetime/format_time";
+import { formatTime } from "../../../common/datetime/format_time";
+import { OpenPeerPower } from "../../../types";
 
 @customElement("more-info-sun")
 class MoreInfoSun extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public stateObj?: OppEntity;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this.opp || !this.stateObj) {
       return html``;
     }
@@ -34,9 +35,7 @@ class MoreInfoSun extends LitElement {
             <div class="key">
               <span
                 >${item === "ris"
-                  ? this.opp.localize(
-                      "ui.dialogs.more_info_control.sun.rising"
-                    )
+                  ? this.opp.localize("ui.dialogs.more_info_control.sun.rising")
                   : this.opp.localize(
                       "ui.dialogs.more_info_control.sun.setting"
                     )}</span

@@ -9,25 +9,32 @@ import {
   property,
 } from "lit-element";
 
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { classMap } from "lit-html/directives/class-map";
-import { fireEvent } from "../../common/dom/fire_event";
 import { OpenPeerPower } from "../../types";
 
-import computeStateDomain from "../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
 import { computeStateName } from "../../common/entity/compute_state_name";
-import domainIcon from "../../common/entity/domain_icon";
-import stateIcon from "../../common/entity/state_icon";
-import timerTimeRemaining from "../../common/entity/timer_time_remaining";
+import { domainIcon } from "../../common/entity/domain_icon";
+import { stateIcon } from "../../common/entity/state_icon";
+import { timerTimeRemaining } from "../../common/entity/timer_time_remaining";
 import secondsToDuration from "../../common/datetime/seconds_to_duration";
 
 import "../op-label-badge";
 
 @customElement("op-state-label-badge")
 export class OpStateLabelBadge extends LitElement {
-  @property({ type : Object }) opp?: OpenPeerPower;
-  @property({ type : Object }) state?: OppEntity;
-  @property({ type : String }) _timerTimeRemaining?: number;
+  @property() public opp?: OpenPeerPower;
+
+  @property() public state?: OppEntity;
+
+  @property() public name?: string;
+
+  @property() public icon?: string;
+
+  @property() public image?: string;
+
+  @property() private _timerTimeRemaining?: number;
 
   private _connected?: boolean;
 
@@ -45,8 +52,9 @@ export class OpStateLabelBadge extends LitElement {
     this.clearInterval();
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const state = this.state;
+
     if (!state) {
       return html`
         <op-label-badge
@@ -69,22 +77,16 @@ export class OpStateLabelBadge extends LitElement {
           "has-unit_of_measurement": "unit_of_measurement" in state.attributes,
         })}"
         .value="${this._computeValue(domain, state)}"
-        .icon="${this._computeIcon(domain, state)}"
-        .image="${state.attributes.entity_picture}"
+        .icon="${this.icon ? this.icon : this._computeIcon(domain, state)}"
+        .image="${this.icon
+          ? ""
+          : this.image
+          ? this.image
+          : state.attributes.entity_picture}"
         .label="${this._computeLabel(domain, state, this._timerTimeRemaining)}"
-        .description="${computeStateName(state)}"
+        .description="${this.name ? this.name : computeStateName(state)}"
       ></op-label-badge>
     `;
-  }
-
-  protected firstUpdated(changedProperties: PropertyValues): void {
-    super.firstUpdated(changedProperties);
-    this.addEventListener("click", (ev) => {
-      ev.stopPropagation();
-      if (this.state) {
-        fireEvent(this, "opp-more-info", { entityId: this.state.entity_id });
-      }
-    });
   }
 
   protected updated(changedProperties: PropertyValues): void {
@@ -99,6 +101,7 @@ export class OpStateLabelBadge extends LitElement {
     switch (domain) {
       case "binary_sensor":
       case "device_tracker":
+      case "person":
       case "updater":
       case "sun":
       case "alarm_control_panel":
@@ -244,6 +247,7 @@ export class OpStateLabelBadge extends LitElement {
     `;
   }
 }
+
 declare global {
   interface HTMLElementTagNameMap {
     "op-state-label-badge": OpStateLabelBadge;

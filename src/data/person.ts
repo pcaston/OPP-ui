@@ -19,10 +19,7 @@ export const fetchPersons = (opp: OpenPeerPower) =>
     config: Person[];
   }>({ type: "person/list" });
 
-export const createPerson = (
-  opp: OpenPeerPower,
-  values: PersonMutableParams
-) =>
+export const createPerson = (opp: OpenPeerPower, values: PersonMutableParams) =>
   opp.callWS<Person>({
     type: "person/create",
     ...values,

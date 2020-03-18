@@ -1,18 +1,17 @@
-import { UpdatingElement, Constructor, PropertyValues } from "lit-element";
-import { OpenPeerPower } from "../types";
+import { UpdatingElement, PropertyValues } from "lit-element";
+import { OpenPeerPower, Constructor } from "../types";
 
 export interface ProvideOppElement {
   provideOpp(element: HTMLElement);
 }
 
-/* tslint:disable */
-
-export const ProvideOppLitMixin = <T extends UpdatingElement>(
-  superClass: Constructor<T>
-): Constructor<T & ProvideOppElement> =>
-  // @ts-ignore
+/* tslint:disable-next-line:variable-name */
+export const ProvideOppLitMixin = <T extends Constructor<UpdatingElement>>(
+  superClass: T
+) =>
   class extends superClass {
     protected opp!: OpenPeerPower;
+    /* tslint:disable-next-line:variable-name */
     private __provideOpp: HTMLElement[] = [];
 
     public provideOpp(el) {

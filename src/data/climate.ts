@@ -1,7 +1,4 @@
-import {
-  OppEntityBase,
-  OppEntityAttributeBase,
-} from "../types";
+import { OppEntityBase, OppEntityAttributeBase } from "../websocket/lib";
 
 export type HvacMode =
   | "off"

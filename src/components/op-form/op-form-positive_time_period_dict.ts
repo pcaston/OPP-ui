@@ -23,7 +23,7 @@ export class OpFormTimePeriod extends LitElement implements OpFormElement {
     }
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <paper-time-input
         .label=${this.label}

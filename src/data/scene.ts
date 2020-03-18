@@ -1,9 +1,7 @@
-import {
-  OppEntityBase,
-  OppEntityAttributeBase,
-} from "../open-peer-power-js-websocket/lib";
+import { OppEntityBase, OppEntityAttributeBase } from "../websocket/lib";
 
 import { OpenPeerPower, ServiceCallResponse } from "../types";
+import { navigate } from "../common/navigate";
 
 export const SCENE_IGNORED_DOMAINS = [
   "sensor",
@@ -17,6 +15,22 @@ export const SCENE_IGNORED_DOMAINS = [
   "weather",
   "zone",
 ];
+
+let inititialSceneEditorData: Partial<SceneConfig> | undefined;
+
+export const showSceneEditor = (
+  el: HTMLElement,
+  data?: Partial<SceneConfig>
+) => {
+  inititialSceneEditorData = data;
+  navigate(el, "/config/scene/edit/new");
+};
+
+export const getSceneEditorInitData = () => {
+  const data = inititialSceneEditorData;
+  inititialSceneEditorData = undefined;
+  return data;
+};
 
 export interface SceneEntity extends OppEntityBase {
   attributes: OppEntityAttributeBase & { id?: string };

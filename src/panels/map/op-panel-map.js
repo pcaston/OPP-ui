@@ -4,13 +4,15 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "../../components/op-menu-button";
 import "../../components/op-icon";
+import { navigate } from "../../common/navigate";
 
 import "./op-entity-marker";
 
-import computeStateDomain from "../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
 import { computeStateName } from "../../common/entity/compute_state_name";
 import LocalizeMixin from "../../mixins/localize-mixin";
 import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
+import { defaultRadiusColor } from "../../data/zone";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -33,6 +35,12 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
       <app-toolbar>
         <op-menu-button opp="[[opp]]" narrow="[[narrow]]"></op-menu-button>
         <div main-title>[[localize('panel.map')]]</div>
+        <template is="dom-if" if="[[computeShowEditZone(opp)]]">
+          <paper-icon-button
+            icon="opp:pencil"
+            on-click="openZonesEditor"
+          ></paper-icon-button>
+        </template>
       </app-toolbar>
 
       <div id="map"></div>
@@ -67,6 +75,14 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
     }
   }
 
+  computeShowEditZone(opp) {
+    return !__DEMO__ && opp.user.is_admin;
+  }
+
+  openZonesEditor() {
+    navigate(this, "/config/zone");
+  }
+
   fitMap() {
     var bounds;
 
@@ -98,9 +114,15 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
     }
     var mapItems = (this._mapItems = []);
 
+    if (this._mapZones) {
+      this._mapZones.forEach(function(marker) {
+        marker.remove();
+      });
+    }
+    var mapZones = (this._mapZones = []);
+
     Object.keys(opp.states).forEach((entityId) => {
       var entity = opp.states[entityId];
-      var title = computeStateName(entity);
 
       if (
         (entity.attributes.hidden && computeStateDomain(entity) !== "zone") ||
@@ -111,6 +133,7 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
         return;
       }
 
+      var title = computeStateName(entity);
       var icon;
 
       if (computeStateDomain(entity) === "zone") {
@@ -136,7 +159,7 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
         });
 
         // create marker with the icon
-        mapItems.push(
+        mapZones.push(
           this.Leaflet.marker(
             [entity.attributes.latitude, entity.attributes.longitude],
             {
@@ -148,12 +171,12 @@ class OpPanelMap extends LocalizeMixin(PolymerElement) {
         );
 
         // create circle around it
-        mapItems.push(
+        mapZones.push(
           this.Leaflet.circle(
             [entity.attributes.latitude, entity.attributes.longitude],
             {
               interactive: false,
-              color: "#FF9800",
+              color: defaultRadiusColor,
               radius: entity.attributes.radius,
             }
           ).addTo(map)

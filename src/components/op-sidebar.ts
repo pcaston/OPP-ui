@@ -18,15 +18,6 @@ import "../components/user/op-user-badge";
 import "../components/op-menu-button";
 import { OpenPeerPower, PanelInfo } from "../types";
 import { fireEvent } from "../common/dom/fire_event";
-
-declare global {
-  // for fire event
-  interface OPPDomEvents {
-    "opp-show-notifications": {};
-    "opp-toggle-menu": {} | undefined;
-  }
-}
-
 import { DEFAULT_PANEL } from "../common/const";
 import {
   getExternalConfig,
@@ -36,7 +27,7 @@ import {
   PersistentNotification,
   subscribeNotifications,
 } from "../data/persistent_notification";
-import computeDomain from "../common/entity/compute_domain";
+import { computeDomain } from "../common/entity/compute_domain";
 import { classMap } from "lit-html/directives/class-map";
 // tslint:disable-next-line: no-duplicate-imports
 import { PaperIconItemElement } from "@polymer/paper-item/paper-icon-item";
@@ -186,7 +177,7 @@ class OpSidebar extends LitElement {
             opp.localize(`panel.${panel.title}`) || panel.title
           )
         )}
-        ${this._externalConfig && this._externalConfig.hasSettingsScreen
+        ${this._externalConfig && this._externalConfig.OppettingsScreen
           ? html`
               <a
                 aria-role="option"
@@ -196,11 +187,10 @@ class OpSidebar extends LitElement {
                 href="#external-app-configuration"
                 tabindex="-1"
                 @click=${this._handleExternalAppConfiguration}
+                @mouseenter=${this._itemMouseEnter}
+                @mouseleave=${this._itemMouseLeave}
               >
-                <paper-icon-item
-                  @mouseenter=${this._itemMouseEnter}
-                  @mouseleave=${this._itemMouseLeave}
-                >
+                <paper-icon-item>
                   <op-icon
                     slot="item-icon"
                     icon="opp:cellphone-settings-variant"
@@ -216,30 +206,34 @@ class OpSidebar extends LitElement {
 
       <div class="divider"></div>
 
-      <paper-icon-item
-        class="notifications"
-        aria-role="option"
-        @click=${this._handleShowNotificationDrawer}
+      <div
+        class="notifications-container"
         @mouseenter=${this._itemMouseEnter}
         @mouseleave=${this._itemMouseLeave}
       >
-        <op-icon slot="item-icon" icon="opp:bell"></op-icon>
-        ${!this.expanded && notificationCount > 0
-          ? html`
-              <span class="notification-badge" slot="item-icon">
-                ${notificationCount}
-              </span>
-            `
-          : ""}
-        <span class="item-text">
-          ${opp.localize("ui.notification_drawer.title")}
-        </span>
-        ${this.expanded && notificationCount > 0
-          ? html`
-              <span class="notification-badge">${notificationCount}</span>
-            `
-          : ""}
-      </paper-icon-item>
+        <paper-icon-item
+          class="notifications"
+          aria-role="option"
+          @click=${this._handleShowNotificationDrawer}
+        >
+          <op-icon slot="item-icon" icon="opp:bell"></op-icon>
+          ${!this.expanded && notificationCount > 0
+            ? html`
+                <span class="notification-badge" slot="item-icon">
+                  ${notificationCount}
+                </span>
+              `
+            : ""}
+          <span class="item-text">
+            ${opp.localize("ui.notification_drawer.title")}
+          </span>
+          ${this.expanded && notificationCount > 0
+            ? html`
+                <span class="notification-badge">${notificationCount}</span>
+              `
+            : ""}
+        </paper-icon-item>
+      </div>
 
       <a
         class=${classMap({
@@ -252,11 +246,10 @@ class OpSidebar extends LitElement {
         tabindex="-1"
         aria-role="option"
         aria-label=${opp.localize("panel.profile")}
+        @mouseenter=${this._itemMouseEnter}
+        @mouseleave=${this._itemMouseLeave}
       >
-        <paper-icon-item
-          @mouseenter=${this._itemMouseEnter}
-          @mouseleave=${this._itemMouseLeave}
-        >
+        <paper-icon-item>
           <op-user-badge slot="item-icon" .user=${opp.user}></op-user-badge>
 
           <span class="item-text">
@@ -398,14 +391,14 @@ class OpSidebar extends LitElement {
     }
     const tooltip = this._tooltip;
     const listbox = this.shadowRoot!.querySelector("paper-listbox")!;
-    let top = item.offsetTop + 7;
+    let top = item.offsetTop + 11;
     if (listbox.contains(item)) {
       top -= listbox.scrollTop;
     }
     tooltip.innerHTML = item.querySelector(".item-text")!.innerHTML;
     tooltip.style.display = "block";
     tooltip.style.top = `${top}px`;
-    tooltip.style.left = `${item.offsetLeft + item.clientWidth + 12}px`;
+    tooltip.style.left = `${item.offsetLeft + item.clientWidth + 4}px`;
   }
 
   private _hideTooltip() {
@@ -440,11 +433,10 @@ class OpSidebar extends LitElement {
         href="${`/${urlPath}`}"
         data-panel="${urlPath}"
         tabindex="-1"
+        @mouseenter=${this._itemMouseEnter}
+        @mouseleave=${this._itemMouseLeave}
       >
-        <paper-icon-item
-          @mouseenter=${this._itemMouseEnter}
-          @mouseleave=${this._itemMouseLeave}
-        >
+        <paper-icon-item>
           <op-icon slot="item-icon" .icon="${icon}"></op-icon>
           <span class="item-text">${title}</span>
         </paper-icon-item>
@@ -529,10 +521,13 @@ class OpSidebar extends LitElement {
       }
 
       a {
+        text-decoration: none;
         color: var(--sidebar-text-color);
         font-weight: 500;
         font-size: 14px;
-        text-decoration: none;
+        position: relative;
+        display: block;
+        outline: 0;
       }
 
       paper-icon-item {
@@ -555,7 +550,8 @@ class OpSidebar extends LitElement {
         color: var(--sidebar-icon-color);
       }
 
-      .iron-selected paper-icon-item:before {
+      .iron-selected paper-icon-item::before,
+      a:not(.iron-selected):focus::before {
         border-radius: 4px;
         position: absolute;
         top: 0;
@@ -564,10 +560,21 @@ class OpSidebar extends LitElement {
         left: 0;
         pointer-events: none;
         content: "";
-        background-color: var(--sidebar-selected-icon-color);
-        opacity: 0.12;
         transition: opacity 15ms linear;
         will-change: opacity;
+      }
+      .iron-selected paper-icon-item::before {
+        background-color: var(--sidebar-selected-icon-color);
+        opacity: 0.12;
+      }
+      a:not(.iron-selected):focus::before {
+        background-color: currentColor;
+        opacity: var(--dark-divider-opacity);
+        margin: 4px 8px;
+      }
+      .iron-selected paper-icon-item:focus::before,
+      .iron-selected:focus paper-icon-item::before {
+        opacity: 0.2;
       }
 
       .iron-selected paper-icon-item[pressed]:before {
@@ -590,6 +597,7 @@ class OpSidebar extends LitElement {
 
       paper-icon-item .item-text {
         display: none;
+        max-width: calc(100% - 56px);
       }
       :host([expanded]) paper-icon-item .item-text {
         display: block;
@@ -605,7 +613,9 @@ class OpSidebar extends LitElement {
         height: 1px;
         background-color: var(--divider-color);
       }
-
+      .notifications-container {
+        display: flex;
+      }
       .notifications {
         cursor: pointer;
       }

@@ -3,15 +3,12 @@
  *
  * Usage:
  *   const states = [state1, state2]
- *   states.sort(statesSortByName);
+ *   states.sort(statessortStatesByName);
  */
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { computeStateName } from "./compute_state_name";
 
-export default function sortStatesByName(
-  entityA: OppEntity,
-  entityB: OppEntity
-) {
+export const sortStatesByName = (entityA: OppEntity, entityB: OppEntity) => {
   const nameA = computeStateName(entityA);
   const nameB = computeStateName(entityB);
   if (nameA < nameB) {
@@ -21,4 +18,4 @@ export default function sortStatesByName(
     return 1;
   }
   return 0;
-}
+};

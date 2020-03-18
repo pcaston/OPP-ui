@@ -1,7 +1,7 @@
 /** Return an icon representing a sensor state. */
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { UNIT_C, UNIT_F } from "../const";
-import domainIcon from "./domain_icon";
+import { domainIcon } from "./domain_icon";
 
 const fixedDeviceClassIcons = {
   humidity: "opp:water-percent",
@@ -12,7 +12,7 @@ const fixedDeviceClassIcons = {
   signal_strength: "opp:wifi",
 };
 
-export default function sensorIcon(state: OppEntity) {
+export const sensorIcon = (state: OppEntity) => {
   const dclass = state.attributes.device_class;
 
   if (dclass && dclass in fixedDeviceClassIcons) {
@@ -49,4 +49,4 @@ export default function sensorIcon(state: OppEntity) {
     return "opp:thermometer";
   }
   return domainIcon("sensor");
-}
+};

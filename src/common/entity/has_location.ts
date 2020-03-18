@@ -1,7 +1,7 @@
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 
-export default function hasLocation(stateObj: OppEntity) {
+export const hasLocation = (stateObj: OppEntity) => {
   return (
     "latitude" in stateObj.attributes && "longitude" in stateObj.attributes
   );
-}
+};

@@ -1,13 +1,14 @@
-import { OppEntities, GroupEntity  } from "../../types";
-import computeDomain from "./compute_domain";
-import getGroupEntities from "./get_group_entities";
+import { OppEntities } from "../../websocket/lib";
+import { computeDomain } from "./compute_domain";
+import { getGroupEntities } from "./get_group_entities";
+import { GroupEntity } from "../../types";
 
 // Return an object containing all entities that the view will show
 // including embedded groups.
-export default function getViewEntities(
+export const getViewEntities = (
   entities: OppEntities,
   view: GroupEntity
-): OppEntities {
+): OppEntities => {
   const viewEntities = {};
 
   view.attributes.entity_id.forEach((entityId) => {
@@ -31,4 +32,4 @@ export default function getViewEntities(
   });
 
   return viewEntities;
-}
+};

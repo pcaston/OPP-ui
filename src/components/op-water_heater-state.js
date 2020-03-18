@@ -6,7 +6,7 @@ import LocalizeMixin from "../mixins/localize-mixin";
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpWaterHeaterState extends PolymerElement {
+class OpWaterHeaterState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -58,14 +58,10 @@ class OpWaterHeaterState extends PolymerElement {
       stateObj.attributes.target_temp_low != null &&
       stateObj.attributes.target_temp_high != null
     ) {
-      return `${stateObj.attributes.target_temp_low} - ${
-        stateObj.attributes.target_temp_high
-      } ${opp.config.unit_system.temperature}`;
+      return `${stateObj.attributes.target_temp_low} - ${stateObj.attributes.target_temp_high} ${opp.config.unit_system.temperature}`;
     }
     if (stateObj.attributes.temperature != null) {
-      return `${stateObj.attributes.temperature} ${
-        opp.config.unit_system.temperature
-      }`;
+      return `${stateObj.attributes.temperature} ${opp.config.unit_system.temperature}`;
     }
 
     return "";

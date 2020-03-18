@@ -1,8 +1,6 @@
 import "@polymer/paper-icon-button/paper-icon-button";
-import "@polymer/paper-toggle-button/paper-toggle-button";
 
 import { STATES_OFF } from "../../common/const";
-import computeStateDomain from "../../common/entity/compute_state_domain";
 import {
   LitElement,
   TemplateResult,
@@ -13,8 +11,13 @@ import {
   PropertyValues,
 } from "lit-element";
 import { OpenPeerPower } from "../../types";
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 import { forwardHaptic } from "../../data/haptics";
+
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { computeStateName } from "../../common/entity/compute_state_name";
+
+import "../op-switch";
 
 const isOn = (stateObj?: OppEntity) =>
   stateObj !== undefined && !STATES_OFF.includes(stateObj.state);
@@ -25,21 +28,23 @@ class OpEntityToggle extends LitElement {
   @property() public stateObj?: OppEntity;
   @property() private _isOn: boolean = false;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this.stateObj) {
       return html`
-        <paper-toggle-button disabled></paper-toggle-button>
+        <op-switch disabled></op-switch>
       `;
     }
 
     if (this.stateObj.attributes.assumed_state) {
       return html`
         <paper-icon-button
+          aria-label=${`Turn ${computeStateName(this.stateObj)} off`}
           icon="opp:flash-off"
           @click=${this._turnOff}
           ?state-active=${!this._isOn}
         ></paper-icon-button>
         <paper-icon-button
+          aria-label=${`Turn ${computeStateName(this.stateObj)} on`}
           icon="opp:flash"
           @click=${this._turnOn}
           ?state-active=${this._isOn}
@@ -48,10 +53,13 @@ class OpEntityToggle extends LitElement {
     }
 
     return html`
-      <paper-toggle-button
+      <op-switch
+        aria-label=${`Toggle ${computeStateName(this.stateObj)} ${
+          this._isOn ? "off" : "on"
+        }`}
         .checked=${this._isOn}
         @change=${this._toggleChanged}
-      ></paper-toggle-button>
+      ></op-switch>
     `;
   }
 
@@ -143,11 +151,8 @@ class OpEntityToggle extends LitElement {
       paper-icon-button[state-active] {
         color: var(--paper-icon-button-active-color, var(--primary-color));
       }
-      paper-toggle-button {
-        cursor: pointer;
-        --paper-toggle-button-label-spacing: 0;
+      op-switch {
         padding: 13px 5px;
-        margin: -4px -5px;
       }
     `;
   }

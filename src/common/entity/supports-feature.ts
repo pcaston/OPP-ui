@@ -1,4 +1,4 @@
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 
 export const supportsFeature = (
   stateObj: OppEntity,

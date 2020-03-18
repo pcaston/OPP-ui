@@ -8,7 +8,7 @@ import LocalizeMixin from "../mixins/localize-mixin";
 /*
  * @appliesMixin LocalizeMixin
  */
-class OpRelativeTime extends PolymerElement {
+class OpRelativeTime extends LocalizeMixin(PolymerElement) {
   static get properties() {
     return {
       opp: Object,

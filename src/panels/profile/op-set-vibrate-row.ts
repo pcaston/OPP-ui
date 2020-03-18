@@ -14,22 +14,13 @@ import { fireEvent } from "../../common/dom/fire_event";
 // tslint:disable-next-line: no-duplicate-imports
 import { OpSwitch } from "../../components/op-switch";
 import { forwardHaptic } from "../../data/haptics";
-declare global {
-  // for fire event
-  interface OPPDomEvents {
-    "opp-vibrate": OppVibrateEvent;
-  }
-}
 
-interface OppVibrateEvent {
-  vibrate: boolean;
-}
 @customElement("op-set-vibrate-row")
 class OpSetVibrateRow extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public narrow!: boolean;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <op-settings-row .narrow=${this.narrow}>
         <span slot="heading">

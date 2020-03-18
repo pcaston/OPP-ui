@@ -51,7 +51,7 @@ export class OpFormBoolean extends LitElement implements OpFormElement {
   static get styles(): CSSResult {
     return css`
       paper-checkbox {
-        display: inline-block;
+        display: block;
         padding: 22px 0;
       }
     `;

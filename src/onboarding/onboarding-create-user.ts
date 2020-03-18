@@ -10,11 +10,16 @@ import {
   customElement,
   TemplateResult,
 } from "lit-element";
-import { genClientId } from "../open-peer-power-js-websocket/lib";
+import { genClientId } from "../websocket/lib";
+import { onboardUserStep } from "../data/onboarding";
 import { PolymerChangedEvent } from "../polymer-types";
+import { LocalizeFunc } from "../common/translations/localize";
+import { fireEvent } from "../common/dom/fire_event";
 
 @customElement("onboarding-create-user")
 class OnboardingCreateUser extends LitElement {
+  @property() public localize!: LocalizeFunc;
+  @property() public language!: string;
 
   @property() private _name = "";
   @property() private _username = "";
@@ -23,21 +28,23 @@ class OnboardingCreateUser extends LitElement {
   @property() private _loading = false;
   @property() private _errorMsg?: string = undefined;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
     <p>
-     Take control of your power and keep your privacy.
+      ${this.localize("ui.panel.page-onboarding.intro")}
     </p>
 
     <p>
-      Register your user account.
+      ${this.localize("ui.panel.page-onboarding.user.intro")}
     </p>
 
     ${
       this._errorMsg
         ? html`
             <p class="error">
-              Fill in all required fields
+              ${this.localize(
+                `ui.panel.page-onboarding.user.error.${this._errorMsg}`
+              ) || this._errorMsg}
             </p>
           `
         : ""
@@ -46,41 +53,49 @@ class OnboardingCreateUser extends LitElement {
     <form>
       <paper-input
         name="name"
-        label="Name"
+        label="${this.localize("ui.panel.page-onboarding.user.data.name")}"
         .value=${this._name}
         @value-changed=${this._handleValueChanged}
         required
         auto-validate
         autocapitalize='on'
-        .errorMessage="Required"
+        .errorMessage="${this.localize(
+          "ui.panel.page-onboarding.user.required_field"
+        )}"
         @blur=${this._maybePopulateUsername}
       ></paper-input>
 
       <paper-input
         name="username"
-        label="Username"
+        label="${this.localize("ui.panel.page-onboarding.user.data.username")}"
         value=${this._username}
         @value-changed=${this._handleValueChanged}
         required
         auto-validate
         autocapitalize='none'
-        .errorMessage="Required"
+        .errorMessage="${this.localize(
+          "ui.panel.page-onboarding.user.required_field"
+        )}"
       ></paper-input>
 
       <paper-input
         name="password"
-        label="Password"
+        label="${this.localize("ui.panel.page-onboarding.user.data.password")}"
         value=${this._password}
         @value-changed=${this._handleValueChanged}
         required
         type='password'
         auto-validate
-        .errorMessage="Required"
+        .errorMessage="${this.localize(
+          "ui.panel.page-onboarding.user.required_field"
+        )}"
       ></paper-input>
 
       <paper-input
         name="passwordConfirm"
-        label="Confirm Password"
+        label="${this.localize(
+          "ui.panel.page-onboarding.user.data.password_confirm"
+        )}"
         value=${this._passwordConfirm}
         @value-changed=${this._handleValueChanged}
         required
@@ -88,7 +103,9 @@ class OnboardingCreateUser extends LitElement {
         .invalid=${this._password !== "" &&
           this._passwordConfirm !== "" &&
           this._passwordConfirm !== this._password}
-        .errorMessage="Passwords don't match"
+        .errorMessage="${this.localize(
+          "ui.panel.page-onboarding.user.error.password_not_match"
+        )}"
       ></paper-input>
 
       <p class="action">
@@ -97,7 +114,7 @@ class OnboardingCreateUser extends LitElement {
           @click=${this._submitForm}
           .disabled=${this._loading}
         >
-          Create Account
+          ${this.localize("ui.panel.page-onboarding.user.create_account")}
         </mwc-button>
       </p>
     </div>
@@ -149,60 +166,28 @@ class OnboardingCreateUser extends LitElement {
 
     this._loading = true;
     this._errorMsg = "";
-    var ws = new WebSocket("ws://127.0.0.1:8123/api/websocket");
-    let that = this;
-    ws.onmessage = function (event) {
-      let data = JSON.parse(event.data);
-      switch (data.type) {
-        case 'auth_required':
-            if (localStorage.getItem('auth_token')) {
-              const authobj = 
-              {
-                type: "auth",
-                access_token: localStorage.getItem('auth_token')
-              };
-              ws.send(JSON.stringify(authobj));
-              localStorage.removeItem('auth_token');
-            } 
-            else {
-              const clientId = genClientId();
-              const result = {
-              type: "login",
-              client_id: clientId,
-              name: that._name,
-              username: that._username,
-              password: that._password,
-            };
-            ws.send(JSON.stringify(result));
-            }
-          break;
-        case 'auth_ok':
-          localStorage.setItem('auth_token', data.auth_token);
-          let fetchstate = 
-          {
-            "id": "1",
-            "type": "get_states"
-          }
-          ws.send(JSON.stringify(fetchstate));
-          break;
-        default:
-          console.error(
-            "unsupported event", data);
-      }
-    }
 
-    //try {
+    try {
+      const clientId = genClientId();
 
-      //fireEvent(this, "onboarding-step", {
-      //  type: "user",
-      //  result,
-      //});
-    //} catch (err) {
+      const result = await onboardUserStep({
+        client_id: clientId,
+        name: this._name,
+        username: this._username,
+        password: this._password,
+        language: this.language,
+      });
+
+      fireEvent(this, "onboarding-step", {
+        type: "user",
+        result,
+      });
+    } catch (err) {
       // tslint:disable-next-line
-      //console.error(err);
-      //this._loading = false;
-      //this._errorMsg = err.body.message;
-    //}
+      console.error(err);
+      this._loading = false;
+      this._errorMsg = err.body.message;
+    }
   }
 
   static get styles(): CSSResult {

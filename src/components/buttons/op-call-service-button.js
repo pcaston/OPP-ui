@@ -3,6 +3,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import "./op-progress-button";
 import { EventsMixin } from "../../mixins/events-mixin";
+import { showConfirmationDialog } from "../../dialogs/generic/show-dialog-box";
 
 /*
  * @appliesMixin EventsMixin
@@ -14,6 +15,7 @@ class OpCallServiceButton extends EventsMixin(PolymerElement) {
         id="progress"
         progress="[[progress]]"
         on-click="buttonTapped"
+        tabindex="0"
         ><slot></slot
       ></op-progress-button>
     `;
@@ -42,10 +44,14 @@ class OpCallServiceButton extends EventsMixin(PolymerElement) {
         type: Object,
         value: {},
       },
+
+      confirmation: {
+        type: String,
+      },
     };
   }
 
-  buttonTapped() {
+  callService() {
     this.progress = true;
     var el = this;
     var eventData = {
@@ -71,6 +77,17 @@ class OpCallServiceButton extends EventsMixin(PolymerElement) {
       .then(function() {
         el.fire("opp-service-called", eventData);
       });
+  }
+
+  buttonTapped() {
+    if (this.confirmation) {
+      showConfirmationDialog(this, {
+        text: this.confirmation,
+        confirm: () => this.callService(),
+      });
+    } else {
+      this.callService();
+    }
   }
 }
 

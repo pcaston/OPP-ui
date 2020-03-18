@@ -7,9 +7,9 @@ import {
   property,
   customElement,
 } from "lit-element";
-import { classMap } from "lit-html/directives/class-map";
 import { User } from "../../data/user";
 import { CurrentUser } from "../../types";
+import { toggleAttribute } from "../../common/dom/toggle_attribute";
 
 const computeInitials = (name: string) => {
   if (!name) {
@@ -31,26 +31,26 @@ const computeInitials = (name: string) => {
 class StateBadge extends LitElement {
   @property() public user?: User | CurrentUser;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const user = this.user;
-
     const initials = user ? computeInitials(user.name) : "?";
-
     return html`
-      <div
-        class="${classMap({
-          "profile-badge": true,
-          long: initials.length > 2,
-        })}"
-      >
-        ${initials}
-      </div>
+      ${initials}
     `;
+  }
+
+  protected updated(changedProps) {
+    super.updated(changedProps);
+    toggleAttribute(
+      this,
+      "long",
+      (this.user ? computeInitials(this.user.name) : "?").length > 2
+    );
   }
 
   static get styles(): CSSResult {
     return css`
-      .profile-badge {
+      :host {
         display: inline-block;
         box-sizing: border-box;
         width: 40px;
@@ -63,7 +63,7 @@ class StateBadge extends LitElement {
         overflow: hidden;
       }
 
-      .profile-badge.long {
+      :host([long]) {
         font-size: 80%;
       }
     `;

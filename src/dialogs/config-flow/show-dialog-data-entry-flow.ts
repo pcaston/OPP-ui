@@ -7,8 +7,8 @@ import {
   DataEntryFlowStepForm,
   DataEntryFlowStep,
   DataEntryFlowStepAbort,
-  FieldSchema,
 } from "../../data/data_entry_flow";
+import { OpFormSchema } from "../../components/op-form/op-form";
 
 export interface FlowConfig {
   loadDevicesAndAreas: boolean;
@@ -45,7 +45,7 @@ export interface FlowConfig {
   renderShowFormStepFieldLabel(
     opp: OpenPeerPower,
     step: DataEntryFlowStepForm,
-    field: FieldSchema
+    field: OpFormSchema
   ): string;
 
   renderShowFormStepFieldError(

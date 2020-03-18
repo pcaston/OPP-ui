@@ -18,7 +18,7 @@ let instance = 0;
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class OpMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="op-style-dialog">
@@ -314,4 +314,4 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   }
 }
 
-customElements.define("op-mfa-module-setup-flow", HaMfaModuleSetupFlow);
+customElements.define("op-mfa-module-setup-flow", OpMfaModuleSetupFlow);

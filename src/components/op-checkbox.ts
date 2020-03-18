@@ -1,6 +1,6 @@
 import { customElement, CSSResult, css } from "lit-element";
 import "@material/mwc-checkbox";
-//@ts-ignore
+// tslint:disable-next-line
 import { Checkbox } from "@material/mwc-checkbox";
 import { style } from "@material/mwc-checkbox/mwc-checkbox-css";
 import { Constructor } from "../types";

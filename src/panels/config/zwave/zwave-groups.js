@@ -193,9 +193,7 @@ class ZwaveGroups extends PolymerElement {
 
   ready() {
     super.ready();
-    this.addEventListener("opp-service-called", (ev) =>
-      this.serviceCalled(ev)
-    );
+    this.addEventListener("opp-service-called", (ev) => this.serviceCalled(ev));
   }
 
   serviceCalled(ev) {

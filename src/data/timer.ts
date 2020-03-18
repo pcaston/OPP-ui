@@ -1,7 +1,4 @@
-import {
-  OppEntityBase,
-  OppEntityAttributeBase,
-} from "../open-peer-power-js-websocket/lib";
+import { OppEntityBase, OppEntityAttributeBase } from "../websocket/lib";
 
 export type TimerEntity = OppEntityBase & {
   attributes: OppEntityAttributeBase & {

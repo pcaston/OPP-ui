@@ -1,12 +1,10 @@
-import canToggleState from "./can_toggle_state";
-import computeStateDomain from "./compute_state_domain";
+import { OppEntity } from "../../websocket/lib";
+import { canToggleState } from "./can_toggle_state";
+import { computeStateDomain } from "./compute_state_domain";
 import { DOMAINS_WITH_CARD } from "../const";
-import { OpenPeerPower, OppEntity } from "../../types";
+import { OpenPeerPower } from "../../types";
 
-export default function stateCardType(
-  opp: OpenPeerPower,
-  stateObj: OppEntity
-) {
+export const stateCardType = (opp: OpenPeerPower, stateObj: OppEntity) => {
   if (stateObj.state === "unavailable") {
     return "display";
   }
@@ -23,4 +21,4 @@ export default function stateCardType(
     return "toggle";
   }
   return "display";
-}
+};

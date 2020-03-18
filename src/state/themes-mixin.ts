@@ -1,8 +1,9 @@
 import { applyThemesOnElement } from "../common/dom/apply_themes_on_element";
 import { storeState } from "../util/op-pref-storage";
-import { Constructor, LitElement } from "lit-element";
+import { subscribeThemes } from "../data/ws-themes";
 import { OppBaseEl } from "./opp-base-mixin";
 import { OPPDomEvent } from "../common/dom/fire_event";
+import { Constructor } from "../types";
 
 declare global {
   // for add event listener
@@ -11,7 +12,7 @@ declare global {
   }
 }
 
-export default (superClass: Constructor<LitElement & OppBaseEl>) =>
+export default <T extends Constructor<OppBaseEl>>(superClass: T) =>
   class extends superClass {
     protected firstUpdated(changedProps) {
       super.firstUpdated(changedProps);
@@ -24,6 +25,11 @@ export default (superClass: Constructor<LitElement & OppBaseEl>) =>
 
     protected oppConnected() {
       super.oppConnected();
+
+      subscribeThemes(this.opp!.connection, (themes) => {
+        this._updateOpp({ themes });
+        this._applyTheme();
+      });
     }
 
     private _applyTheme() {

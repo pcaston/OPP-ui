@@ -188,6 +188,7 @@ class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
       <div class="controls layout horizontal justified">
         <paper-icon-button
+          aria-label="Turn off"
           icon="opp:power"
           on-click="handleTogglePower"
           invisible$="[[computeHidePowerButton(playerObj)]]"
@@ -196,12 +197,14 @@ class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
         <div class="playback-controls">
           <paper-icon-button
+            aria-label="Previous track"
             icon="opp:skip-previous"
             invisible$="[[!playerObj.supportsPreviousTrack]]"
             disabled="[[playerObj.isOff]]"
             on-click="handlePrevious"
           ></paper-icon-button>
           <paper-icon-button
+            aria-label="Play or Pause"
             class="primary"
             icon="[[computePlaybackControlIcon(playerObj)]]"
             invisible$="[[!computePlaybackControlIcon(playerObj)]]"
@@ -209,6 +212,7 @@ class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
             on-click="handlePlaybackControl"
           ></paper-icon-button>
           <paper-icon-button
+            aria-label="Next track"
             icon="opp:skip-next"
             invisible$="[[!playerObj.supportsNextTrack]]"
             disabled="[[playerObj.isOff]]"
@@ -217,6 +221,7 @@ class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
         </div>
 
         <paper-icon-button
+          aria-label="More information."
           icon="opp:dots-vertical"
           on-click="handleOpenMoreInfo"
           class="self-center secondary"
@@ -311,6 +316,10 @@ class OpMediaPlayerCard extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   computeBannerClasses(playerObj, coverShowing, coverLoadError) {
     var cls = "banner";
+
+    if (!playerObj) {
+      return cls;
+    }
 
     if (playerObj.isOff || playerObj.isIdle) {
       cls += " is-off no-cover";

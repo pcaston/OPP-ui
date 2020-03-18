@@ -44,12 +44,25 @@ export const showOptionsFlowDialog = (
           : "";
       },
 
-      renderShowFormStepHeader(opp, _step) {
-        return opp.localize(`ui.dialogs.options_flow.form.header`);
+      renderShowFormStepHeader(opp, step) {
+        return (
+          opp.localize(
+            `component.${configEntry.domain}.options.step.${step.step_id}.title`
+          ) || opp.localize(`ui.dialogs.options_flow.form.header`)
+        );
       },
 
-      renderShowFormStepDescription(_opp, _step) {
-        return "";
+      renderShowFormStepDescription(opp, step) {
+        const description = localizeKey(
+          opp.localize,
+          `component.${configEntry.domain}.options.step.${step.step_id}.description`,
+          step.description_placeholders
+        );
+        return description
+          ? html`
+              <op-markdown allowsvg .content=${description}></op-markdown>
+            `
+          : "";
       },
 
       renderShowFormStepFieldLabel(opp, step, field) {

@@ -1,9 +1,9 @@
-import { OppEntity } from "../../types";
+import { OppEntity } from "../../websocket/lib";
 
-export default function attributeClassNames(
+export const attributeClassNames = (
   stateObj: OppEntity,
   attributes: string[]
-): string {
+): string => {
   if (!stateObj) {
     return "";
   }
@@ -13,4 +13,4 @@ export default function attributeClassNames(
     )
     .filter((attr) => attr !== "")
     .join(" ");
-}
+};

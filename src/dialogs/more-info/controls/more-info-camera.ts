@@ -38,7 +38,7 @@ class MoreInfoCamera extends LitElement {
     this._attached = false;
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this._attached || !this.opp || !this.stateObj) {
       return html``;
     }
@@ -78,7 +78,7 @@ class MoreInfoCamera extends LitElement {
 
     if (
       curEntityId &&
-      this.opp!.config!.components.includes("stream") &&
+      this.opp!.config.components.includes("stream") &&
       supportsFeature(this.stateObj!, CAMERA_SUPPORT_STREAM)
     ) {
       // Fetch in background while we set up the video.

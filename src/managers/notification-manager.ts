@@ -58,7 +58,7 @@ class NotificationManager extends LitElement {
     });
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <op-toast .noCancelOnOutsideClick=${this._noCancelOnOutsideClick}>
         ${this._action
@@ -91,6 +91,7 @@ class NotificationManager extends LitElement {
 }
 
 customElements.define("notification-manager", NotificationManager);
+
 declare global {
   // for fire event
   interface OPPDomEvents {
