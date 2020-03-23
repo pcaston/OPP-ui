@@ -15,7 +15,7 @@ import { OpPaperDialog } from "../../components/dialog/op-paper-dialog";
 import "../../panels/config/zha/zha-device-card";
 
 import { PolymerChangedEvent } from "../../polymer-types";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 import { OpenPeerPower } from "../../types";
 import { ZHADeviceInfoDialogParams } from "./show-dialog-zha-device-info";
 import { ZHADevice, fetchZHADevice } from "../../data/zha";
@@ -85,7 +85,7 @@ class DialogZHADeviceInfo extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog > * {
           margin: 0;

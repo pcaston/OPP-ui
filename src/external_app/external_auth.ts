@@ -1,7 +1,7 @@
 /**
  * Auth class that connects to a native app for authentication.
  */
-import { Auth } from "../open-peer-power-js-websocket/lib";
+import { Auth } from "../websocket/lib";
 import { ExternalMessaging, InternalMessage } from "./external_messaging";
 
 const CALLBACK_SET_TOKEN = "externalAuthSetToken";

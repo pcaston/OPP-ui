@@ -31,7 +31,7 @@ import {
   getOptimisticFrontendUserDataCollection,
   CoreFrontendUserData,
 } from "../../data/frontend";
-import { haStyle } from "../../resources/styles";
+import { opStyle } from "../../resources/styles";
 import { OpenPeerPower } from "../../types";
 import { fireEvent } from "../../common/dom/fire_event";
 import { UnsubscribeFunc } from "../../websocket/lib";
@@ -184,7 +184,7 @@ class OpPanelProfile extends LitElement {
 
   static get styles(): CSSResultArray {
     return [
-      haStyle,
+      opStyle,
       css`
         :host {
           -ms-user-select: initial;

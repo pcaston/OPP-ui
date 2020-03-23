@@ -1,4 +1,4 @@
-import { UnsubscribeFunc } from "../../types";
+import { UnsubscribeFunc } from "./types";
 
 // (c) Jason Miller
 // Unistore - MIT license
@@ -9,7 +9,6 @@ type Action<State> = (
   state: State,
   ...args: any[]
 ) => Partial<State> | Promise<Partial<State>> | null;
-// @ts-ignore
 type BoundAction<State> = (...args: any[]) => void;
 
 export type Store<State> = {
@@ -23,7 +22,7 @@ export const createStore = <State>(state?: State): Store<State> => {
   let listeners: Listener<State>[] = [];
 
   function unsubscribe(listener: Listener<State> | null) {
-    let out: any[] = [];
+    let out = [];
     for (let i = 0; i < listeners.length; i++) {
       if (listeners[i] === listener) {
         listener = null;
@@ -94,7 +93,7 @@ export const createStore = <State>(state?: State): Store<State> => {
       return () => {
         unsubscribe(listener);
       };
-    }
+    },
 
     // /**
     //  * Remove a previously-registered listener function.

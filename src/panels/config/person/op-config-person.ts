@@ -4,13 +4,12 @@ import {
   html,
   css,
   CSSResult,
-  PropertyDeclarations,
+  property,
 } from "lit-element";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
-import "@polymer/paper-fab/paper-fab";
 
-import { OpenPeerPower } from "../../../types";
+import { OpenPeerPower, Route } from "../../../types";
 import {
   Person,
   fetchPersons,
@@ -19,7 +18,8 @@ import {
   createPerson,
 } from "../../../data/person";
 import "../../../components/op-card";
-import "../../../layouts/opp-subpage";
+import "../../../components/op-fab";
+import "../../../layouts/opp-tabs-subpage";
 import "../../../layouts/opp-loading-screen";
 import { compare } from "../../../common/string/compare";
 import "../op-config-section";
@@ -28,24 +28,18 @@ import {
   loadPersonDetailDialog,
 } from "./show-dialog-person-detail";
 import { User, fetchUsers } from "../../../data/user";
+import { configSections } from "../op-panel-config";
 
 class OpConfigPerson extends LitElement {
-  public opp?: OpenPeerPower;
-  public isWide?: boolean;
-  private _storageItems?: Person[];
-  private _configItems?: Person[];
+  @property() public opp?: OpenPeerPower;
+  @property() public isWide?: boolean;
+  @property() public narrow?: boolean;
+  @property() public route!: Route;
+  @property() private _storageItems?: Person[];
+  @property() private _configItems?: Person[];
   private _usersLoad?: Promise<User[]>;
 
-  static get properties(): PropertyDeclarations {
-    return {
-      opp: {},
-      isWide: {},
-      _storageItems: {},
-      _configItems: {},
-    };
-  }
-
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (
       !this.opp ||
       this._storageItems === undefined ||
@@ -55,17 +49,27 @@ class OpConfigPerson extends LitElement {
         <opp-loading-screen></opp-loading-screen>
       `;
     }
+    const opp = this.opp;
     return html`
-      <opp-subpage header="Persons">
+      <opp-tabs-subpage
+        .opp=${this.opp}
+        .narrow=${this.narrow}
+        .route=${this.route}
+        back-path="/config"
+        .tabs=${configSections.persons}
+      >
         <op-config-section .isWide=${this.isWide}>
-          <span slot="header">Persons</span>
+          <span slot="header"
+            >${opp.localize("ui.panel.config.person.caption")}</span
+          >
           <span slot="introduction">
-            Here you can define each person of interest in Open Peer Power.
+            ${opp.localize("ui.panel.config.person.introduction")}
             ${this._configItems.length > 0
               ? html`
                   <p>
-                    Note: persons configured via configuration.yaml cannot be
-                    edited via the UI.
+                    ${opp.localize(
+                      "ui.panel.config.person.note_about_persons_configured_in_yaml"
+                    )}
                   </p>
                 `
               : ""}
@@ -83,9 +87,13 @@ class OpConfigPerson extends LitElement {
             ${this._storageItems.length === 0
               ? html`
                   <div class="empty">
-                    Looks like you have not created any persons yet.
+                    ${opp.localize(
+                      "ui.panel.config.person.no_persons_created_yet"
+                    )}
                     <mwc-button @click=${this._createPerson}>
-                      CREATE PERSON</mwc-button
+                      ${opp.localize(
+                        "ui.panel.config.person.create_person"
+                      )}</mwc-button
                     >
                   </div>
                 `
@@ -107,14 +115,15 @@ class OpConfigPerson extends LitElement {
               `
             : ""}
         </op-config-section>
-      </opp-subpage>
+      </opp-tabs-subpage>
 
-      <paper-fab
+      <op-fab
         ?is-wide=${this.isWide}
+        ?narrow=${this.narrow}
         icon="opp:plus"
-        title="Create Area"
+        title="${opp.localize("ui.panel.config.person.add_person")}"
         @click=${this._createPerson}
-      ></paper-fab>
+      ></op-fab>
     `;
   }
 
@@ -168,9 +177,9 @@ class OpConfigPerson extends LitElement {
       users: this._allowedUsers(users, entry),
       createEntry: async (values) => {
         const created = await createPerson(this.opp!, values);
-        this._storageItems = this._storageItems!.concat(created).sort(
-          (ent1, ent2) => compare(ent1.name, ent2.name)
-        );
+        this._storageItems = this._storageItems!.concat(
+          created
+        ).sort((ent1, ent2) => compare(ent1.name, ent2.name));
       },
       updateEntry: async (values) => {
         const updated = await updatePerson(this.opp!, entry!.id, values);
@@ -180,9 +189,11 @@ class OpConfigPerson extends LitElement {
       },
       removeEntry: async () => {
         if (
-          !confirm(`Are you sure you want to delete this person?
+          !confirm(`${this.opp!.localize(
+            "ui.panel.config.person.confirm_delete"
+          )}
 
-All devices belonging to this person will become unassigned.`)
+${this.opp!.localize("ui.panel.config.person.confirm_delete2")}`)
         ) {
           return false;
         }
@@ -221,14 +232,16 @@ All devices belonging to this person will become unassigned.`)
       op-card.storage paper-item {
         cursor: pointer;
       }
-      paper-fab {
+      op-fab {
         position: fixed;
         bottom: 16px;
         right: 16px;
         z-index: 1;
       }
-
-      paper-fab[is-wide] {
+      op-fab[narrow] {
+        bottom: 84px;
+      }
+      op-fab[is-wide] {
         bottom: 24px;
         right: 24px;
       }

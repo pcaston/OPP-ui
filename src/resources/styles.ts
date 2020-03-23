@@ -49,7 +49,7 @@ export const derivedStyles = {
   "material-secondary-background-color": "var(--secondary-background-color)",
 };
 
-export const haStyle = css`
+export const opStyle = css`
   :host {
     @apply --paper-font-body1;
   }
@@ -137,7 +137,7 @@ export const haStyle = css`
   }
 `;
 
-export const haStyleDialog = css`
+export const opStyleDialog = css`
   /* prevent clipping of positioned elements */
   paper-dialog-scrollable {
     --paper-dialog-scrollable: {

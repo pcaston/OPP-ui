@@ -19,7 +19,7 @@ import "../../components/op-area-picker";
 
 import { DeviceRegistryDetailDialogParams } from "./show-dialog-device-registry-detail";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 import { OpenPeerPower } from "../../types";
 import { computeDeviceName } from "../../data/device_registry";
 
@@ -123,7 +123,7 @@ class DialogDeviceRegistryDetail extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           min-width: 400px;

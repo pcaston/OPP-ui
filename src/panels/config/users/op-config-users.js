@@ -27,6 +27,9 @@ class OpConfigUsers extends NavigateMixin(PolymerElement) {
         <op-config-user-picker
           opp="[[opp]]"
           users="[[_users]]"
+          is-wide="[[isWide]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
         ></op-config-user-picker>
       </template>
       <template
@@ -37,6 +40,8 @@ class OpConfigUsers extends NavigateMixin(PolymerElement) {
         <op-user-editor
           opp="[[opp]]"
           user="[[_computeUser(_users, _routeData.user)]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
         ></op-user-editor>
       </template>
     `;
@@ -45,6 +50,8 @@ class OpConfigUsers extends NavigateMixin(PolymerElement) {
   static get properties() {
     return {
       opp: Object,
+      isWide: Boolean,
+      narrow: Boolean,
       route: {
         type: Object,
         observer: "_checkRoute",

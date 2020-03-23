@@ -1,4 +1,4 @@
-import IntlMessageFormat from "intl-messageformat";
+import IntlMessageFormat from "intl-messageformat/src/main";
 import { Resources } from "../../types";
 
 export type LocalizeFunc = (key: string, ...args: any[]) => string;
@@ -41,6 +41,7 @@ export const computeLocalize = (
 ): LocalizeFunc => {
   // Everytime any of the parameters change, invalidate the strings cache.
   cache._localizationCache = {};
+
   return (key, ...args) => {
     if (!key || !resources || !language || !resources[language]) {
       return "";

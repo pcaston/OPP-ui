@@ -10,7 +10,7 @@ import {
   customElement,
   TemplateResult,
 } from "lit-element";
-import { genClientId, AuthData } from "../open-peer-power-js-websocket/lib";
+import { genClientId, AuthData } from "../websocket/lib";
 import { PolymerChangedEvent } from "../polymer-types";
 import { OpenPeerPower } from '../types';
 import { loginUser, SetinvalidAuth } from "../data/auth";

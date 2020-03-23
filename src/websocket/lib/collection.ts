@@ -1,6 +1,6 @@
 import { Store, createStore } from "./store";
 import { Connection } from "./connection";
-import { UnsubscribeFunc } from "../../types";
+import { UnsubscribeFunc } from "./types";
 
 export type Collection<State> = {
   state: State;
@@ -26,7 +26,7 @@ export const getCollection = <State>(
   let store = createStore<State>();
 
   const refresh = () =>
-    fetchCollection(conn).then(state => store.setState(state, true));
+    fetchCollection(conn).then((state) => store.setState(state, true));
 
   const refreshSwallow = () =>
     refresh().catch((err: unknown) => {
@@ -74,13 +74,13 @@ export const getCollection = <State>(
         if (!active) {
           // Unsubscribe from changes
           if (unsubProm)
-            unsubProm.then(unsub => {
+            unsubProm.then((unsub) => {
               unsub();
             });
           conn.removeEventListener("ready", refresh);
         }
       };
-    }
+    },
   };
 
   return conn[key];

@@ -1,7 +1,13 @@
 import {
+  OppEntities,
+  OppConfig,
   Auth,
   Connection,
-} from './open-peer-power-js-websocket/lib';
+  MessageBase,
+  OppEntityBase,
+  OppEntityAttributeBase,
+  OppServices,
+} from "./websocket/lib";
 import { LocalizeFunc } from "./common/translations/localize";
 import { ExternalMessaging } from "./external_app/external_messaging";
 
@@ -35,6 +41,7 @@ declare global {
 }
 
 export type Constructor<T = {}> = new (...args: any[]) => T;
+
 export interface WebhookError {
   code: number;
   message: string;
@@ -51,18 +58,13 @@ export interface MFAModule {
   enabled: boolean;
 }
 
-export type MessageBase = {
-  id?: number;
-  type: string;
-  [key: string]: any;
-};
-
 export interface CurrentUser {
   id: string;
   is_owner: boolean;
   is_admin: boolean;
   name: string;
-  credentials?: Credential[];
+  credentials: Credential[];
+  mfa_modules: MFAModule[];
 }
 
 export interface Theme {
@@ -113,69 +115,24 @@ export interface Notification {
 export interface Resources {
   [language: string]: { [key: string]: string };
 }
+
 export interface Context {
   id: string;
   parrent_id?: string;
   user_id?: string;
 }
+
 export interface ServiceCallResponse {
   context: Context;
 }
-
-export type OppEntityBase = {
-  entity_id: string;
-  state: string;
-  last_changed: string;
-  last_updated: string;
-  attributes: OppEntityAttributeBase;
-  context: { id: string; user_id: string | null };
-};
-
-export type OppEntityAttributeBase = {
-  friendly_name?: string;
-  unit_of_measurement?: string;
-  icon?: string;
-  entity_picture?: string;
-  supported_features?: number;
-  hidden?: boolean;
-  assumed_state?: boolean;
-  device_class?: string;
-};
-
-export interface OppEntity extends OppEntityBase {
-  attributes: { [key: string]: any };
-};
-
-export interface OppEntities { 
-  [index: string]: OppEntity;
-}
-
-export type OppConfig = {
-  latitude: number;
-  longitude: number;
-  elevation: number;
-  unit_system: {
-    length: string;
-    mass: string;
-    volume: string;
-    temperature: string;
-  };
-  location_name: string;
-  time_zone: string;
-  components: string[];
-  config_dir: string;
-  whitelist_external_dirs: string[];
-  version: string;
-  config_source: string;
-};
 
 export interface OpenPeerPower {
   auth: Auth & { external?: ExternalMessaging };
   connection: Connection;
   connected: boolean;
-  states?: OppEntities;
-  services?: OppServices;
-  config?: OppConfig;
+  states: OppEntities;
+  services: OppServices;
+  config: OppConfig;
   themes: Themes;
   selectedTheme?: string | null;
   panels: Panels;
@@ -193,10 +150,12 @@ export interface OpenPeerPower {
   resources: Resources;
   localize: LocalizeFunc;
   translationMetadata: TranslationMetadata;
+
   vibrate: boolean;
   dockedSidebar: "docked" | "always_hidden" | "auto";
   moreInfoEntityId: string | null;
   user?: CurrentUser;
+  oppUrl(path?): string;
   callService(
     domain: string,
     service: string,
@@ -212,54 +171,6 @@ export interface OpenPeerPower {
   callWS<T>(msg: MessageBase): Promise<T>;
 }
 
-export type OppService = {
-  description: string;
-  fields: {
-    [field_name: string]: {
-      description: string;
-      example: string | boolean | number;
-    };
-  };
-};
-
-export type OppDomainServices = {
-  [service_name: string]: OppService;
-};
-
-export type OppServices = {
-  [domain: string]: OppDomainServices;
-};
-
-export type OppUser = {
-  id: string;
-  is_owner: boolean;
-  name: string;
-};
-
-export type ClimateEntity = OppEntityBase & {
-  attributes: OppEntityAttributeBase & {
-    current_temperature: number;
-    min_temp: number;
-    max_temp: number;
-    temperature: number;
-    target_temp_step?: number;
-    target_temp_high?: number;
-    target_temp_low?: number;
-    target_humidity?: number;
-    target_humidity_low?: number;
-    target_humidity_high?: number;
-    fan_mode?: string;
-    fan_list?: string[];
-    operation_mode?: string;
-    operation_list?: string[];
-    hold_mode?: string;
-    swing_mode?: string;
-    swing_list?: string[];
-    away_mode?: "on" | "off";
-    aux_heat?: "on" | "off";
-  };
-};
-
 export type LightEntity = OppEntityBase & {
   attributes: OppEntityAttributeBase & {
     min_mireds: number;
@@ -267,20 +178,6 @@ export type LightEntity = OppEntityBase & {
     friendly_name: string;
     brightness: number;
     hs_color: number[];
-  };
-};
-
-export type SunEntity = OppEntityBase & {
-  attributes: OppEntityAttributeBase & {
-    next_dawn: string;
-    next_dusk: string;
-    next_midnight: string;
-    next_noon: string;
-    next_rising: string;
-    next_setting: string;
-    elevation: number;
-    azimuth: number;
-    friendly_name: string;
   };
 };
 
@@ -300,6 +197,14 @@ export type CameraEntity = OppEntityBase & {
     access_token: string;
     brand: string;
     motion_detection: boolean;
+  };
+};
+
+export type MediaEntity = OppEntityBase & {
+  attributes: OppEntityAttributeBase & {
+    media_duration: number;
+    media_position: number;
+    media_title: string;
   };
 };
 
@@ -325,35 +230,3 @@ export interface LocalizeMixin {
   opp?: OpenPeerPower;
   localize: LocalizeFunc;
 }
-export type Error = 1 | 2 | 3 | 4;
-
-export type UnsubscribeFunc = () => void;
-
-export type ConnectionOptions = {
-  setupRetry: number;
-  auth?: Auth;
-  createSocket: (options: ConnectionOptions) => Promise<WebSocket>;
-};
-
-export type OppEventBase = {
-  origin: string;
-  time_fired: string;
-  context: {
-    id: string;
-    user_id: string;
-  };
-};
-
-export type OppEvent = OppEventBase & {
-  event_type: string;
-  data: { [key: string]: any };
-};
-
-export type StateChangedEvent = OppEventBase & {
-  event_type: "state_changed";
-  data: {
-    entity_id: string;
-    new_state: OppEntity | null;
-    old_state: OppEntity | null;
-  };
-};

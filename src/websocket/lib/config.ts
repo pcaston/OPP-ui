@@ -1,5 +1,5 @@
 import { getCollection } from "./collection";
-import { OppConfig, UnsubscribeFunc } from "../../types";
+import { OppConfig, UnsubscribeFunc } from "./types";
 import { Connection } from "./connection";
 import { Store } from "./store";
 import { getConfig } from "./commands";
@@ -17,7 +17,7 @@ function processComponentLoaded(
   if (state === undefined) return null;
 
   return {
-    components: state.components.concat(event.data.component)
+    components: state.components.concat(event.data.component),
   };
 }
 
@@ -29,10 +29,10 @@ const subscribeUpdates = (conn: Connection, store: Store<OppConfig>) =>
       "component_loaded"
     ),
     conn.subscribeEvents(
-      () => fetchConfig(conn).then(config => store.setState(config, true)),
+      () => fetchConfig(conn).then((config) => store.setState(config, true)),
       "core_config_updated"
-    )
-  ]).then(unsubs => () => unsubs.forEach(unsub => unsub()));
+    ),
+  ]).then((unsubs) => () => unsubs.forEach((unsub) => unsub()));
 
 const configColl = (conn: Connection) =>
   getCollection(conn, "_cnf", fetchConfig, subscribeUpdates);

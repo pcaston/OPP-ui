@@ -6,7 +6,7 @@ import "./op-script-editor";
 import "./op-script-picker";
 
 import { computeStateName } from "../../../common/entity/compute_state_name";
-import computeStateDomain from "../../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
 
 class OpConfigScript extends PolymerElement {
   static get template() {
@@ -34,6 +34,8 @@ class OpConfigScript extends PolymerElement {
           opp="[[opp]]"
           scripts="[[scripts]]"
           is-wide="[[isWide]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
         ></op-script-picker>
       </template>
 
@@ -42,6 +44,8 @@ class OpConfigScript extends PolymerElement {
           opp="[[opp]]"
           script="[[script]]"
           is-wide="[[isWide]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
           creating-new="[[_creatingNew]]"
         ></op-script-editor>
       </template>
@@ -53,6 +57,7 @@ class OpConfigScript extends PolymerElement {
       opp: Object,
       route: Object,
       isWide: Boolean,
+      narrow: Boolean,
       _routeData: Object,
       _routeMatches: Boolean,
       _creatingNew: Boolean,

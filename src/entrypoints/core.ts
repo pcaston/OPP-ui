@@ -7,10 +7,15 @@ import {
   ERR_INVALID_AUTH,
   Auth,
   Connection,
-} from "../open-peer-power-js-websocket/lib";
+} from "../websocket/lib";
 
 import { loadTokens, saveTokens } from "../common/auth/token_storage";
+import { subscribePanels } from "../data/ws-panels";
+import { subscribeThemes } from "../data/ws-themes";
+import { subscribeUser } from "../data/ws-user";
+import { OpenPeerPower } from "../types";
 import { oppUrl } from "../data/auth";
+import { fetchConfig, WindowWithDevconProm } from "../data/devcon";
 
 declare global {
   interface Window {
@@ -18,26 +23,15 @@ declare global {
   }
 }
 
-const isExternal =
-  window.externalApp ||
-  window.webkit?.messageHandlers?.getExternalAuth ||
-  location.search.includes("external_auth=1");
-
-const authProm = isExternal
-  ? () =>
-      import(
-        /* webpackChunkName: "external_auth" */ "../external_app/external_auth"
-      ).then(({ createExternalAuth }) => createExternalAuth(oppUrl))
-  : () =>
-      getAuth({
-        oppUrl,
-        saveTokens,
-        loadTokens: () => Promise.resolve(loadTokens()),
-      });
+const authProm = () =>
+  getAuth({
+    oppUrl,
+    saveTokens,
+    loadTokens: () => Promise.resolve(loadTokens()),
+  });
 
 const connProm = async (auth) => {
   try {
-
     const conn = await createConnection({ auth });
 
     // Clear url if we have been able to establish a connection
@@ -52,15 +46,19 @@ const connProm = async (auth) => {
     }
     // We can get invalid auth if auth tokens were stored that are no longer valid
     // Clear stored tokens.
-    if (!isExternal) {
-      saveTokens(null);
-    }
+    saveTokens(null);
     auth = await authProm();
     const conn = await createConnection({ auth });
     return { auth, conn };
   }
 };
 
+if (__DEV__) {
+  // Remove adoptedStyleSheets so style inspector works on shadow DOM.
+  // @ts-ignore
+  delete Document.prototype.adoptedStyleSheets;
+  performance.mark("opp-start");
+}
 window.oppConnection = authProm().then(connProm);
 
 // Start fetching some of the data that we will need.
@@ -71,7 +69,27 @@ window.oppConnection.then(({ conn }) => {
   subscribeEntities(conn, noop);
   subscribeConfig(conn, noop);
   subscribeServices(conn, noop);
+  subscribePanels(conn, noop);
+  subscribeThemes(conn, noop);
+  subscribeUser(conn, noop);
+
+  if (location.pathname === "/" || location.pathname.startsWith("/devcon/")) {
+    (window as WindowWithDevconProm).llConfProm = fetchConfig(conn, false);
+  }
 });
 
 window.addEventListener("error", (e) => {
+  const openPeerPower = document.querySelector("open-peer-power") as any;
+  if (
+    openPeerPower &&
+    openPeerPower.opp &&
+    (openPeerPower.opp as OpenPeerPower).callService
+  ) {
+    openPeerPower.opp.callService("system_log", "write", {
+      logger: `frontend.${
+        __DEV__ ? "js_dev" : "js"
+      }.${__BUILD__}.${__VERSION__.replace(".", "")}`,
+      message: `${e.filename}:${e.lineno}:${e.colno} ${e.message}`,
+    });
+  }
 });

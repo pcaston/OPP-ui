@@ -22,7 +22,7 @@ import "../../components/dialog/op-paper-dialog";
 // Not duplicate, is for typing
 // tslint:disable-next-line
 import { OpPaperDialog } from "../../components/dialog/op-paper-dialog";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 import { PolymerChangedEvent } from "../../polymer-types";
 import { DataEntryFlowDialogParams } from "./show-dialog-data-entry-flow";
 
@@ -319,7 +319,7 @@ class DataEntryFlowDialog extends LitElement {
 
   static get styles(): CSSResultArray {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           max-width: 600px;

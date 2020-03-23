@@ -9,31 +9,26 @@ import {
 } from "lit-element";
 import "../components/op-menu-button";
 import "../components/op-paper-icon-button-arrow-prev";
+import { classMap } from "lit-html/directives/class-map";
 
 @customElement("opp-subpage")
 class OppSubpage extends LitElement {
   @property()
   public header?: string;
-
   @property({ type: Boolean })
-  public root = false;
-
+  public showBackButton = true;
   @property({ type: Boolean })
   public oppio = false;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <div class="toolbar">
-        ${this.root
-          ? html`
-              <op-menu-button .oppio=${this.oppio}></op-menu-button>
-            `
-          : html`
-              <op-paper-icon-button-arrow-prev
-                .oppio=${this.oppio}
-                @click=${this._backTapped}
-              ></op-paper-icon-button-arrow-prev>
-            `}
+        <op-paper-icon-button-arrow-prev
+          aria-label="Back"
+          .oppio=${this.oppio}
+          @click=${this._backTapped}
+          class=${classMap({ hidden: !this.showBackButton })}
+        ></op-paper-icon-button-arrow-prev>
 
         <div main-title>${this.header}</div>
         <slot name="toolbar-icon"></slot>
@@ -58,18 +53,24 @@ class OppSubpage extends LitElement {
         display: flex;
         align-items: center;
         font-size: 20px;
-        height: 64px;
+        height: 65px;
         padding: 0 16px;
         pointer-events: none;
-        background-color: var(--primary-color);
+        background-color: var(--app-header-background-color);
         font-weight: 400;
-        color: var(--text-primary-color, white);
+        color: var(--app-header-text-color, white);
+        border-bottom: var(--app-header-border-bottom, none);
+        box-sizing: border-box;
       }
 
       op-menu-button,
       op-paper-icon-button-arrow-prev,
       ::slotted([slot="toolbar-icon"]) {
         pointer-events: auto;
+      }
+
+      op-paper-icon-button-arrow-prev.hidden {
+        visibility: hidden;
       }
 
       [main-title] {
@@ -81,7 +82,7 @@ class OppSubpage extends LitElement {
       .content {
         position: relative;
         width: 100%;
-        height: calc(100% - 64px);
+        height: calc(100% - 65px);
         overflow-y: auto;
         overflow: auto;
         -webkit-overflow-scrolling: touch;

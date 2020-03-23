@@ -25,7 +25,7 @@ import {
 } from "../../data/conversation";
 import { classMap } from "lit-html/directives/class-map";
 import { PaperInputElement } from "@polymer/paper-input/paper-input";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 // tslint:disable-next-line
 import { PaperDialogScrollableElement } from "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import { uid } from "../../common/util/uid";
@@ -348,7 +348,7 @@ export class OpUoiceCommandDialog extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         :host {
           z-index: 103;

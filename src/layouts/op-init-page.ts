@@ -10,11 +10,23 @@ class OpInitPage extends LitElement {
   protected render() {
     return html`
       <div>
-        <img src="/images/manifest/icon-48x48.png" height="192" />
+        <img src="/static/icons/favicon-192x192.png" height="192" />
         ${this.error
           ? html`
               <p>Unable to connect to Open Peer Power.</p>
               <mwc-button @click=${this._retry}>Retry</mwc-button>
+              ${location.host.includes("ui.nabu.casa")
+                ? html`
+                    <p>
+                      It is possible that you are seeing this screen because
+                      your Open Peer Power is not currently connected. You can
+                      ask it to come online via
+                      <a href="https://remote.nabucasa.com/"
+                        >the Remote UI portal</a
+                      >.
+                    </p>
+                  `
+                : ""}
             `
           : html`
               <paper-spinner-lite active></paper-spinner-lite>

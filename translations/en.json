@@ -26,9 +26,9 @@
         "device_tracker": "Device tracker",
         "fan": "Fan",
         "group": "Group",
-        "hassio": "Hass.io",
+        "oppio": "Opp.io",
         "history_graph": "History graph",
-        "homeassistant": "Home Assistant",
+        "openpeerpower": "Open Peer Power",
         "image_processing": "Image processing",
         "input_boolean": "Input boolean",
         "input_datetime": "Input datetime",
@@ -37,7 +37,7 @@
         "input_text": "Input text",
         "light": "Light",
         "lock": "Lock",
-        "lovelace": "Lovelace",
+        "devcon": "Devcon",
         "mailbox": "Mailbox",
         "media_player": "Media player",
         "notify": "Notify",
@@ -411,7 +411,7 @@
             },
             "automation": {
                 "last_triggered": "Last triggered",
-                "trigger": "Trigger"
+                "trigger": "Execute"
             },
             "camera": {
                 "not_available": "Image not available"
@@ -478,6 +478,9 @@
             "script": {
                 "execute": "Execute"
             },
+            "service": {
+                "run": "Run"
+            },
             "timer": {
                 "actions": {
                     "cancel": "cancel",
@@ -533,6 +536,7 @@
         },
         "common": {
             "cancel": "Cancel",
+            "close": "Close",
             "loading": "Loading",
             "no": "No",
             "save": "Save",
@@ -540,10 +544,24 @@
             "yes": "Yes"
         },
         "components": {
+            "area-picker": {
+                "add_dialog": {
+                    "add": "Add",
+                    "failed_create_area": "Failed to create area.",
+                    "name": "Name",
+                    "text": "Enter the name of the new area.",
+                    "title": "Add new area"
+                },
+                "add_new": "Add new area…",
+                "area": "Area",
+                "clear": "Clear",
+                "show_areas": "Show areas"
+            },
             "device-picker": {
                 "clear": "Clear",
                 "device": "Device",
-                "show_devices": "Show devices"
+                "show_devices": "Show devices",
+                "toggle": "Toggle"
             },
             "entity": {
                 "entity-picker": {
@@ -555,6 +573,17 @@
             "history_charts": {
                 "loading_history": "Loading state history...",
                 "no_history_found": "No state history found."
+            },
+            "related-items": {
+                "area": "Area",
+                "automation": "Part of the following automations",
+                "device": "Device",
+                "entity": "Related entities",
+                "group": "Part of the following groups",
+                "integration": "Integration",
+                "no_related_found": "No related items found.",
+                "scene": "Part of the following scenes",
+                "script": "Part of the following scripts"
             },
             "relative_time": {
                 "duration": {
@@ -574,9 +603,10 @@
         },
         "dialogs": {
             "config_entry_system_options": {
-                "enable_new_entities_description": "If disabled, newly discovered entities for {integration} will not be automatically added to Home Assistant.",
+                "enable_new_entities_description": "If disabled, newly discovered entities for {integration} will not be automatically added to Open Peer Power.",
                 "enable_new_entities_label": "Enable newly added entities.",
-                "title": "System Options for {integration}"
+                "title": "System Options for {integration}",
+                "update": "Update"
             },
             "confirmation": {
                 "cancel": "Cancel",
@@ -586,10 +616,46 @@
             "domain_toggler": {
                 "title": "Toggle Domains"
             },
+            "entity_registry": {
+                "control": "Control",
+                "dismiss": "Dismiss",
+                "editor": {
+                    "confirm_delete": "Are you sure you want to delete this entry?",
+                    "delete": "DELETE",
+                    "enabled_cause": "Disabled by {cause}.",
+                    "enabled_description": "Disabled entities will not be added to Open Peer Power.",
+                    "enabled_label": "Enable entity",
+                    "entity_id": "Entity ID",
+                    "name": "Name Override",
+                    "note": "Note: this might not work yet with all integrations.",
+                    "unavailable": "This entity is not currently available.",
+                    "update": "UPDATE"
+                },
+                "no_unique_id": "This entity does not have a unique ID, therefore it's settings can not be managed from the UI.",
+                "related": "Related",
+                "settings": "Settings"
+            },
+            "generic": {
+                "cancel": "Cancel",
+                "default_confirmation_title": "Are you sure?",
+                "ok": "OK"
+            },
             "more_info_control": {
                 "dismiss": "Dismiss dialog",
+                "edit": "Edit entity",
+                "person": {
+                    "create_zone": "Create zone from current location"
+                },
+                "restored": {
+                    "confirm_remove_text": "Are you sure you want to remove this entity?",
+                    "confirm_remove_title": "Remove entity?",
+                    "not_provided": "This entity is currently unavailable and is an orphan to a removed, changed or dysfunctional integration or device.",
+                    "remove_action": "Remove entity",
+                    "remove_intro": "If the entity is no longer in use, you can clean it up by removing it."
+                },
                 "script": {
-                    "last_action": "Last Action"
+                    "last_action": "Last Action",
+                    "last_triggered": "Last Triggered"
                 },
                 "settings": "Entity settings",
                 "sun": {
@@ -599,6 +665,18 @@
                 },
                 "updater": {
                     "title": "Update Instructions"
+                },
+                "vacuum": {
+                    "clean_spot": "Clean spot",
+                    "commands": "Vacuum cleaner commands:",
+                    "fan_speed": "Fan speed",
+                    "locate": "Locate",
+                    "pause": "Pause",
+                    "return_home": "Return home",
+                    "start": "Start",
+                    "start_pause": "Start/Pause",
+                    "status": "Status",
+                    "stop": "Stop"
                 }
             },
             "more_info_settings": {
@@ -616,7 +694,7 @@
                 }
             },
             "voice_command": {
-                "did_not_hear": "Home Assistant did not hear anything",
+                "did_not_hear": "Open Peer Power did not hear anything",
                 "error": "Oops, an error has occurred",
                 "found": "I found the following for you:",
                 "how_can_i_help": "How can I help?",
@@ -628,6 +706,9 @@
                     "add": "Add Devices",
                     "reconfigure": "Reconfigure Device",
                     "remove": "Remove Device"
+                },
+                "confirmations": {
+                    "remove": "Are you sure that you want to remove the device?"
                 },
                 "last_seen": "Last Seen",
                 "manuf": "by {manufacturer}",
@@ -675,7 +756,11 @@
         },
         "panel": {
             "config": {
-                "area_registry": {
+                "advanced_mode": {
+                    "hint_enable": "Missing config options? Enable advanced mode on",
+                    "link_profile_page": "your profile page"
+                },
+                "areas": {
                     "caption": "Areas",
                     "create_area": "CREATE AREA",
                     "description": "Overview of all areas in your home.",
@@ -690,7 +775,7 @@
                         "create_area": "CREATE AREA",
                         "header": "Areas",
                         "integrations_page": "Integrations page",
-                        "introduction": "Areas are used to organize where devices are. This information will be used throughout Home Assistant to help you in organizing your interface, permissions and integrations with other systems.",
+                        "introduction": "Areas are used to organize where devices are. This information will be used throughout Open Peer Power to help you in organizing your interface, permissions and integrations with other systems.",
                         "introduction2": "To place devices in an area, use the link below to navigate to the integrations page and then click on a configured integration to get to the device cards.",
                         "no_areas": "Looks like you have no areas yet!"
                     }
@@ -705,7 +790,7 @@
                             "delete_confirm": "Sure you want to delete?",
                             "duplicate": "Duplicate",
                             "header": "Actions",
-                            "introduction": "The actions are what Home Assistant will do when the automation is triggered.",
+                            "introduction": "The actions are what Open Peer Power will do when the automation is triggered.",
                             "learn_more": "Learn more about actions",
                             "name": "Action",
                             "type_select": "Action type",
@@ -750,7 +835,7 @@
                             "delete_confirm": "Sure you want to delete?",
                             "duplicate": "Duplicate",
                             "header": "Conditions",
-                            "introduction": "Conditions are an optional part of an automation rule and can be used to prevent an action from happening when triggered. Conditions look very similar to triggers but are very different. A trigger will look at events happening in the system while a condition only looks at how the system looks right now. A trigger can observe that a switch is being turned on. A condition can only see if a switch is currently on or off.",
+                            "introduction": "Conditions are optional and will prevent further execution unless all conditions are satisfied.",
                             "learn_more": "Learn more about conditions",
                             "name": "Condition",
                             "type_select": "Condition type",
@@ -812,6 +897,7 @@
                         },
                         "edit_ui": "Edit with UI",
                         "edit_yaml": "Edit as YAML",
+                        "enable_disable": "Enable/Disable automation",
                         "introduction": "Use automations to bring your home alive.",
                         "load_error_not_editable": "Only automations in automations.yaml are editable.",
                         "load_error_unknown": "Error loading automation ({err_no}).",
@@ -822,7 +908,7 @@
                             "delete_confirm": "Sure you want to delete?",
                             "duplicate": "Duplicate",
                             "header": "Triggers",
-                            "introduction": "Triggers are what starts the processing of an automation rule. It is possible to specify multiple triggers for the same rule. Once a trigger starts, Home Assistant will validate the conditions, if any, and call the action.",
+                            "introduction": "Triggers are what starts the processing of an automation rule. It is possible to specify multiple triggers for the same rule. Once a trigger starts, Open Peer Power will validate the conditions, if any, and call the action.",
                             "learn_more": "Learn more about triggers",
                             "name": "Trigger",
                             "type_select": "Trigger type",
@@ -848,9 +934,9 @@
                                     "source": "Source",
                                     "zone": "Zone"
                                 },
-                                "homeassistant": {
+                                "openpeerpower": {
                                     "event": "Event:",
-                                    "label": "Home Assistant",
+                                    "label": "Open Peer Power",
                                     "shutdown": "Shutdown",
                                     "start": "Start"
                                 },
@@ -915,7 +1001,7 @@
                         "delete_confirm": "Are you sure you want to delete this automation?",
                         "edit_automation": "Edit automation",
                         "header": "Automation Editor",
-                        "introduction": "The automation editor allows you to create and edit automations. Please follow the link below to read the instructions to make sure that you have configured Home Assistant correctly.",
+                        "introduction": "The automation editor allows you to create and edit automations. Please follow the link below to read the instructions to make sure that you have configured Open Peer Power correctly.",
                         "learn_more": "Learn more about automations",
                         "no_automations": "We couldn’t find any editable automations",
                         "only_editable": "Only automations defined in automations.yaml are editable.",
@@ -926,13 +1012,13 @@
                 "cloud": {
                     "account": {
                         "alexa": {
-                            "config_documentation": "Config documentation",
+                            "config_documentation": "Configuration documentation",
                             "disable": "disable",
                             "enable": "enable",
-                            "enable_ha_skill": "Enable the Home Assistant skill for Alexa",
+                            "enable_ha_skill": "Enable the Open Peer Power skill for Alexa",
                             "enable_state_reporting": "Enable State Reporting",
-                            "info": "With the Alexa integration for Home Assistant Cloud you'll be able to control all your Home Assistant devices via any Alexa-enabled device.",
-                            "info_state_reporting": "If you enable state reporting, Home Assistant will send all state changes of exposed entities to Amazon. This allows you to always see the latest states in the Alexa app and use the state changes to create routines.",
+                            "info": "With the Alexa integration for Open Peer Power Cloud you'll be able to control all your Open Peer Power devices via any Alexa-enabled device.",
+                            "info_state_reporting": "If you enable state reporting, Open Peer Power will send all state changes of exposed entities to Amazon. This allows you to always see the latest states in the Alexa app and use the state changes to create routines.",
                             "manage_entities": "Manage Entities",
                             "state_reporting_error": "Unable to {enable_disable} report state.",
                             "sync_entities": "Sync Entities",
@@ -943,22 +1029,23 @@
                         "connection_status": "Cloud connection status",
                         "fetching_subscription": "Fetching subscription…",
                         "google": {
-                            "config_documentation": "Config documentation",
+                            "config_documentation": "Configuration documentation",
                             "devices_pin": "Security Devices Pin",
-                            "enable_ha_skill": "Activate the Home Assistant skill for Google Assistant",
+                            "enable_ha_skill": "Activate the Open Peer Power skill for Google Assistant",
                             "enable_state_reporting": "Enable State Reporting",
                             "enter_pin_error": "Unable to store pin:",
                             "enter_pin_hint": "Enter a PIN to use security devices",
                             "enter_pin_info": "Please enter a pin to interact with security devices. Security devices are doors, garage doors and locks. You will be asked to say/enter this pin when interacting with such devices via Google Assistant.",
-                            "info": "With the Google Assistant integration for Home Assistant Cloud you'll be able to control all your Home Assistant devices via any Google Assistant-enabled device.",
-                            "info_state_reporting": "If you enable state reporting, Home Assistant will send all state changes of exposed entities to Google. This allows you to always see the latest states in the Google app.",
+                            "info": "With the Google Assistant integration for Open Peer Power Cloud you'll be able to control all your Open Peer Power devices via any Google Assistant-enabled device.",
+                            "info_state_reporting": "If you enable state reporting, Open Peer Power will send all state changes of exposed entities to Google. This allows you to always see the latest states in the Google app.",
                             "manage_entities": "Manage Entities",
                             "security_devices": "Security Devices",
                             "sync_entities": "Sync Entities to Google",
+                            "sync_entities_404_message": "Failed to sync your entities to Google, ask Google 'Hey Google, sync my devices' to sync your entities.",
                             "title": "Google Assistant"
                         },
                         "integrations": "Integrations",
-                        "integrations_introduction": "Integrations for Home Assistant Cloud allow you to connect with services in the cloud without having to expose your Home Assistant instance publicly on the internet.",
+                        "integrations_introduction": "Integrations for Open Peer Power Cloud allow you to connect with services in the cloud without having to expose your Open Peer Power instance publicly on the internet.",
                         "integrations_introduction2": "Check the website for ",
                         "integrations_link_all_features": " all available features",
                         "manage_account": "Manage Account",
@@ -967,17 +1054,17 @@
                         "remote": {
                             "access_is_being_prepared": "Remote access is being prepared. We will notify you when it's ready.",
                             "certificate_info": "Certificate Info",
-                            "info": "Home Assistant Cloud provides a secure remote connection to your instance while away from home.",
+                            "info": "Open Peer Power Cloud provides a secure remote connection to your instance while away from home.",
                             "instance_is_available": "Your instance is available at",
                             "instance_will_be_available": "Your instance will be available at",
                             "link_learn_how_it_works": "Learn how it works",
                             "title": "Remote Control"
                         },
                         "sign_out": "Sign out",
-                        "thank_you_note": "Thank you for being part of Home Assistant Cloud. It's because of people like you that we are able to make a great home automation experience for everyone. Thank you!",
+                        "thank_you_note": "Thank you for being part of Open Peer Power Cloud. It's because of people like you that we are able to make a great home automation experience for everyone. Thank you!",
                         "webhooks": {
                             "disable_hook_error_msg": "Failed to disable webhook:",
-                            "info": "Anything that is configured to be triggered by a webhook can be given a publicly accessible URL to allow you to send data back to Home Assistant from anywhere, without exposing your instance to the internet.",
+                            "info": "Anything that is configured to be triggered by a webhook can be given a publicly accessible URL to allow you to send data back to Open Peer Power from anywhere, without exposing your instance to the internet.",
                             "link_learn_more": "Learn more about creating webhook-powered automations.",
                             "loading": "Loading ...",
                             "manage": "Manage",
@@ -995,7 +1082,7 @@
                         "not_exposed_entities": "Not Exposed entities",
                         "title": "Alexa"
                     },
-                    "caption": "Home Assistant Cloud",
+                    "caption": "Open Peer Power Cloud",
                     "description_features": "Control away from home, integrate with Alexa and Google Assistant.",
                     "description_login": "Logged in as {email}",
                     "description_not_login": "Not logged in",
@@ -1042,11 +1129,11 @@
                         "email": "Email",
                         "email_error_msg": "Invalid email",
                         "forgot_password": "forgot password?",
-                        "introduction": "Home Assistant Cloud provides you with a secure remote connection to your instance while away from home. It also allows you to connect with cloud-only services: Amazon Alexa and Google Assistant.",
+                        "introduction": "Open Peer Power Cloud provides you with a secure remote connection to your instance while away from home. It also allows you to connect with cloud-only services: Amazon Alexa and Google Assistant.",
                         "introduction2": "This service is run by our partner ",
-                        "introduction2a": ", a company founded by the founders of Home Assistant and Hass.io.",
-                        "introduction3": "Home Assistant Cloud is a subscription service with a free one month trial. No payment information necessary.",
-                        "learn_more_link": "Learn more about Home Assistant Cloud",
+                        "introduction2a": ", a company founded by the founders of Open Peer Power and Opp.io.",
+                        "introduction3": "Open Peer Power Cloud is a subscription service with a free one month trial. No payment information necessary.",
+                        "learn_more_link": "Learn more about Open Peer Power Cloud",
                         "password": "Password",
                         "password_error_msg": "Passwords are at least 8 characters",
                         "sign_in": "Sign in",
@@ -1061,13 +1148,13 @@
                         "email_error_msg": "Invalid email",
                         "feature_amazon_alexa": "Integration with Amazon Alexa",
                         "feature_google_home": "Integration with Google Assistant",
-                        "feature_remote_control": "Control of Home Assistant away from home",
+                        "feature_remote_control": "Control of Open Peer Power away from home",
                         "feature_webhook_apps": "Easy integration with webhook-based apps like OwnTracks",
                         "headline": "Start your free trial",
-                        "information": "Create an account to start your free one month trial with Home Assistant Cloud. No payment information necessary.",
-                        "information2": "The trial will give you access to all the benefits of Home Assistant Cloud, including:",
+                        "information": "Create an account to start your free one month trial with Open Peer Power Cloud. No payment information necessary.",
+                        "information2": "The trial will give you access to all the benefits of Open Peer Power Cloud, including:",
                         "information3": "This service is run by our partner ",
-                        "information3a": ", a company founded by the founders of Home Assistant and Hass.io.",
+                        "information3a": ", a company founded by the founders of Open Peer Power and Opp.io.",
                         "information4": "By registering an account you agree to the following terms and conditions.",
                         "link_privacy_policy": "Privacy Policy",
                         "link_terms_conditions": "Terms and Conditions",
@@ -1085,16 +1172,17 @@
                 },
                 "core": {
                     "caption": "General",
-                    "description": "Change your general Home Assistant configuration",
+                    "description": "Change your general Open Peer Power configuration",
                     "section": {
                         "core": {
                             "core_config": {
                                 "edit_requires_storage": "Editor disabled because config stored in configuration.yaml.",
                                 "elevation": "Elevation",
+                                "elevation_feet": "feet",
                                 "elevation_meters": "meters",
                                 "imperial_example": "Fahrenheit, pounds",
                                 "latitude": "Latitude",
-                                "location_name": "Name of your Home Assistant installation",
+                                "location_name": "Name of your Open Peer Power installation",
                                 "longitude": "Longitude",
                                 "metric_example": "Celsius, kilograms",
                                 "save_button": "Save",
@@ -1112,12 +1200,12 @@
                                 "core": "Reload core",
                                 "group": "Reload groups",
                                 "heading": "Configuration reloading",
-                                "introduction": "Some parts of Home Assistant can reload without requiring a restart. Hitting reload will unload their current configuration and load the new one.",
+                                "introduction": "Some parts of Open Peer Power can reload without requiring a restart. Hitting reload will unload their current configuration and load the new one.",
                                 "script": "Reload scripts"
                             },
                             "server_management": {
                                 "heading": "Server management",
-                                "introduction": "Control your Home Assistant server… from Home Assistant.",
+                                "introduction": "Control your Open Peer Power server… from Open Peer Power.",
                                 "restart": "Restart",
                                 "stop": "Stop"
                             },
@@ -1157,14 +1245,19 @@
                         "actions": {
                             "caption": "When something is triggered..."
                         },
+                        "automations": "Automations",
                         "conditions": {
                             "caption": "Only do something if..."
                         },
+                        "create": "Create automation with device",
+                        "no_automations": "No automations",
+                        "no_device_automations": "There are no automations available for this device.",
                         "triggers": {
                             "caption": "Do something when..."
                         }
                     },
                     "automations": "Automations",
+                    "cant_edit": "You can only edit items that are created in the UI.",
                     "caption": "Devices",
                     "confirm_rename_entity_ids": "Do you also want to rename the entity id's of your entities?",
                     "data_table": {
@@ -1178,42 +1271,91 @@
                     "description": "Manage connected devices",
                     "details": "Here are all the details of your device.",
                     "device_not_found": "Device not found.",
-                    "entities": "Entities",
+                    "entities": {
+                        "add_entities_devcon": "Add to Devcon",
+                        "entities": "Entities",
+                        "none": "This device has no entities"
+                    },
                     "info": "Device info",
+                    "name": "Name",
+                    "scene": {
+                        "create": "Create scene with device",
+                        "no_scenes": "No scenes",
+                        "scenes": "Scenes"
+                    },
+                    "scenes": "Scenes",
+                    "script": {
+                        "create": "Create script with device",
+                        "no_scripts": "No scripts",
+                        "scripts": "Scripts"
+                    },
+                    "scripts": "Scripts",
                     "unknown_error": "Unknown error",
-                    "unnamed_device": "Unnamed device"
+                    "unnamed_device": "Unnamed device",
+                    "update": "Update"
                 },
-                "entity_registry": {
+                "entities": {
                     "caption": "Entities",
                     "description": "Overview of all known entities.",
                     "editor": {
                         "confirm_delete": "Are you sure you want to delete this entry?",
-                        "confirm_delete2": "Deleting an entry will not remove the entity from Home Assistant. To do this, you will need to remove the integration '{platform}' from Home Assistant.",
+                        "confirm_delete2": "Deleting an entry will not remove the entity from Open Peer Power. To do this, you will need to remove the integration '{platform}' from Open Peer Power.",
                         "default_name": "New Area",
                         "delete": "DELETE",
                         "enabled_cause": "Disabled by {cause}.",
-                        "enabled_description": "Disabled entities will not be added to Home Assistant.",
+                        "enabled_description": "Disabled entities will not be added to Open Peer Power.",
                         "enabled_label": "Enable entity",
+                        "entity_id": "Entity ID",
+                        "name": "Name Override",
                         "note": "Note: this might not work yet with all integrations.",
                         "unavailable": "This entity is not currently available.",
                         "update": "UPDATE"
                     },
                     "picker": {
+                        "disable_selected": {
+                            "button": "Disable selected",
+                            "confirm_text": "Disabled entities will not be added to Open Peer Power.",
+                            "confirm_title": "Do you want to disable {number} entities?"
+                        },
+                        "enable_selected": {
+                            "button": "Enable selected",
+                            "confirm_text": "This will make them available in Open Peer Power again if they are now disabled.",
+                            "confirm_title": "Do you want to enable {number} entities?"
+                        },
+                        "filter": {
+                            "filter": "Filter",
+                            "show_disabled": "Show disabled entities",
+                            "show_readonly": "Show read-only entities",
+                            "show_unavailable": "Show unavailable entities"
+                        },
                         "header": "Entities",
                         "headers": {
                             "enabled": "Enabled",
                             "entity_id": "Entity ID",
                             "integration": "Integration",
-                            "name": "Name"
+                            "name": "Name",
+                            "status": "Status"
                         },
                         "integrations_page": "Integrations page",
-                        "introduction": "Home Assistant keeps a registry of every entity it has ever seen that can be uniquely identified. Each of these entities will have an entity ID assigned which will be reserved for just this entity.",
-                        "introduction2": "Use the entity registry to override the name, change the entity ID or remove the entry from Home Assistant. Note, removing the entity registry entry won't remove the entity. To do that, follow the link below and remove it from the integrations page.",
+                        "introduction": "Open Peer Power keeps a registry of every entity it has ever seen that can be uniquely identified. Each of these entities will have an entity ID assigned which will be reserved for just this entity.",
+                        "introduction2": "Use the entity registry to override the name, change the entity ID or remove the entry from Open Peer Power.",
+                        "remove_selected": {
+                            "button": "Remove selected",
+                            "confirm_text": "Entities can only be removed when the integration is no longer providing the entities.",
+                            "confirm_title": "Do you want to remove {number} entities?"
+                        },
+                        "selected": "{number} selected",
                         "show_disabled": "Show disabled entities",
+                        "status": {
+                            "disabled": "Disabled",
+                            "ok": "Ok",
+                            "readonly": "Read-only",
+                            "unavailable": "Unavailable"
+                        },
                         "unavailable": "(unavailable)"
                     }
                 },
-                "header": "Configure Home Assistant",
+                "header": "Configure Open Peer Power",
                 "integrations": {
                     "caption": "Integrations",
                     "config_entry": {
@@ -1228,7 +1370,7 @@
                         "no_area": "No Area",
                         "no_device": "Entities without devices",
                         "no_devices": "This integration has no devices.",
-                        "restart_confirm": "Restart Home Assistant to finish removing this integration",
+                        "restart_confirm": "Restart Open Peer Power to finish removing this integration",
                         "settings_button": "Edit settings for {integration}",
                         "system_options_button": "System options for {integration}",
                         "via": "Connected via"
@@ -1238,7 +1380,8 @@
                         "add_area": "Add Area",
                         "area_picker_label": "Area",
                         "close": "Close",
-                        "created_config": "Created config for {name}.",
+                        "created_config": "Created configuration for {name}.",
+                        "dismiss": "Dismiss dialog",
                         "error_saving_area": "Error saving area: {error}",
                         "external_step": {
                             "description": "This step requires you to visit an external website to be completed.",
@@ -1255,7 +1398,7 @@
                     "description": "Manage and setup integrations",
                     "details": "Integration details",
                     "discovered": "Discovered",
-                    "home_assistant_website": "Home Assistant website",
+                    "open_peer_power_website": "Open Peer Power website",
                     "ignore": {
                         "confirm_delete_ignore": "This will make the integration appear in your discovered integrations again when it gets discovered. This might require a restart or take some time.",
                         "confirm_delete_ignore_title": "Stop ignoring {name}?",
@@ -1273,14 +1416,14 @@
                     "note_about_integrations": "Not all integrations can be configured via the UI yet.",
                     "note_about_website_reference": "More are available on the "
                 },
-                "introduction": "Here it is possible to configure your components and Home Assistant. Not everything is possible to configure from the UI yet, but we're working on it.",
+                "introduction": "Here it is possible to configure your components and Open Peer Power. Not everything is possible to configure from the UI yet, but we're working on it.",
                 "person": {
                     "add_person": "Add Person",
                     "caption": "Persons",
                     "confirm_delete": "Are you sure you want to delete this person?",
                     "confirm_delete2": "All devices belonging to this person will become unassigned.",
                     "create_person": "Create Person",
-                    "description": "Manage the persons that Home Assistant tracks.",
+                    "description": "Manage the persons that Open Peer Power tracks.",
                     "detail": {
                         "create": "Create",
                         "delete": "Delete",
@@ -1296,7 +1439,7 @@
                         "no_device_tracker_available_intro": "When you have devices that indicate the presence of a person, you will be able to assign them to a person here. You can add your first device by adding a presence-detection integration from the integrations page.",
                         "update": "Update"
                     },
-                    "introduction": "Here you can define each person of interest in Home Assistant.",
+                    "introduction": "Here you can define each person of interest in Open Peer Power.",
                     "no_persons_created_yet": "Looks like you have not created any persons yet.",
                     "note_about_persons_configured_in_yaml": "Note: persons configured via configuration.yaml cannot be edited via the UI."
                 },
@@ -1317,7 +1460,7 @@
                             "delete": "Delete entity",
                             "device_entities": "If you add an entity that belongs to a device, the device will be added.",
                             "header": "Entities",
-                            "introduction": "Entities that do not belong to a devices can be set here.",
+                            "introduction": "Entities that do not belong to a device can be set here.",
                             "without_device": "Entities without device"
                         },
                         "introduction": "Use scenes to bring your home alive.",
@@ -1333,7 +1476,7 @@
                         "delete_scene": "Delete scene",
                         "edit_scene": "Edit scene",
                         "header": "Scene Editor",
-                        "introduction": "The scene editor allows you to create and edit scenes. Please follow the link below to read the instructions to make sure that you have configured Home Assistant correctly.",
+                        "introduction": "The scene editor allows you to create and edit scenes. Please follow the link below to read the instructions to make sure that you have configured Open Peer Power correctly.",
                         "learn_more": "Learn more about scenes",
                         "no_scenes": "We couldn’t find any editable scenes",
                         "only_editable": "Only scenes defined in scenes.yaml are editable.",
@@ -1360,7 +1503,7 @@
                         "add_script": "Add script",
                         "edit_script": "Edit script",
                         "header": "Script Editor",
-                        "introduction": "The script editor allows you to create and edit scripts. Please follow the link below to read the instructions to make sure that you have configured Home Assistant correctly.",
+                        "introduction": "The script editor allows you to create and edit scripts. Please follow the link below to read the instructions to make sure that you have configured Open Peer Power correctly.",
                         "learn_more": "Learn more about scripts",
                         "no_scripts": "We couldn’t find any editable scripts",
                         "trigger_script": "Trigger script"
@@ -1368,27 +1511,29 @@
                 },
                 "server_control": {
                     "caption": "Server Controls",
-                    "description": "Restart and stop the Home Assistant server",
+                    "description": "Restart and stop the Open Peer Power server",
                     "section": {
                         "reloading": {
                             "automation": "Reload automations",
                             "core": "Reload location & customizations",
                             "group": "Reload groups",
-                            "heading": "Configuration reloading",
-                            "introduction": "Some parts of Home Assistant can reload without requiring a restart. Hitting reload will unload their current configuration and load the new one.",
+                            "heading": "YAML configuration reloading",
+                            "introduction": "Some parts of Open Peer Power can reload without requiring a restart. Hitting reload will unload their current YAML configuration and load the new one.",
+                            "person": "Reload persons",
                             "scene": "Reload scenes",
-                            "script": "Reload scripts"
+                            "script": "Reload scripts",
+                            "zone": "Reload zones"
                         },
                         "server_management": {
-                            "confirm_restart": "Are you sure you want to restart Home Assistant?",
-                            "confirm_stop": "Are you sure you want to stop Home Assistant?",
+                            "confirm_restart": "Are you sure you want to restart Open Peer Power?",
+                            "confirm_stop": "Are you sure you want to stop Open Peer Power?",
                             "heading": "Server management",
-                            "introduction": "Control your Home Assistant server… from Home Assistant.",
+                            "introduction": "Control your Open Peer Power server… from Open Peer Power.",
                             "restart": "Restart",
                             "stop": "Stop"
                         },
                         "validation": {
-                            "check_config": "Check config",
+                            "check_config": "Check configuration",
                             "heading": "Configuration validation",
                             "introduction": "Validate your configuration if you recently made some changes to your configuration and want to make sure that it is all valid",
                             "invalid": "Configuration invalid",
@@ -1437,6 +1582,10 @@
                         "search_again": "Search Again",
                         "spinner": "Searching for ZHA Zigbee devices..."
                     },
+                    "add": {
+                        "caption": "Add Devices",
+                        "description": "Add devices to the Zigbee network"
+                    },
                     "caption": "ZHA",
                     "cluster_attributes": {
                         "attributes_of_cluster": "Attributes of the selected cluster",
@@ -1456,7 +1605,9 @@
                         "issue_zigbee_command": "Issue Zigbee Command"
                     },
                     "clusters": {
-                        "help_cluster_dropdown": "Select a cluster to view attributes and commands."
+                        "header": "Clusters",
+                        "help_cluster_dropdown": "Select a cluster to view attributes and commands.",
+                        "introduction": "Clusters are the building blocks for Zigbee functionality. They seperate functionality into logical units. There are client and server types and that are comprised of attributes and commands."
                     },
                     "common": {
                         "add_devices": "Add Devices",
@@ -1471,6 +1622,49 @@
                         "device_name_placeholder": "User given name",
                         "update_name_button": "Update Name"
                     },
+                    "devices": {
+                        "header": "Zigbee Home Automation - Device"
+                    },
+                    "group_binding": {
+                        "bind_button_help": "Bind the selected group to the selected device clusters.",
+                        "bind_button_label": "Bind Group",
+                        "cluster_selection_help": "Select clusters to bind to the selected group.",
+                        "group_picker_help": "Select a group to issue a bind command.",
+                        "group_picker_label": "Bindable Groups",
+                        "header": "Group Binding",
+                        "introduction": "Bind and unbind groups.",
+                        "unbind_button_help": "Unbind the selected group from the selected device clusters.",
+                        "unbind_button_label": "Unbind Group"
+                    },
+                    "groups": {
+                        "add_members": "Add Members",
+                        "adding_members": "Adding Members",
+                        "caption": "Groups",
+                        "create": "Create Group",
+                        "create_group": "Zigbee Home Automation - Create Group",
+                        "create_group_details": "Enter the required details to create a new zigbee group",
+                        "creating_group": "Creating Group",
+                        "description": "Create and modify Zigbee groups",
+                        "group_details": "Here are all the details for the selected Zigbee group.",
+                        "group_id": "Group ID",
+                        "group_info": "Group Information",
+                        "group_name_placeholder": "Group Name",
+                        "group_not_found": "Group not found!",
+                        "group-header": "Zigbee Home Automation - Group Details",
+                        "groups": "Groups",
+                        "groups-header": "Zigbee Home Automation - Group Management",
+                        "header": "Zigbee Home Automation - Group Management",
+                        "introduction": "Create and modify zigbee groups",
+                        "manage_groups": "Manage Zigbee Groups",
+                        "members": "Members",
+                        "remove_groups": "Remove Groups",
+                        "remove_members": "Remove Members",
+                        "removing_groups": "Removing Groups",
+                        "removing_members": "Removing Members",
+                        "zha_zigbee_groups": "ZHA Zigbee Groups"
+                    },
+                    "header": "Configure Zigbee Home Automation",
+                    "introduction": "Here it is possible to configure the ZHA component. Not everything is possible to configure from the UI yet, but we're working on it.",
                     "network_management": {
                         "header": "Network Management",
                         "introduction": "Commands that affect the entire network"
@@ -1486,7 +1680,37 @@
                         "reconfigure": "Reconfigure ZHA device (heal device). Use this if you are having issues with the device. If the device in question is a battery powered device please ensure it is awake and accepting commands when you use this service.",
                         "remove": "Remove a device from the ZigBee network.",
                         "updateDeviceName": "Set a custom name for this device in the device registry."
-                    }
+                    },
+                    "title": "Zigbee Home Automation"
+                },
+                "zone": {
+                    "add_zone": "Add Zone",
+                    "caption": "Zones",
+                    "configured_in_yaml": "Zones configured via configuration.yaml cannot be edited via the UI.",
+                    "confirm_delete": "Are you sure you want to delete this zone?",
+                    "create_zone": "Create Zone",
+                    "description": "Manage the zones you want to track persons in.",
+                    "detail": {
+                        "create": "Create",
+                        "delete": "Delete",
+                        "icon": "Icon",
+                        "icon_error_msg": "Icon should be in the format prefix:iconname, for example: mdi:home",
+                        "latitude": "Latitude",
+                        "longitude": "Longitude",
+                        "name": "Name",
+                        "new_zone": "New Zone",
+                        "passive": "Passive",
+                        "passive_note": "Passive zones are hidden in the frontend and are not used as location for device trackers. This is useful if you just want to use it for automations.",
+                        "radius": "Radius",
+                        "required_error_msg": "This field is required",
+                        "update": "Update"
+                    },
+                    "edit_home_zone": "The radius of the Home zone can't be edited from the frontend yet. Drag the marker on the map to move the home zone.",
+                    "edit_home_zone_narrow": "The radius of the Home zone can't be edited from the frontend yet. The location can be changed from the general configuration.",
+                    "go_to_core_config": "Go to general configuration?",
+                    "home_zone_core_config": "The location of your home zone is editable from the general configuration page. The radius of the Home zone can't be edited from the frontend yet. Do you want to go to the general configuration?",
+                    "introduction": "Zones allow you to specify certain regions on earth. When a person is within a zone, the state will take the name from the zone. Zones can also be used as a trigger or condition inside automation setups.",
+                    "no_zones_created_yet": "Looks like you have not created any zones yet."
                 },
                 "zwave": {
                     "caption": "Z-Wave",
@@ -1512,12 +1736,12 @@
                         "network_stopped": "Z-Wave Network Stopped"
                     },
                     "node_config": {
-                        "config_parameter": "Config Parameter",
-                        "config_value": "Config Value",
+                        "config_parameter": "Configuration Parameter",
+                        "config_value": "Configuration Value",
                         "false": "False",
-                        "header": "Node Config Options",
+                        "header": "Node Configuration Options",
                         "seconds": "seconds",
-                        "set_config_parameter": "Set Config Parameter",
+                        "set_config_parameter": "Set Configuration Parameter",
                         "set_wakeup": "Set Wakeup Interval",
                         "true": "True"
                     },
@@ -1531,7 +1755,7 @@
                         "cancel_command": "Cancel Command",
                         "heal_network": "Heal Network",
                         "remove_node": "Remove Node",
-                        "save_config": "Save Config",
+                        "save_config": "Save Configuration",
                         "soft_reset": "Soft Reset",
                         "start_network": "Start Network",
                         "stop_network": "Stop Network",
@@ -1544,7 +1768,7 @@
             },
             "custom": {
                 "external_panel": {
-                    "complete_access": "It will have access to all data in Home Assistant.",
+                    "complete_access": "It will have access to all data in Open Peer Power.",
                     "hide_message": "Check docs for the panel_custom component to hide this message",
                     "question_trust": "Do you trust the external panel {name} at {link}?"
                 }
@@ -1576,10 +1800,10 @@
                         "developed_by": "Developed by a bunch of awesome people.",
                         "frontend": "frontend-ui",
                         "frontend_version": "Frontend version: {version} - {type}",
-                        "home_assistant_logo": "Home Assistant logo",
+                        "open_peer_power_logo": "Open Peer Power logo",
                         "icons_by": "Icons by",
                         "license": "Published under the Apache 2.0 license",
-                        "lovelace_ui": "Go to the Lovelace UI",
+                        "devcon_ui": "Go to the Devcon UI",
                         "path_configuration": "Path to configuration.yaml: {path}",
                         "remove": "Remove",
                         "server": "server",
@@ -1592,7 +1816,7 @@
                     "logs": {
                         "clear": "Clear",
                         "details": "Log Details ({level})",
-                        "load_full_log": "Load Full Home Assistant Log",
+                        "load_full_log": "Load Full Open Peer Power Log",
                         "loading_log": "Loading error log…",
                         "multiple_messages": "message first occurred at {time} and shows up {counter} times",
                         "no_errors": "No errors have been reported.",
@@ -1620,7 +1844,7 @@
                         "column_example": "Example",
                         "column_parameter": "Parameter",
                         "data": "Service Data (YAML, optional)",
-                        "description": "The service dev tool allows you to call any available service in Home Assistant.",
+                        "description": "The service dev tool allows you to call any available service in Open Peer Power.",
                         "fill_example_data": "Fill Example Data",
                         "no_description": "No description is available",
                         "no_parameters": "This service takes no parameters.",
@@ -1635,7 +1859,7 @@
                         "copy_entity_id": "Copy ID",
                         "copy_entity_state": "Copy state",
                         "current_entities": "Current entities",
-                        "description1": "Set the representation of a device within Home Assistant.",
+                        "description1": "Set the representation of a device within Open Peer Power.",
                         "description2": "This will not communicate with the actual device.",
                         "entity": "Entity",
                         "filter_attributes": "Filter attributes",
@@ -1649,10 +1873,10 @@
                         "title": "States"
                     },
                     "templates": {
-                        "description": "Templates are rendered using the Jinja2 template engine with some Home Assistant specific extensions.",
+                        "description": "Templates are rendered using the Jinja2 template engine with some Open Peer Power specific extensions.",
                         "editor": "Template editor",
                         "jinja_documentation": "Jinja2 template documentation",
-                        "template_extensions": "Home Assistant template extensions",
+                        "template_extensions": "Open Peer Power template extensions",
                         "title": "Template",
                         "unknown_error_template": "Unknown error rendering template"
                     }
@@ -1667,13 +1891,21 @@
                 "period": "Period",
                 "showing_entries": "Showing entries for"
             },
-            "lovelace": {
+            "devcon": {
+                "add_entities": {
+                    "generated_unsupported": "You can only use this function when you have taken control of the Devcon UI.",
+                    "saving_failed": "Saving Devcon UI configuration failed.",
+                    "yaml_unsupported": "You can not use this function when using Devcon UI in YAML mode."
+                },
                 "cards": {
                     "confirm_delete": "Are you sure you want to delete this card?",
                     "empty_state": {
                         "go_to_integrations_page": "Go to the integrations page.",
                         "no_devices": "This page allows you to control your devices, however it looks like you have no devices set up yet. Head to the integrations page to get started.",
                         "title": "Welcome Home"
+                    },
+                    "entities": {
+                        "never_triggered": "Never triggered"
                     },
                     "picture-elements": {
                         "call_service": "Call service {name}",
@@ -1684,6 +1916,11 @@
                         "toggle": "Toggle {name}",
                         "url": "Open window to {url_path}"
                     },
+                    "safe-mode": {
+                        "description": "Open Peer Power ran into trouble while loading your configuration and is now running in safe mode. Take a look at the error log to see what went wrong.",
+                        "header": "Safe Mode Activated",
+                        "show_errors": "Show errors"
+                    },
                     "shopping-list": {
                         "add_item": "Add item",
                         "checked_items": "Checked items",
@@ -1691,7 +1928,7 @@
                     }
                 },
                 "changed_toast": {
-                    "message": "The Lovelace config was updated, would you like to refresh?",
+                    "message": "The Devcon UI configuration was updated, refresh to see changes?",
                     "refresh": "Refresh"
                 },
                 "editor": {
@@ -1702,6 +1939,9 @@
                         "alarm-panel": {
                             "available_states": "Available States",
                             "name": "Alarm Panel"
+                        },
+                        "button": {
+                            "name": "Button"
                         },
                         "conditional": {
                             "name": "Conditional"
@@ -1805,6 +2045,7 @@
                             "name": "Sensor"
                         },
                         "shopping-list": {
+                            "integration_not_loaded": "This card requires the `shopping_list` integration to be set up.",
                             "name": "Shopping List"
                         },
                         "thermostat": {
@@ -1831,10 +2072,10 @@
                         "show_visual_editor": "Show Visual Editor",
                         "toggle_editor": "Toggle Editor"
                     },
-                    "edit_lovelace": {
+                    "edit_devcon": {
                         "edit_title": "Edit title",
-                        "explanation": "This title is shown above all your views in Lovelace.",
-                        "header": "Title of your Lovelace UI"
+                        "explanation": "This title is shown above all your views in the Devcon UI.",
+                        "header": "Title of your Devcon UI"
                     },
                     "edit_view": {
                         "add": "Add view",
@@ -1847,32 +2088,40 @@
                     },
                     "header": "Edit UI",
                     "menu": {
-                        "open": "Open Lovelace menu",
-                        "raw_editor": "Raw config editor"
+                        "open": "Open Devcon UI menu",
+                        "raw_editor": "Raw configuration editor"
                     },
                     "migrate": {
                         "header": "Configuration Incompatible",
-                        "migrate": "Migrate config",
-                        "para_migrate": "Home Assistant can add ID's to all your cards and views automatically for you by pressing the 'Migrate config' button.",
-                        "para_no_id": "This element doesn't have an ID. Please add an ID to this element in 'ui-lovelace.yaml'."
+                        "migrate": "Migrate configuration",
+                        "para_migrate": "Open Peer Power can add ID's to all your cards and views automatically for you by pressing the 'Migrate configuration' button.",
+                        "para_no_id": "This element doesn't have an ID. Please add an ID to this element in 'ui-devcon.yaml'."
                     },
                     "raw_editor": {
+                        "confirm_remove_config_text": "We will automatically generate your Devcon UI views with your areas and devices if you remove your Devcon UI configuration.",
+                        "confirm_remove_config_title": "Are you sure you want to remove your Devcon UI configuration? We will automatically generate your Devcon UI views with your areas and devices.",
                         "confirm_unsaved_changes": "You have unsaved changes, are you sure you want to exit?",
-                        "confirm_unsaved_comments": "Your config contains comment(s), these will not be saved. Do you want to continue?",
-                        "error_invalid_config": "Your config is not valid: {error}",
+                        "confirm_unsaved_comments": "Your configuration contains comment(s), these will not be saved. Do you want to continue?",
+                        "error_invalid_config": "Your configuration is not valid: {error}",
                         "error_parse_yaml": "Unable to parse YAML: {error}",
+                        "error_remove": "Unable to remove configuration: {error}",
                         "error_save_yaml": "Unable to save YAML: {error}",
-                        "header": "Edit Config",
+                        "header": "Edit Configuration",
                         "save": "Save",
                         "saved": "Saved",
                         "unsaved_changes": "Unsaved changes"
                     },
                     "save_config": {
                         "cancel": "Never mind",
-                        "header": "Take control of your Lovelace UI",
-                        "para": "By default Home Assistant will maintain your user interface, updating it when new entities or Lovelace components become available. If you take control we will no longer make changes automatically for you.",
+                        "header": "Take control of your Devcon UI",
+                        "para": "By default Open Peer Power will maintain your user interface, updating it when new entities or Devcon UI components become available. If you take control we will no longer make changes automatically for you.",
                         "para_sure": "Are you sure you want to take control of your user interface?",
                         "save": "Take control"
+                    },
+                    "suggest_card": {
+                        "add": "Add to Devcon UI",
+                        "create_own": "Pick different card",
+                        "header": "We created a suggestion for you"
                     },
                     "view": {
                         "panel_mode": {
@@ -1889,9 +2138,9 @@
                     "refresh": "Refresh",
                     "unused_entities": "Unused entities"
                 },
-                "reload_lovelace": "Reload Lovelace",
+                "reload_devcon": "Reload UI",
                 "unused_entities": {
-                    "available_entities": "These are the entities that you have available, but are not in your Lovelace UI yet.",
+                    "available_entities": "These are the entities that you have available, but are not in your Devcon UI yet.",
                     "domain": "Domain",
                     "entity": "Entity",
                     "entity_id": "Entity ID",
@@ -1916,7 +2165,7 @@
             },
             "page-authorize": {
                 "abort_intro": "Login aborted",
-                "authorizing_client": "You're about to give {clientId} access to your Home Assistant instance.",
+                "authorizing_client": "You're about to give {clientId} access to your Open Peer Power instance.",
                 "form": {
                     "providers": {
                         "command_line": {
@@ -1942,7 +2191,7 @@
                                 }
                             }
                         },
-                        "homeassistant": {
+                        "openpeerpower": {
                             "abort": {
                                 "login_expired": "Session expired, please login again."
                             },
@@ -1979,7 +2228,7 @@
                                     "data": {
                                         "password": "API Password"
                                     },
-                                    "description": "Please input the API password in your http config:"
+                                    "description": "Please input the API password in your HTTP configuration:"
                                 },
                                 "mfa": {
                                     "data": {
@@ -2014,8 +2263,8 @@
                 "cards": {
                     "demo": {
                         "demo_by": "by {name}",
-                        "introduction": "Welcome home! You've reached the Home Assistant demo where we showcase the best UIs created by our community.",
-                        "learn_more": "Learn more about Home Assistant",
+                        "introduction": "Welcome home! You've reached the Open Peer Power demo where we showcase the best UIs created by our community.",
+                        "learn_more": "Learn more about Open Peer Power",
                         "next_demo": "Next demo"
                     }
                 },
@@ -2058,14 +2307,14 @@
                 "core-config": {
                     "button_detect": "Detect",
                     "finish": "Next",
-                    "intro": "Hello {name}, welcome to Home Assistant. How would you like to name your home?",
+                    "intro": "Hello {name}, welcome to Open Peer Power. How would you like to name your home?",
                     "intro_location": "We would like to know where you live. This information will help with displaying information and setting up sun-based automations. This data is never shared outside of your network.",
                     "intro_location_detect": "We can help you fill in this information by making a one-time request to an external service.",
                     "location_name_default": "Home"
                 },
                 "integration": {
                     "finish": "Finish",
-                    "intro": "Devices and services are represented in Home Assistant as integrations. You can set them up now, or do it later from the configuration screen.",
+                    "intro": "Devices and services are represented in Open Peer Power as integrations. You can set them up now, or do it later from the configuration screen.",
                     "more_integrations": "More"
                 },
                 "intro": "Are you ready to awaken your home, reclaim your privacy and join a worldwide community of tinkerers?",
@@ -2087,9 +2336,8 @@
             },
             "profile": {
                 "advanced_mode": {
-                    "description": "Home Assistant hides advanced features and options by default. You can make these features accessible by checking this toggle. This is a user-specific setting and does not impact other users using Home Assistant.",
-                    "hint_enable": "Missing config options? Enable advanced mode on",
-                    "link_profile_page": "your profile page",
+                    "description": "Unlocks advanced features.",
+                    "link_promo": "Learn more",
                     "title": "Advanced Mode"
                 },
                 "change_password": {
@@ -2112,13 +2360,15 @@
                     "link_promo": "Help translating"
                 },
                 "logout": "Log out",
+                "logout_text": "Are you sure you want to log out?",
+                "logout_title": "Log out?",
                 "long_lived_access_tokens": {
                     "confirm_delete": "Are you sure you want to delete the access token for {name}?",
                     "create": "Create Token",
                     "create_failed": "Failed to create the access token.",
                     "created_at": "Created at {date}",
                     "delete_failed": "Failed to delete the access token.",
-                    "description": "Create long-lived access tokens to allow your scripts to interact with your Home Assistant instance. Each token will be valid for 10 years from creation. The following long-lived access tokens are currently active.",
+                    "description": "Create long-lived access tokens to allow your scripts to interact with your Open Peer Power instance. Each token will be valid for 10 years from creation. The following long-lived access tokens are currently active.",
                     "empty_state": "You have no long-lived access tokens yet.",
                     "header": "Long-Lived Access Tokens",
                     "last_used": "Last used at {date} from {location}",

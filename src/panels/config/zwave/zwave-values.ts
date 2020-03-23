@@ -12,7 +12,7 @@ import {
   TemplateResult,
 } from "lit-element";
 
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 
 import "../../../components/buttons/op-call-service-button";
@@ -59,7 +59,7 @@ export class ZwaveValues extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .content {
           margin-top: 24px;

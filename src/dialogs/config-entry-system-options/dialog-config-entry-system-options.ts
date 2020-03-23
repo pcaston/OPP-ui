@@ -20,7 +20,7 @@ import {
   updateConfigEntrySystemOptions,
 } from "../../data/config_entries";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 // tslint:disable-next-line: no-duplicate-imports
 import { OpSwitch } from "../../components/op-switch";
 
@@ -156,7 +156,7 @@ class DialogConfigEntrySystemOptions extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           min-width: 400px;

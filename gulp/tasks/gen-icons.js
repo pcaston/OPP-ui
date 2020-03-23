@@ -8,8 +8,10 @@ const ICON_PACKAGE_PATH = path.resolve(
   __dirname,
   "../../node_modules/@mdi/svg/"
 );
+const ICON_APP_PATH = path.resolve(__dirname, "../../public/static/");
 const META_PATH = path.resolve(ICON_PACKAGE_PATH, "meta.json");
 const ICON_PATH = path.resolve(ICON_PACKAGE_PATH, "svg");
+const ICON_APP = path.resolve(ICON_APP_PATH, "icons");
 const OUTPUT_DIR = path.resolve(__dirname, "../../build");
 
 // Given an SVG file, convert it to an iron-iconset-svg definition
@@ -62,12 +64,17 @@ function mapFiles(startPath, filter, mapFunc) {
 
 // Given an icon name, load the SVG file
 function loadIcon(name) {
-    const iconPath = path.resolve(ICON_PATH, `${name}.svg`);
+  const iconPath = path.resolve(ICON_PATH, `${name}.svg`);
+  try {
+    return fs.readFileSync(iconPath, "utf-8");
+  } catch (err) {
+    const iconPath = path.resolve(ICON_APP, `${name}.svg`);
     try {
-      return fs.readFileSync(iconPath , "utf-8");
+      return fs.readFileSync(iconPath, "utf-8");
     } catch (err) {
       return null;
     }
+  }
 }
 
 // Find all MDI icons.

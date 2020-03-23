@@ -3,11 +3,11 @@
  */
 import {
   ERR_INVALID_AUTH,
-  ERR_CANNOT_CONNECT
+  ERR_CANNOT_CONNECT,
+  ERR_OPP_HOST_REQUIRED,
 } from "./errors";
-import { ConnectionOptions, Error } from "../../types";
+import { ConnectionOptions, Error } from "./types";
 import * as messages from "./messages";
-import { invalidAuth, SetinvalidAuth } from "../../data/auth";
 
 const DEBUG = false;
 
@@ -16,26 +16,26 @@ const MSG_TYPE_AUTH_INVALID = "auth_invalid";
 const MSG_TYPE_AUTH_OK = "auth_ok";
 
 export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
-  //if (!options.auth) {
-  //  throw ERR_OPP_HOST_REQUIRED;
- // }
+  if (!options.auth) {
+    throw ERR_OPP_HOST_REQUIRED;
+  }
   const auth = options.auth;
 
   // Start refreshing expired tokens even before the WS connection is open.
   // We know that we will need auth anyway.
- // let authRefreshTask = auth.expired
- //   ? auth.refreshAccessToken().then(
- //       () => {
- //         authRefreshTask = undefined;
- //       },
- //       () => {
- //         authRefreshTask = undefined;
- //       }
- //     )
- //   : undefined;
+  let authRefreshTask = auth.expired
+    ? auth.refreshAccessToken().then(
+        () => {
+          authRefreshTask = undefined;
+        },
+        () => {
+          authRefreshTask = undefined;
+        }
+      )
+    : undefined;
 
   // Convert from http:// -> ws://, https:// -> wss://
-  const url = auth!.wsUrl;
+  const url = auth.wsUrl;
 
   if (DEBUG) {
     console.log("[Auth phase] Initializing", url);
@@ -49,10 +49,11 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
     if (DEBUG) {
       console.log("[Auth Phase] New connection", url);
     }
+
     const socket = new WebSocket(url);
 
     // If invalid auth, we will not try to reconnect.
-    //let invalidAuth = false;
+    let invalidAuth = false;
 
     const closeMessage = () => {
       // If we are in error handler make sure close handler doesn't also fire.
@@ -71,29 +72,21 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
 
       const newTries = triesLeft === -1 ? -1 : triesLeft - 1;
       // Try again in a second
-      setTimeout(
-        () =>
-          connect(
-            newTries,
-            promResolve,
-            promReject
-          ),
-        1000
-      );
+      setTimeout(() => connect(newTries, promResolve, promReject), 1000);
     };
 
-    // Auth is mandatory, if an access toek is available send it right away.
-    // Otherwise redirect to the login screen
-    // @ts-ignore
+    // Auth is mandatory, so we can send the auth message right away.
     const handleOpen = async (event: MessageEventInit) => {
-      if (auth!.accessToken) 
-        try {
-          socket.send(JSON.stringify(messages.auth(auth!.accessToken)));
-        } catch (err) {
-          // Refresh token failed
-          SetinvalidAuth(err === ERR_INVALID_AUTH);
-          socket.close();
+      try {
+        if (auth.expired) {
+          await (authRefreshTask ? authRefreshTask : auth.refreshAccessToken());
         }
+        socket.send(JSON.stringify(messages.auth(auth.accessToken)));
+      } catch (err) {
+        // Refresh token failed
+        invalidAuth = err === ERR_INVALID_AUTH;
+        socket.close();
+      }
     };
 
     const handleMessage = async (event: MessageEvent) => {
@@ -104,21 +97,11 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
       }
       switch (message.type) {
         case MSG_TYPE_AUTH_INVALID:
-          SetinvalidAuth(true);
+          invalidAuth = true;
           socket.close();
           break;
 
-        case MSG_TYPE_AUTH_REQUIRED:
-            SetinvalidAuth(true);
-            socket.removeEventListener("open", handleOpen);
-            socket.removeEventListener("message", handleMessage);
-            socket.removeEventListener("close", closeMessage);
-            socket.removeEventListener("error", closeMessage);
-            promResolve(socket);
-            break;
-
         case MSG_TYPE_AUTH_OK:
-          SetinvalidAuth(false);
           socket.removeEventListener("open", handleOpen);
           socket.removeEventListener("message", handleMessage);
           socket.removeEventListener("close", closeMessage);
@@ -128,7 +111,10 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
 
         default:
           if (DEBUG) {
-            console.warn("[Auth phase] Unhandled message", message);
+            // We already send this message when socket opens
+            if (message.type !== MSG_TYPE_AUTH_REQUIRED) {
+              console.warn("[Auth phase] Unhandled message", message);
+            }
           }
       }
     };
@@ -140,10 +126,6 @@ export function createSocket(options: ConnectionOptions): Promise<WebSocket> {
   }
 
   return new Promise((resolve, reject) =>
-    connect(
-      options.setupRetry,
-      resolve,
-      reject
-    )
+    connect(options.setupRetry, resolve, reject)
   );
 }

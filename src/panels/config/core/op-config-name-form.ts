@@ -24,9 +24,9 @@ class ConfigNameForm extends LitElement {
 
   @property() private _name!: ConfigUpdateValues["location_name"];
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const canEdit = ["storage", "default"].includes(
-      this.opp.config!.config_source
+      this.opp.config.config_source
     );
     const disabled = this._working || !canEdit;
 
@@ -67,7 +67,7 @@ class ConfigNameForm extends LitElement {
   private get _nameValue() {
     return this._name !== undefined
       ? this._name
-      : this.opp.config!.location_name;
+      : this.opp.config.location_name;
   }
 
   private _handleChange(ev: PolymerChangedEvent<string>) {

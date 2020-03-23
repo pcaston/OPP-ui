@@ -1,50 +1,24 @@
-import {
-  Constructor,
-  LitElement,
-  PropertyDeclarations,
-  PropertyValues,
-} from "lit-element";
-import { getLocalLanguage } from "../util/opp-translation";
-import { localizeLiteBaseMixin } from "./localize-lite-base-mixin";
+import { LitElement, PropertyValues, property } from "lit-element";
+import { getLocalLanguage, getTranslation } from "../util/opp-translation";
 import { computeLocalize, LocalizeFunc } from "../common/translations/localize";
+import { Constructor, Resources } from "../types";
 
 const empty = () => "";
 
-interface LitLocalizeLiteMixin {
-  language: string;
-  resources: {};
-  translationFragment: string;
-  localize: LocalizeFunc;
-}
-
-export const litLocalizeLiteMixin = <T extends LitElement>(
-  superClass: Constructor<T>
-): Constructor<T & LitLocalizeLiteMixin> =>
-  // @ts-ignore
-  class extends localizeLiteBaseMixin(superClass) {
-    public localize: LocalizeFunc;
-
-    static get properties(): PropertyDeclarations {
-      return {
-        localize: {},
-        language: {},
-        resources: {},
-        translationFragment: {},
-      };
-    }
-
-    constructor() {
-      super();
-      // This will prevent undefined errors if called before connected to DOM.
-      this.localize = empty;
-      // Use browser language setup before login.
-      this.language = getLocalLanguage();
-    }
+export const litLocalizeLiteMixin = <T extends Constructor<LitElement>>(
+  superClass: T
+) => {
+  class LitLocalizeLiteClass extends superClass {
+    // Initialized to empty will prevent undefined errors if called before connected to DOM.
+    @property() public localize: LocalizeFunc = empty;
+    @property() public resources?: Resources;
+    // Use browser language setup before login.
+    @property() public language?: string = getLocalLanguage();
+    @property() public translationFragment?: string;
 
     public connectedCallback(): void {
       super.connectedCallback();
       this._initializeLocalizeLite();
-      this.resources = this.opp.resources;
       this.localize = computeLocalize(
         this.constructor.prototype,
         this.language!,
@@ -52,7 +26,7 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
       );
     }
 
-    public updated(changedProperties: PropertyValues) {
+    protected updated(changedProperties: PropertyValues) {
       super.updated(changedProperties);
       if (
         changedProperties.has("language") ||
@@ -65,4 +39,38 @@ export const litLocalizeLiteMixin = <T extends LitElement>(
         );
       }
     }
-  };
+
+    protected async _initializeLocalizeLite() {
+      if (this.resources) {
+        return;
+      }
+
+      if (!this.translationFragment) {
+        // In dev mode, we will issue a warning if after a second we are still
+        // not configured correctly.
+        if (__DEV__) {
+          setTimeout(
+            () =>
+              !this.resources &&
+              // tslint:disable-next-line
+              console.error(
+                "Forgot to pass in resources or set translationFragment for",
+                this.nodeName
+              ),
+            1000
+          );
+        }
+        return;
+      }
+
+      const { language, data } = await getTranslation(
+        this.translationFragment!,
+        this.language!
+      );
+      this.resources = {
+        [language]: data,
+      };
+    }
+  }
+  return LitLocalizeLiteClass;
+};

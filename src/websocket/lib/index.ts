@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "../../types";
+import { ConnectionOptions } from "./types";
 import { createSocket } from "./socket";
 import { Connection } from "./connection";
 
@@ -9,14 +9,12 @@ export * from "./config";
 export * from "./services";
 export * from "./entities";
 export * from "./errors";
-export * from "../../types";
+export * from "./types";
 export * from "./commands";
-export * from "./store";
-export * from "./socket";
 
 const defaultConnectionOptions: ConnectionOptions = {
-  setupRetry: 3,
-  createSocket
+  setupRetry: 0,
+  createSocket,
 };
 
 export async function createConnection(options?: Partial<ConnectionOptions>) {
