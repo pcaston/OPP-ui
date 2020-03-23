@@ -13,7 +13,7 @@ import { litLocalizeLiteMixin } from "../mixins/lit-localize-lite-mixin";
 import { enableWrite, saveTokens  } from "../common/auth/token_storage";
 
 import "../resources/op-style";
-import { Auth, AuthData } from "../open-peer-power-js-websocket/lib";
+import { Auth, AuthData } from "../websocket/lib";
   
 @customElement("op-store-auth-card")
 export class OppStoreAuth extends litLocalizeLiteMixin(LitElement) {

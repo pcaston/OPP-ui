@@ -5,9 +5,7 @@ import { OppElement } from "../state/opp-element";
 
 // These are the elements needed by this element.
 import { OpenPeerPower, OppEntities} from "../types";
-import './appliance-list';
 import '../cards/op-badges-card';
-import { Appliances } from './appliance-list';
 
 
 // These are the shared styles needed by this element.
@@ -19,7 +17,6 @@ export class OppHomeView extends OppElement {
 
   @property({ type : Object }) opp!: OpenPeerPower;
   @property({ type : Array }) states!: OppEntities;
-  @property({ type : Array }) appliances: Appliances = {};
  
   static get styles() {
     return [
@@ -61,17 +58,6 @@ export class OppHomeView extends OppElement {
     return html`
       <section>
         <op-badges-card .opp="${this.opp}" .states="${this.states}"></op-badges-card>
-      </section>
-      <section>
-        <h2>Discovered Appliances</h2>
-
-        <p>This is a simulation of a list of appliances. </p>
-        <p>This view, passes properties down to its child, <code>&lt;appliances&gt;</code>, which fires events back up whenever
-        it needs to communicate changes.</p>
-      </section>
-      <section>
-        <h3>Appliances</h3>
-        <appliance-list .appliances="${this.appliances}"></appliance-list>
       </section>
     `;
   }

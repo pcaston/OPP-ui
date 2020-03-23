@@ -3,6 +3,7 @@ import "../../../components/op-service-description";
 import "../../../components/op-card";
 import "../op-config-section";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
+import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 
@@ -11,16 +12,16 @@ import {
   CSSResult,
   html,
   LitElement,
-  PropertyDeclarations,
   PropertyValues,
   TemplateResult,
+  property,
 } from "lit-element";
 
 import { fireEvent } from "../../../common/dom/fire_event";
 import { Cluster, fetchClustersForZhaNode, ZHADevice } from "../../../data/zha";
 import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
-import { formatAsPaddedHex } from "./functions";
+import { computeClusterKey } from "./functions";
 import { ItemSelectedEvent } from "./types";
 
 declare global {
@@ -32,37 +33,13 @@ declare global {
   }
 }
 
-const computeClusterKey = (cluster: Cluster): string => {
-  return `${cluster.name} (Endpoint id: ${
-    cluster.endpoint_id
-  }, Id: ${formatAsPaddedHex(cluster.id)}, Type: ${cluster.type})`;
-};
-
 export class ZHAClusters extends LitElement {
-  public opp?: OpenPeerPower;
-  public isWide?: boolean;
-  public showHelp: boolean;
-  public selectedDevice?: ZHADevice;
-  private _selectedClusterIndex: number;
-  private _clusters: Cluster[];
-
-  constructor() {
-    super();
-    this.showHelp = false;
-    this._selectedClusterIndex = -1;
-    this._clusters = [];
-  }
-
-  static get properties(): PropertyDeclarations {
-    return {
-      opp: {},
-      isWide: {},
-      showHelp: {},
-      selectedDevice: {},
-      _selectedClusterIndex: {},
-      _clusters: {},
-    };
-  }
+  @property() public opp?: OpenPeerPower;
+  @property() public isWide?: boolean;
+  @property() public selectedDevice?: ZHADevice;
+  @property() public showHelp = false;
+  @property() private _selectedClusterIndex = -1;
+  @property() private _clusters: Cluster[] = [];
 
   protected updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectedDevice")) {
@@ -76,30 +53,56 @@ export class ZHAClusters extends LitElement {
     super.update(changedProperties);
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
-      <div class="node-picker">
-        <paper-dropdown-menu label="Clusters" class="flex">
-          <paper-listbox
-            slot="dropdown-content"
-            .selected="${this._selectedClusterIndex}"
-            @iron-select="${this._selectedClusterChanged}"
+      <op-config-section .isWide="${this.isWide}">
+        <div class="header" slot="header">
+          <span>
+            ${this.opp!.localize("ui.panel.config.zha.clusters.header")}
+          </span>
+          <paper-icon-button
+            class="toggle-help-icon"
+            @click="${this._onHelpTap}"
+            icon="opp:help-circle"
           >
-            ${this._clusters.map(
-              (entry) => html`
-                <paper-item>${computeClusterKey(entry)}</paper-item>
+          </paper-icon-button>
+        </div>
+        <span slot="introduction">
+          ${this.opp!.localize("ui.panel.config.zha.clusters.introduction")}
+        </span>
+
+        <op-card class="content">
+          <div class="node-picker">
+            <paper-dropdown-menu
+              .label=${this.opp!.localize(
+                "ui.panel.config.zha.common.clusters"
+              )}
+              class="menu"
+            >
+              <paper-listbox
+                slot="dropdown-content"
+                .selected="${this._selectedClusterIndex}"
+                @iron-select="${this._selectedClusterChanged}"
+              >
+                ${this._clusters.map(
+                  (entry) => html`
+                    <paper-item>${computeClusterKey(entry)}</paper-item>
+                  `
+                )}
+              </paper-listbox>
+            </paper-dropdown-menu>
+          </div>
+          ${this.showHelp
+            ? html`
+                <div class="help-text">
+                  ${this.opp!.localize(
+                    "ui.panel.config.zha.clusters.help_cluster_dropdown"
+                  )}
+                </div>
               `
-            )}
-          </paper-listbox>
-        </paper-dropdown-menu>
-      </div>
-      ${this.showHelp
-        ? html`
-            <div class="help-text">
-              Select cluster to view attributes and commands
-            </div>
-          `
-        : ""}
+            : ""}
+        </op-card>
+      </op-config-section>
     `;
   }
 
@@ -122,32 +125,49 @@ export class ZHAClusters extends LitElement {
     });
   }
 
+  private _onHelpTap(): void {
+    this.showHelp = !this.showHelp;
+  }
+
   static get styles(): CSSResult[] {
     return [
       opStyle,
       css`
-        .flex {
-          -ms-flex: 1 1 0.000000001px;
-          -webkit-flex: 1;
-          flex: 1;
-          -webkit-flex-basis: 0.000000001px;
-          flex-basis: 0.000000001px;
+        .menu {
+          width: 100%;
+        }
+
+        .content {
+          margin-top: 24px;
+        }
+
+        .header {
+          flex-grow: 1;
+        }
+
+        op-card {
+          max-width: 680px;
         }
 
         .node-picker {
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -ms-flex-direction: row;
-          -webkit-flex-direction: row;
-          flex-direction: row;
-          -ms-flex-align: center;
-          -webkit-align-items: center;
           align-items: center;
           padding-left: 28px;
           padding-right: 28px;
           padding-bottom: 10px;
         }
+
+        .toggle-help-icon {
+          float: right;
+          top: -6px;
+          right: 0;
+          padding-right: 0px;
+          color: var(--primary-color);
+        }
+
+        [hidden] {
+          display: none;
+        }
+
         .help-text {
           color: grey;
           padding-left: 28px;

@@ -8,13 +8,13 @@ import {
   customElement,
 } from "lit-element";
 import { ifDefined } from "lit-html/directives/if-defined";
-import "@polymer/paper-fab/paper-fab";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-tooltip/paper-tooltip";
-import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-tabs-subpage";
 
 import "../../../components/op-card";
+import "../../../components/op-fab";
 import "../../../components/entity/op-entity-toggle";
 
 import "../op-config-section";
@@ -22,22 +22,34 @@ import "../op-config-section";
 import { computeStateName } from "../../../common/entity/compute_state_name";
 import { computeRTL } from "../../../common/util/compute_rtl";
 import { opStyle } from "../../../resources/styles";
-import { OpenPeerPower } from "../../../types";
-import { AutomationEntity } from "../../../data/automation";
-import format_date_time from "../../../common/datetime/format_date_time";
+import { OpenPeerPower, Route } from "../../../types";
+import {
+  AutomationEntity,
+  showAutomationEditor,
+  AutomationConfig,
+} from "../../../data/automation";
+import { formatDateTime } from "../../../common/datetime/format_date_time";
 import { fireEvent } from "../../../common/dom/fire_event";
-import { repeat } from "lit-html/directives/repeat";
+import { showThingtalkDialog } from "./show-dialog-thingtalk";
+import { isComponentLoaded } from "../../../common/config/is_component_loaded";
+import { configSections } from "../op-panel-config";
 
 @customElement("op-automation-picker")
 class OpAutomationPicker extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public isWide!: boolean;
+  @property() public narrow!: boolean;
+  @property() public route!: Route;
   @property() public automations!: AutomationEntity[];
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
-      <opp-subpage
-        .header=${this.opp.localize("ui.panel.config.automation.caption")}
+      <opp-tabs-subpage
+        .opp=${this.opp}
+        .narrow=${this.narrow}
+        back-path="/config"
+        .route=${this.route}
+        .tabs=${configSections.automation}
       >
         <op-config-section .isWide=${this.isWide}>
           <div slot="header">
@@ -74,9 +86,7 @@ class OpAutomationPicker extends LitElement {
                     </p>
                   </div>
                 `
-              : repeat(
-                  this.automations,
-                  (automation) => automation.entity_id,
+              : this.automations.map(
                   (automation) => html`
 
                       <div class='automation'>
@@ -88,16 +98,16 @@ class OpAutomationPicker extends LitElement {
                         <paper-item-body two-line>
                           <div>${computeStateName(automation)}</div>
                           <div secondary>
-                            Last triggered: ${
-                              automation.attributes.last_triggered
-                                ? format_date_time(
-                                    new Date(
-                                      automation.attributes.last_triggered
-                                    ),
-                                    this.opp.language
-                                  )
-                                : "never"
-                            }
+                            ${this.opp.localize(
+                              "ui.card.automation.last_triggered"
+                            )}: ${
+                    automation.attributes.last_triggered
+                      ? formatDateTime(
+                          new Date(automation.attributes.last_triggered),
+                          this.opp.language
+                        )
+                      : this.opp.localize("ui.components.relative_time.never")
+                  }
                           </div>
                         </paper-item-body>
                         <div class='actions'>
@@ -105,17 +115,21 @@ class OpAutomationPicker extends LitElement {
                             .automation=${automation}
                             @click=${this._showInfo}
                             icon="opp:information-outline"
+                            title="${this.opp.localize(
+                              "ui.panel.config.automation.picker.show_info_automation"
+                            )}"
                           ></paper-icon-button>
                           <a
                             href=${ifDefined(
                               automation.attributes.id
-                                ? `/config/automation/edit/${
-                                    automation.attributes.id
-                                  }`
+                                ? `/config/automation/edit/${automation.attributes.id}`
                                 : undefined
                             )}
                           >
                             <paper-icon-button
+                              title="${this.opp.localize(
+                                "ui.panel.config.automation.picker.edit_automation"
+                              )}"
                               icon="opp:pencil"
                               .disabled=${!automation.attributes.id}
                             ></paper-icon-button>
@@ -123,8 +137,9 @@ class OpAutomationPicker extends LitElement {
                               !automation.attributes.id
                                 ? html`
                                     <paper-tooltip position="left">
-                                      Only automations defined in
-                                      automations.yaml are editable.
+                                      ${this.opp.localize(
+                                        "ui.panel.config.automation.picker.only_editable"
+                                      )}
                                     </paper-tooltip>
                                   `
                                 : ""
@@ -137,25 +152,37 @@ class OpAutomationPicker extends LitElement {
                 )}
           </op-card>
         </op-config-section>
-
-        <a href="/config/automation/new">
-          <paper-fab
+        <div>
+          <op-fab
             slot="fab"
             ?is-wide=${this.isWide}
+            ?narrow=${this.narrow}
             icon="opp:plus"
             title=${this.opp.localize(
               "ui.panel.config.automation.picker.add_automation"
             )}
             ?rtl=${computeRTL(this.opp)}
-          ></paper-fab
-        ></a>
-      </opp-subpage>
+            @click=${this._createNew}
+          ></op-fab>
+        </div>
+      </opp-tabs-subpage>
     `;
   }
 
   private _showInfo(ev) {
     const entityId = ev.currentTarget.automation.entity_id;
     fireEvent(this, "opp-more-info", { entityId });
+  }
+
+  private _createNew() {
+    if (!isComponentLoaded(this.opp, "cloud")) {
+      showAutomationEditor(this);
+      return;
+    }
+    showThingtalkDialog(this, {
+      callback: (config: Partial<AutomationConfig> | undefined) =>
+        showAutomationEditor(this, config),
+    });
   }
 
   static get styles(): CSSResultArray {
@@ -189,24 +216,27 @@ class OpAutomationPicker extends LitElement {
           display: flex;
         }
 
-        paper-fab {
+        op-fab {
           position: fixed;
           bottom: 16px;
           right: 16px;
           z-index: 1;
+          cursor: pointer;
         }
 
-        paper-fab[is-wide] {
+        op-fab[is-wide] {
           bottom: 24px;
           right: 24px;
         }
-
-        paper-fab[rtl] {
+        op-fab[narrow] {
+          bottom: 84px;
+        }
+        op-fab[rtl] {
           right: auto;
           left: 16px;
         }
 
-        paper-fab[rtl][is-wide] {
+        op-fab[rtl][is-wide] {
           bottom: 24px;
           right: auto;
           left: 24px;

@@ -50,7 +50,7 @@ class ZHAAddDevicesPage extends LitElement {
     this._formattedEvents = "";
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <opp-subpage
         header="${this.opp!.localize(
@@ -72,7 +72,9 @@ class ZHAAddDevicesPage extends LitElement {
           : html`
               <div class="card-actions">
                 <mwc-button @click=${this._subscribe} class="search-button">
-                  Search again
+                  ${this.opp!.localize(
+                    "ui.panel.config.zha.add_device_page.search_again"
+                  )}
                 </mwc-button>
                 <paper-icon-button
                   class="toggle-help-icon"
@@ -113,12 +115,12 @@ class ZHAAddDevicesPage extends LitElement {
                   (device) => html`
                     <zha-device-card
                       class="card"
-                      .opp="${this.opp}"
-                      .device="${device}"
-                      .narrow="${!this.isWide}"
-                      .showHelp="${this._showHelp}"
-                      .showActions="${!this._active}"
-                      .isJoinPage="${true}"
+                      .opp=${this.opp}
+                      .device=${device}
+                      .narrow=${!this.isWide}
+                      .showHelp=${this._showHelp}
+                      .showActions=${!this._active}
+                      .showEntityDetail=${false}
                     ></zha-device-card>
                   `
                 )}

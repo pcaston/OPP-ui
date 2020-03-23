@@ -14,9 +14,9 @@ import {
   CSSResult,
   html,
   LitElement,
-  PropertyDeclarations,
   PropertyValues,
   TemplateResult,
+  property,
 } from "lit-element";
 
 import {
@@ -37,39 +37,16 @@ import {
 } from "./types";
 
 export class ZHAClusterAttributes extends LitElement {
-  public opp?: OpenPeerPower;
-  public isWide?: boolean;
-  public showHelp: boolean;
-  public selectedNode?: ZHADevice;
-  public selectedCluster?: Cluster;
-  private _attributes: Attribute[];
-  private _selectedAttributeIndex: number;
-  private _attributeValue?: any;
-  private _manufacturerCodeOverride?: string | number;
-  private _setAttributeServiceData?: SetAttributeServiceData;
-
-  constructor() {
-    super();
-    this.showHelp = false;
-    this._selectedAttributeIndex = -1;
-    this._attributes = [];
-    this._attributeValue = "";
-  }
-
-  static get properties(): PropertyDeclarations {
-    return {
-      opp: {},
-      isWide: {},
-      showHelp: {},
-      selectedNode: {},
-      selectedCluster: {},
-      _attributes: {},
-      _selectedAttributeIndex: {},
-      _attributeValue: {},
-      _manufacturerCodeOverride: {},
-      _setAttributeServiceData: {},
-    };
-  }
+  @property() public opp?: OpenPeerPower;
+  @property() public isWide?: boolean;
+  @property() public showHelp = false;
+  @property() public selectedNode?: ZHADevice;
+  @property() public selectedCluster?: Cluster;
+  @property() private _attributes: Attribute[] = [];
+  @property() private _selectedAttributeIndex = -1;
+  @property() private _attributeValue?: any = "";
+  @property() private _manufacturerCodeOverride?: string | number;
+  @property() private _setAttributeServiceData?: SetAttributeServiceData;
 
   protected updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectedCluster")) {
@@ -81,11 +58,15 @@ export class ZHAClusterAttributes extends LitElement {
     super.update(changedProperties);
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <op-config-section .isWide="${this.isWide}">
-        <div style="position: relative" slot="header">
-          <span>Cluster Attributes</span>
+        <div class="header" slot="header">
+          <span>
+            ${this.opp!.localize(
+              "ui.panel.config.zha.cluster_attributes.header"
+            )}
+          </span>
           <paper-icon-button
             class="toggle-help-icon"
             @click="${this._onHelpTap}"
@@ -93,13 +74,19 @@ export class ZHAClusterAttributes extends LitElement {
           >
           </paper-icon-button>
         </div>
-        <span slot="introduction">View and edit cluster attributes.</span>
+        <span slot="introduction">
+          ${this.opp!.localize(
+            "ui.panel.config.zha.cluster_attributes.introduction"
+          )}
+        </span>
 
         <op-card class="content">
           <div class="attribute-picker">
             <paper-dropdown-menu
-              label="Attributes of the selected cluster"
-              class="flex"
+              label="${this.opp!.localize(
+                "ui.panel.config.zha.cluster_attributes.attributes_of_cluster"
+              )}"
+              class="menu"
             >
               <paper-listbox
                 slot="dropdown-content"
@@ -122,7 +109,9 @@ export class ZHAClusterAttributes extends LitElement {
           ${this.showHelp
             ? html`
                 <div class="help-text">
-                  Select an attribute to view or set its value
+                  ${this.opp!.localize(
+                    "ui.panel.config.zha.cluster_attributes.help_attribute_dropdown"
+                  )}
                 </div>
               `
             : ""}
@@ -138,30 +127,40 @@ export class ZHAClusterAttributes extends LitElement {
     return html`
       <div class="input-text">
         <paper-input
-          label="Value"
+          label="${this.opp!.localize("ui.panel.config.zha.common.value")}"
           type="string"
           .value="${this._attributeValue}"
           @value-changed="${this._onAttributeValueChanged}"
-          placeholder="Value"
+          placeholder="${this.opp!.localize(
+            "ui.panel.config.zha.common.value"
+          )}"
         ></paper-input>
       </div>
       <div class="input-text">
         <paper-input
-          label="Manufacturer code override"
+          label="${this.opp!.localize(
+            "ui.panel.config.zha.common.manufacturer_code_override"
+          )}"
           type="number"
           .value="${this._manufacturerCodeOverride}"
           @value-changed="${this._onManufacturerCodeOverrideChanged}"
-          placeholder="Value"
+          placeholder="${this.opp!.localize(
+            "ui.panel.config.zha.common.value"
+          )}"
         ></paper-input>
       </div>
       <div class="card-actions">
-        <mwc-button @click="${this._onGetZigbeeAttributeClick}"
-          >Get Zigbee Attribute</mwc-button
-        >
+        <mwc-button @click="${this._onGetZigbeeAttributeClick}">
+          ${this.opp!.localize(
+            "ui.panel.config.zha.cluster_attributes.get_zigbee_attribute"
+          )}
+        </mwc-button>
         ${this.showHelp
           ? html`
               <div class="help-text2">
-                Get the value for the selected attribute
+                ${this.opp!.localize(
+                  "ui.panel.config.zha.cluster_attributes.help_get_zigbee_attribute"
+                )}
               </div>
             `
           : ""}
@@ -170,8 +169,11 @@ export class ZHAClusterAttributes extends LitElement {
           domain="zha"
           service="set_zigbee_cluster_attribute"
           .serviceData="${this._setAttributeServiceData}"
-          >Set Zigbee Attribute</op-call-service-button
         >
+          ${this.opp!.localize(
+            "ui.panel.config.zha.cluster_attributes.set_zigbee_attribute"
+          )}
+        </op-call-service-button>
         ${this.showHelp
           ? html`
               <op-service-description
@@ -268,12 +270,8 @@ export class ZHAClusterAttributes extends LitElement {
     return [
       opStyle,
       css`
-        .flex {
-          -ms-flex: 1 1 0.000000001px;
-          -webkit-flex: 1;
-          flex: 1;
-          -webkit-flex-basis: 0.000000001px;
-          flex-basis: 0.000000001px;
+        .menu {
+          width: 100%;
         }
 
         .content {
@@ -281,8 +279,7 @@ export class ZHAClusterAttributes extends LitElement {
         }
 
         op-card {
-          margin: 0 auto;
-          max-width: 600px;
+          max-width: 680px;
         }
 
         .card-actions.warning op-call-service-button {
@@ -290,14 +287,6 @@ export class ZHAClusterAttributes extends LitElement {
         }
 
         .attribute-picker {
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -ms-flex-direction: row;
-          -webkit-flex-direction: row;
-          flex-direction: row;
-          -ms-flex-align: center;
-          -webkit-align-items: center;
           align-items: center;
           padding-left: 28px;
           padding-right: 28px;
@@ -310,10 +299,15 @@ export class ZHAClusterAttributes extends LitElement {
           padding-bottom: 10px;
         }
 
+        .header {
+          flex-grow: 1;
+        }
+
         .toggle-help-icon {
-          position: absolute;
+          float: right;
           top: -6px;
           right: 0;
+          padding-right: 0px;
           color: var(--primary-color);
         }
 

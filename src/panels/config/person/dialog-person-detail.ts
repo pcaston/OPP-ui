@@ -6,17 +6,16 @@ import {
   TemplateResult,
   property,
 } from "lit-element";
-import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
+import memoizeOne from "memoize-one";
+
 import "@polymer/paper-input/paper-input";
 import "@material/mwc-button";
 
-import "../../../components/dialog/op-paper-dialog";
-
 import "../../../components/entity/op-entities-picker";
 import "../../../components/user/op-user-picker";
+import "../../../components/op-dialog";
 import { PersonDetailDialogParams } from "./show-dialog-person-detail";
 import { PolymerChangedEvent } from "../../../polymer-types";
-import { opStyleDialog } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import { PersonMutableParams } from "../../../data/person";
 
@@ -28,6 +27,13 @@ class DialogPersonDetail extends LitElement {
   @property() private _error?: string;
   @property() private _params?: PersonDetailDialogParams;
   @property() private _submitting: boolean = false;
+
+  private _deviceTrackersAvailable = memoizeOne((opp) => {
+    return Object.keys(opp.states).some(
+      (entityId) =>
+        entityId.substr(0, entityId.indexOf(".")) === "device_tracker"
+    );
+  });
 
   public async showDialog(params: PersonDetailDialogParams): Promise<void> {
     this._params = params;
@@ -44,19 +50,33 @@ class DialogPersonDetail extends LitElement {
     await this.updateComplete;
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     if (!this._params) {
       return html``;
     }
     const nameInvalid = this._name.trim() === "";
+    const title = html`
+      ${this._params.entry
+        ? this._params.entry.name
+        : this.opp!.localize("ui.panel.config.person.detail.new_person")}
+      <paper-icon-button
+        aria-label=${this.opp.localize(
+          "ui.panel.config.integrations.config_flow.dismiss"
+        )}
+        icon="opp:close"
+        dialogAction="close"
+        style="position: absolute; right: 16px; top: 12px;"
+      ></paper-icon-button>
+    `;
     return html`
-      <op-paper-dialog
-        with-backdrop
-        opened
-        @opened-changed="${this._openedChanged}"
+      <op-dialog
+        open
+        @closing="${this._close}"
+        scrimClickAction=""
+        escapeKeyAction=""
+        .heading=${title}
       >
-        <h2>${this._params.entry ? this._params.entry.name : "New Person"}</h2>
-        <paper-dialog-scrollable>
+        <div>
           ${this._error
             ? html`
                 <div class="error">${this._error}</div>
@@ -66,57 +86,101 @@ class DialogPersonDetail extends LitElement {
             <paper-input
               .value=${this._name}
               @value-changed=${this._nameChanged}
-              label="Name"
-              error-message="Name is required"
+              label="${this.opp!.localize(
+                "ui.panel.config.person.detail.name"
+              )}"
+              error-message="${this.opp!.localize(
+                "ui.panel.config.person.detail.name_error_msg"
+              )}"
               .invalid=${nameInvalid}
             ></paper-input>
             <op-user-picker
-              label="Linked User"
+              label="${this.opp!.localize(
+                "ui.panel.config.person.detail.linked_user"
+              )}"
               .opp=${this.opp}
               .value=${this._userId}
               .users=${this._params.users}
               @value-changed=${this._userChanged}
             ></op-user-picker>
-            <p>
-              ${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_intro"
-              )}
-            </p>
-            <op-entities-picker
-              .opp=${this.opp}
-              .value=${this._deviceTrackers}
-              domain-filter="device_tracker"
-              .pickedEntityLabel=${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_picked"
-              )}
-              .pickEntityLabel=${this.opp.localize(
-                "ui.panel.config.person.detail.device_tracker_pick"
-              )}
-              @value-changed=${this._deviceTrackersChanged}
-            ></op-entities-picker>
+            ${this._deviceTrackersAvailable(this.opp)
+              ? html`
+                  <p>
+                    ${this.opp.localize(
+                      "ui.panel.config.person.detail.device_tracker_intro"
+                    )}
+                  </p>
+                  <op-entities-picker
+                    .opp=${this.opp}
+                    .value=${this._deviceTrackers}
+                    include-domains='["device_tracker"]'
+                    .pickedEntityLabel=${this.opp.localize(
+                      "ui.panel.config.person.detail.device_tracker_picked"
+                    )}
+                    .pickEntityLabel=${this.opp.localize(
+                      "ui.panel.config.person.detail.device_tracker_pick"
+                    )}
+                    @value-changed=${this._deviceTrackersChanged}
+                  >
+                  </op-entities-picker>
+                `
+              : html`
+                  <p>
+                    ${this.opp!.localize(
+                      "ui.panel.config.person.detail.no_device_tracker_available_intro"
+                    )}
+                  </p>
+                  <ul>
+                    <li>
+                      <a
+                        href="https://www.open-peer-power.io/integrations/#presence-detection"
+                        target="_blank"
+                        >${this.opp!.localize(
+                          "ui.panel.config.person.detail.link_presence_detection_integrations"
+                        )}</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        @click="${this._closeDialog}"
+                        href="/config/integrations"
+                      >
+                        ${this.opp!.localize(
+                          "ui.panel.config.person.detail.link_integrations_page"
+                        )}</a
+                      >
+                    </li>
+                  </ul>
+                `}
           </div>
-        </paper-dialog-scrollable>
-        <div class="paper-dialog-buttons">
-          ${this._params.entry
-            ? html`
-                <mwc-button
-                  class="warning"
-                  @click="${this._deleteEntry}"
-                  .disabled=${this._submitting}
-                >
-                  DELETE
-                </mwc-button>
-              `
-            : html``}
-          <mwc-button
-            @click="${this._updateEntry}"
-            .disabled=${nameInvalid || this._submitting}
-          >
-            ${this._params.entry ? "UPDATE" : "CREATE"}
-          </mwc-button>
         </div>
-      </op-paper-dialog>
+        ${this._params.entry
+          ? html`
+              <mwc-button
+                slot="secondaryAction"
+                class="warning"
+                @click="${this._deleteEntry}"
+                .disabled=${this._submitting}
+              >
+                ${this.opp!.localize("ui.panel.config.person.detail.delete")}
+              </mwc-button>
+            `
+          : html``}
+        <mwc-button
+          slot="primaryAction"
+          @click="${this._updateEntry}"
+          .disabled=${nameInvalid || this._submitting}
+        >
+          ${this._params.entry
+            ? this.opp!.localize("ui.panel.config.person.detail.update")
+            : this.opp!.localize("ui.panel.config.person.detail.create")}
+        </mwc-button>
+      </op-dialog>
     `;
+  }
+
+  private _closeDialog() {
+    this._params = undefined;
   }
 
   private _nameChanged(ev: PolymerChangedEvent<string>) {
@@ -166,18 +230,27 @@ class DialogPersonDetail extends LitElement {
     }
   }
 
-  private _openedChanged(ev: PolymerChangedEvent<boolean>): void {
-    if (!(ev.detail as any).value) {
-      this._params = undefined;
-    }
+  private _close(): void {
+    this._params = undefined;
   }
 
   static get styles(): CSSResult[] {
     return [
-      opStyleDialog,
       css`
-        op-paper-dialog {
-          min-width: 400px;
+        op-dialog {
+          --mdc-dialog-min-width: 400px;
+          --mdc-dialog-max-width: 600px;
+          --mdc-dialog-title-ink-color: var(--primary-text-color);
+          --justify-action-buttons: space-between;
+        }
+        /* make dialog fullscreen on small screens */
+        @media all and (max-width: 450px), all and (max-height: 500px) {
+          op-dialog {
+            --mdc-dialog-min-width: 100vw;
+            --mdc-dialog-max-height: 100vh;
+            --mdc-dialog-shape-radius: 0px;
+            --vertial-align-dialog: flex-end;
+          }
         }
         .form {
           padding-bottom: 24px;
@@ -186,10 +259,16 @@ class DialogPersonDetail extends LitElement {
           margin-top: 16px;
         }
         mwc-button.warning {
-          margin-right: auto;
+          --mdc-theme-primary: var(--google-red-500);
         }
         .error {
           color: var(--google-red-500);
+        }
+        a {
+          color: var(--primary-color);
+        }
+        p {
+          color: var(--primary-text-color);
         }
       `,
     ];

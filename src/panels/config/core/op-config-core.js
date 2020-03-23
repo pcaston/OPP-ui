@@ -4,10 +4,12 @@ import "@polymer/paper-icon-button/paper-icon-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-tabs-subpage";
 import "../../../resources/op-style";
 
 import "./op-config-section-core";
+
+import { configSections } from "../op-panel-config";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
@@ -33,14 +35,22 @@ class OpConfigCore extends LocalizeMixin(PolymerElement) {
         }
       </style>
 
-      <opp-subpage header="[[localize('ui.panel.config.core.caption')]]">
+      <opp-tabs-subpage
+        opp="[[opp]]"
+        narrow="[[narrow]]"
+        route="[[route]]"
+        back-path="/config"
+        tabs="[[_computeTabs()]]"
+        show-advanced="[[showAdvanced]]"
+      >
         <div class$="[[computeClasses(isWide)]]">
           <op-config-section-core
             is-wide="[[isWide]]"
+            show-advanced="[[showAdvanced]]"
             opp="[[opp]]"
           ></op-config-section-core>
         </div>
-      </opp-subpage>
+      </opp-tabs-subpage>
     `;
   }
 
@@ -48,7 +58,14 @@ class OpConfigCore extends LocalizeMixin(PolymerElement) {
     return {
       opp: Object,
       isWide: Boolean,
+      narrow: Boolean,
+      showAdvanced: Boolean,
+      route: Object,
     };
+  }
+
+  _computeTabs() {
+    return configSections.general;
   }
 
   computeClasses(isWide) {

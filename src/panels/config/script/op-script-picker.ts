@@ -7,73 +7,91 @@ import {
   property,
   customElement,
 } from "lit-element";
-import "@polymer/paper-fab/paper-fab";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item-body";
-import { OppEntity } from "../../../types";
+import { OppEntity } from "../../../websocket/lib";
 
-import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-tabs-subpage";
 
 import { computeRTL } from "../../../common/util/compute_rtl";
 
 import "../../../components/op-card";
+import "../../../components/op-fab";
 
 import "../op-config-section";
 
 import { computeStateName } from "../../../common/entity/compute_state_name";
 import { opStyle } from "../../../resources/styles";
-import { OpenPeerPower } from "../../../types";
+import { OpenPeerPower, Route } from "../../../types";
 import { triggerScript } from "../../../data/script";
 import { showToast } from "../../../util/toast";
-import { repeat } from "lit-html/directives/repeat";
+import { configSections } from "../op-panel-config";
 
 @customElement("op-script-picker")
 class OpScriptPicker extends LitElement {
   @property() public opp!: OpenPeerPower;
   @property() public scripts!: OppEntity[];
   @property() public isWide!: boolean;
+  @property() public narrow!: boolean;
+  @property() public route!: Route;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
-      <opp-subpage
-        .header=${this.opp.localize("ui.panel.config.script.caption")}
+      <opp-tabs-subpage
+        .opp=${this.opp}
+        .narrow=${this.narrow}
+        back-path="/config"
+        .route=${this.route}
+        .tabs=${configSections.automation}
       >
         <op-config-section .isWide=${this.isWide}>
-          <div slot="header">Script Editor</div>
+          <div slot="header">
+            ${this.opp.localize("ui.panel.config.script.picker.header")}
+          </div>
           <div slot="introduction">
-            The script editor allows you to create and edit scripts. Please read
-            <a
-              href="https://open-peer-power.io/docs/scripts/editor/"
-              target="_blank"
-              >the instructions</a
-            >
-            to make sure that you have configured Open Peer Power correctly.
+            ${this.opp.localize("ui.panel.config.script.picker.introduction")}
+            <p>
+              <a
+                href="https://open-peer-power.io/docs/scripts/editor/"
+                target="_blank"
+              >
+                ${this.opp.localize("ui.panel.config.script.picker.learn_more")}
+              </a>
+            </p>
           </div>
 
-          <op-card header="Pick script to edit">
+          <op-card>
             ${this.scripts.length === 0
               ? html`
                   <div class="card-content">
-                    <p>We couldn't find any scripts.</p>
+                    <p>
+                      ${this.opp.localize(
+                        "ui.panel.config.script.picker.no_scripts"
+                      )}
+                    </p>
                   </div>
                 `
-              : repeat(
-                  this.scripts,
-                  (script) => script.entity_id,
+              : this.scripts.map(
                   (script) => html`
                     <div class="script">
                       <paper-icon-button
                         .script=${script}
                         icon="opp:play"
+                        title="${this.opp.localize(
+                          "ui.panel.config.script.picker.trigger_script"
+                        )}"
                         @click=${this._runScript}
                       ></paper-icon-button>
-                      <paper-item-body>
+                      <paper-item-body two-line>
                         <div>${computeStateName(script)}</div>
                       </paper-item-body>
                       <div class="actions">
                         <a href=${`/config/script/edit/${script.entity_id}`}>
                           <paper-icon-button
                             icon="opp:pencil"
+                            title="${this.opp.localize(
+                              "ui.panel.config.script.picker.edit_script"
+                            )}"
                           ></paper-icon-button>
                         </a>
                       </div>
@@ -84,15 +102,17 @@ class OpScriptPicker extends LitElement {
         </op-config-section>
 
         <a href="/config/script/new">
-          <paper-fab
-            slot="fab"
+          <op-fab
             ?is-wide=${this.isWide}
+            ?narrow=${this.narrow}
             icon="opp:plus"
-            title="Add Script"
+            title="${this.opp.localize(
+              "ui.panel.config.script.picker.add_script"
+            )}"
             ?rtl=${computeRTL(this.opp)}
-          ></paper-fab>
+          ></op-fab>
         </a>
-      </opp-subpage>
+      </opp-tabs-subpage>
     `;
   }
 
@@ -100,7 +120,11 @@ class OpScriptPicker extends LitElement {
     const script = ev.currentTarget.script as OppEntity;
     await triggerScript(this.opp, script.entity_id);
     showToast(this, {
-      message: `Triggered ${computeStateName(script)}`,
+      message: this.opp.localize(
+        "ui.notification_toast.triggered",
+        "name",
+        computeStateName(script)
+      ),
     });
   }
 
@@ -113,7 +137,6 @@ class OpScriptPicker extends LitElement {
         }
 
         op-card {
-          padding-bottom: 8px;
           margin-bottom: 56px;
         }
 
@@ -121,8 +144,7 @@ class OpScriptPicker extends LitElement {
           display: flex;
           flex-direction: horizontal;
           align-items: center;
-          padding: 0 8px;
-          margin: 4px 0;
+          padding: 0 8px 0 16px;
         }
 
         .script > *:first-child {
@@ -138,24 +160,26 @@ class OpScriptPicker extends LitElement {
           display: flex;
         }
 
-        paper-fab {
+        op-fab {
           position: fixed;
           bottom: 16px;
           right: 16px;
           z-index: 1;
         }
 
-        paper-fab[is-wide] {
+        op-fab[is-wide] {
           bottom: 24px;
           right: 24px;
         }
-
-        paper-fab[rtl] {
+        op-fab[narrow] {
+          bottom: 84px;
+        }
+        op-fab[rtl] {
           right: auto;
           left: 16px;
         }
 
-        paper-fab[rtl][is-wide] {
+        op-fab[rtl][is-wide] {
           bottom: 24px;
           right: auto;
           left: 24px;

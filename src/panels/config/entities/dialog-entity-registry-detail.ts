@@ -21,7 +21,7 @@ import { OpPaperDialog } from "../../../components/dialog/op-paper-dialog";
 import "../../../components/op-related-items";
 import "../../../dialogs/more-info/controls/more-info-content";
 import { PolymerChangedEvent } from "../../../polymer-types";
-import { haStyleDialog } from "../../../resources/styles";
+import { opStyleDialog } from "../../../resources/styles";
 import "../../../state-summary/state-card-content";
 import { OpenPeerPower } from "../../../types";
 import "./entity-registry-settings";
@@ -163,7 +163,7 @@ export class DialogEntityRegistryDetail extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         app-toolbar {
           color: var(--primary-text-color);

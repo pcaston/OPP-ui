@@ -1,6 +1,6 @@
 import { Connection } from "./connection";
 import * as messages from "./messages";
-import { OppServices, OppUser, OppEntity, OppConfig } from "../../types";
+import { OppEntity, OppServices, OppConfig, OppUser } from "./types";
 
 export const getStates = (connection: Connection) =>
   connection.sendMessagePromise<OppEntity[]>(messages.states());

@@ -1,55 +1,58 @@
-
 import { property, customElement, PropertyValues } from "lit-element";
 import { PolymerElement } from "@polymer/polymer";
 
 import { OpenPeerPower, Panels } from "../types";
-import {
-  OppRouterPage,
-  RouterOptions,
-  RouteOptions,
-} from "./opp-router-page";
+import { OppRouterPage, RouterOptions, RouteOptions } from "./opp-router-page";
 import { removeInitSkeleton } from "../util/init-skeleton";
 
-const CACHE_COMPONENTS = ["lovelace", "states"];
+const CACHE_COMPONENTS = ["devcon", "states", "developer-tools"];
 const COMPONENTS = {
   calendar: () =>
-    import(/* webpackChunkName: "panel-calendar" */ "../panels/calendar/op-panel-calendar"),
+    import(
+      /* webpackChunkName: "panel-calendar" */ "../panels/calendar/op-panel-calendar"
+    ),
   config: () =>
-    import(/* webpackChunkName: "panel-config" */ "../panels/config/op-panel-config"),
+    import(
+      /* webpackChunkName: "panel-config" */ "../panels/config/op-panel-config"
+    ),
   custom: () =>
-    import(/* webpackChunkName: "panel-custom" */ "../panels/custom/op-panel-custom"),
-  "dev-event": () =>
-    import(/* webpackChunkName: "panel-dev-event" */ "../panels/dev-event/op-panel-dev-event"),
-  "dev-info": () =>
-    import(/* webpackChunkName: "panel-dev-info" */ "../panels/dev-info/op-panel-dev-info"),
-  "dev-mqtt": () =>
-    import(/* webpackChunkName: "panel-dev-mqtt" */ "../panels/dev-mqtt/op-panel-dev-mqtt"),
-  "dev-service": () =>
-    import(/* webpackChunkName: "panel-dev-service" */ "../panels/dev-service/op-panel-dev-service"),
-  "dev-state": () =>
-    import(/* webpackChunkName: "panel-dev-state" */ "../panels/dev-state/op-panel-dev-state"),
-  "dev-template": () =>
-    import(/* webpackChunkName: "panel-dev-template" */ "../panels/dev-template/op-panel-dev-template"),
-  lovelace: () =>
-    import(/* webpackChunkName: "panel-lovelace" */ "../panels/lovelace/op-panel-lovelace"),
-  states: () =>
-    import(/* webpackChunkName: "panel-states" */ "../panels/states/op-panel-states"),
+    import(
+      /* webpackChunkName: "panel-custom" */ "../panels/custom/op-panel-custom"
+    ),
+  "developer-tools": () =>
+    import(
+      /* webpackChunkName: "panel-developer-tools" */ "../panels/developer-tools/op-panel-developer-tools"
+    ),
+  devcon: () =>
+    import(
+      /* webpackChunkName: "panel-devcon" */ "../panels/devcon/op-panel-devcon"
+    ),
   history: () =>
-    import(/* webpackChunkName: "panel-history" */ "../panels/history/op-panel-history"),
+    import(
+      /* webpackChunkName: "panel-history" */ "../panels/history/op-panel-history"
+    ),
   iframe: () =>
-    import(/* webpackChunkName: "panel-iframe" */ "../panels/iframe/op-panel-iframe"),
-  kiosk: () =>
-    import(/* webpackChunkName: "panel-kiosk" */ "../panels/kiosk/op-panel-kiosk"),
+    import(
+      /* webpackChunkName: "panel-iframe" */ "../panels/iframe/op-panel-iframe"
+    ),
   logbook: () =>
-    import(/* webpackChunkName: "panel-logbook" */ "../panels/logbook/op-panel-logbook"),
+    import(
+      /* webpackChunkName: "panel-logbook" */ "../panels/logbook/op-panel-logbook"
+    ),
   mailbox: () =>
-    import(/* webpackChunkName: "panel-mailbox" */ "../panels/mailbox/op-panel-mailbox"),
+    import(
+      /* webpackChunkName: "panel-mailbox" */ "../panels/mailbox/op-panel-mailbox"
+    ),
   map: () =>
     import(/* webpackChunkName: "panel-map" */ "../panels/map/op-panel-map"),
   profile: () =>
-    import(/* webpackChunkName: "panel-profile" */ "../panels/profile/op-panel-profile"),
+    import(
+      /* webpackChunkName: "panel-profile" */ "../panels/profile/op-panel-profile"
+    ),
   "shopping-list": () =>
-    import(/* webpackChunkName: "panel-shopping-list" */ "../panels/shopping-list/op-panel-shopping-list"),
+    import(
+      /* webpackChunkName: "panel-shopping-list" */ "../panels/shopping-list/op-panel-shopping-list"
+    ),
 };
 
 const getRoutes = (panels: Panels): RouterOptions => {
@@ -79,16 +82,14 @@ class PartialPanelResolver extends OppRouterPage {
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
+
     if (!changedProps.has("opp")) {
       return;
     }
 
     const oldOpp = changedProps.get("opp") as this["opp"];
 
-    if (
-      this.opp!.panels &&
-      (!oldOpp || oldOpp.panels !== this.opp!.panels)
-    ) {
+    if (this.opp!.panels && (!oldOpp || oldOpp.panels !== this.opp!.panels)) {
       this._updateRoutes();
     }
   }

@@ -16,7 +16,7 @@ import "../../components/op-switch";
 import { OpenPeerPower } from "../../types";
 import { DialogParams } from "./show-dialog-box";
 import { PolymerChangedEvent } from "../../polymer-types";
-import { haStyleDialog } from "../../resources/styles";
+import { opStyleDialog } from "../../resources/styles";
 import { classMap } from "lit-html/directives/class-map";
 
 @customElement("dialog-box")
@@ -127,7 +127,7 @@ class DialogBox extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyleDialog,
+      opStyleDialog,
       css`
         op-paper-dialog {
           min-width: 400px;

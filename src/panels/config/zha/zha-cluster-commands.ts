@@ -13,9 +13,9 @@ import {
   CSSResult,
   html,
   LitElement,
-  PropertyDeclarations,
   PropertyValues,
   TemplateResult,
+  property,
 } from "lit-element";
 
 import {
@@ -34,36 +34,15 @@ import {
 } from "./types";
 
 export class ZHAClusterCommands extends LitElement {
-  public opp?: OpenPeerPower;
-  public isWide?: boolean;
-  public selectedNode?: ZHADevice;
-  public selectedCluster?: Cluster;
-  private _showHelp: boolean;
-  private _commands: Command[];
-  private _selectedCommandIndex: number;
-  private _manufacturerCodeOverride?: number;
-  private _issueClusterCommandServiceData?: IssueCommandServiceData;
-
-  constructor() {
-    super();
-    this._showHelp = false;
-    this._selectedCommandIndex = -1;
-    this._commands = [];
-  }
-
-  static get properties(): PropertyDeclarations {
-    return {
-      opp: {},
-      isWide: {},
-      selectedNode: {},
-      selectedCluster: {},
-      _showHelp: {},
-      _commands: {},
-      _selectedCommandIndex: {},
-      _manufacturerCodeOverride: {},
-      _issueClusterCommandServiceData: {},
-    };
-  }
+  @property() public opp?: OpenPeerPower;
+  @property() public isWide?: boolean;
+  @property() public selectedNode?: ZHADevice;
+  @property() public selectedCluster?: Cluster;
+  @property() private _showHelp = false;
+  @property() private _commands: Command[] = [];
+  @property() private _selectedCommandIndex = -1;
+  @property() private _manufacturerCodeOverride?: number;
+  @property() private _issueClusterCommandServiceData?: IssueCommandServiceData;
 
   protected updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectedCluster")) {
@@ -74,11 +53,13 @@ export class ZHAClusterCommands extends LitElement {
     super.update(changedProperties);
   }
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <op-config-section .isWide="${this.isWide}">
-        <div class="sectionHeader" slot="header">
-          <span>Cluster Commands</span>
+        <div class="header" slot="header">
+          <span>
+            ${this.opp!.localize("ui.panel.config.zha.cluster_commands.header")}
+          </span>
           <paper-icon-button
             class="toggle-help-icon"
             @click="${this._onHelpTap}"
@@ -86,13 +67,19 @@ export class ZHAClusterCommands extends LitElement {
           >
           </paper-icon-button>
         </div>
-        <span slot="introduction">View and issue cluster commands.</span>
+        <span slot="introduction">
+          ${this.opp!.localize(
+            "ui.panel.config.zha.cluster_commands.introduction"
+          )}
+        </span>
 
         <op-card class="content">
           <div class="command-picker">
             <paper-dropdown-menu
-              label="Commands of the selected cluster"
-              class="flex"
+              label="${this.opp!.localize(
+                "ui.panel.config.zha.cluster_commands.commands_of_cluster"
+              )}"
+              class="menu"
             >
               <paper-listbox
                 slot="dropdown-content"
@@ -114,18 +101,26 @@ export class ZHAClusterCommands extends LitElement {
           </div>
           ${this._showHelp
             ? html`
-                <div class="help-text">Select a command to interact with</div>
+                <div class="help-text">
+                  ${this.opp!.localize(
+                    "ui.panel.config.zha.cluster_commands.help_command_dropdown"
+                  )}
+                </div>
               `
             : ""}
           ${this._selectedCommandIndex !== -1
             ? html`
                 <div class="input-text">
                   <paper-input
-                    label="Manufacturer code override"
+                    label="${this.opp!.localize(
+                      "ui.panel.config.zha.common.manufacturer_code_override"
+                    )}"
                     type="number"
                     .value="${this._manufacturerCodeOverride}"
                     @value-changed="${this._onManufacturerCodeOverrideChanged}"
-                    placeholder="Value"
+                    placeholder="${this.opp!.localize(
+                      "ui.panel.config.zha.common.value"
+                    )}"
                   ></paper-input>
                 </div>
                 <div class="card-actions">
@@ -134,8 +129,11 @@ export class ZHAClusterCommands extends LitElement {
                     domain="zha"
                     service="issue_zigbee_cluster_command"
                     .serviceData="${this._issueClusterCommandServiceData}"
-                    >Issue Zigbee Command</op-call-service-button
                   >
+                    ${this.opp!.localize(
+                      "ui.panel.config.zha.cluster_commands.issue_zigbee_command"
+                    )}
+                  </op-call-service-button>
                   ${this._showHelp
                     ? html`
                         <op-service-description
@@ -203,12 +201,8 @@ export class ZHAClusterCommands extends LitElement {
     return [
       opStyle,
       css`
-        .flex {
-          -ms-flex: 1 1 0.000000001px;
-          -webkit-flex: 1;
-          flex: 1;
-          -webkit-flex-basis: 0.000000001px;
-          flex-basis: 0.000000001px;
+        .menu {
+          width: 100%;
         }
 
         .content {
@@ -216,8 +210,7 @@ export class ZHAClusterCommands extends LitElement {
         }
 
         op-card {
-          margin: 0 auto;
-          max-width: 600px;
+          max-width: 680px;
         }
 
         .card-actions.warning op-call-service-button {
@@ -225,14 +218,6 @@ export class ZHAClusterCommands extends LitElement {
         }
 
         .command-picker {
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -ms-flex-direction: row;
-          -webkit-flex-direction: row;
-          flex-direction: row;
-          -ms-flex-align: center;
-          -webkit-align-items: center;
           align-items: center;
           padding-left: 28px;
           padding-right: 28px;
@@ -243,10 +228,6 @@ export class ZHAClusterCommands extends LitElement {
           padding-left: 28px;
           padding-right: 28px;
           padding-bottom: 10px;
-        }
-
-        .sectionHeader {
-          position: relative;
         }
 
         .help-text {
@@ -261,10 +242,15 @@ export class ZHAClusterCommands extends LitElement {
           padding: 16px;
         }
 
+        .header {
+          flex-grow: 1;
+        }
+
         .toggle-help-icon {
-          position: absolute;
+          float: right;
           top: -6px;
           right: 0;
+          padding-right: 0px;
           color: var(--primary-color);
         }
 

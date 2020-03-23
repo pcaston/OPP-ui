@@ -15,7 +15,7 @@ class OppErrorScreen extends LitElement {
   @property()
   public error?: string;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     return html`
       <opp-subpage>
         <div class="content">

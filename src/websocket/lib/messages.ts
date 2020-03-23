@@ -1,39 +1,33 @@
-import { Error } from "../../types";
+import { Error } from "./types";
 
 export function auth(accessToken: string) {
   return {
     type: "auth",
-    access_token: accessToken
-  };
-}
-
-export function login() {
-  return {
-    type: "login",
+    access_token: accessToken,
   };
 }
 
 export function states() {
   return {
-    type: "get_states"
+    type: "get_states",
   };
 }
 
 export function config() {
   return {
-    type: "get_config"
+    type: "get_config",
   };
 }
 
 export function services() {
   return {
-    type: "get_services"
+    type: "get_services",
   };
 }
 
 export function user() {
   return {
-    type: "auth/current_user"
+    type: "auth/current_user",
   };
 }
 
@@ -52,7 +46,7 @@ export function callService(
   const message: ServiceCallMessage = {
     type: "call_service",
     domain,
-    service
+    service,
   };
 
   if (serviceData) {
@@ -69,7 +63,7 @@ type SubscribeEventMessage = {
 
 export function subscribeEvents(eventType?: string) {
   const message: SubscribeEventMessage = {
-    type: "subscribe_events"
+    type: "subscribe_events",
   };
 
   if (eventType) {
@@ -82,13 +76,13 @@ export function subscribeEvents(eventType?: string) {
 export function unsubscribeEvents(subscription: number) {
   return {
     type: "unsubscribe_events",
-    subscription
+    subscription,
   };
 }
 
 export function ping() {
   return {
-    type: "ping"
+    type: "ping",
   };
 }
 
@@ -98,7 +92,7 @@ export function error(code: Error, message: string) {
     success: false,
     error: {
       code,
-      message
-    }
+      message,
+    },
   };
 }

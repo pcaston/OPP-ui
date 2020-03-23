@@ -8,12 +8,12 @@
 <body>
   <test-fixture id="stateInfoSecondaryLine">
     <template>
-      <state-info hass="[[hass]]" secondary-line><my-elem>text</my-elem></state-info>
+      <state-info opp="[[opp]]" secondary-line><my-elem>text</my-elem></state-info>
     </template>
   </test-fixture>
   <test-fixture id="stateInfo">
     <template>
-      <state-info hass="[[hass]]"></state-info>
+      <state-info opp="[[opp]]"></state-info>
     </template>
   </test-fixture>
 
@@ -53,7 +53,7 @@ suite('state-info', function() {
       assert.equal(name.textContent, 'Name');
       assert.equal(getComputedStyle(name).lineHeight, '40px');
 
-      assert.isNotOk(lightOrShadow(si, 'ha-relative-time'));
+      assert.isNotOk(lightOrShadow(si, 'op-relative-time'));
       done();
     });
   });
@@ -62,7 +62,7 @@ suite('state-info', function() {
     si.stateObj = {entity_id: 'light.demo', last_changed: '2017-01-01T00:00:00+00:00', state: 'off', attributes: {friendly_name: 'Name'}};
     si.inDialog = true;
     flush(function() {
-      var relativeTime = lightOrShadow(si, 'ha-relative-time');
+      var relativeTime = lightOrShadow(si, 'op-relative-time');
       var name = lightOrShadow(si, '.name');
 
       assert.isOk(relativeTime);

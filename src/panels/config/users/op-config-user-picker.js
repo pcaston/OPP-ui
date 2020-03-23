@@ -1,18 +1,19 @@
-import "@polymer/paper-fab/paper-fab";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../layouts/opp-subpage";
+import "../../../layouts/opp-tabs-subpage";
 import "../../../components/op-icon-next";
 import "../../../components/op-card";
+import "../../../components/op-fab";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 import { EventsMixin } from "../../../mixins/events-mixin";
 
 import { computeRTL } from "../../../common/util/compute_rtl";
+import { configSections } from "../op-panel-config";
 
 let registeredDialog = false;
 
@@ -21,27 +22,30 @@ let registeredDialog = false;
  * @appliesMixin NavigateMixin
  * @appliesMixin EventsMixin
  */
-class OpUserPicker extends EventsMixin(
+class OpVserPicker extends EventsMixin(
   NavigateMixin(LocalizeMixin(PolymerElement))
 ) {
   static get template() {
     return html`
       <style>
-        paper-fab {
+        op-fab {
           position: fixed;
           bottom: 16px;
           right: 16px;
           z-index: 1;
         }
-        paper-fab[is-wide] {
+        op-fab[is-wide] {
           bottom: 24px;
           right: 24px;
         }
-        paper-fab[rtl] {
+        op-fab[rtl] {
           right: auto;
           left: 16px;
         }
-        paper-fab[rtl][is-wide] {
+        op-fab[narrow] {
+          bottom: 84px;
+        }
+        op-fab[rtl][is-wide] {
           bottom: 24px;
           right: auto;
           left: 24px;
@@ -58,7 +62,13 @@ class OpUserPicker extends EventsMixin(
         }
       </style>
 
-      <opp-subpage header="[[localize('ui.panel.config.users.picker.title')]]">
+      <opp-tabs-subpage
+        opp="[[opp]]"
+        narrow="[[narrow]]"
+        route="[[route]]"
+        back-path="/config"
+        tabs="[[_computeTabs()]]"
+      >
         <op-card>
           <template is="dom-repeat" items="[[users]]" as="user">
             <a href="[[_computeUrl(user)]]">
@@ -68,7 +78,8 @@ class OpUserPicker extends EventsMixin(
                   <div secondary="">
                     [[_computeGroup(localize, user)]]
                     <template is="dom-if" if="[[user.system_generated]]">
-                      - System Generated
+                      -
+                      [[localize('ui.panel.config.users.picker.system_generated')]]
                     </template>
                   </div>
                 </paper-item-body>
@@ -78,14 +89,15 @@ class OpUserPicker extends EventsMixin(
           </template>
         </op-card>
 
-        <paper-fab
+        <op-fab
           is-wide$="[[isWide]]"
+          narrow$="[[narrow]]"
           icon="opp:plus"
           title="[[localize('ui.panel.config.users.picker.add_user')]]"
           on-click="_addUser"
           rtl$="[[rtl]]"
-        ></paper-fab>
-      </opp-subpage>
+        ></op-fab>
+      </opp-tabs-subpage>
     `;
   }
 
@@ -93,7 +105,9 @@ class OpUserPicker extends EventsMixin(
     return {
       opp: Object,
       users: Array,
-
+      isWide: Boolean,
+      narrow: Boolean,
+      route: Object,
       rtl: {
         type: Boolean,
         reflectToAttribute: true,
@@ -111,7 +125,9 @@ class OpUserPicker extends EventsMixin(
         dialogShowEvent: "show-add-user",
         dialogTag: "op-dialog-add-user",
         dialogImport: () =>
-          import(/* webpackChunkName: "op-dialog-add-user" */ "./op-dialog-add-user"),
+          import(
+            /* webpackChunkName: "op-dialog-add-user" */ "./op-dialog-add-user"
+          ),
       });
     }
   }
@@ -132,6 +148,10 @@ class OpUserPicker extends EventsMixin(
     return computeRTL(opp);
   }
 
+  _computeTabs() {
+    return configSections.persons;
+  }
+
   _addUser() {
     this.fire("show-add-user", {
       opp: this.opp,
@@ -143,4 +163,4 @@ class OpUserPicker extends EventsMixin(
   }
 }
 
-customElements.define("op-config-user-picker", OpUserPicker);
+customElements.define("op-config-user-picker", OpVserPicker);

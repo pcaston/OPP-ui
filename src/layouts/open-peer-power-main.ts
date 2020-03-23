@@ -20,6 +20,7 @@ import { fireEvent } from "../common/dom/fire_event";
 import { PolymerChangedEvent } from "../polymer-types";
 // tslint:disable-next-line: no-duplicate-imports
 import { AppDrawerLayoutElement } from "@polymer/app-layout/app-drawer-layout/app-drawer-layout";
+import { showNotificationDrawer } from "../dialogs/notifications/show-notification-drawer";
 import { toggleAttribute } from "../common/dom/toggle_attribute";
 
 const NON_SWIPABLE_PANELS = ["kiosk", "map"];
@@ -27,8 +28,8 @@ const NON_SWIPABLE_PANELS = ["kiosk", "map"];
 declare global {
   // for fire event
   interface OPPDomEvents {
-    "opp-show-notifications": {};
-    "opp-toggle-menu": {} | undefined;
+    "opp-toggle-menu": undefined;
+    "opp-show-notifications": undefined;
   }
 }
 
@@ -37,11 +38,11 @@ class OpenPeerPowerMain extends LitElement {
   @property() public route?: Route;
   @property({ type: Boolean }) private narrow?: boolean;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const opp = this.opp;
-    debugger;
+
     if (!opp) {
-      return;
+      return html``;
     }
 
     const sidebarNarrow = this._sidebarNarrow;
@@ -103,10 +104,17 @@ class OpenPeerPowerMain extends LitElement {
         setTimeout(() => this.appLayout.resetLayout());
       }
     });
+
+    this.addEventListener("opp-show-notifications", () => {
+      showNotificationDrawer(this, {
+        narrow: this.narrow!,
+      });
+    });
   }
 
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
+
     toggleAttribute(
       this,
       "expanded",

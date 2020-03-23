@@ -33,9 +33,9 @@ class ConfigCoreForm extends LitElement {
   @property() private _unitSystem!: ConfigUpdateValues["unit_system"];
   @property() private _timeZone!: string;
 
-  protected render(): TemplateResult | void {
+  protected render(): TemplateResult {
     const canEdit = ["storage", "default"].includes(
-      this.opp.config!.config_source
+      this.opp.config.config_source
     );
     const disabled = this._working || !canEdit;
 
@@ -102,9 +102,13 @@ class ConfigCoreForm extends LitElement {
               @value-changed=${this._handleChange}
             >
               <span slot="suffix">
-                ${this.opp.localize(
-                  "ui.panel.config.core.section.core.core_config.elevation_meters"
-                )}
+                ${this._unitSystem === "metric"
+                  ? this.opp.localize(
+                      "ui.panel.config.core.section.core.core_config.elevation_meters"
+                    )
+                  : this.opp.localize(
+                      "ui.panel.config.core.section.core.core_config.elevation_feet"
+                    )}
               </span>
             </paper-input>
           </div>
@@ -165,25 +169,25 @@ class ConfigCoreForm extends LitElement {
   private get _locationValue() {
     return this._location !== undefined
       ? this._location
-      : [Number(this.opp.config!.latitude), Number(this.opp.config!.longitude)];
+      : [Number(this.opp.config.latitude), Number(this.opp.config.longitude)];
   }
 
   private get _elevationValue() {
     return this._elevation !== undefined
       ? this._elevation
-      : this.opp.config!.elevation;
+      : this.opp.config.elevation;
   }
 
   private get _timeZoneValue() {
     return this._timeZone !== undefined
       ? this._timeZone
-      : this.opp.config!.time_zone;
+      : this.opp.config.time_zone;
   }
 
   private get _unitSystemValue() {
     return this._unitSystem !== undefined
       ? this._unitSystem
-      : this.opp.config!.unit_system.temperature === UNIT_C
+      : this.opp.config.unit_system.temperature === UNIT_C
       ? "metric"
       : "imperial";
   }

@@ -12,7 +12,7 @@ import {
 } from "lit-element";
 import { UnsubscribeFunc } from "../../../websocket/lib";
 
-import { haStyle } from "../../../resources/styles";
+import { opStyle } from "../../../resources/styles";
 import { OpenPeerPower } from "../../../types";
 import {
   fetchNetworkStatus,
@@ -236,7 +236,7 @@ export class ZwaveNetwork extends LitElement {
 
   static get styles(): CSSResult[] {
     return [
-      haStyle,
+      opStyle,
       css`
         .content {
           margin-top: 24px;

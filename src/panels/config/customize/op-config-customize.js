@@ -1,10 +1,8 @@
-import "@polymer/app-layout/app-header-layout/app-header-layout";
-import "@polymer/app-layout/app-header/app-header";
-import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-icon-button/paper-icon-button";
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import "../../../layouts/opp-tabs-subpage";
 import "../../../resources/op-style";
 import "../../../components/op-paper-icon-button-arrow-prev";
 
@@ -13,9 +11,11 @@ import "../op-entity-config";
 import "./op-form-customize";
 
 import { computeStateName } from "../../../common/entity/compute_state_name";
-import computeStateDomain from "../../../common/entity/compute_state_domain";
-import sortByName from "../../../common/entity/states_sort_by_name";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
+import { sortStatesByName } from "../../../common/entity/states_sort_by_name";
 import LocalizeMixin from "../../../mixins/localize-mixin";
+
+import { configSections } from "../op-panel-config";
 
 /*
  * @appliesMixin LocalizeMixin
@@ -23,20 +23,20 @@ import LocalizeMixin from "../../../mixins/localize-mixin";
 class OpConfigCustomize extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
-      <style include="op-style"></style>
+      <style include="op-style">
+        op-paper-icon-button-arrow-prev[hide] {
+          visibility: hidden;
+        }
+      </style>
 
-      <app-header-layout has-scrolling-region="">
-        <app-header slot="header" fixed="">
-          <app-toolbar>
-            <op-paper-icon-button-arrow-prev
-              on-click="_backTapped"
-            ></op-paper-icon-button-arrow-prev>
-            <div main-title="">
-              [[localize('ui.panel.config.customize.caption')]]
-            </div>
-          </app-toolbar>
-        </app-header>
-
+      <opp-tabs-subpage
+        opp="[[opp]]"
+        narrow="[[narrow]]"
+        route="[[route]]"
+        back-path="/config"
+        tabs="[[_computeTabs()]]"
+        show-advanced="[[showAdvanced]]"
+      >
         <div class$="[[computeClasses(isWide)]]">
           <op-config-section is-wide="[[isWide]]">
             <span slot="header">
@@ -54,7 +54,7 @@ class OpConfigCustomize extends LocalizeMixin(PolymerElement) {
             </op-entity-config>
           </op-config-section>
         </div>
-      </app-header-layout>
+      </opp-tabs-subpage>
     `;
   }
 
@@ -62,7 +62,9 @@ class OpConfigCustomize extends LocalizeMixin(PolymerElement) {
     return {
       opp: Object,
       isWide: Boolean,
-
+      narrow: Boolean,
+      route: Object,
+      showAdvanced: Boolean,
       entities: {
         type: Array,
         computed: "computeEntities(opp)",
@@ -90,10 +92,14 @@ class OpConfigCustomize extends LocalizeMixin(PolymerElement) {
     history.back();
   }
 
+  _computeTabs() {
+    return configSections.general;
+  }
+
   computeEntities(opp) {
     return Object.keys(opp.states)
       .map((key) => opp.states[key])
-      .sort(sortByName);
+      .sort(sortStatesByName);
   }
 }
 customElements.define("op-config-customize", OpConfigCustomize);

@@ -1,6 +1,6 @@
 import "@polymer/paper-styles/paper-styles";
 import "@polymer/polymer/lib/elements/custom-style";
-import { haStyle, haStyleDialog, derivedStyles } from "./styles";
+import { opStyle, opStyleDialog, derivedStyles } from "./styles";
 
 const documentContainer = document.createElement("template");
 documentContainer.setAttribute("style", "display: none;");
@@ -117,13 +117,13 @@ documentContainer.innerHTML = `<custom-style>
 </custom-style><dom-module id="op-style">
   <template>
     <style>
-    ${haStyle.cssText}
+    ${opStyle.cssText}
     </style>
   </template>
 </dom-module><dom-module id="op-style-dialog">
   <template>
     <style>
-      ${haStyleDialog.cssText}
+      ${opStyleDialog.cssText}
     </style>
   </template>
 </dom-module>`;

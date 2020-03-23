@@ -1,5 +1,5 @@
 import { getCollection } from "./collection";
-import { OppEntities, StateChangedEvent, UnsubscribeFunc } from "../../types";
+import { OppEntities, StateChangedEvent, UnsubscribeFunc } from "./types";
 import { Connection } from "./connection";
 import { Store } from "./store";
 import { getStates } from "./commands";
@@ -30,7 +30,7 @@ async function fetchEntities(conn: Connection): Promise<OppEntities> {
 
 const subscribeUpdates = (conn: Connection, store: Store<OppEntities>) =>
   conn.subscribeEvents<StateChangedEvent>(
-    ev => processEvent(store, ev as StateChangedEvent),
+    (ev) => processEvent(store, ev as StateChangedEvent),
     "state_changed"
   );
 

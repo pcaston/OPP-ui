@@ -5,7 +5,7 @@ import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "./op-automation-editor";
 import "./op-automation-picker";
 
-import computeStateDomain from "../../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
 
 class OpConfigAutomation extends PolymerElement {
   static get template() {
@@ -33,6 +33,8 @@ class OpConfigAutomation extends PolymerElement {
           opp="[[opp]]"
           automations="[[automations]]"
           is-wide="[[isWide]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
         ></op-automation-picker>
       </template>
 
@@ -41,6 +43,8 @@ class OpConfigAutomation extends PolymerElement {
           opp="[[opp]]"
           automation="[[automation]]"
           is-wide="[[isWide]]"
+          narrow="[[narrow]]"
+          route="[[route]]"
           creating-new="[[_creatingNew]]"
         ></op-automation-editor>
       </template>
@@ -52,6 +56,7 @@ class OpConfigAutomation extends PolymerElement {
       opp: Object,
       route: Object,
       isWide: Boolean,
+      narrow: Boolean,
       _routeData: Object,
       _routeMatches: Boolean,
       _creatingNew: Boolean,
@@ -73,6 +78,11 @@ class OpConfigAutomation extends PolymerElement {
         computed: "computeShowEditor(_edittingAutomation, _creatingNew)",
       },
     };
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.route = { path: "", prefix: "" };
   }
 
   computeAutomation(automations, edittingAddon, routeData) {
