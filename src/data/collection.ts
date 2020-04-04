@@ -4,7 +4,7 @@ import {
   getCollection,
   UnsubscribeFunc,
 } from "../websocket/lib";
-import { Store } from "../../dist/websocket/lib/store";
+import { Store } from "websocket/dist/store";
 
 interface OptimisticCollection<T> extends Collection<T> {
   save(data: T): Promise<unknown>;

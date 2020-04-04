@@ -4,24 +4,16 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": ["es2017", "dom", "dom.iterable"],
-    "noEmit": false,
+    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "noImplicitAny": false,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "sourceMap": true,
-    "outDir": "dist"
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-      "node_modules"
-  ]
+    "importHelpers": true
+  }
 }

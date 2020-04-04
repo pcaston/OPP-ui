@@ -44,7 +44,7 @@ export async function getUserLanguage(opp: OpenPeerPower) {
  * Get browser specific language
  */
 export function getLocalLanguage() {
-  let language = null;
+  let language: string | null = null;
   if (STORAGE.selectedLanguage) {
     try {
       const stored = JSON.parse(STORAGE.selectedLanguage);

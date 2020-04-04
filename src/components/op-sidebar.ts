@@ -177,7 +177,7 @@ class OpSidebar extends LitElement {
             opp.localize(`panel.${panel.title}`) || panel.title
           )
         )}
-        ${this._externalConfig && this._externalConfig.OppettingsScreen
+        ${this._externalConfig && this._externalConfig.HasSettingsScreen
           ? html`
               <a
                 aria-role="option"
