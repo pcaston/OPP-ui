@@ -12,7 +12,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         longitude: 4.8903147,
         radius: 200,
         friendly_name: "Home",
-        icon: "hademo:home",
+        icon: "opdemo:home",
       },
     },
     "zone.uva": {
@@ -22,7 +22,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         hidden: true,
         radius: 400,
         friendly_name: "UvA",
-        icon: "hademo:school",
+        icon: "opdemo:school",
         latitude: 52.3558182,
         longitude: 4.9535376,
       },
@@ -80,7 +80,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.total_tv_time"
         ),
-        icon: "hademo:chart-line",
+        icon: "opdemo:chart-line",
       },
     },
     "climate.upstairs": {
@@ -114,7 +114,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
       state: "on",
       attributes: {
         friendly_name: "Abode Updates",
-        icon: "hademo:security",
+        icon: "opdemo:security",
       },
     },
     "input_boolean.tv": {
@@ -122,7 +122,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
       state: "off",
       attributes: {
         friendly_name: "TV",
-        icon: "hademo:television",
+        icon: "opdemo:television",
       },
     },
     "input_boolean.homeautomation": {
@@ -138,7 +138,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
       state: "on",
       attributes: {
         friendly_name: "TV Time",
-        icon: "hademo:television-guide",
+        icon: "opdemo:television-guide",
       },
     },
     "input_select.livingroomharmony": {
@@ -155,7 +155,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.activity"
         ),
-        icon: "hademo:remote",
+        icon: "opdemo:remote",
       },
     },
     "input_select.hdmiswitcher": {
@@ -166,7 +166,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.hdmi_switcher"
         ),
-        icon: "hademo:remote",
+        icon: "opdemo:remote",
       },
     },
     "input_select.hdmiinput": {
@@ -177,7 +177,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.hdmi_input"
         ),
-        icon: "hademo:remote",
+        icon: "opdemo:remote",
       },
     },
     "input_number.harmonyvolume": {
@@ -192,7 +192,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.volume"
         ),
-        icon: "hademo:volume-high",
+        icon: "opdemo:volume-high",
       },
     },
     "script.tv_off": {
@@ -214,7 +214,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         to: "INR",
         unit_of_measurement: "INR",
         friendly_name: "USDINR",
-        icon: "hademo:currency-usd",
+        icon: "opdemo:currency-usd",
       },
     },
     "sensor.study_temp": {
@@ -226,7 +226,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.names.temperature_study"
         ),
-        icon: "hademo:thermometer",
+        icon: "opdemo:thermometer",
       },
     },
     "cover.garagedoor": {
@@ -234,7 +234,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
       state: "closed",
       attributes: {
         friendly_name: "Garage Door",
-        icon: "hademo:garage",
+        icon: "opdemo:garage",
         supported_features: 11,
         homebridge_cover_type: "garage_door",
       },
@@ -302,7 +302,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         recording_status: "ready",
         category: "motion",
         friendly_name: "Front Door Last Motion",
-        icon: "hademo:history",
+        icon: "opdemo:history",
       },
     },
     "camera.patio": {
@@ -368,7 +368,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         battery_backup: false,
         cellular_backup: false,
         friendly_name: "Abode Alarm",
-        icon: "hademo:security",
+        icon: "opdemo:security",
         entity_picture: "/assets/arsaboo/icons/Abode.jpg",
       },
     },
@@ -498,7 +498,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         recording_status: "ready",
         category: "ding",
         friendly_name: "Front Door Last Ding",
-        icon: "hademo:history",
+        icon: "opdemo:history",
       },
     },
     "light.lifx5": {
@@ -527,7 +527,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.commute_home"
         ),
-        icon: "hademo:car",
+        icon: "opdemo:car",
       },
     },
     "sensor.morning_commute": {
@@ -546,7 +546,7 @@ export const demoEntitiesArsaboo: DemoConfig["entities"] = (localize) =>
         friendly_name: localize(
           "ui.panel.page-demo.config.arsaboo.labels.morning_commute"
         ),
-        icon: "hademo:car",
+        icon: "opdemo:car",
       },
     },
     "switch.driveway": {
