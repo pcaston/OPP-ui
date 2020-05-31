@@ -5,20 +5,23 @@ const exec = util.promisify(require("child_process").exec);
 
 function patch(version) {
   const parts = version.split(".");
-  return `${parts[0]}.${Number(parts[1]) + 1}`;
+  return `${parts[0]}.${parts[1]}.${Number(parts[2]) + 1}`;
 }
 
-function today() {
-  const now = new Date();
-  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}${String(now.getDate()).padStart(2, "0")}.0`;
+function minor(version) {
+  const parts = version.split(".");
+  return `${parts[0]}.${Number(parts[1]) + 1}.0`;
+}
+
+function major(version) {
+  const parts = version.split(".");
+  return `${Number(parts[0]) + 1}.0.0`;
 }
 
 const methods = {
   patch,
-  today,
+  minor,
+  major,
 };
 
 async function main(args) {
@@ -34,7 +37,7 @@ async function main(args) {
   }
 
   const setup = fs.readFileSync("setup.py", "utf8");
-  const version = setup.match(/\d{8}\.\d+/)[0];
+  const version = setup.match(/\d+\.\d+\.\d+/)[0];
   const newVersion = method(version);
 
   console.log("Current version:", version);
